@@ -1,3 +1,4 @@
+
 import java.util.Arrays;
 import static java.lang.Math.*;
 
@@ -17,7 +18,6 @@ public class Lab0 {
         short[] corr_c = { 2, 3, 6, 7, 10, 13, 14, 15 };
 
         for (int i = 0; i < 16; i++) {
-            System.out.print("[");
             for (int j = 0; j < 20; j++) {
                 float x = xx[j];
                 if (c[i] == 9) {
@@ -27,9 +27,9 @@ public class Lab0 {
                 } else {
                     cc[i][j] = log(pow((4.0 + abs(asin(cos(x)))), 2));
                 }
-                System.out.printf("%.2f ", cc[i][j]);
+                System.out.printf("%.2f\t", cc[i][j]);
             }
-            System.out.print("]\n");
+            System.out.println();
         }
     }
 }
