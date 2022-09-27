@@ -4,6 +4,7 @@ import static java.lang.Math.*;
 
 public class Lab0 {
     public static void main(String[] args) {
+        double penetration;
         short[] c = new short[16];
         for (short i = 2; i <= 17; i++) {
             c[i - 2] = i;
