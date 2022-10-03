@@ -7,17 +7,17 @@ import ru.ifmo.se.pokemon.Stat;
 import ru.ifmo.se.pokemon.Type;
 
 public class Crunch extends PhysicalMove {
-    {
-        this.type = Type.NORMAL;
-        this.power = 80;
-        this.accuracy = 100;
+    public Crunch() {
+        super(Type.NORMAL, 80, 100);
     }
 
+    @Override
     protected void applyOppEffects(Pokemon p) {
         Effect e = new Effect().chance(0.3).stat(Stat.DEFENSE, -1);
         p.addEffect(e);
     }
 
+    @Override
     protected String describe() {
         return "crunches with sharp fangs. May lower SP. DEF";
     }

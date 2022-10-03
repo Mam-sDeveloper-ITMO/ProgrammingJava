@@ -7,11 +7,11 @@ import ru.ifmo.se.pokemon.Effect;
 import ru.ifmo.se.pokemon.StatusMove;
 
 public class Swagger extends StatusMove {
-    {
-        this.type = Type.NORMAL;
-        this.accuracy = 85;
+    public Swagger() {
+        super(Type.NORMAL, 0, 85);
     }
 
+    @Override
     protected void applyOppEffects(Pokemon p) {
         p.confuse();
 
@@ -19,6 +19,7 @@ public class Swagger extends StatusMove {
         p.addEffect(e);
     }
 
+    @Override
     protected String describe() {
         return "causes confusion and raises ATTACK";
     }

@@ -4,13 +4,11 @@ import ru.ifmo.se.pokemon.PhysicalMove;
 import ru.ifmo.se.pokemon.Type;
 
 public class ShadowClaw extends PhysicalMove {
-    {
-        this.type = Type.GHOST;
-        this.power = 70;
-        this.accuracy = 100;
-        this.hits = 2;
+    public ShadowClaw() {
+        super(Type.GHOST, 70, 100);
     }
     
+    @Override
     protected String describe() {
         return "slashes with a sharp claw made from shadows";
     }

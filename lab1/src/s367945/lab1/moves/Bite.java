@@ -6,22 +6,18 @@ import ru.ifmo.se.pokemon.Pokemon;
 import ru.ifmo.se.pokemon.Type;
 
 public class Bite extends PhysicalMove {
-    {
-        this.type = Type.DARK;
-        this.power = 60;
-        this.accuracy = 100;
+    public Bite() {
+        super(Type.DARK, 60, 100);
     }
 
+    @Override
     protected void applyOppEffects(Pokemon p) {
         if (Math.random() < 0.3) {
             Effect.flinch(p);
         }
-
-        // or with flinch equivalent
-        // Effect e = new Effect().chance(0.3).turns(1).condition(Status.FREEZE)
-        // p.addEffect(e);
     }
 
+    @Override
     protected String describe() {
         return "bites with vicious fangs";
     }

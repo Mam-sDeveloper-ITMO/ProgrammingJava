@@ -7,17 +7,11 @@ import s367945.lab1.moves.FlashCannon;
 import s367945.lab1.moves.Harden;
 
 public class Bergmite extends Pokemon {
-    {
+    public Bergmite(String name, int level) {
+        super(name, level);
+        
         this.setType(Type.ICE);
         this.setStats(55, 69, 85, 32, 35, 28);
         this.setMove(new FlashCannon(), new Harden(), new Bite());
-    }
-
-    public Bergmite() {
-        super();
-    }
-
-    public Bergmite(String name, int level) {
-        super(name, level);
     }
 }

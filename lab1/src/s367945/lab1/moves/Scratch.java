@@ -4,12 +4,11 @@ import ru.ifmo.se.pokemon.PhysicalMove;
 import ru.ifmo.se.pokemon.Type;
 
 public class Scratch extends PhysicalMove {
-    {
-        this.type = Type.NORMAL;
-        this.power = 40;
-        this.accuracy = 100;
+    public Scratch() {
+        super(Type.NORMAL, 40, 100);
     }
 
+    @Override
     protected String describe() {
         return "scratches with sharp claws";
     }
