@@ -15,6 +15,10 @@ public class Bite extends PhysicalMove {
         if (Math.random() < 0.3) {
             Effect.flinch(p);
         }
+
+        if (new Effect().chance(0.3).success()) {
+            Effect.flinch(p);
+        }
     }
 
     @Override
