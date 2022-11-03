@@ -14,4 +14,29 @@ public class Cave implements Positioned {
     public Coordinates getPosition() {
         return this.position;
     }
+
+    @Override
+    public String toString() {
+        return "Cave at " + this.position;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (!(obj instanceof Cave))
+            return false;
+
+        Cave other = (Cave) obj;
+        return this.position.equals(other.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode() + this.position.hashCode();
+    }
 }

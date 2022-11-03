@@ -2,7 +2,6 @@ package s367945.lab2.classes;
 
 import java.util.Random;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import s367945.lab2.abc.Creature;
 import s367945.lab2.abc.Human;

@@ -50,4 +50,30 @@ public abstract class Human extends Creature {
     abstract public void listen(String speech);
 
     abstract public boolean trust(Object subject);
+
+    @Override
+    public String toString() {
+        String description = String.format("%s with personality %s", this.name, this.personality);
+        return description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (!(obj instanceof Human))
+            return false;
+
+        Human other = (Human) obj;
+        return this.name.equals(other.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode() + this.name.hashCode();
+    }
 }

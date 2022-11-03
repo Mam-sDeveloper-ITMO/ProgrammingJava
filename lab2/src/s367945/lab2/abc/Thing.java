@@ -8,11 +8,13 @@ import s367945.lab2.interfaces.Hugable;
 import s367945.lab2.interfaces.Moveable;
 import s367945.lab2.structures.Coordinates;
 
-public abstract class Thing extends PropertiesContained implements Moveable, Hugable {
-    private HashSet<Property> properties;
+public abstract class Thing extends PropertiesContainer implements Moveable, Hugable {
+    protected HashSet<Property> properties;
     protected Creature owner;
     protected Coordinates position;
     
+    abstract public void interact(Creature actor);
+
     public Thing(Coordinates position, Property... properties) {
         this.position = position;
         this.properties = new HashSet<Property>(Arrays.asList(properties));
@@ -24,10 +26,6 @@ public abstract class Thing extends PropertiesContained implements Moveable, Hug
 
     public void setOwner(Creature owner) {
         this.owner = owner;
-    }
-
-    public void changeOwner(Creature newOwner) {
-        this.owner = newOwner;
     }
 
     @Override
@@ -50,5 +48,29 @@ public abstract class Thing extends PropertiesContained implements Moveable, Hug
         return this.properties;
     }
 
-    abstract public void interact(Creature actor);
+    @Override
+    public String toString() {
+        String description = String.format("Thing of %s with properties %s", this.owner, this.properties.toString());
+        return description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (!(obj instanceof Thing))
+            return false;
+            
+        Thing other = (Thing) obj;
+        return this.owner.equals(other.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode() + this.owner.hashCode();
+    }
 }

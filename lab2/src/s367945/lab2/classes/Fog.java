@@ -13,4 +13,9 @@ public class Fog implements Breathable {
             human.addPersonality(Property.SAD);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Heavy fog that makes you sad";
+    }
 }

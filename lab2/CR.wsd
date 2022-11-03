@@ -1,45 +1,53 @@
 @startuml Classes Model
 
-package enums {
-    enum BodyPartType {}
+' ' package enums {
+    enum Color {}
     enum Gender {}
-    enum Property {}
-}
+    enum Property {
+        + int value
+    }
+' }
 
 interface Comparable
-package interfaces {
+
+' ' package interfaces {
     interface Breathable {
-        + onBreath(Creature breather)
+        + onBreath(Creature actor)
     }
 
     interface Hugable {
-        + onHug(Creature hugger)
+        + onHug(Creature actor)
     }
 
-    interface Patterned extends Comparable {
+    interface Patterned {
         + Pattern getPattern()
-        + int compareTo(Patterned other)
     }
 
     interface Positioned {
-        + int getX()
-        + int getY()
-        + int getZ()
-        + move(int x, int y, int z)
+        + Coordinates getPosition()
     }
 
-    PropertiesContained -- Property
-    interface PropertiesContained extends Comparable {
-        + Property[] getProperties()
-        + boolean checkProperty(Property property)
-        + setProperties(Properties properties)
-        + addProperty(Property property)
-        + int compareTo(PropertiesContained other)
-    }    
-}
+    interface Mooveable extends Positioned {
+        + move(Coordinated position)
+        + offset(Coordinated offset)
+    }
 
-package abc {
-    abstract class Creature implements Positioned, PropertiesContained, Hugable {
+' }
+
+' package abc {
+    PropertiesContainer -- Property
+    abstract class PropertiesContainer extends Comparable {
+        + HashSet<Property> getProperties()
+        + boolean hasProperty(Property property)
+        + int getPropertiesValue()
+        + int compareTo(PropertiesContainer other)
+
+        + toString()
+        + equals()
+        + hashCode()
+    }    
+
+    abstract class Creature extends PropertiesContainer implements Positioned, Hugable {
         # Body body
         # int health
         # int age
@@ -49,211 +57,242 @@ package abc {
         + abstract hart()
         + abstract heal()
         + abstract Sight see(Positioned target)
-
         + breath(Breathable source)
-        + Body getBody()
-        + int getX()
-        + int getY()
-        + int getZ()
-        + move(int x, int y, int z)
-        + onHug(Creature hagger)
+
+        + Coordinates getPosition()
+
+        + toString()
+        + equals()
+        + hashCode()
     }
 
-    abstract class Thing implements Positioned, PropertiesContained, Hugable {
+    abstract class Thing extends PropertiesContainer implements Positioned, Hugable {
+        # HashSet<Property> properties
         # Creature owner
-        # Property[] properties
-        # int[] coordinates
+        # Coordinates position
 
-        + Thing(Creature owner, Property... properties)
+        + Thing(Coordinates position, Property... properties)
 
-        + abstract interact(Creature interracter)
+        + abstract interact(Creature actor)
 
         + Creature getOwner()
         + setOwner(Creature owner)
 
-        + Property[] getProperties()
-        + setProperties(Property[] properties)
-        + boolean checkProperty(Property property)
-        + int getX()
-        + int getY()
-        + int getZ()
-        +  move(int x, int y, int z)
-        +  onHug(Creature hagger)
+        + HashSet<Property>  getProperties()
+        + Coordinates getPosition()
+        + move(Coordinates coords)
+        + offset(Coordinates coords)
+
+        + toString()
+        + equals()
+        + hashCode()
     }
 
     Human -- Gender
     abstract class Human extends Creature {
         # String name
         # Gender gender
-        # Property[] personality
+        # HashSet<Property> personality
 
         + Human(Body body, int health, int age, String name, Gender gender, Property... personality)
 
         + abstract String say()
         + abstract listen(String info)
         + abstract boolean trust(Object target)
-        + abstract String getName()
-        + abstract Gender getGender()
-        + abstract String[] getKnowledge()
 
-        + Property[] getAppearance()
-        + setAppearance(Property[] appearance)
-        + Property[] getPersonality()
-        + setPersonality(Property[] personality)
+        + hug(Hugable other) 
+        + HashSet<Property> getAppearance()
+        + HashSet<Property> getPersonality()
+        + addPersonality(Property personality)
 
-        + Property[] getProperties()
-        + setProperties(Property[] properties)
-        + boolean checkProperty(Property property)
-        + walk(Positioned target)
-        + move(int x, int y, int z)
-        + hart()
-        + heal()
+        + HashSet<Property> getProperties()
+
+        + toString()
+        + equals()
+        + hashCode()
     }
 
     abstract class Animal extends Creature implements Patterned {
-        # Pattern pattern
-        # Property[] properties
+        # Pattern skin
 
-        + Animal(Body body, int health, int age, Pattern pattern, Property... properties)
+        + Animal(Body body, int health, int age, Pattern skin)
 
         + Pattern getPattern()
 
-        + Property[] getProperties()
-        + setProperties(Property[] properties)
-        + boolean checkProperty(Property property)
-        + hart()
-        + heal()
+        + HashSet<Property> getProperties()
+        + compareTo(PropertiesContainer other)
+
+        + toString()
+        + equals()
+        + hashCode()
     }
 
-    BodyPart -- BodyPartType
-    abstract BodyPart implements PropertiesContained {
-        # Property[] properties
-        # BodyPartType type
+    abstract BodyPart extends PropertiesContainer implements Hugable{
+        # HashSet<Property> properties;    
 
-        + BodyPart(BodyPartType type, Property... properties)
+        + BodyPart(Property... properties)
 
-        + BodyPartType getType()
+        + HashSet<Property> getProperties()
+        + void onHug(Creature actor)
 
-        + Property[] getProperties()
-        + setProperties(Property[] properties)
-        + boolean checkProperty(Property property)
+        + toString()
     }
-}
+' }
 
-package classes.bodyparts {
-    class Head extends BodyPart {}
-    class Hand extends BodyPart {}
-    class Leg extends BodyPart {}
-    class Neck extends BodyPart {}
-    class Tail extends BodyPart {}
-    class Torso extends BodyPart {}
-}
+' package classes {
+    ' package bodyparts {
+        class Head extends BodyPart {}
+        class Hand extends BodyPart {}
+        class Leg extends BodyPart {}
+        class Neck extends BodyPart {}
+        class Tail extends BodyPart {}
+        class Torso extends BodyPart {}
+    ' }
 
-package classes.body {
     class Body extends Thing {
-        + Body(Creature owner, BodyPart... parts)
+        # Creature owner;
+        # BodyPart[] bodyParts;
+        
+        + Body(Coordinates position, BodyPart... bodyParts)
 
-        + BodyPart[] getParts()
+        + void onHug(Creature actor)
+        + void interact(Creature actor)
+        + HashSet<Property> getProperties()
 
-        + interact(Creature other)
-        + Property[] getProperties()
-        + setProperties(Property[] properties)    
-        + boolean checkProperty(Property property)
+        + toString()
+        + equals()
+        + hashCode()
     }
-}
 
-package classes.breathables {
-    class Fog implements Breathable {}
-    class Oxygen implements Breathable {}
-}
+    class Fog implements Breathable {
+        + toString()
+    }
+    class Oxygen implements Breathable {
+        +  toString()
+    }
 
-
-package classes.humans {
     class Narrator extends Human {
-        + String[] stories = new String[0]
+        # HashSet<String> stories = new HashSet<String>()
+
+        + Narrator(Body body, int health, int age, String name, Gender gender, Property... personality)
         
-        + Narrator(Body body, int health, int age, String name, Gender gender, Property[] personality)
-        
+        + walk()
         + String say()
         + listen(String info)
         + Sight see(Positioned target)
         + boolean trust(Object target)
-        + String getName()
-        + Gender getGender()    
-        + String[] getKnowledge()
+        + breath(Breathable source)
+        + onHug(Creature actor)
+        + hurt(int damage)
+        + heal(int amount)
     }
 
-    SadGirl --> Rain
     class SadGirl extends Human {
-        # String[] reasonsToDie = new String[0]
+        # HashSet<String> reasonsToDie = new HashSet<String>()
         
-        + SadGirl(Body body, int health, int age, String name, Property[] personality)
+        + SadGirl(Body body, int health, int age, String name, Property... personality)
 
         + cry()
-
-        + hug(Hugable target)
-        + hart()
         + String say()
         + listen(String info)
         + Sight see(Positioned target)
         + boolean trust(Object target)
-        + String getName()
-        + Gender getGender()    
-        + String[] getKnowledge()
+        + breath(Breathable source)
+        + onHug(Creature actor)
+        + hurt(int damage)
+        + heal(int amount)
     }
-}
 
-
-package classes.animals {
     class Giraffe extends Animal {
-        + Giraffe(Body body, int health, int age, Pattern pattern, Property[] properties)
+            public Giraffe(Body body, int health, int age, Pattern skin) {
 
-        + hide(Thing obstacle)
-        + walk(int x, int y, int z)
-        + run(int x, int y, int z)
-
-        + Sight see(Positioned target)
+            + walk() 
+            + hide(Positioned obstacle) 
+            
+            + onHug(Creature actor) 
+            + hurt(int damage) 
+            + heal(int amount) 
+            + breath(Breathable source)
+            + Sight see(Positioned target) 
     }
 
     class Bird extends Animal {
-        + Bird(Body body, int health, int age, Pattern pattern, Property[] properties)
+        + Bird(Body body, int health, int age, Pattern pattern, HashSet<Property> properties)
 
-        + fly(int x, int y, int z)
-        + walk(int x, int y, int z)
-
-        + Sight see(Positioned target)
+        + fly()
+        + onHug(Creature actor) 
+        + hurt(int damage) 
+        + heal(int amount) 
+        + breath(Breathable source)
+        + Sight see(Positioned target) 
     }
-}
 
+    class Rain extends PropertiesContainer {
+        # HashSet<Property> properties
 
-package etc {
-    class Rain {}
+        + HashSet<Property> getProperties()
+    }
 
-    class Sight implements PropertiesContained {
-        # Positioned target
-        # Property[] properties
+    class Sight extends PropertiesContainer {
+        + final Positioned target;
+        # HashSet<Property> properties;
 
         + Sight(Positioned target, Property... properties)
 
-        + Positioned getTarget()
+        + HashSet<Property> getProperties()
 
-        + Property[] getProperties()
-        + setProperties(Property[] properties)
-        + boolean checkProperty(Property property)
+        + toString()
+        + equals()
+        + hashCode()
     }
 
-    class Moon implements Patterned, Positioned {
-        # int[] coordinates
-        # Pattern pattern = new Pattern(2147483647)
+    class Moon extends PropertiesContainer implements Patterned {    
+        - Pattern surface = new Pattern(Color.GRAY, Property.GREAT);
 
-        public Pattern getPattern()
-        public int getX()
-        public int getY()
-        public int getZ()
-        public void move(int x, int y, int z)
+        + void splitAndSwing() {
+
+        + Pattern getPattern() {
+        + HashSet<Property> getProperties()
+        
+        + toString()
+        + equals()
+        + hashCode()
     }
 
-    class ShipSails implements Thing {}
-}
+    class ShipSails extends PropertiesContainer {
+        # HashSet<Property> properties = new HashSet<Property>();
+        
+        + ShipSails(Property... properties) 
+        + HashSet<Property> getProperties() 
+    }
+
+    class Cave implements Positioned {
+        # Coordinates position  
+
+        + Cave(Coordinates position)
+
+        + Coordinates getPosition() 
+
+        + toString()
+        + equals()
+        + hashCode()
+
+        
+    }
+
+    class Coordinates {
+        + int x
+        + int y
+        + int z
+
+        + Coordinates(int x, int y, int z)
+        
+        + Coordinates byOffset(Coordinates offset)
+
+        + toString()
+        + equals()
+        + hashCode()
+    }
+' }
 
 @enduml

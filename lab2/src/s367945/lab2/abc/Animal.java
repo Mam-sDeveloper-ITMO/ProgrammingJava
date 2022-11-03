@@ -17,7 +17,7 @@ public abstract class Animal extends Creature implements Patterned {
     }
 
     @Override
-    public int compareTo(PropertiesContained other) {
+    public int compareTo(PropertiesContainer other) {
         if (other instanceof Patterned) {
             Patterned otherPatterned = (Patterned) other;
             return this.skin.compareTo(otherPatterned.getPattern());
@@ -36,5 +36,31 @@ public abstract class Animal extends Creature implements Patterned {
         properties.addAll(this.body.getProperties());
         properties.addAll(this.skin.getProperties());
         return properties;
+    }
+
+    @Override
+    public String toString() {
+        String description = String.format("%s with skin %s", this.getClass().getSimpleName(), this.skin);
+        return description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (!(obj instanceof Animal))
+            return false;
+
+        Animal other = (Animal) obj;
+        return this.skin.equals(other.skin);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode() + this.skin.hashCode();
     }
 }

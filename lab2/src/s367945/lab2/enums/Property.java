@@ -110,6 +110,7 @@ public enum Property {
     BIG_HEADED(-7),
     RESENTFUL(-3),
     CRUEL(-8),
+    WET(-1),
     MACHIAVELLIAN(-6),
     ALOOF(-2),
     POMPOUS(-4),
@@ -188,9 +189,13 @@ public enum Property {
     THIN(0),
     SLIM(0);
 
-    public final int value;
+    private final int value;
 
     Property(int value) {
         this.value = value;
+    }
+
+    public int getValue() {
+        return this.value;
     }
 }

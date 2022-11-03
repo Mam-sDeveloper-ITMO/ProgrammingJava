@@ -1,5 +1,6 @@
 package s367945.lab2.classes;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 import s367945.lab2.abc.BodyPart;
@@ -9,7 +10,6 @@ import s367945.lab2.enums.Property;
 import s367945.lab2.structures.Coordinates;
 
 public class Body extends Thing {
-    protected Creature owner;
     protected BodyPart[] bodyParts;
 
     public Body(Coordinates position, BodyPart... bodyParts) {
@@ -38,5 +38,31 @@ public class Body extends Thing {
         }
 
         return properties;
+    }
+
+    @Override
+    public String toString() {
+        String description = String.format("Body from parts %s", Arrays.toString(this.bodyParts));
+        return description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (!(obj instanceof Body))
+            return false;
+
+        Body other = (Body) obj;
+        return Arrays.equals(this.bodyParts, other.bodyParts);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode() + Arrays.hashCode(this.bodyParts);
     }
 }

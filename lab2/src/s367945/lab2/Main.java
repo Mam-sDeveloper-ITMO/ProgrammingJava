@@ -24,6 +24,61 @@ import s367945.lab2.structures.Coordinates;
 
 public class Main {
     public static void main(String[] args) {
+        testDescription();
+    }
+
+    private static void testDescription() {
+        Body narratorBody = new Body(
+            new Coordinates(0, 0, 0),
+            new Head(),
+            new Neck(),
+            new Torso(),
+            new Hand(), new Hand(), 
+            new Leg(), new Leg() 
+        );
+        Narrator narrator = new Narrator(narratorBody, 10, 21, "Гумилев", Gender.MAN);
+        Leg sadgirlLeg = new Leg(Property.SAD);
+        Hand sadgirlHand = new Hand(Property.THIN);
+        Body sadgirlBody = new Body(
+            new Coordinates(2, 3, 0),
+            new Head(),
+            new Neck(),
+            new Torso(),
+            sadgirlHand, sadgirlHand,
+            sadgirlLeg, sadgirlLeg
+        );
+        SadGirl sadgirl = new SadGirl(sadgirlBody, 7, 18, "Ахматова", Gender.WOMEN, Property.SAD, Property.DEPRESSED);
+        Body giraffeBody = new Body(
+            new Coordinates(0, 0, 0),
+            new Head(),
+            new Neck(),
+            new Torso(Property.SLIM, Property.ELEGANT),
+            new Leg(), new Leg(),
+            new Leg(), new Leg(),
+            new Tail()
+        );
+        Pattern giraffeSkin = new Pattern(Color.YELLOW, Property.MAGIC);
+        Giraffe giraffe = new Giraffe(giraffeBody, 10, 7, giraffeSkin);
+        Moon moon = new Moon();
+        Bird bird = new Bird(new Body(new Coordinates(0, 0, 0)), 1, 2, new Pattern(Color.BROWN));
+        Cave marbleCave = new Cave(new Coordinates(0, 0, 0));                
+        Fog fog = new Fog();
+        Rain rain = new Rain();
+        
+        // Print all objects
+        System.out.println(sadgirlBody);
+        System.out.println(sadgirlHand);
+        System.out.println(narrator);
+        System.out.println(sadgirl);
+        System.out.println(giraffe);
+        System.out.println(moon);
+        System.out.println(bird);
+        System.out.println(marbleCave);
+        System.out.println(fog);
+        System.out.println(rain);
+    }
+
+    private static void testAll() {
         Body narratorBody = new Body(
             new Coordinates(0, 0, 0),
             new Head(),
