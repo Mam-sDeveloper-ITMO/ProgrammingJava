@@ -1,0 +1,259 @@
+@startuml Classes Model
+
+package enums {
+    enum BodyPartType {}
+    enum Gender {}
+    enum Property {}
+}
+
+interface Comparable
+package interfaces {
+    interface Breathable {
+        + onBreath(Creature breather)
+    }
+
+    interface Hugable {
+        + onHug(Creature hugger)
+    }
+
+    interface Patterned extends Comparable {
+        + Pattern getPattern()
+        + int compareTo(Patterned other)
+    }
+
+    interface Positioned {
+        + int getX()
+        + int getY()
+        + int getZ()
+        + move(int x, int y, int z)
+    }
+
+    PropertiesContained -- Property
+    interface PropertiesContained extends Comparable {
+        + Property[] getProperties()
+        + boolean checkProperty(Property property)
+        + setProperties(Properties properties)
+        + addProperty(Property property)
+        + int compareTo(PropertiesContained other)
+    }    
+}
+
+package abc {
+    abstract class Creature implements Positioned, PropertiesContained, Hugable {
+        # Body body
+        # int health
+        # int age
+
+        + Creature(Body body, int health, int age)
+
+        + abstract hart()
+        + abstract heal()
+        + abstract Sight see(Positioned target)
+
+        + breath(Breathable source)
+        + Body getBody()
+        + int getX()
+        + int getY()
+        + int getZ()
+        + move(int x, int y, int z)
+        + onHug(Creature hagger)
+    }
+
+    abstract class Thing implements Positioned, PropertiesContained, Hugable {
+        # Creature owner
+        # Property[] properties
+        # int[] coordinates
+
+        + Thing(Creature owner, Property... properties)
+
+        + abstract interact(Creature interracter)
+
+        + Creature getOwner()
+        + setOwner(Creature owner)
+
+        + Property[] getProperties()
+        + setProperties(Property[] properties)
+        + boolean checkProperty(Property property)
+        + int getX()
+        + int getY()
+        + int getZ()
+        +  move(int x, int y, int z)
+        +  onHug(Creature hagger)
+    }
+
+    Human -- Gender
+    abstract class Human extends Creature {
+        # String name
+        # Gender gender
+        # Property[] personality
+
+        + Human(Body body, int health, int age, String name, Gender gender, Property... personality)
+
+        + abstract String say()
+        + abstract listen(String info)
+        + abstract boolean trust(Object target)
+        + abstract String getName()
+        + abstract Gender getGender()
+        + abstract String[] getKnowledge()
+
+        + Property[] getAppearance()
+        + setAppearance(Property[] appearance)
+        + Property[] getPersonality()
+        + setPersonality(Property[] personality)
+
+        + Property[] getProperties()
+        + setProperties(Property[] properties)
+        + boolean checkProperty(Property property)
+        + walk(Positioned target)
+        + move(int x, int y, int z)
+        + hart()
+        + heal()
+    }
+
+    abstract class Animal extends Creature implements Patterned {
+        # Pattern pattern
+        # Property[] properties
+
+        + Animal(Body body, int health, int age, Pattern pattern, Property... properties)
+
+        + Pattern getPattern()
+
+        + Property[] getProperties()
+        + setProperties(Property[] properties)
+        + boolean checkProperty(Property property)
+        + hart()
+        + heal()
+    }
+
+    BodyPart -- BodyPartType
+    abstract BodyPart implements PropertiesContained {
+        # Property[] properties
+        # BodyPartType type
+
+        + BodyPart(BodyPartType type, Property... properties)
+
+        + BodyPartType getType()
+
+        + Property[] getProperties()
+        + setProperties(Property[] properties)
+        + boolean checkProperty(Property property)
+    }
+}
+
+package classes.bodyparts {
+    class Head extends BodyPart {}
+    class Hand extends BodyPart {}
+    class Leg extends BodyPart {}
+    class Neck extends BodyPart {}
+    class Tail extends BodyPart {}
+    class Torso extends BodyPart {}
+}
+
+package classes.body {
+    class Body extends Thing {
+        + Body(Creature owner, BodyPart... parts)
+
+        + BodyPart[] getParts()
+
+        + interact(Creature other)
+        + Property[] getProperties()
+        + setProperties(Property[] properties)    
+        + boolean checkProperty(Property property)
+    }
+}
+
+package classes.breathables {
+    class Fog implements Breathable {}
+    class Oxygen implements Breathable {}
+}
+
+
+package classes.humans {
+    class Narrator extends Human {
+        + String[] stories = new String[0]
+        
+        + Narrator(Body body, int health, int age, String name, Gender gender, Property[] personality)
+        
+        + String say()
+        + listen(String info)
+        + Sight see(Positioned target)
+        + boolean trust(Object target)
+        + String getName()
+        + Gender getGender()    
+        + String[] getKnowledge()
+    }
+
+    SadGirl --> Rain
+    class SadGirl extends Human {
+        # String[] reasonsToDie = new String[0]
+        
+        + SadGirl(Body body, int health, int age, String name, Property[] personality)
+
+        + cry()
+
+        + hug(Hugable target)
+        + hart()
+        + String say()
+        + listen(String info)
+        + Sight see(Positioned target)
+        + boolean trust(Object target)
+        + String getName()
+        + Gender getGender()    
+        + String[] getKnowledge()
+    }
+}
+
+
+package classes.animals {
+    class Giraffe extends Animal {
+        + Giraffe(Body body, int health, int age, Pattern pattern, Property[] properties)
+
+        + hide(Thing obstacle)
+        + walk(int x, int y, int z)
+        + run(int x, int y, int z)
+
+        + Sight see(Positioned target)
+    }
+
+    class Bird extends Animal {
+        + Bird(Body body, int health, int age, Pattern pattern, Property[] properties)
+
+        + fly(int x, int y, int z)
+        + walk(int x, int y, int z)
+
+        + Sight see(Positioned target)
+    }
+}
+
+
+package etc {
+    class Rain {}
+
+    class Sight implements PropertiesContained {
+        # Positioned target
+        # Property[] properties
+
+        + Sight(Positioned target, Property... properties)
+
+        + Positioned getTarget()
+
+        + Property[] getProperties()
+        + setProperties(Property[] properties)
+        + boolean checkProperty(Property property)
+    }
+
+    class Moon implements Patterned, Positioned {
+        # int[] coordinates
+        # Pattern pattern = new Pattern(2147483647)
+
+        public Pattern getPattern()
+        public int getX()
+        public int getY()
+        public int getZ()
+        public void move(int x, int y, int z)
+    }
+
+    class ShipSails implements Thing {}
+}
+
+@enduml

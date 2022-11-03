@@ -1,0 +1,12 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "cSpell.words": [
+        "bodyparts",
+        "Ownered",
+        "sadgirl"
+    ],
+    "java.dependency.packagePresentation": "hierarchical"
+}
