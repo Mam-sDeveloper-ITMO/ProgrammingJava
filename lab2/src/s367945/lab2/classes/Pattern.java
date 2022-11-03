@@ -1,6 +1,7 @@
 package s367945.lab2.classes;
 
-import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
 
 import s367945.lab2.abc.PropertiesContained;
 import s367945.lab2.enums.Color;
@@ -8,17 +9,15 @@ import s367945.lab2.enums.Property;
 
 public class Pattern extends PropertiesContained {
     public final Color color;
-    public final String description;
-    private Set<Property> properties;
+    private HashSet<Property> properties;
 
-    public Pattern(Color color, String description, Property... properties) {
+    public Pattern(Color color, Property... properties) {
         this.color = color;
-        this.description = description;
-        this.properties = Set.of();
+        this.properties = new HashSet<Property>(Arrays.asList(properties));
     }
 
     @Override
-    public Set<Property> getProperties() {
+    public HashSet<Property> getProperties() {
         return this.properties;
     }
 }

@@ -18,6 +18,7 @@ public enum Property {
     BALANCE(7),
     ATTRACTIVE(7),
     ARTISTIC(10),
+    COLORFUL(2),
     ARTICULATE(1),
     APPROACHABLE(3),
     AMBITIOUS(6),
@@ -89,6 +90,7 @@ public enum Property {
     DEDICATED(1),
     DECISIVE(4),
     CLEVER(10),
+    ELEGANT(14),
     CLEAN(5),
     CHEERFUL(9),
     CHARMING(4),
@@ -178,11 +180,13 @@ public enum Property {
     UNFEELING(-2),
     JEALOUS(-9),
     ELEGIAC(-6),
-    CLUMSY(-3),
     DISTRESSED(-7),
+    CLUMSY(-3),
     JITTERY(-1),
     FIDGETY(-10),
-    RESTLESS(-4);
+    RESTLESS(-4),
+    THIN(0),
+    SLIM(0);
 
     public final int value;
 

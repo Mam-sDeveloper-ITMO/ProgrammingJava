@@ -2,7 +2,7 @@ package s367945.lab2.abc;
 
 import s367945.lab2.interfaces.Patterned;
 
-import java.util.Set;
+import java.util.HashSet;
 
 import s367945.lab2.classes.Body;
 import s367945.lab2.classes.Pattern;
@@ -31,8 +31,8 @@ public abstract class Animal extends Creature implements Patterned {
     }
 
     @Override
-    public Set<Property> getProperties() {
-        Set<Property> properties = Set.of();
+    public HashSet<Property> getProperties() {
+        HashSet<Property> properties = new HashSet<Property>();
         properties.addAll(this.body.getProperties());
         properties.addAll(this.skin.getProperties());
         return properties;

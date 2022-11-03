@@ -1,10 +1,10 @@
 package s367945.lab2.abc;
 
 import s367945.lab2.enums.Property;
-import java.util.Set;
+import java.util.HashSet;
 
 public abstract class PropertiesContained implements Comparable<PropertiesContained> {
-    abstract public Set<Property> getProperties();
+    abstract public HashSet<Property> getProperties();
 
     public boolean hasProperty(Property property) {
         return getProperties().contains(property);

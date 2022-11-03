@@ -1,7 +1,8 @@
 package s367945.lab2.classes;
 
 import java.util.Random;
-import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import s367945.lab2.abc.Creature;
 import s367945.lab2.abc.Human;
@@ -12,7 +13,7 @@ import s367945.lab2.interfaces.Positioned;
 import s367945.lab2.structures.Coordinates;
 
 public class Narrator extends Human {
-    protected Set<String> stories = Set.of();
+    protected HashSet<String> stories = new HashSet<String>();
 
     public Narrator(Body body, int health, int age, String name, Gender gender, Property... personality) {
         super(body, health, age, name, gender, personality);
@@ -24,8 +25,7 @@ public class Narrator extends Human {
         Coordinates offset = new Coordinates(
                 random.nextInt(-maxDist, maxDist),
                 random.nextInt(-maxDist, maxDist),
-                0
-        );
+                0);
         this.body.offset(offset);
         for (String story : this.stories) {
             this.listen(story);
@@ -41,8 +41,17 @@ public class Narrator extends Human {
     public String say() {
         if (this.stories.isEmpty()) {
             return "I have no stories to tell";
+        } else {
+            Random random = new Random();
+            int indx = random.nextInt(0, this.stories.size());
+            for (String story : this.stories) {
+                if (indx == 0) {
+                    return story;
+                }
+                indx--;
+            }
+            return "";
         }
-        return this.stories.iterator().next();
     }
 
     @Override

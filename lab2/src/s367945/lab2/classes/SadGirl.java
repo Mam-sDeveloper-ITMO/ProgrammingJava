@@ -1,6 +1,6 @@
 package s367945.lab2.classes;
 
-import java.util.Set;
+import java.util.HashSet;
 
 import s367945.lab2.abc.Creature;
 import s367945.lab2.abc.Human;
@@ -10,9 +10,9 @@ import s367945.lab2.interfaces.Breathable;
 import s367945.lab2.interfaces.Positioned;
 
 public class SadGirl extends Human {
-    protected Set<String> reasonsToDie = Set.of();
+    protected HashSet<String> reasonsToDie = new HashSet<String>();
 
-    public SadGirl(Body body, int health, int age, String name, Gender gender, Property[] personality) {
+    public SadGirl(Body body, int health, int age, String name, Gender gender, Property... personality) {
         super(body, health, age, name, gender, personality);
     }
 

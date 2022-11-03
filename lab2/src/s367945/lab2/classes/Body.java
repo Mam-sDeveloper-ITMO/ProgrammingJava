@@ -1,6 +1,6 @@
 package s367945.lab2.classes;
 
-import java.util.Set;
+import java.util.HashSet;
 
 import s367945.lab2.abc.BodyPart;
 import s367945.lab2.abc.Creature;
@@ -12,8 +12,8 @@ public class Body extends Thing {
     protected Creature owner;
     protected BodyPart[] bodyParts;
 
-    public Body(Creature owner, Coordinates position, BodyPart... bodyParts) {
-        super(owner, position);
+    public Body(Coordinates position, BodyPart... bodyParts) {
+        super(position);
         this.bodyParts = bodyParts;
     }
 
@@ -31,8 +31,8 @@ public class Body extends Thing {
     }
 
     @Override
-    public Set<Property> getProperties() {
-        Set<Property> properties = Set.of();
+    public HashSet<Property> getProperties() {
+        HashSet<Property> properties = new HashSet<Property>();
         for (BodyPart bodyPart : this.bodyParts) {
             properties.addAll(bodyPart.getProperties());
         }

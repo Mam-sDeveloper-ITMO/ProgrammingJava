@@ -14,6 +14,7 @@ public abstract class Creature extends PropertiesContained implements Positioned
 
     public Creature(Body body, int health, int age) {
         this.body = body;
+        this.body.setOwner(this);
         this.health = health;
         this.age = age;
     }

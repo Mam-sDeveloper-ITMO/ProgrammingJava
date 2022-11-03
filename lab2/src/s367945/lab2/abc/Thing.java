@@ -1,6 +1,7 @@
 package s367945.lab2.abc;
 
-import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
 
 import s367945.lab2.enums.Property;
 import s367945.lab2.interfaces.Hugable;
@@ -8,18 +9,21 @@ import s367945.lab2.interfaces.Moveable;
 import s367945.lab2.structures.Coordinates;
 
 public abstract class Thing extends PropertiesContained implements Moveable, Hugable {
+    private HashSet<Property> properties;
     protected Creature owner;
-    protected Set<Property> properties;
     protected Coordinates position;
-
-    public Thing(Creature owner, Coordinates position, Property... properties) {
-        this.owner = owner;
+    
+    public Thing(Coordinates position, Property... properties) {
         this.position = position;
-        this.properties = Set.of(properties);
+        this.properties = new HashSet<Property>(Arrays.asList(properties));
     }
 
     public Creature getOwner() {
         return this.owner;
+    }
+
+    public void setOwner(Creature owner) {
+        this.owner = owner;
     }
 
     public void changeOwner(Creature newOwner) {
@@ -42,7 +46,7 @@ public abstract class Thing extends PropertiesContained implements Moveable, Hug
     }
 
     @Override
-    public Set<Property> getProperties() {
+    public HashSet<Property> getProperties() {
         return this.properties;
     }
 

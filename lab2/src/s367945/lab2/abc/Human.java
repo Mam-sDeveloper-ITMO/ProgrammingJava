@@ -1,39 +1,45 @@
 package s367945.lab2.abc;
 
-import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
 
 import s367945.lab2.classes.Body;
 import s367945.lab2.enums.Gender;
 import s367945.lab2.enums.Property;
+import s367945.lab2.interfaces.Hugable;
 
 public abstract class Human extends Creature {
     protected String name;
     protected Gender gender;
-    protected Set<Property> personality;
+    protected HashSet<Property> personality;
 
     public Human(Body body, int health, int age, String name, Gender gender, Property... personality) {
         super(body, health, age);
 
         this.name = name;
         this.gender = gender;
-        this.personality = Set.of(personality);
+        this.personality = new HashSet<Property>(Arrays.asList(personality));
     }
 
-    public Set<Property> getAppearance() {
+    public HashSet<Property> getAppearance() {
         return this.body.getProperties();
     }
 
-    public Set<Property> getPersonality() {
+    public HashSet<Property> getPersonality() {
         return this.personality;
     }
 
     public void addPersonality(Property personality) {
         this.personality.add(personality);
     }
+    
+    public void hug(Hugable other) {
+        other.onHug(this);
+    }
 
     @Override
-    public Set<Property> getProperties() {
-        Set<Property> properties = Set.of();
+    public HashSet<Property> getProperties() {
+        HashSet<Property> properties = new HashSet<Property>();
         properties.addAll(this.getPersonality());
         properties.addAll(this.getAppearance());
         return properties;

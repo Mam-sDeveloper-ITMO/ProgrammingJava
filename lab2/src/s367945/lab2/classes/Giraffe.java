@@ -20,9 +20,12 @@ public class Giraffe extends Animal {
         Coordinates offset = new Coordinates(
                 random.nextInt(-maxDist, maxDist),
                 random.nextInt(-maxDist, maxDist),
-                0
-        );
+                0);
         this.body.offset(offset);
+    }
+
+    public void hide(Positioned obstacle) {
+        this.body.move(obstacle.getPosition());
     }
 
     @Override
