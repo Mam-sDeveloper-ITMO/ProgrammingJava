@@ -1,189 +1,138 @@
 package s367945.lab2;
 
-import s367945.lab2.classes.Bird;
-import s367945.lab2.classes.Body;
-import s367945.lab2.classes.Cave;
-import s367945.lab2.classes.Fog;
-import s367945.lab2.classes.Giraffe;
-import s367945.lab2.classes.Moon;
-import s367945.lab2.classes.Narrator;
-import s367945.lab2.classes.Pattern;
-import s367945.lab2.classes.Rain;
-import s367945.lab2.classes.SadGirl;
-import s367945.lab2.classes.ShipSails;
-import s367945.lab2.classes.bodyparts.Hand;
-import s367945.lab2.classes.bodyparts.Head;
-import s367945.lab2.classes.bodyparts.Leg;
-import s367945.lab2.classes.bodyparts.Neck;
-import s367945.lab2.classes.bodyparts.Tail;
-import s367945.lab2.classes.bodyparts.Torso;
-import s367945.lab2.enums.Color;
-import s367945.lab2.enums.Gender;
-import s367945.lab2.enums.Property;
-import s367945.lab2.structures.Coordinates;
+import s367945.lab2.ahmatova.Ahmatova;
+import s367945.lab2.animal.human.interfaces.SadGirl;
+import s367945.lab2.bird.Bird;
+import s367945.lab2.blackmaiden.BlackMaiden;
+import s367945.lab2.enums.BreathSource;
+import s367945.lab2.giraffe.Giraffe;
+import s367945.lab2.gumilov.Gumilov;
+import s367945.lab2.location.cave.Cave;
+import s367945.lab2.location.earth.Earth;
+import s367945.lab2.location.house.House;
+import s367945.lab2.location.moon.Moon;
+import s367945.lab2.location.mythiccountry.MythicCountry;
+import s367945.lab2.location.tropicalgarden.TropicalGarden;
+import s367945.lab2.plant.grass.Grass;
+import s367945.lab2.plant.palm.Palm;
+import s367945.lab2.rain.Rain;
+import s367945.lab2.shipsail.ShipSail;
+import s367945.lab2.structures.pattern.Pattern;
+import s367945.lab2.structures.point.Point;
+import s367945.lab2.youngking.YoungKing;
 
 public class Main {
     public static void main(String[] args) {
-        testDescription();
+        testLogic();
+        testToString();
     }
 
-    private static void testDescription() {
-        Body narratorBody = new Body(
-            new Coordinates(0, 0, 0),
-            new Head(),
-            new Neck(),
-            new Torso(),
-            new Hand(), new Hand(), 
-            new Leg(), new Leg() 
-        );
-        Narrator narrator = new Narrator(narratorBody, 10, 21, "Гумилев", Gender.MAN);
-        Leg sadgirlLeg = new Leg(Property.SAD);
-        Hand sadgirlHand = new Hand(Property.THIN);
-        Body sadgirlBody = new Body(
-            new Coordinates(2, 3, 0),
-            new Head(),
-            new Neck(),
-            new Torso(),
-            sadgirlHand, sadgirlHand,
-            sadgirlLeg, sadgirlLeg
-        );
-        SadGirl sadgirl = new SadGirl(sadgirlBody, 7, 18, "Ахматова", Gender.WOMEN, Property.SAD, Property.DEPRESSED);
-        Body giraffeBody = new Body(
-            new Coordinates(0, 0, 0),
-            new Head(),
-            new Neck(),
-            new Torso(Property.SLIM, Property.ELEGANT),
-            new Leg(), new Leg(),
-            new Leg(), new Leg(),
-            new Tail()
-        );
-        Pattern giraffeSkin = new Pattern(Color.YELLOW, Property.MAGIC);
-        Giraffe giraffe = new Giraffe(giraffeBody, 10, 7, giraffeSkin);
-        Moon moon = new Moon();
-        Bird bird = new Bird(new Body(new Coordinates(0, 0, 0)), 1, 2, new Pattern(Color.BROWN));
-        Cave marbleCave = new Cave(new Coordinates(0, 0, 0));                
-        Fog fog = new Fog();
+    public static void testLogic() {
+        BlackMaiden blackMaiden = new BlackMaiden();
+        YoungKing youngKing = new YoungKing();
+        MythicCountry mythicCountry = new MythicCountry(blackMaiden.toString(), youngKing.toString());
+        assert mythicCountry.checkConsistency(youngKing);
+
+        Gumilov gumilov = new Gumilov();
+        gumilov.walk(mythicCountry);
+        for (String story : mythicCountry.getStories()) {
+            gumilov.learnStory(story);
+        }
+
+        House gumilovHouse = new House("Gumulov flat in Kronstadt", new Point(131, 3144, 12), 30, 4, gumilov);
+        gumilov.walk(gumilovHouse);
+        assert gumilovHouse.checkConsistency(gumilov);
+
+        Ahmatova ahmatova = new Ahmatova();
+        ahmatova.walk(gumilovHouse);
+
+        ahmatova.see(gumilov);
+        ahmatova.hug(ahmatova);
+
+        ahmatova.listen(gumilov.say());
+
+        Giraffe giraffe = new Giraffe(13);
+
+        Moon moon = new Moon(new Point(1000000000, 1333131331, 13131313));
+        assert moon.getSurface().compareTo(giraffe.getSkinPattern()) < 0;
+        moon.split();
+        moon.wobble();
+        assert moon.getSurface().compareTo(giraffe.getSkinPattern()) == 0;
+
+        ShipSail shipSail = new ShipSail(new Pattern(1, 7), new Point());
+        assert shipSail.getPattern().compareTo(giraffe.getSkinPattern()) < 0;
+
+        Bird bird = new Bird(2);
+        bird.fly(moon);
+
+        Earth earth = new Earth(new Point());
+        earth.see(giraffe);
+
+        Cave cave = new Cave("Marble cave", new Point(1, 444, -2), 50);
+        giraffe.hide(cave);
+        assert cave.checkConsistency(giraffe);
+
+        assert gumilov.trust(mythicCountry.getStories().toArray()[0]);
+        assert gumilov.trust(mythicCountry.getStories().toArray()[1]);
+
         Rain rain = new Rain();
+        rain.walk(ahmatova);
+        assert ahmatova.trust(rain);
+
+        Grass grass = new Grass("Grass with unimaginable smell");
+        Palm palm = new Palm("Slim palm");
+        TropicalGarden tropicalGarden = new TropicalGarden("Tropical garden", new Point(1, 2, 3), 100, grass, palm);
+        assert tropicalGarden.checkConsistency(palm);
+
+        ahmatova.cry();
+        System.out.println("The end");
+    }
+
+    public static void testToString() {
+        BlackMaiden blackMaiden = new BlackMaiden();
         
-        // Print all objects
-        System.out.println(sadgirlBody);
-        System.out.println(sadgirlHand);
-        System.out.println(narrator);
-        System.out.println(sadgirl);
+        YoungKing youngKing = new YoungKing();
+        MythicCountry mythicCountry = new MythicCountry(blackMaiden.toString(), youngKing.toString());
+
+        Gumilov gumilov = new Gumilov();
+
+        House gumilovHouse = new House("Gumulov flat in Kronstadt", new Point(131, 3144, 12), 30, 4, gumilov);
+
+        Ahmatova ahmatova = new Ahmatova();
+
+        Giraffe giraffe = new Giraffe(13);
+
+        Moon moon = new Moon(new Point(1000000000, 1333131331, 13131313));
+
+        ShipSail shipSail = new ShipSail(new Pattern(1, 7), new Point());
+
+        Bird bird = new Bird(2);
+
+        Earth earth = new Earth(new Point());
+
+        Cave cave = new Cave("Marble cave", new Point(1, 444, -2), 50);
+
+        Rain rain = new Rain();
+        Grass grass = new Grass("Grass with unimaginable smell");
+        Palm palm = new Palm("Slim palm");
+        TropicalGarden tropicalGarden = new TropicalGarden("Tropical garden", new Point(1, 2, 3), 100, grass, palm);
+
+        // print toString for all objects
+        System.out.println(blackMaiden);
+        System.out.println(youngKing);
+        System.out.println(mythicCountry);
+        System.out.println(gumilov);
+        System.out.println(gumilovHouse);
+        System.out.println(ahmatova);
         System.out.println(giraffe);
         System.out.println(moon);
+        System.out.println(shipSail);
         System.out.println(bird);
-        System.out.println(marbleCave);
-        System.out.println(fog);
+        System.out.println(earth);
+        System.out.println(cave);
         System.out.println(rain);
-    }
-
-    private static void testAll() {
-        Body narratorBody = new Body(
-            new Coordinates(0, 0, 0),
-            new Head(),
-            new Neck(),
-            new Torso(),
-            new Hand(), new Hand(), 
-            new Leg(), new Leg() 
-        );
-        Narrator narrator = new Narrator(narratorBody, 10, 21, "Гумилев", Gender.MAN);
-        narrator.listen("жираф на озере Чад");
-
-        Leg sadgirlLeg = new Leg(Property.SAD);
-        Hand sadgirlHand = new Hand(Property.THIN);
-        Body sadgirlBody = new Body(
-            new Coordinates(2, 3, 0),
-            new Head(),
-            new Neck(),
-            new Torso(),
-            sadgirlHand, sadgirlHand,
-            sadgirlLeg, sadgirlLeg
-        );
-        SadGirl sadgirl = new SadGirl(sadgirlBody, 7, 18, "Ахматова", Gender.WOMEN, Property.SAD, Property.DEPRESSED);
-        
-
-        if (sadgirl.see(narrator).hasProperty(Property.SAD)) {
-            System.out.println("Сегодня, я вижу, особенно грустен твой взгляд");
-        }
-        if (sadgirlHand.hasProperty(Property.THIN)) {
-            System.out.println("И руки особенно тонки");
-        }
-        sadgirl.hug(sadgirlLeg); 
-        System.out.println("колени обняв");
-
-        sadgirl.listen(narrator.say());
-        System.out.println("прослушай");
-
-        Body giraffeBody = new Body(
-            new Coordinates(0, 0, 0),
-            new Head(),
-            new Neck(),
-            new Torso(Property.SLIM, Property.ELEGANT),
-            new Leg(), new Leg(),
-            new Leg(), new Leg(),
-            new Tail()
-        );
-        Pattern giraffeSkin = new Pattern(Color.YELLOW, Property.MAGIC);
-        Giraffe giraffe = new Giraffe(giraffeBody, 10, 7, giraffeSkin);
-
-        System.out.println("далеко на озере чад"); 
-        if (giraffe.hasProperty(Property.ELEGANT)) {
-            System.out.println("изысканный");
-        }
-
-        giraffe.walk();
-        System.out.println("бродит жираф"); 
-
-        if (giraffe.hasProperty(Property.SLIM)) {
-            System.out.println("Ему грациозная стройность и нега дана");
-        }
-        
-        if (giraffe.skin.hasProperty(Property.MAGIC)) {
-            System.out.println("И шкуру его украшает волшебный узор");
-        }
-
-        Moon moon = new Moon();
-        moon.splitAndSwing();
-        if (giraffe.skin.compareTo(moon) == 0) {
-            System.out.println("С которым равняться осмелится только луна");
-        }
-        System.out.println("Дробясь и качаясь на влаге широких озер.");
-
-        if (giraffe.equals(new ShipSails(Property.COLORFUL))) {
-            System.out.println("Вдали он подобен цветным парусам корабля");
-        }
-
-        Bird bird = new Bird(new Body(new Coordinates(0, 0, 0)), 1, 2, new Pattern(Color.BROWN));
-        bird.fly();
-        System.out.println("И бег его плавен, как радостный птичий полет.");
-        
-        System.out.println("Я знаю, что много чудесного видит земля");
-        Cave marbleCave = new Cave(new Coordinates(0, 0, 0));        
-        giraffe.hide(marbleCave);
-        System.out.println("когда на закате он прячется в мраморный грот");
-
-        // Я знаю веселые сказки таинственных стран
-        // Про чёрную деву, про страсть молодого вождя,
-        narrator.listen("веселые сказки таинственных стран");
-        narrator.listen("сказка про чёрную деву");
-        narrator.listen("сказка про страсть молодого вождя");
-        System.out.println(narrator.say());
-        System.out.println(narrator.say());
-        System.out.println(narrator.say());
-
-        System.out.println("Но ты слишком долго вдыхала тяжелый туман");
-        sadgirl.breath(new Fog());
-
-        if (sadgirl.trust(new Rain())) {
-            System.out.println("Ты верить не хочешь во что-нибудь кроме дождя");
-        }
-        
-        sadgirl.cry();
-        System.out.println("Ты плачешь?");
-        sadgirl.listen(narrator.say());
-        System.out.println("Послушай");
-        giraffe.walk();
-        System.out.println("далёко, на озере Чад Изысканный бродит жираф.");
+        System.out.println(grass);
+        System.out.println(palm);
+        System.out.println(tropicalGarden); 
     }
 }

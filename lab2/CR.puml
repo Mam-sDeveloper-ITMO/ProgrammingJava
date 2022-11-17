@@ -1,0 +1,173 @@
+@startuml Classes Model
+
+class Pattern implements Comparable {
+    + colorfulnesss
+    + complexity
+}
+
+class Body implements Positioned {
+    # skin
+    # parts
+        
+    + getProperties()
+    + getSkin()
+    + setPosition()
+}
+
+Body o-- BodyPart
+class BodyPart {
+    # size
+    # properties
+}
+
+BodyPart o-- Appearance
+enum Appearance {}
+
+class Head extends BodyPart {}
+class Torso extends BodyPart {}
+class Hand extends BodyPart {}
+class Leg extends BodyPart {}
+class Tail extends BodyPart {}
+class Neck extends BodyPart {}
+
+interface Positioned {
+    + getPosition()
+}
+
+Positioned -- Point
+class Point {
+    + x
+    + y
+    + z
+}
+
+interface Seeable {
+    + see()
+}
+
+Seeable -- Sight
+class Sight {
+    + target
+    + description
+}
+
+abstract Animal implements Positioned, Seeable {
+    # body
+    # age
+    # health
+
+    # buildBody()
+    # moveBody()
+    + breath()
+    + getAppearance()
+    + getAge()
+    + getSkinPattern()
+    + getHealth()
+    + getBody()
+}
+
+Animal -- BreathSource
+enum BreathSource {
+    FOG
+    OXYGEN
+    CARBON_HYDROXIDE
+}
+
+interface Walkable {
+    + walk()
+}
+
+interface Runable {
+    + run()
+}
+
+interface Flyable {
+    + fly()
+}
+
+class Giraffe extends Animal implements Runable, Walkable {
+    + hide()
+}
+
+class Bird extends Animal implements Walkable, Flyable {}
+
+abstract Human extends Animal implements Walkable {    
+    # name
+    # gender
+    # personality
+    # knowledge
+
+    + say()
+    + listen()
+    + trust()
+    + hug()
+    + getPersonality()
+}
+
+Human -- Gender
+enum Gender {}
+
+Human o-- Personality
+enum Personality {}
+
+interface Narrator {
+    + tellStory()
+    + learnStory()
+}
+
+interface SadGirl {
+    + cry()
+}
+
+class Gumilov extends Human implements INarrator {}
+class Ahmatova extends Human implements ISadGirl {}
+
+class BlackMaiden extends Human {}
+class YoungKing extends Human {}
+
+abstract Location implements Positioned {
+    # name
+    # center
+    # radius
+
+    + checkConsist()
+}
+
+
+class Earth extends Location implements Seeable {}
+class Moon extends Location {
+    # surface 
+
+    + split()
+    + wobble()
+    + getSurface()
+}
+class MythicCountry extends Location {
+    # stories
+    + getStories()
+}
+class House extends Location {}
+class Cave extends Location {}
+class Lake extends Location {}
+class TropicalGarden extends Location {
+    # plants
+    + getPlants()
+}
+
+
+abstract Plant implements Positioned {
+    + photosynthesis()
+}
+class Palm extends Plant {}
+class Grass extends Plant {}
+
+class ShipSails implements Positioned {
+    # pattern
+
+    + getPattern
+}
+
+
+class Rain implements Walkable {}
+
+@enduml
