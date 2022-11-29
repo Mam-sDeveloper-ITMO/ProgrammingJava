@@ -33,6 +33,8 @@ class Neck extends BodyPart {}
 interface Positioned {
     + getPosition()
 }
+Positioned -- IncorrectPosition
+class IncorrectPosition extends Exception {}
 
 Positioned -- Point
 class Point {
@@ -59,6 +61,7 @@ abstract Animal implements Positioned, Seeable {
     # buildBody()
     # moveBody()
     + breath()
+    + die()
     + getAppearance()
     + getAge()
     + getSkinPattern()
@@ -85,11 +88,27 @@ interface Flyable {
     + fly()
 }
 
+interface Swimable {
+    + swim()
+}
+
 class Giraffe extends Animal implements Runable, Walkable {
     + hide()
 }
+Giraffe -- GiraffeBody
+class GiraffeBody extends Body {}
+
+class Lion extends Animal implements Runable, Walkable, Killer {}
+Lion -- LionBody
+class LionBody extends Body {}
 
 class Bird extends Animal implements Walkable, Flyable {}
+Bird -- BirdBody
+class BirdBody extends Body {}
+
+class Fish extends Animal implements Swimable {}
+Fish -- FishBody
+class FishBody extends Body {}
 
 abstract Human extends Animal implements Walkable {    
     # name
@@ -118,12 +137,76 @@ interface Narrator {
 interface SadGirl {
     + cry()
 }
+SadGirl -- NoReasonsToDie
+class NoReasonsToDie extends RuntimeException {}
 
-class Gumilov extends Human implements INarrator {}
-class Ahmatova extends Human implements ISadGirl {}
+interface Killer {
+    + kill()
+}
+
+interface Thief {
+    + rob()
+}
+
+abstract class Giant extends Human {}
+Giant -- GiantBody
+class GiantBody extends Body {}
+
+abstract class Dwarf extends Human {}
+Dwarf -- DwarfBody
+class DwarfBody extends Body {}
+
+class Gumilov extends Human implements Narrator {}
+Gumilov -- GumilovBody
+class GumilovBody extends Body {}
+
+class Ahmatova extends Human implements SadGirl {}
+Ahmatova -- AhmatovaBody
+class AhmatovaBody extends Body {}
 
 class BlackMaiden extends Human {}
+BlackMaiden -- BlackMaidenBody
+class BlackMaidenBody  extends Body {}
+
 class YoungKing extends Human {}
+YoungKing -- YoungKingBody
+class YoungKingBody extends Body {}
+
+
+class NekoWoman extends Human {
+    + sigh()
+    + moan()
+}
+NekoWoman -- NekoWomanBody
+class NekoWomanBody extends Body {}
+
+abstract class Bandit extends Human implements Thief, Killer {}
+
+abstract class Peer extends Human {
+    + vote()
+}
+
+abstract class UKPeer extends Peer {
+    # lands
+
+    + getLands()
+}
+
+abstract class FranchPeer extends Peer {}
+
+
+interface Monk {
+    + getCommunion()
+}
+
+abstract class Cure extends Human implements Monk {}
+
+
+interface Fisher {
+    + fishing()
+}
+
+abstract class FisherMan extends Human implements Fisher {}
 
 abstract Location implements Positioned {
     # name
@@ -132,6 +215,7 @@ abstract Location implements Positioned {
 
     + checkConsist()
 }
+
 
 
 class Earth extends Location implements Seeable {}
@@ -153,13 +237,18 @@ class TropicalGarden extends Location {
     # plants
     + getPlants()
 }
-
+class MagicForest extends Location {
+    # plants
+    + getPlants()
+}
 
 abstract Plant implements Positioned {
     + photosynthesis()
 }
 class Palm extends Plant {}
 class Grass extends Plant {}
+class Root extends Plant implements Walkable {}
+class WhiteTree extends Plant {}
 
 class ShipSails implements Positioned {
     # pattern
