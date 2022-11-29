@@ -1,5 +1,7 @@
 package s367945.lab2;
 
+import java.util.function.Consumer;
+
 import s367945.lab2.ahmatova.Ahmatova;
 import s367945.lab2.animal.human.interfaces.SadGirl;
 import s367945.lab2.bird.Bird;
@@ -23,8 +25,7 @@ import s367945.lab2.youngking.YoungKing;
 
 public class Main {
     public static void main(String[] args) {
-        testLogic();
-        testToString();
+        Consumer<String> print = System.out::println;
     }
 
     public static void testLogic() {
