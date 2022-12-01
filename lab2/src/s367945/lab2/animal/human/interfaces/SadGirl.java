@@ -1,9 +1,9 @@
 package s367945.lab2.animal.human.interfaces;
 
 public interface SadGirl {
-    public static class NoReasonsToDie extends RuntimeException {
+    static class NoReasonsToDie extends RuntimeException {
         public NoReasonsToDie() {
-            super();
+            super("This world will collapse if sad girls doesn't have reasons for die");
         }
     };
 

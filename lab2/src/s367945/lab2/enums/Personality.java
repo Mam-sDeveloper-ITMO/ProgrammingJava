@@ -13,6 +13,7 @@ public enum Personality {
     ROMANTIC,
     OPTIMISTIC,
     FRUSTRATED,
+    ANGRY,
     GREAT,
     NARCISSISTIC,
     TRICKY,

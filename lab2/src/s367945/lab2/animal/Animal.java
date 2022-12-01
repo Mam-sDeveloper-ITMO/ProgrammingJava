@@ -16,7 +16,11 @@ public abstract class Animal implements Seeable, Positioned {
     protected int age;
     protected int health;
 
-    public static class DeadInteraction extends RuntimeException {}
+    private static class DeadInteraction extends RuntimeException {
+        public DeadInteraction() {
+            super("Stop interact with dead animal, please");
+        }
+    }
 
     public Animal(int age, int health) {
         this.age = age;

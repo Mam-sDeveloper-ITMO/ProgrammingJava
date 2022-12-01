@@ -34,7 +34,7 @@ public class Giraffe extends Animal implements Runnable, Walkable {
         super(age, 10);
     }
 
-    public void hide(Location target) {
+    public void hide(Location target) throws IncorrectPosition{
         this.walk(target);
     }
 
@@ -53,16 +53,20 @@ public class Giraffe extends Animal implements Runnable, Walkable {
     }
 
     @Override
-    public void walk(Positioned target) {
+    public void walk(Positioned target) throws IncorrectPosition {
         if (target.getPosition().z <= 1) {
             this.moveBody(target.getPosition());
+        } else {
+            throw new IncorrectPosition("Target is too high");
         }
     }
 
     @Override
-    public void run(Positioned target) {
+    public void run(Positioned target) throws IncorrectPosition {
         if (target.getPosition().z <= 1) {
             this.moveBody(target.getPosition());
+        } else {
+            throw new IncorrectPosition("Target is too high");
         }
     }
 
@@ -73,11 +77,6 @@ public class Giraffe extends Animal implements Runnable, Walkable {
         } else {
             this.health -= 3;
         }
-    }
-
-    @Override
-    public int getAge() {
-        return this.age;
     }
 
     @Override

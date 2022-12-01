@@ -48,12 +48,14 @@ public class Bird extends Animal implements Walkable, Flyable {
     }
 
     @Override
-    public void walk(Positioned target) {
+    public void walk(Positioned target) throws IncorrectPosition {
         Point targetPosition = target.getPosition();
         int offset = Math.abs(targetPosition.x - this.getPosition().x) +
                 Math.abs(targetPosition.y - this.getPosition().y);
         if (offset <= 10 && targetPosition.z <= 0) {
             this.moveBody(target.getPosition());
+        } else {
+            throw new IncorrectPosition("Target is too far away");
         }
     }
 

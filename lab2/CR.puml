@@ -69,6 +69,7 @@ abstract Animal implements Positioned, Seeable {
     + getBody()
 }
 
+
 Animal -- DeadInterraction
 class DeadInterraction extends RuntimeException {}
 
@@ -186,17 +187,21 @@ class NekoWomanBody extends Body {}
 
 abstract class Bandit extends Human implements Thief, Killer {}
 
-abstract class Peer extends Human {
+interface Peer {
     + vote()
 }
 
-abstract class UKPeer extends Peer {
+abstract class UKPeer extends Human implements Peer {
     # lands
 
     + getLands()
 }
 
-abstract class FranchPeer extends Peer {}
+abstract class FranchPeer extends Human implements Peer {
+    # knownKing
+
+    + getKnownKing()
+}
 
 
 interface Monk {
@@ -242,8 +247,8 @@ class TropicalGarden extends Location {
     + getPlants()
 }
 class MagicForest extends Location {
-    # plants
-    + getPlants()
+    # Trees
+    + getTrees()
 }
 
 abstract Plant implements Positioned {
@@ -252,7 +257,9 @@ abstract Plant implements Positioned {
 class Palm extends Plant {}
 class Grass extends Plant {}
 class Root extends Plant implements Walkable {}
-class WhiteTree extends Plant {}
+class WhiteTree extends Plant {
+    - root
+}
 
 class ShipSails implements Positioned {
     # pattern
