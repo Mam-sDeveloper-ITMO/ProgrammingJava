@@ -19,6 +19,17 @@ import s367945.lab2.structures.point.Point;
 import s367945.lab2.structures.sight.Sight;
 
 public class Giraffe extends Animal implements Runnable, Walkable {
+    protected static class GiraffeBody extends Body {
+        public GiraffeBody() {
+            super(
+                    new Point(), new Pattern(4, 4),
+                    new Head(6, Appearance.ELEGANT), new Neck(6, Appearance.ELEGANT),
+                    new Leg(6, Appearance.ELEGANT), new Leg(6, Appearance.ELEGANT),
+                    new Leg(6, Appearance.ELEGANT), new Leg(6, Appearance.ELEGANT),
+                    new Torso(6, Appearance.SLIM), new Tail(1, Appearance.ELEGANT));
+        }
+    }
+
     public Giraffe(int age) {
         super(age, 10);
     }
@@ -26,17 +37,10 @@ public class Giraffe extends Animal implements Runnable, Walkable {
     public void hide(Location target) {
         this.walk(target);
     }
-    
+
     @Override
     protected Body buildBody() {
-        Body body = new Body(
-                new Point(), new Pattern(4, 4),
-                new Head(6, Appearance.ELEGANT), new Neck(6, Appearance.ELEGANT),
-                new Leg(6, Appearance.ELEGANT), new Leg(6, Appearance.ELEGANT),
-                new Leg(6, Appearance.ELEGANT), new Leg(6, Appearance.ELEGANT),
-                new Torso(6, Appearance.SLIM), new Tail(1, Appearance.ELEGANT));
-
-        return body;
+        return new GiraffeBody();
     }
 
     @Override

@@ -21,19 +21,22 @@ import s367945.lab2.structures.point.Point;
 import s367945.lab2.structures.sight.Sight;
 
 public class Ahmatova extends Human implements SadGirl {
+    protected static class AhmatovaBody extends Body {
+        public AhmatovaBody() {
+            super(new Point(), new Pattern(1, 3),
+                    new Head(1, Appearance.BEAUTIFUL), new Neck(1, Appearance.BEAUTIFUL),
+                    new Leg(1, Appearance.BEAUTIFUL), new Leg(1, Appearance.BEAUTIFUL),
+                    new Hand(1, Appearance.THIN), new Hand(1, Appearance.THIN),
+                    new Torso(1, Appearance.BEAUTIFUL));
+        }
+    }
+
     public Ahmatova() {
         super(18, 6, "Anna Ahmatova", Gender.WOMEN, Personality.SAD);
     }
 
     protected Body buildBody() {
-        Body body = new Body(
-                new Point(), new Pattern(1, 3),
-                new Head(1, Appearance.BEAUTIFUL), new Neck(1, Appearance.BEAUTIFUL),
-                new Leg(1, Appearance.BEAUTIFUL), new Leg(1, Appearance.BEAUTIFUL),
-                new Hand(1, Appearance.THIN), new Hand(1, Appearance.THIN),
-                new Torso(1, Appearance.BEAUTIFUL));
-
-        return body;
+        return new AhmatovaBody();
     }
 
     @Override

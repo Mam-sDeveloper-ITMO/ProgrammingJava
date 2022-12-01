@@ -8,7 +8,7 @@ class Pattern implements Comparable {
 class Body implements Positioned {
     # skin
     # parts
-        
+
     + getProperties()
     + getSkin()
     + setPosition()
@@ -69,6 +69,9 @@ abstract Animal implements Positioned, Seeable {
     + getBody()
 }
 
+Animal -- DeadInterraction
+class DeadInterraction extends RuntimeException {}
+
 Animal -- BreathSource
 enum BreathSource {
     FOG
@@ -110,7 +113,8 @@ class Fish extends Animal implements Swimable {}
 Fish -- FishBody
 class FishBody extends Body {}
 
-abstract Human extends Animal implements Walkable {    
+abstract Human extends Animal implements Walkable {
+
     # name
     # gender
     # personality
@@ -220,7 +224,7 @@ abstract Location implements Positioned {
 
 class Earth extends Location implements Seeable {}
 class Moon extends Location {
-    # surface 
+    # surface
 
     + split()
     + wobble()

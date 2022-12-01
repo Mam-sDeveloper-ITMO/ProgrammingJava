@@ -17,22 +17,25 @@ import s367945.lab2.structures.point.Point;
 import s367945.lab2.structures.sight.Sight;
 
 public class Bird extends Animal implements Walkable, Flyable {
+    protected static class BirdBody extends Body {
+        public BirdBody() {
+            super(new Point(), new Pattern(1, 2),
+                    new Head(1, Appearance.ELEGANT),
+                    new Leg(1, Appearance.ELEGANT), new Leg(1, Appearance.ELEGANT),
+                    new Wing(1, Appearance.ELEGANT), new Wing(1, Appearance.ELEGANT),
+                    new Torso(1, Appearance.SLIM), new Tail(1, Appearance.ELEGANT));
+        }
+    }
+
     public Bird(int age) {
         super(age, 1);
     }
 
     @Override
     protected Body buildBody() {
-        Body body = new Body(
-                new Point(), new Pattern(1, 2),
-                new Head(1, Appearance.ELEGANT),
-                new Leg(1, Appearance.ELEGANT), new Leg(1, Appearance.ELEGANT),
-                new Wing(1, Appearance.ELEGANT), new Wing(1, Appearance.ELEGANT),
-                new Torso(1, Appearance.SLIM), new Tail(1, Appearance.ELEGANT));
-
-        return body;
+        return new BirdBody();
     }
-    
+
     @Override
     public void fly(Positioned target) {
         this.moveBody(target.getPosition());

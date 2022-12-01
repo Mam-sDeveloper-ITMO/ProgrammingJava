@@ -16,6 +16,8 @@ public abstract class Animal implements Seeable, Positioned {
     protected int age;
     protected int health;
 
+    public static class DeadInteraction extends RuntimeException {}
+
     public Animal(int age, int health) {
         this.age = age;
         this.health = health;
@@ -26,12 +28,20 @@ public abstract class Animal implements Seeable, Positioned {
 
     abstract protected Body buildBody();
 
+    public void die() {
+        this.health = 0;
+    }
+
     public HashSet<Appearance> getAppearance() {
         return body.getProperties();
     };
 
     protected void moveBody(Point position) {
-        this.body.setPosition(position);
+        if (this.health != 0) {
+            this.body.setPosition(position);
+        } else {
+            throw new DeadInteraction();
+        }
     }
 
     public Pattern getSkinPattern() {

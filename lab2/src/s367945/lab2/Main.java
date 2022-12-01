@@ -9,9 +9,11 @@ import s367945.lab2.blackmaiden.BlackMaiden;
 import s367945.lab2.enums.BreathSource;
 import s367945.lab2.giraffe.Giraffe;
 import s367945.lab2.gumilov.Gumilov;
+import s367945.lab2.interfaces.Positioned;
 import s367945.lab2.location.cave.Cave;
 import s367945.lab2.location.earth.Earth;
 import s367945.lab2.location.house.House;
+import s367945.lab2.location.lake.Lake;
 import s367945.lab2.location.moon.Moon;
 import s367945.lab2.location.mythiccountry.MythicCountry;
 import s367945.lab2.location.tropicalgarden.TropicalGarden;
@@ -25,7 +27,7 @@ import s367945.lab2.youngking.YoungKing;
 
 public class Main {
     public static void main(String[] args) {
-        Consumer<String> print = System.out::println;
+        testLogic();
     }
 
     public static void testLogic() {
@@ -52,7 +54,10 @@ public class Main {
 
         ahmatova.listen(gumilov.say());
 
+        Lake chadLake = new Lake("Chad lake", new Point(0, 0, 0), 300, 20);
         Giraffe giraffe = new Giraffe(13);
+        // giraffe.die();
+        giraffe.walk(chadLake);
 
         Moon moon = new Moon(new Point(1000000000, 1333131331, 13131313));
         assert moon.getSurface().compareTo(giraffe.getSkinPattern()) < 0;

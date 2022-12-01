@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Random;
 
 import s367945.lab2.animal.human.Human;
-import s367945.lab2.animal.human.interfaces.SadGirl;
 import s367945.lab2.blackmaiden.BlackMaiden;
 import s367945.lab2.body.Body;
 import s367945.lab2.bodypart.bodyparts.Hand;
@@ -22,20 +21,23 @@ import s367945.lab2.structures.sight.Sight;
 import s367945.lab2.youngking.YoungKing;
 
 public class BlackMaiden extends Human {
+    protected static class BlackMaidenBody extends Body {
+        public BlackMaidenBody() {
+            super(new Point(), new Pattern(2, 6),
+                    new Head(3, Appearance.GORGEOUS), new Neck(3, Appearance.ATTRACTIVE),
+                    new Leg(3, Appearance.ATTRACTIVE), new Leg(3, Appearance.ATTRACTIVE),
+                    new Hand(3, Appearance.ATTRACTIVE), new Hand(3, Appearance.ATTRACTIVE),
+                    new Torso(3, Appearance.PRETTY));
+        }
+    }
+
     public BlackMaiden() {
         super(23, 6, "Anonymous girl", Gender.WOMEN, Personality.TRICKY);
     }
 
     @Override
     protected Body buildBody() {
-        Body body = new Body(
-                new Point(), new Pattern(2, 6),
-                new Head(3, Appearance.GORGEOUS), new Neck(3, Appearance.ATTRACTIVE),
-                new Leg(3, Appearance.ATTRACTIVE), new Leg(3, Appearance.ATTRACTIVE),
-                new Hand(3, Appearance.ATTRACTIVE), new Hand(3, Appearance.ATTRACTIVE),
-                new Torso(3, Appearance.PRETTY));
-
-        return body;
+        return new BlackMaidenBody();
     }
 
     @Override

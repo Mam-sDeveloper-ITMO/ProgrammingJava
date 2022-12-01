@@ -20,6 +20,16 @@ import s367945.lab2.structures.point.Point;
 import s367945.lab2.structures.sight.Sight;
 
 public class Gumilov extends Human implements Narrator {
+    protected static class GumilovBody extends Body {
+        public GumilovBody() {
+            super(new Point(), new Pattern(1, 2),
+                    new Head(2, Appearance.COMMON), new Neck(2, Appearance.COMMON),
+                    new Leg(2, Appearance.COMMON), new Leg(2, Appearance.COMMON),
+                    new Hand(2, Appearance.WELL_BUILT), new Hand(2, Appearance.WELL_BUILT),
+                    new Torso(2, Appearance.WELL_BUILT));
+        }
+    }
+
     private HashSet<String> stories;
 
     public Gumilov() {
@@ -29,14 +39,7 @@ public class Gumilov extends Human implements Narrator {
 
     @Override
     protected Body buildBody() {
-        Body body = new Body(
-                new Point(), new Pattern(1, 2),
-                new Head(2, Appearance.COMMON), new Neck(2, Appearance.COMMON),
-                new Leg(2, Appearance.COMMON), new Leg(2, Appearance.COMMON),
-                new Hand(2, Appearance.WELL_BUILT), new Hand(2, Appearance.WELL_BUILT),
-                new Torso(2, Appearance.WELL_BUILT));
-
-        return body;
+        return new GumilovBody();
     }
 
     @Override

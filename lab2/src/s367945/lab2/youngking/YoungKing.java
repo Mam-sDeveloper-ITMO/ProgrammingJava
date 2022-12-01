@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Random;
 
 import s367945.lab2.animal.human.Human;
-import s367945.lab2.animal.human.interfaces.SadGirl;
 import s367945.lab2.blackmaiden.BlackMaiden;
 import s367945.lab2.body.Body;
 import s367945.lab2.bodypart.bodyparts.Hand;
@@ -21,6 +20,16 @@ import s367945.lab2.structures.point.Point;
 import s367945.lab2.structures.sight.Sight;
 
 public class YoungKing extends Human {
+    protected static class YoungKingBody extends Body {
+        public YoungKingBody() {
+            super(new Point(), new Pattern(2, 6),
+                    new Head(3, Appearance.STRONG), new Neck(3, Appearance.STRONG),
+                    new Leg(3, Appearance.STRONG), new Leg(3, Appearance.STRONG),
+                    new Hand(3, Appearance.STRONG), new Hand(3, Appearance.STRONG),
+                    new Torso(3, Appearance.STRONG));
+        }
+    }
+
     public YoungKing() {
         super(18, 6, "King of Mysterious Grounds Umputun III",
                 Gender.MAN, Personality.PASSIONATE, Personality.NARCISSISTIC);
@@ -28,14 +37,7 @@ public class YoungKing extends Human {
 
     @Override
     protected Body buildBody() {
-        Body body = new Body(
-                new Point(), new Pattern(2, 6),
-                new Head(3, Appearance.STRONG), new Neck(3, Appearance.STRONG),
-                new Leg(3, Appearance.STRONG), new Leg(3, Appearance.STRONG),
-                new Hand(3, Appearance.STRONG), new Hand(3, Appearance.STRONG),
-                new Torso(3, Appearance.STRONG));
-
-        return body;
+        return new YoungKingBody();
     }
 
     @Override
