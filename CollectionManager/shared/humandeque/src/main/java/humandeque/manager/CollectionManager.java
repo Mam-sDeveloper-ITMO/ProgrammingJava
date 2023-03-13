@@ -1,5 +1,7 @@
 package humandeque.manager;
 
+import java.io.IOException;
+
 import humandeque.HumanDeque;
 import models.Human;
 
@@ -41,14 +43,14 @@ public abstract class CollectionManager {
     /**
      * Load collection from storage
      */
-    public void load() {
+    public void load() throws IOException {
         collection = storage.load();
     }
 
     /**
      * Save collection to storage
      */
-    public void save() {
+    public void save() throws IOException {
         storage.save(collection);
     }
 
