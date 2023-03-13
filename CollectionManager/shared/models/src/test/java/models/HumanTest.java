@@ -1,22 +1,52 @@
 package models;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class HumanTest {
-    // test creation of human with all fields
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Test
-    public void testHumanCreation() {
-        Human human = new Human();
-        human.setId(1);
-        human.setName("name");
-        // human.setCoordinates(new Coordinates());
-        human.setCreationDate(java.time.LocalDateTime.now());
-        human.setRealHero(true);
-        human.setHasToothpick(true);
-        human.setImpactSpeed(1.0);
-        human.setSoundtrackName("soundtrackName");
-        human.setMinutesOfWaiting(1.0f);
-        // human.setMood(new Mood());
-        // human.setCar(new Car());
+    public void testHumanConstructor() {
+        Human human = new Human(
+                "TestName",
+                new Coordinates(1.0f, 2.0f),
+                "Civilian Defense",
+                new Car("TestCar"));
+    }
+
+    @Test
+    public void testHumanBuilderAllField() {
+        Human human = Human.builder()
+                .name("TestName")
+                .coordinates(new Coordinates(1.0f, 2.0f))
+                .creationDate(null)
+                .realHero(true)
+                .hasToothpick(false)
+                .impactSpeed(1.0)
+                .soundtrackName("Civilian Defense")
+                .minutesOfWaiting(1.0f)
+                .mood(Mood.SADNESS)
+                .car(new Car("TestCar"))
+                .build();
+    }
+
+    @Test
+    public void testHumanWrongName() {
+        exception.expect(IllegalArgumentException.class);
+        Human human = Human.builder()
+                .name("")
+                .coordinates(new Coordinates(1.0f, 2.0f))
+                .creationDate(null)
+                .realHero(true)
+                .hasToothpick(false)
+                .impactSpeed(1.0)
+                .soundtrackName("Civilian Defense")
+                .minutesOfWaiting(1.0f)
+                .mood(Mood.SADNESS)
+                .car(new Car("TestCar"))
+                .build();
     }
 }
