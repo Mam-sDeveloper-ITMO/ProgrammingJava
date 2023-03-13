@@ -19,7 +19,7 @@ public abstract class CollectionManager {
      * 
      * @param element
      */
-    public abstract void add();
+    public abstract void add(Human element);
 
     /**
      * Update element in collection by id.
