@@ -1,5 +1,7 @@
 package humandeque.manager;
 
+import java.io.IOException;
+
 import humandeque.HumanDeque;
 
 /**
@@ -12,10 +14,10 @@ public interface CollectionStorage {
      * 
      * @param collection
      */
-    void save(HumanDeque collection);
+    void save(HumanDeque collection) throws IOException;
 
     /**
      * Load collection from storage
      */
-    HumanDeque load();
+    HumanDeque load() throws IOException;
 }
