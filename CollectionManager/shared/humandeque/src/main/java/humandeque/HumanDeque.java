@@ -5,7 +5,6 @@ import java.util.ArrayDeque;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 import models.Human;
 
 /**
@@ -17,6 +16,24 @@ import models.Human;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HumanDeque extends ArrayDeque<Human> {
-    @NonNull
-    private final LocalDateTime createTime = LocalDateTime.now();
+    private LocalDateTime createTime;
+
+    /**
+     * Constructor for new empty collection.
+     */
+    public HumanDeque() {
+        super();
+        createTime = LocalDateTime.now();
+    }
+
+    /**
+     * Constructor for existed collection.
+     * 
+     * @param createTime
+     * @param arrayDeque
+     */
+    public HumanDeque(LocalDateTime createTime, ArrayDeque<Human> arrayDeque) {
+        super(arrayDeque);
+        this.createTime = createTime;
+    }
 }
