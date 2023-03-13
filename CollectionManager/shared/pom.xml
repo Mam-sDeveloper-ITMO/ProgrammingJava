@@ -8,6 +8,7 @@
         <artifactId>collection-manager</artifactId>
         <version>1.0</version>
     </parent>
+
     <artifactId>shared</artifactId>
     <packaging>pom</packaging>
     <name>Shared project packages</name>

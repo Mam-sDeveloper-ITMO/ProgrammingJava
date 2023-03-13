@@ -12,12 +12,6 @@
     <name>Human Deque</name>
     <description>Linked deque of Human objects collection and managment utils.</description>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>mamsdeveloper.itmo</groupId>
