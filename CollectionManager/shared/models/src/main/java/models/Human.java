@@ -20,9 +20,9 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class Human implements Comparable<Human>{
+public class Human implements Comparable<Human> {
     @Builder.Default
-    private long id = (new Random()).nextLong(0, Long.MAX_VALUE);
+    private long id = (new Random()).nextLong(1, Long.MAX_VALUE);
 
     @NonNull
     private String name;
@@ -61,6 +61,7 @@ public class Human implements Comparable<Human>{
             throw new IllegalArgumentException();
         }
 
+        this.id = id;
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = creationDate;
