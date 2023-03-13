@@ -33,7 +33,7 @@ public abstract class CollectionManager {
      * 
      * @param id
      */
-    public abstract void remove(int id);
+    public abstract void remove(long id);
 
     /**
      * Remove all items in collection
