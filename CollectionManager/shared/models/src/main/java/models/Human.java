@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class Human {
+public class Human implements Comparable<Human>{
     @Builder.Default
     private long id = (new Random()).nextLong(0, Long.MAX_VALUE);
 
@@ -71,5 +71,10 @@ public class Human {
         this.minutesOfWaiting = minutesOfWaiting;
         this.mood = mood;
         this.car = car;
+    }
+
+    @Override
+    public int compareTo(Human o) {
+        return this.impactSpeed - o.impactSpeed > 0 ? 1 : -1;
     }
 }
