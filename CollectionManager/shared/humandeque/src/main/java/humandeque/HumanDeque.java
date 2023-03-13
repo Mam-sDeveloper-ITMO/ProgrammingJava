@@ -29,11 +29,9 @@ public class HumanDeque extends ArrayDeque<Human> {
     /**
      * Constructor for existed collection.
      * 
-     * @param createTime
      * @param arrayDeque
      */
-    public HumanDeque(LocalDateTime createTime, ArrayDeque<Human> arrayDeque) {
-        super(arrayDeque);
-        this.createTime = createTime;
+    public HumanDeque(ArrayDeque<Human> arrayDeque) {
+        this();
     }
 }

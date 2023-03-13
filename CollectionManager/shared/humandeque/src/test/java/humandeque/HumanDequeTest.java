@@ -18,10 +18,10 @@ public class HumanDequeTest {
     }
 
     @Test
-    public void testNewConstructorWithTime() {
+    public void testExistedConstructor() {
         HumanDeque humanDeque = new HumanDeque();
         humanDeque.add(new Human("TestName", new Coordinates(0.f, 0.f), "Civilian Defense", new Car("Tets car")));
-        HumanDeque humanDeque2 = new HumanDeque(humanDeque.getCreateTime(), humanDeque);
+        HumanDeque humanDeque2 = new HumanDeque(humanDeque);
         assertNotEquals(humanDeque, humanDeque2);
     }
 
@@ -31,7 +31,7 @@ public class HumanDequeTest {
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
-            
+
         }
         HumanDeque humanDeque2 = new HumanDeque();
         assertNotEquals(humanDeque1.getCreateTime(), humanDeque2.getCreateTime());
