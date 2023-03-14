@@ -5,10 +5,13 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import humandeque.manager.exceptions.ElementAlreadyExists;
 import humandeque.manager.local.LocalManager;
+import lombok.SneakyThrows;
 import models.Car;
 import models.Coordinates;
 import models.Human;
@@ -17,17 +20,18 @@ import models.Mood;
 public class LocalManagerTest {
     File resourcesDirectory = new File("src/test/resources/humandeque");
     LocalManager manager;
+    
     Human testHuman = Human.builder()
-            .name("test")
-            .coordinates(new Coordinates(1.f, 1.f))
-            .realHero(true)
-            .hasToothpick(true)
+    .name("test")
+    .coordinates(new Coordinates(1.f, 1.f))
+    .realHero(true)
+    .hasToothpick(true)
             .impactSpeed(1)
             .minutesOfWaiting(1.f)
             .mood(Mood.FRENZY)
             .car(new Car("testCar"))
             .build();
-
+            
     @Before
     @Test
     public void setUp() throws Exception {
@@ -42,12 +46,33 @@ public class LocalManagerTest {
     }
 
     @Test
+    public void testAddWithException() {
+        try {
+            manager.add(testHuman);
+            manager.add(testHuman);
+            Assert.fail("ElementAlreadyExists exception should be thrown");
+        } catch (ElementAlreadyExists e) {
+        }
+    }
+
+    @Test
+    @SneakyThrows
     public void testAdd() {
         manager.add(testHuman);
         assertNotEquals(manager.getCollection().size(), 0);
     }
 
     @Test
+    public void testRemoveWithExceptions() {
+        try {
+            manager.remove(0);
+            Assert.fail("ElementNotExists exception should be thrown");
+        } catch (Exception e) {
+        }
+    }
+
+    @Test
+    @SneakyThrows
     public void testRemove() {
         manager.add(testHuman);
         manager.remove(testHuman.getId());
@@ -55,6 +80,16 @@ public class LocalManagerTest {
     }
 
     @Test
+    public void testUpdateWithExceptions() {
+        try {
+            manager.update(testHuman);
+            Assert.fail("ElementNotExists exception should be thrown");
+        } catch (Exception e) {
+        }
+    }
+    
+    @Test
+    @SneakyThrows
     public void testUpdate() {
         manager.add(testHuman);
         Human updatedHuman = Human.builder()
@@ -72,6 +107,7 @@ public class LocalManagerTest {
     }
 
     @Test
+    @SneakyThrows
     public void testClear() {
         manager.add(testHuman);
         manager.clear();
@@ -79,6 +115,7 @@ public class LocalManagerTest {
     }
 
     @Test
+    @SneakyThrows
     public void testSave() {
         manager.add(testHuman);
         try {

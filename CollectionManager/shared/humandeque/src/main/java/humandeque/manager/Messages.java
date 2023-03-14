@@ -14,5 +14,6 @@ public class Messages {
                 "humandeque.manager.exceptions");
 
         public static final String ELEMENT_NOT_EXISTS = EXCEPTIONS_BUNDLE.getString("ElementNotExists");
+        public static final String ELEMENT_ALREADY_EXISTS = EXCEPTIONS_BUNDLE.getString("ElementAlreadyExists");
     }
 }
