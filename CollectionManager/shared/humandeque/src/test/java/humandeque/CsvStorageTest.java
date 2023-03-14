@@ -1,8 +1,5 @@
 package humandeque;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
 import java.io.File;
 
 import org.junit.Test;
@@ -42,7 +39,7 @@ public class CsvStorageTest {
                 .mood(Mood.SADNESS)
                 .car(new Car("TestCar"))
                 .build();
-        
+
         collection.add(human);
         collection.add(human2);
 
