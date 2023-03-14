@@ -16,5 +16,6 @@
     <modules>
         <module>models</module>
         <module>humandeque</module>
+        <module>commands</module>
     </modules>
 </project>
