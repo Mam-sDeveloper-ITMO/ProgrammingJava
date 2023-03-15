@@ -29,6 +29,11 @@ public abstract class Command {
     private final RequirementsPipeline pipeline;
 
     /**
+     * Can be utilized for passing messages from command toe external source.
+     */
+    private final OutputChannel output;
+
+    /**
      * Can be utilized for validating params for command constructor.
      */
     public List<Requirement<?>> getStaticRequirements() {
