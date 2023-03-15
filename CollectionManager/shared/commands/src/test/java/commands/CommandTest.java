@@ -12,8 +12,8 @@ import commands.requirements.validators.common.IntegerValidator;
 
 public class CommandTest {
     class CommandImpl extends Command {
-        public CommandImpl(Float age, RequirementsPipeline pipeline) {
-            super("Test command", "test descr" + age, pipeline);
+        public CommandImpl(Float age) {
+            super("Test command", "test descr" + age);
         }
 
         @Override
@@ -22,11 +22,11 @@ public class CommandTest {
         }
 
         @Override
-        public void execute() throws ExecutionError {
+        public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
             try {
-                System.out.println(
-                        getPipeline()
-                                .askRequirement(new Requirement<>("Integer", "Some Integer", new IntegerValidator())));
+                Integer age = pipeline
+                        .askRequirement(new Requirement<Integer>("Integer", "Some Integer", new IntegerValidator()));
+                output.putString(age.toString());
             } catch (Exception e) {
                 throw new ExecutionError("Failed to execute command", e);
             }
@@ -46,7 +46,7 @@ public class CommandTest {
 
     @Test
     public void test() {
-        CommandImpl command = new CommandImpl(1.0f, new RequirementsPipeline(new RequirementsProcessorImpl()));
-        command.execute();
+        CommandImpl command = new CommandImpl(1.0f);
+        command.execute(new RequirementsPipeline(new RequirementsProcessorImpl()), System.out::println);
     }
 }
