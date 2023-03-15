@@ -1,108 +1,57 @@
 package commands;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import java.util.function.Consumer;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
-import commands.requirements.Validator;
-import commands.requirements.exceptions.ValidationError;
+import commands.requirements.RequirementsProcessor;
+import commands.requirements.exceptions.RequirementAskFailed;
 
 public class RequirementsPipelineTest {
-    @Test
-    public void testAskRequirement() throws ValidationError {
-        // create a mock processor
-        Consumer<Requirement<?>> mockProcessor = requirement -> {
-            // verify that the processor was called with the input requirement
-            assertEquals("name", requirement.getName());
-            assertEquals("description", requirement.getDescription());
-            assertNull(requirement.getValue());
-        };
 
-        // create a requirement with a mock validator
-        Validator<String> mockValidator = value -> value != null ? value.toString() : null;
-        Requirement<String> requirement = new Requirement<>("name", "description", mockValidator);
+    private static class MockProcessor implements RequirementsProcessor {
 
-        // create the pipeline with the mock processor
-        RequirementsPipeline pipeline = new RequirementsPipeline(mockProcessor);
+        @Override
+        public <T> T processRequirement(Requirement<T> requirement) throws RequirementAskFailed {
+            return (T) "test";
+        }
 
-        // call askRequirement and verify that the processor was called with the
-        // requirement
-        Requirement<String> result = pipeline.askRequirement(requirement);
+    }
 
-        // verify that the result is the same as the input requirement
-        assertEquals(requirement, result);
+    private static class MockIncorrectProcessor implements RequirementsProcessor {
+
+        @Override
+        public <T> T processRequirement(Requirement<T> requirement) throws Exception {
+            throw new IllegalArgumentException();
+        }
+
     }
 
     @Test
-    public void testAskRequirementWithValidator() throws ValidationError {
-        // create a mock processor
-        Consumer<Requirement<?>> mockProcessor = requirement -> {
-            // verify that the processor was called with the input requirement
-            try {
-                requirement.setValue("valid");
-            } catch (Exception e) {
-                // unreachable
-            }
+    public void testAskRequirementWithValidRequirement() throws RequirementAskFailed, RequirementAskFailed {
+        RequirementsProcessor processor = new MockProcessor();
+        RequirementsPipeline pipeline = new RequirementsPipeline(processor);
 
-            assertEquals("name", requirement.getName());
-            assertEquals("description", requirement.getDescription());
-            assertEquals("valid", requirement.getValue());
-        };
-
-        // create a requirement with a real validator
-        Validator<String> validator = value -> {
-            if (value instanceof String) {
-                return (String) value;
-            } else {
-                throw new ValidationError(value, String.class, "Value is not a string");
-            }
-        };
-        Requirement<String> requirement = new Requirement<>("name", "description", validator);
-
-        // create the pipeline with the mock processor
-        RequirementsPipeline pipeline = new RequirementsPipeline(mockProcessor);
-
-        // call askRequirement with a valid value and verify that the processor was
-        // called with the requirement
-        Requirement<String> result = pipeline.askRequirement(requirement);
-
-        // verify that the result is the same as the input requirement
-        assertEquals(requirement, result);
+        Requirement<String> requirement = new Requirement<>("name", "description", value -> value.toString());
+        String value = pipeline.askRequirement(requirement);
+        assertEquals("test", value);
     }
 
     @Test
-    public void testAskRequirementWithInvalidValue() {
+    public void testAskRequirementWithInvalidRequirement() {
+        RequirementsProcessor processor = new MockIncorrectProcessor();
+        RequirementsPipeline pipeline = new RequirementsPipeline(processor);
+
+        Requirement<String> requirement = new Requirement<>("name", "description", value -> value.toString());
         try {
-            // create a requirement with a real validator
-            Validator<String> validator = value -> {
-                if (value instanceof String) {
-                    return (String) value;
-                } else {
-                    throw new ValidationError(value, String.class, "Value is not a string");
-                }
-            };
-            Requirement<String> requirement = new Requirement<>("name", "description", validator);
-
-            // create the pipeline with a mock processor
-            Consumer<Requirement<?>> mockProcessor = req -> {
-            };
-            RequirementsPipeline pipeline = new RequirementsPipeline(mockProcessor);
-
-            // call askRequirement with an invalid value and verify that a ValidationError
-            // is thrown
-            requirement = pipeline.askRequirement(requirement);
-            if (requirement.getValue() == null) {
-                throw new ValidationError(requirement.getValue(), String.class, "Value is not a string");
-            }
-            Assert.fail("Expected a ValidationError to be thrown");
-        } catch (ValidationError e) {
-            // verify that the processor was not called
+            pipeline.askRequirement(requirement);
+            Assert.fail("Expected a RequirementAskFailed to be thrown");
+        } catch (RequirementAskFailed e) {
+            // expected
         }
     }
+
 }

@@ -10,78 +10,41 @@ import commands.requirements.Validator;
 import commands.requirements.exceptions.ValidationError;
 
 public class RequirementTest {
-
-    // String Requirement Tests
-
     @Test
-    public void testStringRequirementWithValidValue() throws ValidationError {
-        Validator<String> stringValidator = value -> {
-            if (!(value instanceof String)) {
+    public void testGetValueWithValidValue() throws ValidationError {
+        // create a requirement with a real validator
+        Validator<String> validator = value -> {
+            if (value instanceof String) {
+                return (String) value;
+            } else {
                 throw new ValidationError(value, String.class, "Value is not a string");
             }
-            return (String) value;
         };
+        Requirement<String> requirement = new Requirement<>("name", "description", validator);
 
-        Requirement<String> stringRequirement = new Requirement<>("name", "description", stringValidator);
-
-        String validValue = "hello";
-        stringRequirement.setValue(validValue);
-        assertEquals(validValue, stringRequirement.getValue());
+        // call getValue with a valid value and verify that the result is correct
+        String result = requirement.getValue("valid");
+        assertEquals("valid", result);
     }
 
     @Test
-    public void testStringRequirementWithInvalidValue() {
-        Validator<String> stringValidator = value -> {
-            if (!(value instanceof String)) {
+    public void testGetValueWithInvalidValue() {
+        // create a requirement with a real validator
+        Validator<String> validator = value -> {
+            if (value instanceof String) {
+                return (String) value;
+            } else {
                 throw new ValidationError(value, String.class, "Value is not a string");
             }
-            return (String) value;
         };
+        Requirement<String> requirement = new Requirement<>("name", "description", validator);
 
-        Requirement<String> stringRequirement = new Requirement<>("name", "description", stringValidator);
-
-        Object invalidValue = 123;
+        // call getValue with an invalid value and verify that a ValidationError is thrown
         try {
-            stringRequirement.setValue(invalidValue);
+            requirement.getValue(123);
             fail("Expected a ValidationError to be thrown");
         } catch (ValidationError e) {
-        }
-    }
-
-    // Integer Requirement Tests
-
-    @Test
-    public void testIntegerRequirementWithValidValue() throws ValidationError {
-        Validator<Integer> integerValidator = value -> {
-            if (!(value instanceof Integer)) {
-                throw new ValidationError(value, Integer.class, "Value is not an integer");
-            }
-            return (Integer) value;
-        };
-
-        Requirement<Integer> integerRequirement = new Requirement<>("name", "description", integerValidator);
-
-        Integer validValue = 123;
-        integerRequirement.setValue(validValue);
-        assertEquals(validValue, integerRequirement.getValue());
-    }
-
-    @Test
-    public void testIntegerRequirementWithInvalidValue() {
-        Validator<Integer> integerValidator = value -> {
-            if (!(value instanceof Integer)) {
-                throw new ValidationError(value, Integer.class, "Value is not an integer");
-            }
-            return (Integer) value;
-        };
-
-        Requirement<Integer> integerRequirement = new Requirement<>("name", "description", integerValidator);
-
-        Object invalidValue = "hello";
-        try {
-            integerRequirement.setValue(invalidValue);
-            fail("Expected a ValidationError to be thrown");
-        } catch (ValidationError e) {
+            // expected
         }
     }
 }

@@ -1,32 +1,34 @@
 package commands.requirements;
 
 import commands.requirements.exceptions.ValidationError;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
- * Requirement encapsulates one Command params and it validation.
+ * Requirement encapsulates one Command param and it validation.
  * 
  * Can be used for providing command context from outer sources.
  * 
+
  * @param <T> type of requirement value
  */
-@Data
+@RequiredArgsConstructor
 public class Requirement<T> {
+    @Getter
     private final String name;
 
+    @Getter
     private final String description;
 
     private final Validator<T> validator;
 
-    private T value;
-
     /**
-     * Validate and set value if possible.
+     * Validate and return value if possible.
      * 
      * @param value
      * @throws ValidationError
      */
-    public void setValue(Object value) throws ValidationError {
-        this.value = validator.validate(value);
+    public T getValue(Object value) throws ValidationError {
+        return validator.validate(value);
     }
 }

@@ -14,5 +14,6 @@ public class Messages {
                 "commands.requirements.exceptions");
 
         public static final String VALIDATION_ERROR = EXCEPTIONS_BUNDLE.getString("ValidationError");
+        public static final String REQUIREMENT_ASK_FAILED = EXCEPTIONS_BUNDLE.getString("RequirementAskFailed");
     }
 }

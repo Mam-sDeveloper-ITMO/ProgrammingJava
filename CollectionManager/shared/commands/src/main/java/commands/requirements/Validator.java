@@ -13,6 +13,7 @@ public interface Validator<T> {
      * If valid, return value of <T> type.
      * Except throws ValidationError
      * 
+     * @param value - value to validate
      */
     T validate(Object value) throws ValidationError;
 }
