@@ -9,13 +9,18 @@ import lombok.Data;
 
 /**
  * Represent abstract command.
+ * 
  * It encapsulate action and requirements for action execution.
+ * 
+ * Command object acts like dispatcher and you need have only one Command
+ * instance for each command type (but different for each thread)
  * 
  * Consists static and dynamic requirements.
  * 
- * Static requirements are specified on command creation.
+ * Static requirements are requirements that will be necessary asked in begging
+ * of command execution.
  * 
- * Dynamic requirements are passed during command execution.
+ * Dynamic requirements are optionally asked during command execution.
  */
 @Data
 public abstract class Command {
@@ -24,17 +29,9 @@ public abstract class Command {
     private final String description;
 
     /**
-     * Can be utilized for dynamic supplying of requirements.
-     */
-    private final RequirementsPipeline pipeline;
-
-    /**
-     * Can be utilized for passing messages from command toe external source.
-     */
-    private final OutputChannel output;
-
-    /**
-     * Can be utilized for validating params for command constructor.
+     * Return list of static requirements.
+     * 
+     * In CLI can be used for inline params, in GUI can be used for text fields.
      */
     public List<Requirement<?>> getStaticRequirements() {
         return List.of();
@@ -42,6 +39,13 @@ public abstract class Command {
 
     /**
      * Execute command action.
+     * 
+     * Invoke pipeline and output during execution.
+     * 
+     * @param pipeline - Supplier of requirements from external source
+     * @param output   - Output channel for text messages from command. That
+     *                 messages should not be
+     *                 ignored and can be useful for user.
      */
-    abstract public void execute() throws ExecutionError;
+    abstract public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError;
 }
