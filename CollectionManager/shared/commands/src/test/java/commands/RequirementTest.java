@@ -6,8 +6,8 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import commands.requirements.Requirement;
-import commands.requirements.Validator;
 import commands.requirements.exceptions.ValidationError;
+import commands.requirements.validators.Validator;
 
 public class RequirementTest {
     @Test

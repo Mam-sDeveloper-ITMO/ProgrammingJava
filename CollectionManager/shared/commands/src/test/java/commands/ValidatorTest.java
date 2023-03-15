@@ -1,10 +1,18 @@
 package commands;
 
+import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDateTime;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import commands.requirements.Validator;
 import commands.requirements.exceptions.ValidationError;
+import commands.requirements.validators.Validator;
+import commands.requirements.validators.common.DateTimeValidator;
+import commands.requirements.validators.common.DoubleValidator;
+import commands.requirements.validators.common.FloatValidator;
+import commands.requirements.validators.common.IntegerValidator;
 
 public class ValidatorTest {
     /**
@@ -64,6 +72,73 @@ public class ValidatorTest {
             Integer result = validator.validate(10);
         } catch (ValidationError e) {
             Assert.fail("Should not throw ValidationError");
+        }
+    }
+
+    @Test
+    public void testIntegerValidator() {
+        Validator<Integer> validator = new IntegerValidator();
+        Integer value;
+        try {
+            value = validator.validate("1");
+            assertEquals(1, value.intValue());
+
+            value = validator.validate(1);
+            assertEquals(1, value.intValue());
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    @Test
+    public void testFloatValidator() {
+        Validator<Float> validator = new FloatValidator();
+        Float value;
+        try {
+            value = validator.validate("1.1");
+            assertEquals(1.1f, value, 0.0001);
+
+            value = validator.validate(1.1f);
+            assertEquals(1.1f, value, 0.0001);
+        } catch (Exception e) {
+        }
+    }
+
+    @Test
+    public void testDoubleValidator() {
+        Validator<Double> validator = new DoubleValidator();
+        Double value;
+        try {
+            value = validator.validate("1");
+            assertEquals(1.0, value, 0.0001);
+
+            value = validator.validate(1.0d);
+            assertEquals(1.0, value, 0.0001);
+        } catch (Exception e) {
+        }
+    }
+
+    @Test
+    public void testDateTimeValidator() {
+        Validator<LocalDateTime> validator = new DateTimeValidator();
+        LocalDateTime value;
+        try {
+            value = validator.validate("2017-01-01 00:00:00");
+            assertEquals(2017, value.getYear());
+            assertEquals(1, value.getMonthValue());
+            assertEquals(1, value.getDayOfMonth());
+            assertEquals(0, value.getHour());
+            assertEquals(0, value.getMinute());
+            assertEquals(0, value.getSecond());
+
+            value = validator.validate("2017-01-01 00:00:00.000");
+            assertEquals(2017, value.getYear());
+            assertEquals(1, value.getMonthValue());
+            assertEquals(1, value.getDayOfMonth());
+            assertEquals(0, value.getHour());
+            assertEquals(0, value.getMinute());
+            assertEquals(0, value.getSecond());
+        } catch (Exception e) {
         }
     }
 }

@@ -1,6 +1,7 @@
 package commands.requirements;
 
 import commands.requirements.exceptions.ValidationError;
+import commands.requirements.validators.Validator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,7 +10,6 @@ import lombok.RequiredArgsConstructor;
  * 
  * Can be used for providing command context from outer sources.
  * 
-
  * @param <T> type of requirement value
  */
 @RequiredArgsConstructor

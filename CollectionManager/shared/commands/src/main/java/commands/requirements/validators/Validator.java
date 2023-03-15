@@ -1,4 +1,4 @@
-package commands.requirements;
+package commands.requirements.validators;
 
 import commands.requirements.exceptions.ValidationError;
 
