@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import humandeque.manager.exceptions.ElementAlreadyExists;
+import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.local.LocalManager;
 import lombok.SneakyThrows;
 import models.Car;
@@ -51,7 +51,7 @@ public class LocalManagerTest {
             manager.add(testHuman);
             manager.add(testHuman);
             Assert.fail("ElementAlreadyExists exception should be thrown");
-        } catch (ElementAlreadyExists e) {
+        } catch (ElementAlreadyExistsError e) {
         }
     }
 

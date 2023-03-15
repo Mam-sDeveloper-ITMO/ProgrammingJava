@@ -1,8 +1,8 @@
 package humandeque.manager.local;
 
 import humandeque.manager.CollectionManager;
-import humandeque.manager.exceptions.ElementAlreadyExists;
-import humandeque.manager.exceptions.ElementNotExists;
+import humandeque.manager.exceptions.ElementAlreadyExistsError;
+import humandeque.manager.exceptions.ElementNotExistsError;
 import models.Human;
 
 /**
@@ -26,17 +26,17 @@ public class LocalManager extends CollectionManager {
     }
 
     @Override
-    public void add(Human element) throws ElementAlreadyExists {
+    public void add(Human element) throws ElementAlreadyExistsError {
         for (Human human : collection) {
             if (human.getId() == element.getId()) {
-                throw new ElementAlreadyExists(human.getId());
+                throw new ElementAlreadyExistsError(human.getId());
             }
         }
         collection.add(element);
     }
 
     @Override
-    public void update(Human element) throws ElementNotExists {
+    public void update(Human element) throws ElementNotExistsError {
         for (Human human : collection) {
             if (human.getId() == element.getId()) {
                 human.setName(element.getName());
@@ -51,18 +51,18 @@ public class LocalManager extends CollectionManager {
                 return;
             }
         }
-        throw new ElementNotExists(element.getId());
+        throw new ElementNotExistsError(element.getId());
     }
 
     @Override
-    public void remove(long id) throws ElementNotExists {
+    public void remove(long id) throws ElementNotExistsError {
         for (Human human : collection) {
             if (human.getId() == id) {
                 collection.remove(human);
                 return;
             }
         }
-        throw new ElementNotExists(id);
+        throw new ElementNotExistsError(id);
     }
 
     @Override

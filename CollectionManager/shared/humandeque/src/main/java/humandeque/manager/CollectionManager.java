@@ -3,8 +3,8 @@ package humandeque.manager;
 import java.io.IOException;
 
 import humandeque.HumanDeque;
-import humandeque.manager.exceptions.ElementAlreadyExists;
-import humandeque.manager.exceptions.ElementNotExists;
+import humandeque.manager.exceptions.ElementAlreadyExistsError;
+import humandeque.manager.exceptions.ElementNotExistsError;
 import models.Human;
 
 /**
@@ -20,26 +20,26 @@ public abstract class CollectionManager {
      * Add element to collection if it not already exists.
      * 
      * @param element - element to add
-     * @throws ElementAlreadyExists - if element with id already exists in
+     * @throws ElementAlreadyExistsError - if element with id already exists in
      *                              collection
      */
-    public abstract void add(Human element) throws ElementAlreadyExists;
+    public abstract void add(Human element) throws ElementAlreadyExistsError;
 
     /**
      * Update element in collection by id.
      * 
      * @param element
-     * @throws ElementNotExists - if element with id not exists in collection
+     * @throws ElementNotExistsError - if element with id not exists in collection
      */
-    public abstract void update(Human element) throws ElementNotExists;
+    public abstract void update(Human element) throws ElementNotExistsError;
 
     /**
      * Remove element from collection by id.
      * 
      * @param id - id of element to remove
-     * @throws ElementNotExists - if element with id not exists in collection
+     * @throws ElementNotExistsError - if element with id not exists in collection
      */
-    public abstract void remove(long id) throws ElementNotExists;
+    public abstract void remove(long id) throws ElementNotExistsError;
 
     /**
      * Remove all items in collection

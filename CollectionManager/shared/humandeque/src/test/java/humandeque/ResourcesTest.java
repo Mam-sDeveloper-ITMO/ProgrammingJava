@@ -1,10 +1,9 @@
 package humandeque;
 
+import static humandeque.Messages.Manager.ELEMENT_NOT_EXISTS;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import static humandeque.manager.Messages.Manager.ELEMENT_NOT_EXISTS;
 
 public class ResourcesTest {
     @Test

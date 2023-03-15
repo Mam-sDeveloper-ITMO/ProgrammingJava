@@ -1,4 +1,4 @@
-package humandeque.manager;
+package humandeque;
 
 import java.util.ResourceBundle;
 
@@ -13,7 +13,7 @@ public class Messages {
         private static final ResourceBundle EXCEPTIONS_BUNDLE = ResourceBundle.getBundle(
                 "humandeque.manager.exceptions");
 
-        public static final String ELEMENT_NOT_EXISTS = EXCEPTIONS_BUNDLE.getString("ElementNotExists");
-        public static final String ELEMENT_ALREADY_EXISTS = EXCEPTIONS_BUNDLE.getString("ElementAlreadyExists");
+        public static final String ELEMENT_NOT_EXISTS = EXCEPTIONS_BUNDLE.getString("ElementNotExistsError");
+        public static final String ELEMENT_ALREADY_EXISTS = EXCEPTIONS_BUNDLE.getString("ElementAlreadyExistsError");
     }
 }
