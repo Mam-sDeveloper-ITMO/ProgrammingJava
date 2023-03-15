@@ -2,7 +2,6 @@ package commands.requirements;
 
 import commands.requirements.exceptions.ValidationError;
 import lombok.Data;
-import lombok.NonNull;
 
 /**
  * Requirement encapsulates one Command params and it validation.
