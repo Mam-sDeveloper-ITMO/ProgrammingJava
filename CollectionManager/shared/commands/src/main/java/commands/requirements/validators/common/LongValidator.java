@@ -1,5 +1,7 @@
 package commands.requirements.validators.common;
 
+import static commands.Messages.Validators.LONG_ERROR;
+
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
 
@@ -15,10 +17,10 @@ public class LongValidator implements Validator<Long> {
             try {
                 return Long.parseLong((String) value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, Long.class, "Value is not a long");
+                throw new ValidationError(value, Long.class, LONG_ERROR);
             }
         } else {
-            throw new ValidationError(value, Long.class, "Value is not a long");
+            throw new ValidationError(value, Long.class, LONG_ERROR);
         }
     }
 }

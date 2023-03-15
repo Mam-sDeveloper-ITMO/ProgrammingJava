@@ -1,5 +1,7 @@
 package commands.requirements.validators.common;
 
+import static commands.Messages.Validators.DATETIME_ERROR;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -22,10 +24,10 @@ public class DateTimeValidator implements Validator<LocalDateTime> {
             try {
                 return LocalDateTime.parse((String) value, formatter);
             } catch (DateTimeParseException e) {
-                throw new ValidationError(value, LocalDateTime.class, "Value is not a LocalDateTime");
+                throw new ValidationError(value, LocalDateTime.class, DATETIME_ERROR);
             }
         } else {
-            throw new ValidationError(value, LocalDateTime.class, "Value is not a LocalDateTime");
+            throw new ValidationError(value, LocalDateTime.class, DATETIME_ERROR);
         }
     }
 }

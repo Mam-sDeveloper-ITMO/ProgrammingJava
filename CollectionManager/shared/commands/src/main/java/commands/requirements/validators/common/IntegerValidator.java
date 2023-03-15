@@ -1,7 +1,9 @@
 package commands.requirements.validators.common;
 
+import static commands.Messages.Validators.INTEGER_ERROR;
+
 import commands.requirements.exceptions.ValidationError;
-import commands.requirements.validators.Validator;
+import commands.requirements.validators.Validator;;
 
 /**
  * Provides validation for Integer type from String and Integer
@@ -15,10 +17,10 @@ public class IntegerValidator implements Validator<Integer> {
             try {
                 return Integer.parseInt((String) value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, Integer.class, "Value is not an integer");
+                throw new ValidationError(value, Integer.class, INTEGER_ERROR);
             }
         } else {
-            throw new ValidationError(value, Integer.class, "Value is not an integer");
+            throw new ValidationError(value, Integer.class, INTEGER_ERROR);
         }
     }
 }

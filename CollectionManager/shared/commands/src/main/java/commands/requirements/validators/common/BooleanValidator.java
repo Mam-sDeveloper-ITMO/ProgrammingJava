@@ -1,5 +1,7 @@
 package commands.requirements.validators.common;
 
+import static commands.Messages.Validators.BOOLEAN_ERROR;
+
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
 
@@ -18,7 +20,7 @@ public class BooleanValidator implements Validator<Boolean> {
             } else if (stringValue.equals("false")) {
                 return false;
             } else {
-                throw new ValidationError(value, Boolean.class, "Value is not a boolean");
+                throw new ValidationError(value, Boolean.class, BOOLEAN_ERROR);
             }
         } else {
             throw new ValidationError(value, Boolean.class, "Value is not a boolean");

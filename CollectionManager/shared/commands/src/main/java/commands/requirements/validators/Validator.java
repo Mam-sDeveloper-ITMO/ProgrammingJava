@@ -4,6 +4,8 @@ import commands.requirements.exceptions.ValidationError;
 
 /*
  * Functional interface for validation and converting requirements values.
+ * 
+ * You can also combine validators.
  */
 @FunctionalInterface
 public interface Validator<T> {

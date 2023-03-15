@@ -13,6 +13,7 @@ import commands.requirements.validators.common.DateTimeValidator;
 import commands.requirements.validators.common.DoubleValidator;
 import commands.requirements.validators.common.FloatValidator;
 import commands.requirements.validators.common.IntegerValidator;
+import commands.requirements.validators.common.NotNullValidator;
 
 public class ValidatorTest {
     /**
@@ -138,6 +139,19 @@ public class ValidatorTest {
             assertEquals(0, value.getHour());
             assertEquals(0, value.getMinute());
             assertEquals(0, value.getSecond());
+        } catch (Exception e) {
+        }
+    }
+
+    @Test
+    public void testNotNullValidator() {
+        Validator<Object> validator = new NotNullValidator();
+        try {
+            validator.validate("1");
+            validator.validate(1);
+            validator.validate(1.0);
+            validator.validate(1.0f);
+            validator.validate(LocalDateTime.now());
         } catch (Exception e) {
         }
     }

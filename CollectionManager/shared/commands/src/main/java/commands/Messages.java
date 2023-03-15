@@ -26,4 +26,19 @@ public class Messages {
         public static final String REQUIREMENT_ASK_FAILED = EXCEPTIONS_BUNDLE.getString("RequirementAskFailed");
     }
 
+    /**
+     * Resources of commands.requirements.validators subpackage
+     */
+    public static class Validators {
+        private static final ResourceBundle EXCEPTIONS_BUNDLE = ResourceBundle.getBundle(
+                "commands.requirements.validators");
+
+        public static final String BOOLEAN_ERROR = EXCEPTIONS_BUNDLE.getString("BooleanError");
+        public static final String DOUBLE_ERROR = EXCEPTIONS_BUNDLE.getString("DoubleError");
+        public static final String FLOAT_ERROR = EXCEPTIONS_BUNDLE.getString("FloatError");
+        public static final String INTEGER_ERROR = EXCEPTIONS_BUNDLE.getString("IntegerError");
+        public static final String DATETIME_ERROR = EXCEPTIONS_BUNDLE.getString("DateTimeError");
+        public static final String LONG_ERROR = EXCEPTIONS_BUNDLE.getString("LongError");
+        public static final String NULL_ERROR = EXCEPTIONS_BUNDLE.getString("NullError");
+    }
 }
