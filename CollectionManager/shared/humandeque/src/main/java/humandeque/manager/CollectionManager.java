@@ -81,4 +81,20 @@ public abstract class CollectionManager {
         }
         return false;
     };
+
+    /**
+     * Return element from collection by id.
+     * 
+     * @param id
+     * @return
+     * @throws ElementNotExistsError - if element with id not exists in collection
+     */
+    public Human getElementById(long id) throws ElementNotExistsError {
+        for (Human human : collection) {
+            if (human.getId() == id) {
+                return human;
+            }
+        }
+        throw new ElementNotExistsError(id);
+    }
 }

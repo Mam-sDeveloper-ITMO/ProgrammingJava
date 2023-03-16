@@ -27,42 +27,31 @@ public class LocalManager extends CollectionManager {
 
     @Override
     public void add(Human element) throws ElementAlreadyExistsError {
-        for (Human human : collection) {
-            if (human.getId() == element.getId()) {
-                throw new ElementAlreadyExistsError(human.getId());
-            }
+        if (isElementExists(element.getId())) {
+            throw new ElementAlreadyExistsError(element.getId());
         }
         collection.add(element);
     }
 
     @Override
     public void update(Human element) throws ElementNotExistsError {
-        for (Human human : collection) {
-            if (human.getId() == element.getId()) {
-                human.setName(element.getName());
-                human.setCoordinates(element.getCoordinates());
-                human.setCreationDate(element.getCreationDate());
-                human.setRealHero(element.isRealHero());
-                human.setHasToothpick(element.isHasToothpick());
-                human.setImpactSpeed(element.getImpactSpeed());
-                human.setMinutesOfWaiting(element.getMinutesOfWaiting());
-                human.setMood(element.getMood());
-                human.setCar(element.getCar());
-                return;
-            }
-        }
-        throw new ElementNotExistsError(element.getId());
+        Human human = getElementById(element.getId());
+        human.setName(element.getName());
+        human.setCoordinates(element.getCoordinates());
+        human.setCreationDate(element.getCreationDate());
+        human.setRealHero(element.isRealHero());
+        human.setHasToothpick(element.isHasToothpick());
+        human.setImpactSpeed(element.getImpactSpeed());
+        human.setMinutesOfWaiting(element.getMinutesOfWaiting());
+        human.setMood(element.getMood());
+        human.setCar(element.getCar());
+        return;
     }
 
     @Override
     public void remove(long id) throws ElementNotExistsError {
-        for (Human human : collection) {
-            if (human.getId() == id) {
-                collection.remove(human);
-                return;
-            }
-        }
-        throw new ElementNotExistsError(id);
+        Human human = getElementById(id);
+        collection.remove(human);
     }
 
     @Override
