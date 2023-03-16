@@ -7,7 +7,7 @@ import org.junit.Test;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
-import commands.requirements.RequirementsProcessor;
+import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.validators.common.IntegerValidator;
 
 public class CommandTest {
@@ -33,9 +33,9 @@ public class CommandTest {
         }
     }
 
-    class RequirementsProcessorImpl implements RequirementsProcessor {
+    class RequirementsPipelineImpl implements RequirementsPipeline {
         @Override
-        public <T> T processRequirement(Requirement<T> requirement) throws Exception {
+        public <T> T askRequirement(Requirement<T> requirement) throws RequirementAskError {
             if (requirement.getName().equals("Integer")) {
                 return (T) Integer.valueOf(1);
             }
@@ -47,6 +47,6 @@ public class CommandTest {
     @Test
     public void test() {
         CommandImpl command = new CommandImpl(1.0f);
-        command.execute(new RequirementsPipeline(new RequirementsProcessorImpl()), System.out::println);
+        command.execute(new RequirementsPipelineImpl(), System.out::println);
     }
 }

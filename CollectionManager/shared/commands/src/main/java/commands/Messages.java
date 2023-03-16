@@ -23,7 +23,8 @@ public class Messages {
                 "commands.requirements.exceptions");
 
         public static final String VALIDATION_ERROR = EXCEPTIONS_BUNDLE.getString("ValidationError");
-        public static final String REQUIREMENT_ASK_FAILED = EXCEPTIONS_BUNDLE.getString("RequirementAskFailed");
+        public static final String REQUIREMENT_ASK_ERROR = EXCEPTIONS_BUNDLE.getString("RequirementAskError");
+        public static final String REQUIREMENT_ASK_ERROR_WITH_MESSAGE = EXCEPTIONS_BUNDLE.getString("RequirementAskErrorWithMessage");
     }
 
     /**
