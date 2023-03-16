@@ -1,5 +1,8 @@
 package humandeque.manager.local;
 
+import java.io.IOException;
+
+import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.exceptions.ElementNotExistsError;
@@ -12,9 +15,24 @@ import models.Human;
 public class LocalManager extends CollectionManager {
     private String filePath;
 
-    public LocalManager(String filePath) {
+    /**
+     * Create new LocalManager with empty collection
+     */
+    public LocalManager() {
+        super();
+        collection = new HumanDeque();
+    }
+
+    /**
+     * Create new LocalManager with collection from csv file
+     * 
+     * @param filePath - path to csv file
+     * @throws IOException
+     */
+    public LocalManager(String filePath) throws IOException {
         this.filePath = filePath;
         storage = new CsvStorage(filePath);
+        load();
     }
 
     public String getFilePath() {
