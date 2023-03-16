@@ -7,6 +7,9 @@ import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 
+/**
+ * That command shows information about collection.
+ */
 public class ShowCommand extends CollectionCommand {
     public ShowCommand(CollectionManager collectionManager) {
         super(Messages.ShowCommand.NAME, Messages.ShowCommand.DESCRIPTION, collectionManager);

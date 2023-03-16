@@ -9,6 +9,9 @@ import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import models.Human;
 
+/**
+ * That command adds new element to collection.
+ */
 public class AddElementCommand extends ElementCommand {
     public AddElementCommand(CollectionManager collectionManager) {
         super(Messages.AddElementCommand.NAME, Messages.AddElementCommand.DESCRIPTION, collectionManager);

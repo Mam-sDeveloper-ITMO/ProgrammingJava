@@ -9,6 +9,9 @@ import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 
+/**
+ * That command shows information about collection.
+ */
 public class InfoCommand extends CollectionCommand {
     public InfoCommand(CollectionManager collectionManager) {
         super(Messages.InfoCommand.NAME, Messages.InfoCommand.DESCRIPTION, collectionManager);

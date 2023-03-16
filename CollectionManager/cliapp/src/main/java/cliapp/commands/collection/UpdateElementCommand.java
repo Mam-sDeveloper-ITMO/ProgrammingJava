@@ -13,6 +13,9 @@ import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementNotExistsError;
 import models.Human;
 
+/**
+ * That command updates element in collection.
+ */
 public class UpdateElementCommand extends ElementCommand {
     public UpdateElementCommand(CollectionManager collectionManager) {
         super(Messages.UpdateElementCommand.NAME, Messages.UpdateElementCommand.DESCRIPTION, collectionManager);
