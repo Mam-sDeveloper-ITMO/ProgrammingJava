@@ -48,6 +48,27 @@ public class CollectionCommandTest {
         }
     }
 
+    class IdPipeline implements RequirementsPipeline {
+        private Long id;
+
+        public IdPipeline(Long id) {
+            this.id = id;
+        }
+
+        @Override
+        public <T> T askRequirement(Requirement<T> requirement) throws RequirementAskError {
+            if (requirement.getName().equals("id")) {
+                try {
+                    return requirement.getValue(id.toString());
+                } catch (ValidationError e) {
+                    throw new RequirementAskError("Wrong id");
+                }
+            } else {
+                throw new RequirementAskError("Wrong requirement");
+            }
+        }
+    }
+
     class TestPipeline implements RequirementsPipeline {
         Map<String, String> params = new HashMap<>();
 
@@ -145,5 +166,22 @@ public class CollectionCommandTest {
         List<Requirement<?>> requirements = command.getStaticRequirements();
         assertEquals(requirements.size(), 1);
         assertEquals(requirements.get(0).getName(), "id");
+    }
+
+    @Test
+    public void testRemoveByIdCommand() {
+        TestOutput output = new TestOutput();
+        Command command = new RemoveByIdCommand(collectionManager);
+        List<Requirement<?>> requirements = command.getStaticRequirements();
+        assertEquals(requirements.size(), 1);
+        assertEquals(requirements.get(0).getName(), "id");
+
+        try {
+            collectionManager.add(human);
+        } catch (Exception e) {
+            Assert.fail();
+        }
+        command.execute(new IdPipeline(human.getId()), output);
+        assertEquals(collectionManager.getCollection().size(), 0);
     }
 }
