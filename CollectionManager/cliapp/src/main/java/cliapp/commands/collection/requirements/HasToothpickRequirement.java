@@ -1,7 +1,7 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementCommand.HAS_TOOTHPICK;
-import static cliapp.Messages.ElementCommand.HAS_TOOTHPICK_DESCR;
+import static cliapp.Messages.ElementRequirements.HAS_TOOTHPICK;
+import static cliapp.Messages.ElementRequirements.HAS_TOOTHPICK_DESCR;
 
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.BooleanValidator;

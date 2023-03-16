@@ -1,7 +1,7 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementCommand.REAL_HERO;
-import static cliapp.Messages.ElementCommand.REAL_HERO_DESCR;
+import static cliapp.Messages.ElementRequirements.REAL_HERO;
+import static cliapp.Messages.ElementRequirements.REAL_HERO_DESCR;
 
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.BooleanValidator;

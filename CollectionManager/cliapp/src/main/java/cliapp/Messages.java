@@ -7,9 +7,9 @@ import java.util.ResourceBundle;
  */
 public class Messages {
     /**
-     * cliapp.commands.collection ElementRequiredCommand
+     * cliapp.commands.collection.requirements
      */
-    public static class ElementCommand {
+    public static class ElementRequirements {
         private static final ResourceBundle BUNDLE = ResourceBundle
                 .getBundle("cliapp.commands.collection.element");
 
@@ -42,5 +42,165 @@ public class Messages {
         public static final String MOOD_VALIDATION_ERROR = BUNDLE.getString("MoodValidationError");
         public static final String CAR_NAME = BUNDLE.getString("CarName");
         public static final String CAR_NAME_DESCR = BUNDLE.getString("CarNameDescr");
+    }
+
+    /**
+     * cliapp.commands.collection InfoCommand
+     */
+    public static class InfoCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("InfoName");
+        public static final String DESCRIPTION = BUNDLE.getString("InfoDescription");
+        public static final String SUCCESS = BUNDLE.getString("InfoSuccess");
+        public static final String TYPE = BUNDLE.getString("InfoType");
+        public static final String INIT_TIME = BUNDLE.getString("InfoInitTime");
+        public static final String ELEMENTS_COUNT = BUNDLE.getString("InfoElementsCount");
+        public static final String ERROR = BUNDLE.getString("InfoError");
+    }
+
+    /**
+     * cliapp.commands.collection ShowCommand
+     */
+    public static class ShowCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("ShowName");
+        public static final String DESCRIPTION = BUNDLE.getString("ShowDescription");
+        public static final String SUCCESS = BUNDLE.getString("ShowSuccess");
+        public static final String ERROR = BUNDLE.getString("ShowError");
+    }
+
+    /**
+     * cliapp.commands.collection AddElementCommand
+     */
+    public static class AddElementCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("AddName");
+        public static final String DESCRIPTION = BUNDLE.getString("AddDescription");
+        public static final String SUCCESS = BUNDLE.getString("AddSuccess");
+        public static final String ERROR = BUNDLE.getString("AddError");
+    }
+
+    /**
+     * cliapp.commands.collection UpdateElementCommand
+     */
+    public static class UpdateElementCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("UpdateName");
+        public static final String DESCRIPTION = BUNDLE.getString("UpdateDescription");
+        public static final String SUCCESS = BUNDLE.getString("UpdateSuccess");
+        public static final String ERROR = BUNDLE.getString("UpdateError");
+    }
+
+    /**
+     * cliapp.commands.collection RemoveByIdCommand
+     */
+    public static class RemoveByIdCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("RemoveByIdName");
+        public static final String DESCRIPTION = BUNDLE.getString("RemoveByIdDescription");
+        public static final String SUCCESS = BUNDLE.getString("RemoveByIdSuccess");
+        public static final String ERROR = BUNDLE.getString("RemoveByIdError");
+    }
+
+    /**
+     * cliapp.commands.collection ClearCommand
+     */
+    public static class ClearCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("ClearName");
+        public static final String DESCRIPTION = BUNDLE.getString("ClearDescription");
+        public static final String SUCCESS = BUNDLE.getString("ClearSuccess");
+        public static final String ERROR = BUNDLE.getString("ClearError");
+    }
+
+    /**
+     * cliapp.commands.collection SaveCommand
+     */
+    public static class SaveCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("SaveName");
+        public static final String DESCRIPTION = BUNDLE.getString("SaveDescription");
+        public static final String SUCCESS = BUNDLE.getString("SaveSuccess");
+        public static final String ERROR = BUNDLE.getString("SaveError");
+    }
+
+    /**
+     * cliapp.commands.collection RemoveFirstCommand
+     */
+    public static class RemoveFirstCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("RemoveFirstName");
+        public static final String DESCRIPTION = BUNDLE.getString("RemoveFirstDescription");
+        public static final String SUCCESS = BUNDLE.getString("RemoveFirstSuccess");
+        public static final String ERROR = BUNDLE.getString("RemoveFirstError");
+    }
+
+    /**
+     * cliapp.commands.collection HeadCommand
+     */
+    public static class HeadCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("HeadName");
+        public static final String DESCRIPTION = BUNDLE.getString("HeadDescription");
+        public static final String SUCCESS = BUNDLE.getString("HeadSuccess");
+        public static final String ERROR = BUNDLE.getString("HeadError");
+    }
+
+    /**
+     * cliapp.commands.collection AverageOfImpactSpeedCommand
+     */
+    public static class AverageOfImpactSpeedCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("AverageOfImpactSpeedName");
+        public static final String DESCRIPTION = BUNDLE
+                .getString("AverageOfImpactSpeedDescription");
+        public static final String SUCCESS = BUNDLE.getString("AverageOfImpactSpeedSuccess");
+        public static final String ERROR = BUNDLE.getString("AverageOfImpactSpeedError");
+    }
+
+    /**
+     * cliapp.commands.collection FilterBySoundtrackNameCommand
+     */
+    public static class FilterBySoundtrackNameCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("FilterBySoundtrackNameName");
+        public static final String DESCRIPTION = BUNDLE.getString("FilterBySoundtrackNameDescription");
+        public static final String SUCCESS = BUNDLE.getString("FilterBySoundtrackNameSuccess");
+        public static final String ERROR = BUNDLE.getString("FilterBySoundtrackNameError");
+    }
+
+    /**
+     * cliapp.commands.collection PrintDescendingCommand
+     */
+    public static class PrintDescendingCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("PrintDescendingName");
+        public static final String DESCRIPTION = BUNDLE.getString("PrintDescendingDescription");
+        public static final String SUCCESS = BUNDLE.getString("PrintDescendingSuccess");
+        public static final String ERROR = BUNDLE.getString("PrintDescendingError");
     }
 }

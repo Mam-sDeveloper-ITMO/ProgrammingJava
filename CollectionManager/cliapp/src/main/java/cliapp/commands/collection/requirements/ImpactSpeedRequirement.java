@@ -1,7 +1,7 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementCommand.IMPACT_SPEED;
-import static cliapp.Messages.ElementCommand.IMPACT_SPEED_DESCR;
+import static cliapp.Messages.ElementRequirements.IMPACT_SPEED;
+import static cliapp.Messages.ElementRequirements.IMPACT_SPEED_DESCR;
 
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.DoubleValidator;

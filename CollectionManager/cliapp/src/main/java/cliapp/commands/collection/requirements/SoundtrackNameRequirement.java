@@ -1,7 +1,7 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementCommand.SOUNDTRACK_NAME;
-import static cliapp.Messages.ElementCommand.SOUNDTRACK_NAME_DESCR;
+import static cliapp.Messages.ElementRequirements.SOUNDTRACK_NAME;
+import static cliapp.Messages.ElementRequirements.SOUNDTRACK_NAME_DESCR;
 
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.StringValidator;

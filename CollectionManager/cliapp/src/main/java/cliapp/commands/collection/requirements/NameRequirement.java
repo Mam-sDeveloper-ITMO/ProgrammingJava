@@ -1,7 +1,7 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementCommand.NAME;
-import static cliapp.Messages.ElementCommand.NAME_DESCR;
+import static cliapp.Messages.ElementRequirements.NAME;
+import static cliapp.Messages.ElementRequirements.NAME_DESCR;
 
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.StringValidator;

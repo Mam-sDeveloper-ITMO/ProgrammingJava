@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static cliapp.Messages.ElementCommand.MOOD;
+import static cliapp.Messages.ElementRequirements.MOOD;
 
 import cliapp.commands.collection.requirements.CarNameRequirement;
 import cliapp.commands.collection.requirements.CoordinatesXRequirement;

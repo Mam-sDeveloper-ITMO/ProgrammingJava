@@ -1,9 +1,9 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementCommand.ID;
-import static cliapp.Messages.ElementCommand.ID_DESCR;
-import static cliapp.Messages.ElementCommand.ID_NOT_EXISTS;
-import static cliapp.Messages.ElementCommand.ID_NOT_POSITIVE;
+import static cliapp.Messages.ElementRequirements.ID;
+import static cliapp.Messages.ElementRequirements.ID_DESCR;
+import static cliapp.Messages.ElementRequirements.ID_NOT_EXISTS;
+import static cliapp.Messages.ElementRequirements.ID_NOT_POSITIVE;
 
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;

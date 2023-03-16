@@ -1,7 +1,7 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementCommand.MINUTES_OF_WAITING;
-import static cliapp.Messages.ElementCommand.MINUTES_OF_WAITING_DESCR;
+import static cliapp.Messages.ElementRequirements.MINUTES_OF_WAITING;
+import static cliapp.Messages.ElementRequirements.MINUTES_OF_WAITING_DESCR;
 
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.FloatValidator;

@@ -1,10 +1,10 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementCommand.MOOD;
-import static cliapp.Messages.ElementCommand.MOOD_DESCR;
-import static cliapp.Messages.ElementCommand.MOOD_VALIDATION_ERROR;
-import static cliapp.Messages.ElementCommand.MOOD_BY_NAME_NOT_EXISTS;
-import static cliapp.Messages.ElementCommand.MOOD_BY_NUMBER_NOT_EXISTS;
+import static cliapp.Messages.ElementRequirements.MOOD;
+import static cliapp.Messages.ElementRequirements.MOOD_DESCR;
+import static cliapp.Messages.ElementRequirements.MOOD_VALIDATION_ERROR;
+import static cliapp.Messages.ElementRequirements.MOOD_BY_NAME_NOT_EXISTS;
+import static cliapp.Messages.ElementRequirements.MOOD_BY_NUMBER_NOT_EXISTS;
 
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;

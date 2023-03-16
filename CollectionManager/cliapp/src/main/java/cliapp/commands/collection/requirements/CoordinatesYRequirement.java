@@ -1,7 +1,7 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementCommand.COORDINATE_Y;
-import static cliapp.Messages.ElementCommand.COORDINATE_Y_DESCR;
+import static cliapp.Messages.ElementRequirements.COORDINATE_Y;
+import static cliapp.Messages.ElementRequirements.COORDINATE_Y_DESCR;
 
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;
