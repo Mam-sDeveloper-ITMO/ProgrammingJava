@@ -11,11 +11,13 @@ import org.junit.Test;
 
 import commands.Command;
 import commands.OutputChannel;
+import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import humandeque.manager.CollectionManager;
+import humandeque.manager.exceptions.ElementNotExistsError;
 import humandeque.manager.local.LocalManager;
 import models.Car;
 import models.Coordinates;
@@ -133,5 +135,18 @@ public class CollectionCommandTest {
         assertEquals(human.getMood(), Mood.SADNESS);
         assertEquals(human.getCar().getName(), "testCarName");
         assertTrue(human.getCreationDate() != null);
+    }
+
+    @Test
+    public void testUpdateElementCommand() {
+        TestOutput output = new TestOutput();
+        Command command = new UpdateElementCommand(collectionManager);
+
+        try {
+            command.execute(new TestPipeline(), output);
+            Assert.fail("Expected exception");
+        } catch (ExecutionError e) {
+            // TODO: handle exception
+        }
     }
 }
