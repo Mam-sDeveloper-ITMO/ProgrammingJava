@@ -24,6 +24,18 @@ import models.Mood;
 
 public class CollectionCommandTest {
     private CollectionManager collectionManager;
+    private Human human = Human.builder()
+            .name("TestName")
+            .coordinates(new Coordinates(1.0f, 2.0f))
+            .creationDate(null)
+            .realHero(true)
+            .hasToothpick(false)
+            .impactSpeed(1.0)
+            .soundtrackName("Civilian Defense")
+            .minutesOfWaiting(1.0f)
+            .mood(Mood.SADNESS)
+            .car(new Car("TestCar"))
+            .build();
 
     {
         try {
@@ -37,7 +49,7 @@ public class CollectionCommandTest {
         Map<String, String> params = new HashMap<>();
 
         public TestPipeline() {
-            params.put("name", "testName");
+            params.put("name", "TestName");
             params.put("x coordinate", "1");
             params.put("y coordinate", "2");
             params.put("real hero", "true");
@@ -93,18 +105,6 @@ public class CollectionCommandTest {
         assertEquals(output.getOutput(), "Collection is empty.\n");
 
         output.clear();
-        Human human = Human.builder()
-                .name("TestName")
-                .coordinates(new Coordinates(1.0f, 2.0f))
-                .creationDate(null)
-                .realHero(true)
-                .hasToothpick(false)
-                .impactSpeed(1.0)
-                .soundtrackName("Civilian Defense")
-                .minutesOfWaiting(1.0f)
-                .mood(Mood.SADNESS)
-                .car(new Car("TestCar"))
-                .build();
         try {
             collectionManager.add(human);
             command.execute(new TestPipeline(), output);
@@ -112,5 +112,26 @@ public class CollectionCommandTest {
         } catch (Exception e) {
             Assert.fail();
         }
+    }
+
+    @Test
+    public void testAddElementCommand() {
+        TestOutput output = new TestOutput();
+        Command command = new AddElementCommand(collectionManager);
+        command.execute(new TestPipeline(), output);
+        assertTrue(output.getOutput(), output.getOutput().contains("Element added to collection.\n"));
+
+        Human human = collectionManager.getCollection().getFirst();
+        assertEquals(human.getName(), "TestName");
+        assertEquals(human.getCoordinates().getX(), 1.0f, 0.0001f);
+        assertEquals(human.getCoordinates().getY(), 2.0f, 0.0001f);
+        assertEquals(human.isRealHero(), true);
+        assertEquals(human.isHasToothpick(), false);
+        assertEquals(human.getImpactSpeed(), 3.0, 0.0001);
+        assertEquals(human.getSoundtrackName(), "testSoundtrackName");
+        assertEquals(human.getMinutesOfWaiting(), 4.0f, 0.0001f);
+        assertEquals(human.getMood(), Mood.SADNESS);
+        assertEquals(human.getCar().getName(), "testCarName");
+        assertTrue(human.getCreationDate() != null);
     }
 }

@@ -81,10 +81,10 @@ public class Messages {
         private static final ResourceBundle BUNDLE = ResourceBundle
                 .getBundle("cliapp.commands.collection.commands");
 
-        public static final String NAME = BUNDLE.getString("AddName");
-        public static final String DESCRIPTION = BUNDLE.getString("AddDescription");
-        public static final String SUCCESS = BUNDLE.getString("AddSuccess");
-        public static final String ERROR = BUNDLE.getString("AddError");
+        public static final String NAME = BUNDLE.getString("AddElementName");
+        public static final String DESCRIPTION = BUNDLE.getString("AddElementDescription");
+        public static final String SUCCESS = BUNDLE.getString("AddElementSuccess");
+        public static final String ERROR = BUNDLE.getString("AddElementError");
     }
 
     /**
