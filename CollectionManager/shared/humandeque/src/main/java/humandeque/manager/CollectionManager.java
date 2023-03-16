@@ -21,7 +21,7 @@ public abstract class CollectionManager {
      * 
      * @param element - element to add
      * @throws ElementAlreadyExistsError - if element with id already exists in
-     *                              collection
+     *                                   collection
      */
     public abstract void add(Human element) throws ElementAlreadyExistsError;
 
@@ -66,4 +66,19 @@ public abstract class CollectionManager {
     public HumanDeque getCollection() {
         return collection;
     }
+
+    /**
+     * Check if element with id exists in collection.
+     * 
+     * @param id
+     * @return
+     */
+    public boolean isElementExists(long id) {
+        for (Human human : collection) {
+            if (human.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    };
 }
