@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -141,12 +142,8 @@ public class CollectionCommandTest {
     public void testUpdateElementCommand() {
         TestOutput output = new TestOutput();
         Command command = new UpdateElementCommand(collectionManager);
-
-        try {
-            command.execute(new TestPipeline(), output);
-            Assert.fail("Expected exception");
-        } catch (ExecutionError e) {
-            // TODO: handle exception
-        }
+        List<Requirement<?>> requirements = command.getStaticRequirements();
+        assertEquals(requirements.size(), 1);
+        assertEquals(requirements.get(0).getName(), "id");
     }
 }
