@@ -69,7 +69,8 @@ public class Messages {
 
         public static final String NAME = BUNDLE.getString("ShowName");
         public static final String DESCRIPTION = BUNDLE.getString("ShowDescription");
-        public static final String SUCCESS = BUNDLE.getString("ShowSuccess");
+        public static final String LIST = BUNDLE.getString("ShowList");
+        public static final String EMPTY = BUNDLE.getString("ShowEmpty");
         public static final String ERROR = BUNDLE.getString("ShowError");
     }
 

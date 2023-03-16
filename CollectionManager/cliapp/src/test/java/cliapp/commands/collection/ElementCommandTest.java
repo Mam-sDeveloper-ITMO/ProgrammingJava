@@ -6,7 +6,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cliapp.commands.collection.ElementCommand;
 import commands.Command;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;

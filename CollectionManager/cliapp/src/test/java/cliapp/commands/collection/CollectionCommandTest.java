@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import commands.Command;
@@ -16,6 +17,10 @@ import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.local.LocalManager;
+import models.Car;
+import models.Coordinates;
+import models.Human;
+import models.Mood;
 
 public class CollectionCommandTest {
     private CollectionManager collectionManager;
@@ -72,12 +77,40 @@ public class CollectionCommandTest {
         }
     }
 
-    private TestOutput output = new TestOutput();
-
     @Test
     public void testInfoCommand() {
+        TestOutput output = new TestOutput();
         Command command = new InfoCommand(collectionManager);
         command.execute(new TestPipeline(), output);
         assertTrue(output.getOutput(), output.getOutput().startsWith("Collection information:"));
+    }
+
+    @Test
+    public void testShowCommand() {
+        TestOutput output = new TestOutput();
+        Command command = new ShowCommand(collectionManager);
+        command.execute(new TestPipeline(), output);
+        assertEquals(output.getOutput(), "Collection is empty.\n");
+
+        output.clear();
+        Human human = Human.builder()
+                .name("TestName")
+                .coordinates(new Coordinates(1.0f, 2.0f))
+                .creationDate(null)
+                .realHero(true)
+                .hasToothpick(false)
+                .impactSpeed(1.0)
+                .soundtrackName("Civilian Defense")
+                .minutesOfWaiting(1.0f)
+                .mood(Mood.SADNESS)
+                .car(new Car("TestCar"))
+                .build();
+        try {
+            collectionManager.add(human);
+            command.execute(new TestPipeline(), output);
+            assertTrue(output.getOutput(), output.getOutput().startsWith("Collection elements:\nHuman(id="));
+        } catch (Exception e) {
+            Assert.fail();
+        }
     }
 }
