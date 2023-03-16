@@ -9,6 +9,7 @@ import commands.requirements.exceptions.RequirementAskError;
  * For example, in CLI application you can use this class for asking user to
  * input param, in UI - to show input field, or send request to server.
  */
+@FunctionalInterface
 public interface RequirementsPipeline {
     /**
      * Ask for requirement value from external source.
