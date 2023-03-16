@@ -1,36 +1,30 @@
-package cliapp;
+package cliapp.commands.collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 
-import cliapp.commands.collection.ElementCommand;
 import commands.Command;
 import commands.OutputChannel;
-import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.local.LocalManager;
-import models.Human;
 
-public class ElementCommandTest {
-    class TestCommand extends ElementCommand {
-        public TestCommand(String name, String description, CollectionManager collectionManager) {
-            super(name, description, collectionManager);
-        }
+public class CollectionCommandTest {
+    private CollectionManager collectionManager;
 
-        @Override
-        public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
-            try {
-                Human human = askHuman(pipeline, output);
-                output.putString(human.getName());
-            } catch (RequirementAskError e) {
-                throw new ExecutionError("Error while asking human", e);
-            }
+    {
+        try {
+            collectionManager = new LocalManager();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -60,9 +54,30 @@ public class ElementCommandTest {
         }
     }
 
+    class TestOutput implements OutputChannel {
+        private String output = "";
+
+        @Override
+        public void putString(String string) {
+            this.output += string + "\n";
+            System.out.println(string);
+        }
+
+        public String getOutput() {
+            return output;
+        }
+
+        public void clear() {
+            output = "";
+        }
+    }
+
+    private TestOutput output = new TestOutput();
+
     @Test
-    public void testElementCommand() throws ExecutionError, RequirementAskError {
-        Command command = new TestCommand("test", "test", new LocalManager("test"));
-        command.execute(new TestPipeline(), System.out::println);
+    public void testInfoCommand() {
+        Command command = new InfoCommand(collectionManager);
+        command.execute(new TestPipeline(), output);
+        assertTrue(output.getOutput(), output.getOutput().startsWith("Collection information:"));
     }
 }
