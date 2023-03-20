@@ -61,10 +61,10 @@ public class CollectionCommandTest {
                 try {
                     return requirement.getValue(id.toString());
                 } catch (ValidationError e) {
-                    throw new RequirementAskError("Wrong id");
+                    throw new RequirementAskError(requirement.getName());
                 }
             } else {
-                throw new RequirementAskError("Wrong requirement");
+                throw new RequirementAskError(requirement.getName());
             }
         }
     }
@@ -90,7 +90,7 @@ public class CollectionCommandTest {
             try {
                 return requirement.getValue(params.get(requirement.getName()));
             } catch (ValidationError e) {
-                throw new RequirementAskError(e.getMessage());
+                throw new RequirementAskError(requirement.getName());
             }
         }
     }

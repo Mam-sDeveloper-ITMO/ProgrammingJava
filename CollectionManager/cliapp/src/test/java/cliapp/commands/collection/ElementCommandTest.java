@@ -55,7 +55,7 @@ public class ElementCommandTest {
             try {
                 return requirement.getValue(params.get(requirement.getName()));
             } catch (ValidationError e) {
-                throw new RequirementAskError(e.getMessage());
+                throw new RequirementAskError(requirement.getName(), e);
             }
         }
     }

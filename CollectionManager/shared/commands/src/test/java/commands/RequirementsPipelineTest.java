@@ -23,7 +23,7 @@ public class RequirementsPipelineTest {
     private static class MockIncorrectPipeline implements RequirementsPipeline {
         @Override
         public <T> T askRequirement(Requirement<T> requirement) throws RequirementAskError {
-            throw new RequirementAskError();
+            throw new RequirementAskError(requirement.getName());
         }
     }
 
