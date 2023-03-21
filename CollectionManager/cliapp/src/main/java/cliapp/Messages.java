@@ -7,6 +7,17 @@ import java.util.ResourceBundle;
  */
 public class Messages {
     /**
+     * cliapp.cliclient
+     */
+    public static class CLIClient {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.cliclient");
+
+        public static final String COMMAND_NOT_FOUND_ERROR = BUNDLE.getString("CommandNotFoundError");
+        public static final String INLINE_PARAMS_COUNT_ERROR = BUNDLE.getString("InlineParamsCountError");
+    }
+
+    /**
      * cliapp.commands.collection.requirements
      */
     public static class ElementRequirements {
