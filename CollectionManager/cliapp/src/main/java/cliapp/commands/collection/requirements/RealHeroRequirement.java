@@ -1,8 +1,6 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementRequirements.REAL_HERO;
-import static cliapp.Messages.ElementRequirements.REAL_HERO_DESCR;
-
+import cliapp.Messages;
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.BooleanValidator;
 
@@ -11,6 +9,6 @@ import commands.requirements.validators.common.BooleanValidator;
  */
 public class RealHeroRequirement extends Requirement<Boolean> {
     public RealHeroRequirement() {
-        super(REAL_HERO, REAL_HERO_DESCR, new BooleanValidator());
+        super(Messages.ElementRequirements.REAL_HERO, Messages.ElementRequirements.REAL_HERO_DESCR, new BooleanValidator());
     }
 }

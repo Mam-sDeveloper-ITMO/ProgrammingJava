@@ -25,10 +25,10 @@ public class AddElementCommand extends ElementCommand {
                 collectionManager.add(human);
                 output.putString(Messages.AddElementCommand.SUCCESS);
             } catch (ElementAlreadyExistsError e) {
-                throw new ExecutionError(Messages.AddElementCommand.ERROR, e);
+                throw new ExecutionError(e.getMessage());
             }
         } catch (RequirementAskError e) {
-            throw new ExecutionError(Messages.AddElementCommand.ERROR, e);
+            throw new ExecutionError(e.getMessage());
         }
     }
 }

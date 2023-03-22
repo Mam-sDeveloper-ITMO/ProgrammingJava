@@ -1,8 +1,6 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementRequirements.HAS_TOOTHPICK;
-import static cliapp.Messages.ElementRequirements.HAS_TOOTHPICK_DESCR;
-
+import cliapp.Messages;
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.BooleanValidator;
 
@@ -11,6 +9,6 @@ import commands.requirements.validators.common.BooleanValidator;
  */
 public class HasToothpickRequirement extends Requirement<Boolean> {
     public HasToothpickRequirement() {
-        super(HAS_TOOTHPICK, HAS_TOOTHPICK_DESCR, new BooleanValidator());
+        super(Messages.ElementRequirements.HAS_TOOTHPICK, Messages.ElementRequirements.HAS_TOOTHPICK_DESCR, new BooleanValidator());
     }
 }

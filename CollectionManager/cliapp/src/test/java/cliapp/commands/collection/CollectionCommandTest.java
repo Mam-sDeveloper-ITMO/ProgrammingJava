@@ -18,7 +18,6 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import humandeque.manager.CollectionManager;
-import humandeque.manager.exceptions.ElementNotExistsError;
 import humandeque.manager.local.LocalManager;
 import models.Car;
 import models.Coordinates;
@@ -117,7 +116,11 @@ public class CollectionCommandTest {
     public void testInfoCommand() {
         TestOutput output = new TestOutput();
         Command command = new InfoCommand(collectionManager);
-        command.execute(new TestPipeline(), output);
+        try {
+            command.execute(new TestPipeline(), output);
+        } catch (ExecutionError e) {
+            Assert.fail("Error handled");
+        }
         assertTrue(output.getOutput(), output.getOutput().startsWith("Collection information:"));
     }
 
@@ -125,13 +128,21 @@ public class CollectionCommandTest {
     public void testShowCommand() {
         TestOutput output = new TestOutput();
         Command command = new ShowCommand(collectionManager);
-        command.execute(new TestPipeline(), output);
+        try {
+            command.execute(new TestPipeline(), output);
+        } catch (ExecutionError e) {
+            Assert.fail("Error handled");
+        }
         assertEquals(output.getOutput(), "Collection is empty.\n");
 
         output.clear();
         try {
             collectionManager.add(human);
-            command.execute(new TestPipeline(), output);
+            try {
+                command.execute(new TestPipeline(), output);
+            } catch (ExecutionError e) {
+                Assert.fail("Error handled");
+            }
             assertTrue(output.getOutput(), output.getOutput().startsWith("Collection elements:\nHuman(id="));
         } catch (Exception e) {
             Assert.fail();
@@ -142,7 +153,11 @@ public class CollectionCommandTest {
     public void testAddElementCommand() {
         TestOutput output = new TestOutput();
         Command command = new AddElementCommand(collectionManager);
-        command.execute(new TestPipeline(), output);
+        try {
+            command.execute(new TestPipeline(), output);
+        } catch (ExecutionError e) {
+            Assert.fail("Error handled");
+        }
         assertTrue(output.getOutput(), output.getOutput().contains("Element added to collection.\n"));
 
         Human human = collectionManager.getCollection().getFirst();
@@ -181,7 +196,11 @@ public class CollectionCommandTest {
         } catch (Exception e) {
             Assert.fail();
         }
-        command.execute(new IdPipeline(human.getId()), output);
+        try {
+            command.execute(new IdPipeline(human.getId()), output);
+        } catch (ExecutionError e) {
+            Assert.fail("Error handled");
+        }
         assertEquals(collectionManager.getCollection().size(), 0);
     }
 }

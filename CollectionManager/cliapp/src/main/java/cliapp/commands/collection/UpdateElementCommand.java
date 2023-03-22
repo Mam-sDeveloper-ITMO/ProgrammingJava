@@ -33,7 +33,7 @@ public class UpdateElementCommand extends ElementCommand {
         try {
             id = pipeline.askRequirement(new IdRequirement(collectionManager));
         } catch (RequirementAskError e) {
-            throw new ExecutionError(Messages.UpdateElementCommand.ERROR, e);
+            throw new ExecutionError(e.getMessage());
         }
 
         try {
@@ -43,10 +43,10 @@ public class UpdateElementCommand extends ElementCommand {
                 collectionManager.update(human);
                 output.putString(Messages.UpdateElementCommand.SUCCESS);
             } catch (ElementNotExistsError e) {
-                throw new ExecutionError(Messages.UpdateElementCommand.ERROR, e);
+                throw new ExecutionError(e.getMessage());
             }
         } catch (RequirementAskError e) {
-            throw new ExecutionError(Messages.UpdateElementCommand.ERROR, e);
+            throw new ExecutionError(e.getMessage());
         }
     }
 }

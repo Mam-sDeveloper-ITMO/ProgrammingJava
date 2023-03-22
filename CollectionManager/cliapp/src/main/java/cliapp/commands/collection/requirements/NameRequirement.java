@@ -1,8 +1,6 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementRequirements.NAME;
-import static cliapp.Messages.ElementRequirements.NAME_DESCR;
-
+import cliapp.Messages;
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.StringValidator;
 
@@ -11,6 +9,6 @@ import commands.requirements.validators.common.StringValidator;
  */
 public class NameRequirement extends Requirement<String> {
     public NameRequirement() {
-        super(NAME, NAME_DESCR, new StringValidator());
+        super(Messages.ElementRequirements.NAME, Messages.ElementRequirements.NAME_DESCR, new StringValidator());
     }
 }

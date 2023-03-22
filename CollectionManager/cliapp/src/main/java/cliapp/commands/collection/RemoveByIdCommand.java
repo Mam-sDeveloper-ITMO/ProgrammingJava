@@ -32,14 +32,14 @@ public class RemoveByIdCommand extends ElementCommand {
         try {
             id = pipeline.askRequirement(new IdRequirement(collectionManager));
         } catch (RequirementAskError e) {
-            throw new ExecutionError(Messages.UpdateElementCommand.ERROR, e);
+            throw new ExecutionError(e.getMessage());
         }
 
         try {
             collectionManager.remove(id);
             output.putString(Messages.RemoveByIdCommand.SUCCESS);
         } catch (ElementNotExistsError e) {
-            throw new ExecutionError(Messages.RemoveByIdCommand.ERROR, e);
+            throw new ExecutionError(e.getMessage());
         }
     }
 }

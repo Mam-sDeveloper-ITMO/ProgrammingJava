@@ -1,8 +1,6 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementRequirements.COORDINATE_X;
-import static cliapp.Messages.ElementRequirements.COORDINATE_X_DESCR;
-
+import cliapp.Messages;
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.common.FloatValidator;
@@ -12,7 +10,7 @@ import commands.requirements.validators.common.FloatValidator;
  */
 public class CoordinatesXRequirement extends Requirement<Float> {
     public CoordinatesXRequirement() {
-        super(COORDINATE_X, COORDINATE_X_DESCR, new CoordinateXValidator());
+        super(Messages.ElementRequirements.COORDINATE_X, Messages.ElementRequirements.COORDINATE_X_DESCR, new CoordinateXValidator());
     }
 
     private static class CoordinateXValidator extends FloatValidator {

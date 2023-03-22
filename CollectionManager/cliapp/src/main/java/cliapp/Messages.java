@@ -11,7 +11,7 @@ public class Messages {
      */
     public static class CLIClient {
         private static final ResourceBundle BUNDLE = ResourceBundle
-                .getBundle("cliapp.cliclient");
+                .getBundle("cliapp.cliclient.cliclient");
 
         public static final String COMMAND_NOT_FOUND_ERROR = BUNDLE.getString("CommandNotFoundError");
         public static final String INLINE_PARAMS_COUNT_ERROR = BUNDLE.getString("InlineParamsCountError");
@@ -32,10 +32,8 @@ public class Messages {
         public static final String NAME_DESCR = BUNDLE.getString("NameDescr");
         public static final String COORDINATE_X = BUNDLE.getString("CoordinateX");
         public static final String COORDINATE_X_DESCR = BUNDLE.getString("CoordinateXDescr");
-        public static final String COORDINATE_X_VALIDATION_ERROR = BUNDLE.getString("CoordinateXValidationError");
         public static final String COORDINATE_Y = BUNDLE.getString("CoordinateY");
         public static final String COORDINATE_Y_DESCR = BUNDLE.getString("CoordinateYDescr");
-        public static final String COORDINATE_Y_VALIDATION_ERROR = BUNDLE.getString("CoordinateYValidationError");
         public static final String REAL_HERO = BUNDLE.getString("RealHero");
         public static final String REAL_HERO_DESCR = BUNDLE.getString("RealHeroDescr");
         public static final String HAS_TOOTHPICK = BUNDLE.getString("HasToothpick");
@@ -68,7 +66,6 @@ public class Messages {
         public static final String TYPE = BUNDLE.getString("InfoType");
         public static final String INIT_TIME = BUNDLE.getString("InfoInitTime");
         public static final String ELEMENTS_COUNT = BUNDLE.getString("InfoElementsCount");
-        public static final String ERROR = BUNDLE.getString("InfoError");
     }
 
     /**
@@ -82,7 +79,6 @@ public class Messages {
         public static final String DESCRIPTION = BUNDLE.getString("ShowDescription");
         public static final String LIST = BUNDLE.getString("ShowList");
         public static final String EMPTY = BUNDLE.getString("ShowEmpty");
-        public static final String ERROR = BUNDLE.getString("ShowError");
     }
 
     /**
@@ -95,7 +91,6 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("AddElementName");
         public static final String DESCRIPTION = BUNDLE.getString("AddElementDescription");
         public static final String SUCCESS = BUNDLE.getString("AddElementSuccess");
-        public static final String ERROR = BUNDLE.getString("AddElementError");
     }
 
     /**
@@ -108,7 +103,6 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("UpdateName");
         public static final String DESCRIPTION = BUNDLE.getString("UpdateDescription");
         public static final String SUCCESS = BUNDLE.getString("UpdateSuccess");
-        public static final String ERROR = BUNDLE.getString("UpdateError");
     }
 
     /**
@@ -121,7 +115,6 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("RemoveByIdName");
         public static final String DESCRIPTION = BUNDLE.getString("RemoveByIdDescription");
         public static final String SUCCESS = BUNDLE.getString("RemoveByIdSuccess");
-        public static final String ERROR = BUNDLE.getString("RemoveByIdError");
     }
 
     /**
@@ -134,7 +127,6 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("ClearName");
         public static final String DESCRIPTION = BUNDLE.getString("ClearDescription");
         public static final String SUCCESS = BUNDLE.getString("ClearSuccess");
-        public static final String ERROR = BUNDLE.getString("ClearError");
     }
 
     /**
@@ -147,7 +139,6 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("SaveName");
         public static final String DESCRIPTION = BUNDLE.getString("SaveDescription");
         public static final String SUCCESS = BUNDLE.getString("SaveSuccess");
-        public static final String ERROR = BUNDLE.getString("SaveError");
     }
 
     /**
@@ -160,7 +151,6 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("RemoveFirstName");
         public static final String DESCRIPTION = BUNDLE.getString("RemoveFirstDescription");
         public static final String SUCCESS = BUNDLE.getString("RemoveFirstSuccess");
-        public static final String ERROR = BUNDLE.getString("RemoveFirstError");
     }
 
     /**
@@ -173,7 +163,6 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("HeadName");
         public static final String DESCRIPTION = BUNDLE.getString("HeadDescription");
         public static final String SUCCESS = BUNDLE.getString("HeadSuccess");
-        public static final String ERROR = BUNDLE.getString("HeadError");
     }
 
     /**
@@ -187,7 +176,6 @@ public class Messages {
         public static final String DESCRIPTION = BUNDLE
                 .getString("AverageOfImpactSpeedDescription");
         public static final String SUCCESS = BUNDLE.getString("AverageOfImpactSpeedSuccess");
-        public static final String ERROR = BUNDLE.getString("AverageOfImpactSpeedError");
     }
 
     /**
@@ -200,7 +188,6 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("FilterBySoundtrackNameName");
         public static final String DESCRIPTION = BUNDLE.getString("FilterBySoundtrackNameDescription");
         public static final String SUCCESS = BUNDLE.getString("FilterBySoundtrackNameSuccess");
-        public static final String ERROR = BUNDLE.getString("FilterBySoundtrackNameError");
     }
 
     /**
@@ -213,6 +200,5 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("PrintDescendingName");
         public static final String DESCRIPTION = BUNDLE.getString("PrintDescendingDescription");
         public static final String SUCCESS = BUNDLE.getString("PrintDescendingSuccess");
-        public static final String ERROR = BUNDLE.getString("PrintDescendingError");
     }
 }

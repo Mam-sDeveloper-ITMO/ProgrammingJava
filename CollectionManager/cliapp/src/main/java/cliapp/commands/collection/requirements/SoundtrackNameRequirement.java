@@ -1,8 +1,6 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementRequirements.SOUNDTRACK_NAME;
-import static cliapp.Messages.ElementRequirements.SOUNDTRACK_NAME_DESCR;
-
+import cliapp.Messages;
 import commands.requirements.Requirement;
 import commands.requirements.validators.common.StringValidator;
 
@@ -11,6 +9,7 @@ import commands.requirements.validators.common.StringValidator;
  */
 public class SoundtrackNameRequirement extends Requirement<String> {
     public SoundtrackNameRequirement() {
-        super(SOUNDTRACK_NAME, SOUNDTRACK_NAME_DESCR, new StringValidator());
+        super(Messages.ElementRequirements.SOUNDTRACK_NAME, Messages.ElementRequirements.SOUNDTRACK_NAME_DESCR,
+                new StringValidator());
     }
 }

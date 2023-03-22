@@ -1,10 +1,6 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementRequirements.MOOD;
-import static cliapp.Messages.ElementRequirements.MOOD_DESCR;
-import static cliapp.Messages.ElementRequirements.MOOD_VALIDATION_ERROR;
-import static cliapp.Messages.ElementRequirements.MOOD_BY_NAME_NOT_EXISTS;
-import static cliapp.Messages.ElementRequirements.MOOD_BY_NUMBER_NOT_EXISTS;
+import cliapp.Messages;
 
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;
@@ -16,7 +12,7 @@ import models.Mood;
  */
 public class MoodRequirement extends Requirement<Mood> {
     public MoodRequirement() {
-        super(MOOD, MOOD_DESCR, new MoodValidator());
+        super(Messages.ElementRequirements.MOOD, Messages.ElementRequirements.MOOD_DESCR, new MoodValidator());
     }
 
     private static class MoodValidator implements Validator<Mood> {
@@ -26,7 +22,7 @@ public class MoodRequirement extends Requirement<Mood> {
                 try {
                     return Mood.values()[(Integer) value];
                 } catch (IllegalArgumentException e) {
-                    throw new ValidationError(value, Mood.class, MOOD_BY_NUMBER_NOT_EXISTS);
+                    throw new ValidationError(value, Mood.class, Messages.ElementRequirements.MOOD_BY_NUMBER_NOT_EXISTS);
                 }
             } else if (value instanceof String) {
                 try {
@@ -34,10 +30,10 @@ public class MoodRequirement extends Requirement<Mood> {
                     moodName = moodName.toUpperCase();
                     return Mood.valueOf(moodName);
                 } catch (IllegalArgumentException e) {
-                    throw new ValidationError(value, Mood.class, MOOD_BY_NAME_NOT_EXISTS);
+                    throw new ValidationError(value, Mood.class, Messages.ElementRequirements.MOOD_BY_NAME_NOT_EXISTS);
                 }
             } else {
-                throw new ValidationError(value, Mood.class, MOOD_VALIDATION_ERROR);
+                throw new ValidationError(value, Mood.class, Messages.ElementRequirements.MOOD_VALIDATION_ERROR);
             }
         }
     }

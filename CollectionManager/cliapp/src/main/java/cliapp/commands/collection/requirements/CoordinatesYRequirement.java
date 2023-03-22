@@ -1,8 +1,6 @@
 package cliapp.commands.collection.requirements;
 
-import static cliapp.Messages.ElementRequirements.COORDINATE_Y;
-import static cliapp.Messages.ElementRequirements.COORDINATE_Y_DESCR;
-
+import cliapp.Messages;
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.common.FloatValidator;
@@ -12,7 +10,7 @@ import commands.requirements.validators.common.FloatValidator;
  */
 public class CoordinatesYRequirement extends Requirement<Float> {
     public CoordinatesYRequirement() {
-        super(COORDINATE_Y, COORDINATE_Y_DESCR, new CoordinateYValidator());
+        super(Messages.ElementRequirements.COORDINATE_Y, Messages.ElementRequirements.COORDINATE_Y_DESCR, new CoordinateYValidator());
     }
 
     private static class CoordinateYValidator extends FloatValidator {
