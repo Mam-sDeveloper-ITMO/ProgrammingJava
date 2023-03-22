@@ -2,6 +2,7 @@ package commands;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import commands.exceptions.ExecutionError;
@@ -47,6 +48,10 @@ public class CommandTest {
     @Test
     public void test() {
         CommandImpl command = new CommandImpl(1.0f);
-        command.execute(new RequirementsPipelineImpl(), System.out::println);
+        try {
+            command.execute(new RequirementsPipelineImpl(), System.out::println);
+        } catch (ExecutionError e) {
+            Assert.fail("Failed to execute command");
+        }
     }
 }
