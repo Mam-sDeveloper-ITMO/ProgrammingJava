@@ -2,6 +2,7 @@ package cliapp.commands.collection;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsCountError;
 import commands.Command;
+import commands.exceptions.ExecutionError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.local.LocalManager;
 
@@ -27,6 +29,7 @@ public class CLIClientTest {
         CollectionManager manager = new LocalManager();
         client.registerCommand("add", new AddElementCommand(manager));
         client.registerCommand("update", new UpdateElementCommand(manager));
+        client.registerCommand("remove", new RemoveByIdCommand(manager));
     }
 
     @Test
@@ -69,5 +72,11 @@ public class CLIClientTest {
         } catch (InlineParamsCountError e) {
             Assert.fail("Exception thrown");
         }
+    }
+
+    @Test
+    public void testExecuteCommand() {
+        Command command = client.getCommands().get("remove");
+        client.executeCommand(command, List.of("1"));
     }
 }

@@ -9,7 +9,10 @@ import java.util.Scanner;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsCountError;
 import commands.Command;
+import commands.OutputChannel;
+import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
+import commands.requirements.RequirementsPipeline;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -109,26 +112,45 @@ public class CLIClient {
     }
 
     /**
+     * Execute one command with specified inline params.
+     * 
+     * Handle exceptions and print error messages
+     */
+    public void executeCommand(Command command, List<String> inlineParams) {
+        Map<String, String> staticRequirementsMap;
+        try {
+            staticRequirementsMap = mapStaticRequirements(command.getStaticRequirements(), inlineParams);
+        } catch (InlineParamsCountError e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        RequirementsPipeline pipeline = new UserInputPipeline(staticRequirementsMap, new Scanner(System.in));
+        OutputChannel output = System.out::println;
+        try {
+            command.execute(pipeline, output);
+        } catch (ExecutionError e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
      * Run infinite loop for command line interaction
      * 
      * Wait user input and try resolve and execute command
      */
     public void runClient() {
-        List<String> inlineParams;
-        Map<String, String> staticRequirementsMap;
-        String trigger;
-        Command command;
-        // create user input reader
-        Scanner reader = new Scanner(System.in);
-        while (reader.hasNextLine()) {
+        // create user input inputScanner
+        Scanner inputScanner = new Scanner(System.in);
+        while (inputScanner.hasNextLine()) {
             // get user input and parse on separated words
             // if line is empty, then skip it
-            inlineParams = parseInlineParams(reader.nextLine());
+            List<String> inlineParams = parseInlineParams(inputScanner.nextLine());
             if (inlineParams.size() == 0) {
                 continue;
             }
             // try to resolve command by trigger
-            trigger = inlineParams.get(0);
+            Command command;
+            String trigger = inlineParams.get(0);
             inlineParams.remove(0);
             try {
                 command = resolveCommand(trigger);
@@ -136,16 +158,9 @@ public class CLIClient {
                 System.out.println(e.getMessage());
                 continue;
             }
-            // map static requirements to inline params
-            try {
-                staticRequirementsMap = mapStaticRequirements(command.getStaticRequirements(), inlineParams);
-            } catch (InlineParamsCountError e) {
-                System.out.println(e.getMessage());
-                continue;
-            }
-            // mock execution
-            System.out.println("Command " + command.getName() + " executed");
+            // execute command
+            executeCommand(command, inlineParams);
         }
-        reader.close();
+        inputScanner.close();
     }
 }
