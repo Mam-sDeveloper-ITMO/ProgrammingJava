@@ -13,6 +13,7 @@ import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
+import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -140,8 +141,11 @@ public class CLIClient {
      */
     public void runClient() {
         // create user input inputScanner
+        @Cleanup
         Scanner inputScanner = new Scanner(System.in);
-        while (inputScanner.hasNextLine()) {
+        while (true) {
+            // cute arrows
+            System.out.print(">> ");
             // get user input and parse on separated words
             // if line is empty, then skip it
             List<String> inlineParams = parseInlineParams(inputScanner.nextLine());
@@ -161,6 +165,5 @@ public class CLIClient {
             // execute command
             executeCommand(command, inlineParams);
         }
-        inputScanner.close();
     }
 }
