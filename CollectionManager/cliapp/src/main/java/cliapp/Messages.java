@@ -15,6 +15,7 @@ public class Messages {
 
         public static final String COMMAND_NOT_FOUND_ERROR = BUNDLE.getString("CommandNotFoundError");
         public static final String INLINE_PARAMS_COUNT_ERROR = BUNDLE.getString("InlineParamsCountError");
+        public static final String ASK_REQUIREMENT = BUNDLE.getString("AskRequirement");
     }
 
     /**
@@ -46,6 +47,7 @@ public class Messages {
         public static final String MINUTES_OF_WAITING_DESCR = BUNDLE.getString("MinutesOfWaitingDescr");
         public static final String MOOD = BUNDLE.getString("Mood");
         public static final String MOOD_DESCR = BUNDLE.getString("MoodDescr");
+        public static final String MOODS_TITLE = BUNDLE.getString("MoodsTitle");
         public static final String MOOD_BY_NUMBER_NOT_EXISTS = BUNDLE.getString("MoodByNumberNotExists");
         public static final String MOOD_BY_NAME_NOT_EXISTS = BUNDLE.getString("MoodByNameNotExists");
         public static final String MOOD_VALIDATION_ERROR = BUNDLE.getString("MoodValidationError");

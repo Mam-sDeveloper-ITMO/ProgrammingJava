@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static cliapp.Messages.ElementRequirements.MOOD;
+import cliapp.Messages.ElementRequirements;
 
 import cliapp.commands.collection.requirements.CarNameRequirement;
 import cliapp.commands.collection.requirements.CoordinatesXRequirement;
@@ -54,7 +54,7 @@ public abstract class ElementCommand extends CollectionCommand {
         for (int i = 0; i < Mood.values().length; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
-        output.putString(MOOD.formatted(moods));
+        output.putString(ElementRequirements.MOODS_TITLE + "\n" + moods);
         humanBuilder.mood(pipeline.askRequirement(new MoodRequirement()));
 
         Car car = new Car(pipeline.askRequirement(new CarNameRequirement()));
