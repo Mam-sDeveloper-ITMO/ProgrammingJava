@@ -46,5 +46,6 @@ public class Messages {
         public static final String DATETIME_ERROR = EXCEPTIONS_BUNDLE.getString("DateTimeError");
         public static final String LONG_ERROR = EXCEPTIONS_BUNDLE.getString("LongError");
         public static final String NULL_ERROR = EXCEPTIONS_BUNDLE.getString("NullError");
+        public static final String EMPTY_ERROR = EXCEPTIONS_BUNDLE.getString("EmptyError");
     }
 }

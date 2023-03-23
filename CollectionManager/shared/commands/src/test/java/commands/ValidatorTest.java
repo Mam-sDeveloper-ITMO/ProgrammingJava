@@ -123,6 +123,15 @@ public class ValidatorTest {
     }
 
     @Test
+    public void testNotEmptyValidator() {
+        try {
+            String value = notEmptyValidator.validate("1");
+            assertEquals("1", value);
+        } catch (Exception e) {
+        }
+    }
+
+    @Test
     public void testNotNullValidator() {
         try {
             String value = new NotNullValidator<String>().validate("1");

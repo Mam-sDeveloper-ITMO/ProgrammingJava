@@ -1,15 +1,27 @@
 package commands.requirements.validators.common;
 
-import commands.requirements.exceptions.ValidationError;
-import commands.requirements.validators.Validator;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import commands.Messages.StringValidatorsMessages;
+import commands.requirements.exceptions.ValidationError;
+import commands.requirements.validators.Validator;
 
 public class StringValidators {
+    /**
+     * Provides validation for String from String that is not empty
+     */
+    public static Validator<String, String> notEmptyValidator = new Validator<String, String>() {
+        @Override
+        public String validate(String value) throws ValidationError {
+            if (value.isEmpty()) {
+                throw new ValidationError(value, String.class, StringValidatorsMessages.EMPTY_ERROR.formatted(value));
+            }
+            return value;
+        }
+    };
+
     /**
      * Provides validation for Boolean type from String
      */
