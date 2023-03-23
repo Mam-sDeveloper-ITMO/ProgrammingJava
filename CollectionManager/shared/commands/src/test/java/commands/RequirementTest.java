@@ -17,7 +17,7 @@ public class RequirementTest {
             if (value instanceof String) {
                 return (String) value;
             } else {
-                throw new ValidationError(value, String.class, "Value is not a string");
+                throw new ValidationError(value, "Value is not a string");
             }
         };
         Requirement<String, String> requirement = new Requirement<>("name", "description", validator);
@@ -34,7 +34,7 @@ public class RequirementTest {
             if (value instanceof String) {
                 return (String) value;
             } else {
-                throw new ValidationError(value, String.class, "Value is not a string");
+                throw new ValidationError(value, "Value is not a string");
             }
         };
         Requirement<Object, String> requirement = new Requirement<>("name", "description", validator);

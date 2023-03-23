@@ -29,7 +29,7 @@ public class NonExistingIdRequirement extends Requirement<String, Long> {
         @Override
         public Long validate(Long value) throws ValidationError {
             if (collectionManager.isElementExists(value)) {
-                throw new ValidationError(value, Integer.class, Messages.ElementRequirements.ID_NOT_EXISTS);
+                throw new ValidationError(value, Messages.ElementRequirements.ID_NOT_EXISTS);
             }
             return value;
         }

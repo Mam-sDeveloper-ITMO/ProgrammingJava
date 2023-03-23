@@ -16,7 +16,7 @@ public class StringValidators {
         @Override
         public String validate(String value) throws ValidationError {
             if (value != null & value.isEmpty()) {
-                throw new ValidationError(value, String.class, StringValidatorsMessages.EMPTY_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsMessages.EMPTY_ERROR.formatted(value));
             }
             return value;
         }
@@ -34,8 +34,7 @@ public class StringValidators {
             } else if (stringValue.equals("false")) {
                 return false;
             } else {
-                throw new ValidationError(value, Boolean.class,
-                        StringValidatorsMessages.BOOLEAN_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsMessages.BOOLEAN_ERROR.formatted(value));
             }
         }
     };
@@ -49,8 +48,7 @@ public class StringValidators {
             try {
                 return Integer.parseInt(value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, Integer.class,
-                        StringValidatorsMessages.INTEGER_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsMessages.INTEGER_ERROR.formatted(value));
             }
         }
     };
@@ -64,7 +62,7 @@ public class StringValidators {
             try {
                 return Long.parseLong(value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, Long.class, StringValidatorsMessages.LONG_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsMessages.LONG_ERROR.formatted(value));
             }
         }
     };
@@ -78,7 +76,7 @@ public class StringValidators {
             try {
                 return Float.parseFloat(value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, Float.class, StringValidatorsMessages.FLOAT_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsMessages.FLOAT_ERROR.formatted(value));
             }
         }
     };
@@ -92,7 +90,7 @@ public class StringValidators {
             try {
                 return Double.parseDouble(value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, Double.class, StringValidatorsMessages.DOUBLE_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsMessages.DOUBLE_ERROR.formatted(value));
             }
         }
     };
@@ -109,8 +107,7 @@ public class StringValidators {
             try {
                 return LocalDateTime.parse(value, formatter);
             } catch (DateTimeParseException e) {
-                throw new ValidationError(value, LocalDateTime.class,
-                        StringValidatorsMessages.DATETIME_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsMessages.DATETIME_ERROR.formatted(value));
             }
         }
     };

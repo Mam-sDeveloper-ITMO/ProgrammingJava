@@ -27,13 +27,13 @@ public class ValidatorTest {
                     if (result > 0) {
                         return result;
                     } else {
-                        throw new ValidationError(value, Integer.class, "Not positive");
+                        throw new ValidationError(value, "Not positive");
                     }
                 } catch (NumberFormatException e) {
-                    throw new ValidationError(value, Integer.class, "Not a number");
+                    throw new ValidationError(value, "Not a number");
                 }
             }
-            throw new ValidationError(value, Integer.class, "Can convert only String");
+            throw new ValidationError(value, "Can convert only String");
         }
     }
 

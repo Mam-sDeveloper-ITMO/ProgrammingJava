@@ -13,7 +13,7 @@ public class Misc {
         @Override
         public I validate(I value) throws ValidationError {
             if (value == null) {
-                throw new ValidationError(value, Object.class, MiscValidatorsMessages.NULL_ERROR.formatted(value));
+                throw new ValidationError(value, MiscValidatorsMessages.NULL_ERROR.formatted(value));
             }
             return value;
         }
@@ -29,8 +29,7 @@ public class Misc {
         @Override
         public I validate(I value) throws ValidationError {
             if (value.compareTo(other) <= 0) {
-                throw new ValidationError(value, Object.class,
-                        MiscValidatorsMessages.GREATER_ERROR.formatted(value, other));
+                throw new ValidationError(value, MiscValidatorsMessages.GREATER_ERROR.formatted(value, other));
             }
             return value;
         }
@@ -46,8 +45,7 @@ public class Misc {
         @Override
         public I validate(I value) throws ValidationError {
             if (value.compareTo(other) >= 0) {
-                throw new ValidationError(value, Object.class,
-                        MiscValidatorsMessages.LOWER_ERROR.formatted(value, other));
+                throw new ValidationError(value, MiscValidatorsMessages.LOWER_ERROR.formatted(value, other));
             }
             return value;
         }
