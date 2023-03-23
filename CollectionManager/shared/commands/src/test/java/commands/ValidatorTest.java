@@ -1,6 +1,7 @@
 package commands;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.time.LocalDateTime;
 
@@ -145,6 +146,21 @@ public class ValidatorTest {
         }
     }
 
+    @Test
+    public void testOrNullValidator() {
+        try {
+            Validator<String, Integer> validator = new OrNullValidator<>(integerValidator);
+            assertNull(validator.validate("35asfawsffs"));
+        } catch (Exception e) {
+            Assert.fail("Exception  handled");
+        }
+        try {
+            Validator<String, Integer> validator = new OrNullValidator<>(integerValidator);
+            assertEquals(validator.validate("35"), Integer.valueOf(35));
+        } catch (Exception e) {
+            Assert.fail("Exception  handled");
+        }
+    }
     @Test
     public void testValidatorsChain() {
         try {

@@ -7,6 +7,23 @@ import lombok.RequiredArgsConstructor;
 
 public class Misc {
     /**
+     * Wrap validator and return null if ValidationError was ocurred.
+     */
+    @RequiredArgsConstructor
+    public static class OrNullValidator<I, O> implements Validator<I, O> {
+        private final Validator<I, O> baseValidator;
+
+        @Override
+        public O validate(I value) throws ValidationError {
+            try {
+                return baseValidator.validate(value);
+            } catch (ValidationError e) {
+                return null;
+            }
+        }
+    }
+
+    /**
      * Validate that object is not null and return same value.
      */
     public static class NotNullValidator<I> implements Validator<I, I> {
