@@ -8,6 +8,6 @@ import cliapp.Messages.CLIClient;
  */
 public class InlineParamsCountError extends Exception {
     public InlineParamsCountError(int expected, int actual) {
-        super(CLIClient.COMMAND_NOT_FOUND_ERROR.formatted(expected, actual));
+        super(CLIClient.INLINE_PARAMS_COUNT_ERROR.formatted(expected, actual));
     }
 }
