@@ -29,6 +29,7 @@ public class Messages {
         public static final String ID_DESCR = BUNDLE.getString("IdDescr");
         public static final String ID_NOT_POSITIVE = BUNDLE.getString("IdNotPositive");
         public static final String ID_NOT_EXISTS = BUNDLE.getString("IdNotExists");
+        public static final String ID_EXISTS = BUNDLE.getString("IdExists");
         public static final String NAME = BUNDLE.getString("Name");
         public static final String NAME_DESCR = BUNDLE.getString("NameDescr");
         public static final String COORDINATE_X = BUNDLE.getString("CoordinateX");

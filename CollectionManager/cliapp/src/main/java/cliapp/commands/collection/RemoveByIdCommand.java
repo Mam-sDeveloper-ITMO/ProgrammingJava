@@ -3,7 +3,7 @@ package cliapp.commands.collection;
 import java.util.List;
 
 import cliapp.Messages;
-import cliapp.commands.collection.requirements.IdRequirement;
+import cliapp.commands.collection.requirements.ExistingIdRequirement;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -21,8 +21,8 @@ public class RemoveByIdCommand extends ElementCommand {
     }
 
     @Override
-    public List<Requirement<?>> getStaticRequirements() {
-        return List.of(new IdRequirement(collectionManager));
+    public List<Requirement<?, ?>> getStaticRequirements() {
+        return List.of(new ExistingIdRequirement(collectionManager));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class RemoveByIdCommand extends ElementCommand {
         Long id;
 
         try {
-            id = pipeline.askRequirement(new IdRequirement(collectionManager));
+            id = pipeline.askRequirement(new ExistingIdRequirement(collectionManager));
         } catch (RequirementAskError e) {
             throw new ExecutionError(e.getMessage());
         }

@@ -55,10 +55,10 @@ public class CollectionCommandTest {
         }
 
         @Override
-        public <T> T askRequirement(Requirement<T> requirement) throws RequirementAskError {
+        public <I, O> O askRequirement(Requirement<I, O> requirement) throws RequirementAskError {
             if (requirement.getName().equals("id")) {
                 try {
-                    return requirement.getValue(id.toString());
+                    return requirement.getValue((I) id.toString());
                 } catch (ValidationError e) {
                     throw new RequirementAskError(requirement.getName());
                 }
@@ -85,9 +85,9 @@ public class CollectionCommandTest {
         }
 
         @Override
-        public <T> T askRequirement(Requirement<T> requirement) throws RequirementAskError {
+        public <I, O> O askRequirement(Requirement<I, O> requirement) throws RequirementAskError {
             try {
-                return requirement.getValue(params.get(requirement.getName()));
+                return requirement.getValue((I) params.get(requirement.getName()));
             } catch (ValidationError e) {
                 throw new RequirementAskError(requirement.getName());
             }
@@ -178,7 +178,7 @@ public class CollectionCommandTest {
     public void testUpdateElementCommand() {
         TestOutput output = new TestOutput();
         Command command = new UpdateElementCommand(collectionManager);
-        List<Requirement<?>> requirements = command.getStaticRequirements();
+        List<Requirement<?, ?>> requirements = command.getStaticRequirements();
         assertEquals(requirements.size(), 1);
         assertEquals(requirements.get(0).getName(), "id");
     }
@@ -187,7 +187,7 @@ public class CollectionCommandTest {
     public void testRemoveByIdCommand() {
         TestOutput output = new TestOutput();
         Command command = new RemoveByIdCommand(collectionManager);
-        List<Requirement<?>> requirements = command.getStaticRequirements();
+        List<Requirement<?, ?>> requirements = command.getStaticRequirements();
         assertEquals(requirements.size(), 1);
         assertEquals(requirements.get(0).getName(), "id");
 

@@ -99,7 +99,7 @@ public class CLIClient {
      * 
      * @return Map where key is requirement name and value is inline param
      */
-    public Map<String, String> mapStaticRequirements(List<Requirement<?>> staticRequirements, List<String> inlineParams)
+    public Map<String, String> mapStaticRequirements(List<Requirement<?, ?>> staticRequirements, List<String> inlineParams)
             throws InlineParamsCountError {
 
         if (staticRequirements.size() != inlineParams.size()) {

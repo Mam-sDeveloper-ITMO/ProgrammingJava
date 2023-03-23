@@ -45,7 +45,7 @@ public abstract class ElementCommand extends CollectionCommand {
         humanBuilder.hasToothpick(pipeline.askRequirement(new HasToothpickRequirement()));
 
         humanBuilder.impactSpeed(pipeline.askRequirement(new ImpactSpeedRequirement()));
-
+        
         humanBuilder.soundtrackName(pipeline.askRequirement(new SoundtrackNameRequirement()));
 
         humanBuilder.minutesOfWaiting(pipeline.askRequirement(new MinutesOfWaitingRequirement()));

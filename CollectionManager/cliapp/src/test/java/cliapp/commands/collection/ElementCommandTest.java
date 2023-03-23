@@ -51,9 +51,9 @@ public class ElementCommandTest {
         }
 
         @Override
-        public <T> T askRequirement(Requirement<T> requirement) throws RequirementAskError {
+        public <I, O> O askRequirement(Requirement<I, O> requirement) throws RequirementAskError {
             try {
-                return requirement.getValue(params.get(requirement.getName()));
+                return requirement.getValue((I) params.get(requirement.getName()));
             } catch (ValidationError e) {
                 throw new RequirementAskError(requirement.getName(), e);
             }
