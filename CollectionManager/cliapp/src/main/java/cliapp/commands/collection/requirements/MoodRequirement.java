@@ -2,10 +2,11 @@ package cliapp.commands.collection.requirements;
 
 import static commands.requirements.validators.common.StringValidators.integerValidator;
 
-import cliapp.Messages;
+import cliapp.Messages.ElementRequirements;
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
+import commands.requirements.validators.common.Misc.OrNullValidator;
 import models.Mood;
 
 /**
@@ -13,7 +14,8 @@ import models.Mood;
  */
 public class MoodRequirement extends Requirement<String, Mood> {
     public MoodRequirement() {
-        super(Messages.ElementRequirements.MOOD, Messages.ElementRequirements.MOOD_DESCR, new MoodValidator());
+        super(ElementRequirements.MOOD, ElementRequirements.MOOD_DESCR,
+                new OrNullValidator<>(new MoodValidator()));
     }
 
     private static class MoodValidator implements Validator<String, Mood> {
@@ -25,7 +27,7 @@ public class MoodRequirement extends Requirement<String, Mood> {
                 try {
                     return Mood.values()[number];
                 } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-                    throw new ValidationError(value, Messages.ElementRequirements.MOOD_BY_NUMBER_NOT_EXISTS);
+                    throw new ValidationError(value, ElementRequirements.MOOD_BY_NUMBER_NOT_EXISTS);
                 }
             } catch (ValidationError e) {
                 // else, try to get mood by name
@@ -34,7 +36,7 @@ public class MoodRequirement extends Requirement<String, Mood> {
                     moodName = moodName.toUpperCase();
                     return Mood.valueOf(moodName);
                 } catch (IllegalArgumentException e1) {
-                    throw new ValidationError(value, Messages.ElementRequirements.MOOD_BY_NAME_NOT_EXISTS);
+                    throw new ValidationError(value, ElementRequirements.MOOD_BY_NAME_NOT_EXISTS);
                 }
             }
         }
