@@ -33,11 +33,11 @@ public class Messages {
     }
 
     /**
-     * Resources of commands.requirements.validators subpackage
+     * Resources of commands.requirements.validators.common.StringValidators
      */
-    public static class Validators {
+    public static class StringValidatorsMessages {
         private static final ResourceBundle EXCEPTIONS_BUNDLE = ResourceBundle.getBundle(
-                "commands.requirements.validators");
+                "commands.requirements.validators.common.string");
 
         public static final String BOOLEAN_ERROR = EXCEPTIONS_BUNDLE.getString("BooleanError");
         public static final String DOUBLE_ERROR = EXCEPTIONS_BUNDLE.getString("DoubleError");

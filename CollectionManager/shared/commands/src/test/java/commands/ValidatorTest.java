@@ -9,12 +9,8 @@ import org.junit.Test;
 
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
-import commands.requirements.validators.common.DateTimeValidator;
-import commands.requirements.validators.common.DoubleValidator;
-import commands.requirements.validators.common.FloatValidator;
-import commands.requirements.validators.common.IntegerValidator;
-import commands.requirements.validators.common.NotNullValidator;
-import commands.requirements.validators.common.StringValidator;
+import static commands.requirements.validators.common.StringValidators.*;
+import static commands.requirements.validators.common.Misc.*;
 
 public class ValidatorTest {
     /**
@@ -22,9 +18,9 @@ public class ValidatorTest {
      * 
      * Convert to positive integer
      */
-    private class TestValidator implements Validator<Integer> {
+    private class TestValidator implements Validator<String, Integer> {
         @Override
-        public Integer validate(Object value) throws ValidationError {
+        public Integer validate(String value) throws ValidationError {
             if (value instanceof String) {
                 try {
                     Integer result = Integer.parseInt((String) value);
@@ -36,14 +32,8 @@ public class ValidatorTest {
                 } catch (NumberFormatException e) {
                     throw new ValidationError(value, Integer.class, "Not a number");
                 }
-            } else if (value instanceof Integer) {
-                if ((Integer) value > 0) {
-                    return (Integer) value;
-                } else {
-                    throw new ValidationError(value, Integer.class, "Not positive");
-                }
             }
-            throw new ValidationError(value, Integer.class, "Can convert only String or Integer values");
+            throw new ValidationError(value, Integer.class, "Can convert only String");
         }
     }
 
@@ -71,7 +61,8 @@ public class ValidatorTest {
     @Test
     public void testFromInteger() {
         try {
-            Integer result = validator.validate(10);
+            Integer result = validator.validate("10");
+            assertEquals(result, Integer.valueOf(10));
         } catch (ValidationError e) {
             Assert.fail("Should not throw ValidationError");
         }
@@ -79,13 +70,9 @@ public class ValidatorTest {
 
     @Test
     public void testIntegerValidator() {
-        Validator<Integer> validator = new IntegerValidator();
         Integer value;
         try {
-            value = validator.validate("1");
-            assertEquals(1, value.intValue());
-
-            value = validator.validate(1);
+            value = integerValidator.validate("1");
             assertEquals(1, value.intValue());
         } catch (Exception e) {
             // TODO: handle exception
@@ -94,13 +81,9 @@ public class ValidatorTest {
 
     @Test
     public void testFloatValidator() {
-        Validator<Float> validator = new FloatValidator();
         Float value;
         try {
-            value = validator.validate("1.1");
-            assertEquals(1.1f, value, 0.0001);
-
-            value = validator.validate(1.1f);
+            value = floatValidator.validate("1.1");
             assertEquals(1.1f, value, 0.0001);
         } catch (Exception e) {
         }
@@ -108,13 +91,9 @@ public class ValidatorTest {
 
     @Test
     public void testDoubleValidator() {
-        Validator<Double> validator = new DoubleValidator();
         Double value;
         try {
-            value = validator.validate("1");
-            assertEquals(1.0, value, 0.0001);
-
-            value = validator.validate(1.0d);
+            value = doubleValidator.validate("1");
             assertEquals(1.0, value, 0.0001);
         } catch (Exception e) {
         }
@@ -122,10 +101,9 @@ public class ValidatorTest {
 
     @Test
     public void testDateTimeValidator() {
-        Validator<LocalDateTime> validator = new DateTimeValidator();
         LocalDateTime value;
         try {
-            value = validator.validate("2017-01-01 00:00:00");
+            value = dateTimeValidator.validate("2017-01-01 00:00:00");
             assertEquals(2017, value.getYear());
             assertEquals(1, value.getMonthValue());
             assertEquals(1, value.getDayOfMonth());
@@ -133,11 +111,11 @@ public class ValidatorTest {
             assertEquals(0, value.getMinute());
             assertEquals(0, value.getSecond());
 
-            value = validator.validate("2017-01-01 00:00:00.000");
+            value = dateTimeValidator.validate("2017-01-01 12:00:00.000");
             assertEquals(2017, value.getYear());
             assertEquals(1, value.getMonthValue());
             assertEquals(1, value.getDayOfMonth());
-            assertEquals(0, value.getHour());
+            assertEquals(12, value.getHour());
             assertEquals(0, value.getMinute());
             assertEquals(0, value.getSecond());
         } catch (Exception e) {
@@ -146,13 +124,14 @@ public class ValidatorTest {
 
     @Test
     public void testNotNullValidator() {
-        Validator<Object> validator = new NotNullValidator();
         try {
-            validator.validate("1");
-            validator.validate(1);
-            validator.validate(1.0);
-            validator.validate(1.0f);
-            validator.validate(LocalDateTime.now());
+            String value = new NotNullValidator<String>().validate("1");
+            assertEquals("1", value);
+        } catch (Exception e) {
+        }
+        try {
+            String value = new NotNullValidator<String>().validate(null);
+            Assert.fail("Should throw ValidationError");
         } catch (Exception e) {
         }
     }
@@ -160,17 +139,10 @@ public class ValidatorTest {
     @Test
     public void testValidatorsChain() {
         try {
-            Integer value = (new NotNullValidator()).and(new IntegerValidator()).validate("10");
+            Integer value = (new NotNullValidator<String>()).and(integerValidator).validate("10");
             assertEquals(Integer.valueOf(10), value);
         } catch (ValidationError e) {
             Assert.fail("Exception  handled");
-        }
-
-        try {
-            Integer value = (new StringValidator()).and(new NotNullValidator()).and(new IntegerValidator()).validate("10");
-            assertEquals(Integer.valueOf(10), value);
-        } catch (ValidationError e) {
-            Assert.fail(e.getMessage());
         }
     }
 }

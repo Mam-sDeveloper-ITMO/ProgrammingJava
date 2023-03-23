@@ -9,7 +9,7 @@ import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
-import commands.requirements.validators.common.IntegerValidator;
+import commands.requirements.validators.common.StringValidators;
 
 public class CommandTest {
     class CommandImpl extends Command {
@@ -18,15 +18,15 @@ public class CommandTest {
         }
 
         @Override
-        public List<Requirement<?>> getStaticRequirements() {
-            return List.of(new Requirement<>("Float", "Some Float", new IntegerValidator()));
+        public List<Requirement<?, ?>> getStaticRequirements() {
+            return List.of(new Requirement<>("Float", "Some Float", StringValidators.integerValidator));
         }
 
         @Override
         public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
             try {
                 Integer age = pipeline
-                        .askRequirement(new Requirement<Integer>("Integer", "Some Integer", new IntegerValidator()));
+                        .askRequirement(new Requirement<String, Integer>("Integer", "Some Integer", StringValidators.integerValidator));
                 output.putString(age.toString());
             } catch (Exception e) {
                 throw new ExecutionError("Failed to execute command", e);
@@ -36,9 +36,9 @@ public class CommandTest {
 
     class RequirementsPipelineImpl implements RequirementsPipeline {
         @Override
-        public <T> T askRequirement(Requirement<T> requirement) throws RequirementAskError {
+        public <I, O> O askRequirement(Requirement<I, O> requirement) throws RequirementAskError {
             if (requirement.getName().equals("Integer")) {
-                return (T) Integer.valueOf(1);
+                return (O) Integer.valueOf(1);
             }
             return null;
         }

@@ -33,7 +33,7 @@ public abstract class Command {
      * 
      * In CLI can be used for inline params, in GUI can be used for text fields.
      */
-    public List<Requirement<?>> getStaticRequirements() {
+    public List<Requirement<?, ?>> getStaticRequirements() {
         return List.of();
     };
 

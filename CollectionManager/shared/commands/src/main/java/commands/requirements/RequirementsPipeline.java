@@ -17,5 +17,5 @@ public interface RequirementsPipeline {
      * @param requirement - requirement for process.
      * @return
      */
-    public <T> T askRequirement(Requirement<T> requirement) throws RequirementAskError;
+    public <I, O> O askRequirement(Requirement<I, O> requirement) throws RequirementAskError;
 }
