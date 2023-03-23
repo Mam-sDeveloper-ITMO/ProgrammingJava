@@ -14,6 +14,7 @@ import commands.requirements.validators.common.DoubleValidator;
 import commands.requirements.validators.common.FloatValidator;
 import commands.requirements.validators.common.IntegerValidator;
 import commands.requirements.validators.common.NotNullValidator;
+import commands.requirements.validators.common.StringValidator;
 
 public class ValidatorTest {
     /**
@@ -153,6 +154,23 @@ public class ValidatorTest {
             validator.validate(1.0f);
             validator.validate(LocalDateTime.now());
         } catch (Exception e) {
+        }
+    }
+
+    @Test
+    public void testValidatorsChain() {
+        try {
+            Integer value = (new NotNullValidator()).and(new IntegerValidator()).validate("10");
+            assertEquals(Integer.valueOf(10), value);
+        } catch (ValidationError e) {
+            Assert.fail("Exception  handled");
+        }
+
+        try {
+            Integer value = (new StringValidator()).and(new NotNullValidator()).and(new IntegerValidator()).validate("10");
+            assertEquals(Integer.valueOf(10), value);
+        } catch (ValidationError e) {
+            Assert.fail(e.getMessage());
         }
     }
 }
