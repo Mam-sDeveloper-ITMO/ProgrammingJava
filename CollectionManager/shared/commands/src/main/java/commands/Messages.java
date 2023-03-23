@@ -45,7 +45,18 @@ public class Messages {
         public static final String INTEGER_ERROR = EXCEPTIONS_BUNDLE.getString("IntegerError");
         public static final String DATETIME_ERROR = EXCEPTIONS_BUNDLE.getString("DateTimeError");
         public static final String LONG_ERROR = EXCEPTIONS_BUNDLE.getString("LongError");
-        public static final String NULL_ERROR = EXCEPTIONS_BUNDLE.getString("NullError");
         public static final String EMPTY_ERROR = EXCEPTIONS_BUNDLE.getString("EmptyError");
+    }
+    
+    /**
+     * Resources of commands.requirements.validators.common.Misc
+     */
+    public static class MiscValidatorsMessages {
+        private static final ResourceBundle EXCEPTIONS_BUNDLE = ResourceBundle.getBundle(
+            "commands.requirements.validators.common.misc");
+            
+        public static final String NULL_ERROR = EXCEPTIONS_BUNDLE.getString("NullError");
+        public static final String GREATER_ERROR = EXCEPTIONS_BUNDLE.getString("GreaterError");
+        public static final String LOWER_ERROR = EXCEPTIONS_BUNDLE.getString("LowerError");
     }
 }
