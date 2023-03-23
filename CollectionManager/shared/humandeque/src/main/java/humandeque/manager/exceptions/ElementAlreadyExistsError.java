@@ -1,9 +1,9 @@
 package humandeque.manager.exceptions;
 
-import static humandeque.Messages.Manager.ELEMENT_NOT_EXISTS;
+import humandeque.Messages.Manager;
 
 public class ElementAlreadyExistsError extends Exception {
     public ElementAlreadyExistsError(long elementId) {
-        super(ELEMENT_NOT_EXISTS.formatted(elementId));
+        super(Manager.ELEMENT_NOT_EXISTS.formatted(elementId));
     }
 }

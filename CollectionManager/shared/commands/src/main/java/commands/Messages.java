@@ -24,7 +24,12 @@ public class Messages {
 
         public static final String VALIDATION_ERROR = EXCEPTIONS_BUNDLE.getString("ValidationError");
         public static final String REQUIREMENT_ASK_ERROR = EXCEPTIONS_BUNDLE.getString("RequirementAskError");
-        public static final String REQUIREMENT_ASK_ERROR_WITH_MESSAGE = EXCEPTIONS_BUNDLE.getString("RequirementAskErrorWithMessage");
+        public static final String REQUIREMENT_ASK_ERROR_WITH_MESSAGE = EXCEPTIONS_BUNDLE
+                .getString("RequirementAskErrorWithMessage");
+        public static final String REQUIREMENT_ASK_ERROR_WITH_CAUSE = EXCEPTIONS_BUNDLE
+                .getString("RequirementAskErrorWithCause");
+        public static final String REQUIREMENT_ASK_ERROR_WITH_MESSAGE_AND_CAUSE = EXCEPTIONS_BUNDLE
+                .getString("RequirementAskErrorWithMessageAndCause");
     }
 
     /**

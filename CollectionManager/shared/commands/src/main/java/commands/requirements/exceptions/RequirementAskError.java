@@ -1,7 +1,6 @@
 package commands.requirements.exceptions;
 
-import static commands.Messages.Requirements.REQUIREMENT_ASK_ERROR;
-import static commands.Messages.Requirements.REQUIREMENT_ASK_ERROR_WITH_MESSAGE;;
+import commands.Messages.Requirements;
 
 /**
  * Occurred when RequirementPipeline cannot correctly ask requirement,
@@ -9,18 +8,19 @@ import static commands.Messages.Requirements.REQUIREMENT_ASK_ERROR_WITH_MESSAGE;
  */
 public class RequirementAskError extends Exception {
     public RequirementAskError(String requirementName) {
-        super(REQUIREMENT_ASK_ERROR.formatted(requirementName));
+        super(Requirements.REQUIREMENT_ASK_ERROR.formatted(requirementName));
     }
 
     public RequirementAskError(String requirementName, Exception cause) {
-        super(REQUIREMENT_ASK_ERROR.formatted(requirementName), cause);
+        super(Requirements.REQUIREMENT_ASK_ERROR_WITH_CAUSE.formatted(requirementName, cause.getMessage()), cause);
     }
 
     public RequirementAskError(String requirementName, String message) {
-        super(REQUIREMENT_ASK_ERROR_WITH_MESSAGE.formatted(requirementName, message));
+        super(Requirements.REQUIREMENT_ASK_ERROR_WITH_MESSAGE.formatted(requirementName, message));
     }
 
     public RequirementAskError(String requirementName, String message, Exception cause) {
-        super(REQUIREMENT_ASK_ERROR_WITH_MESSAGE.formatted(requirementName, message), cause);
+        super(Requirements.REQUIREMENT_ASK_ERROR_WITH_MESSAGE_AND_CAUSE.formatted(requirementName, message,
+                cause.getMessage()), cause);
     }
 }

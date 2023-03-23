@@ -1,6 +1,6 @@
 package commands.exceptions;
 
-import static commands.Messages.Commands.EXECUTION_ERROR;
+import commands.Messages.Commands;
 
 /**
  * That exception is thrown when command execution failed
@@ -8,10 +8,10 @@ import static commands.Messages.Commands.EXECUTION_ERROR;
  */
 public class ExecutionError extends Exception {
     public ExecutionError(String message) {
-        super(EXECUTION_ERROR.formatted(message));
+        super(Commands.EXECUTION_ERROR.formatted(message));
     }
 
     public ExecutionError(String message, Throwable cause) {
-        super(EXECUTION_ERROR.formatted(message), cause);
+        super(Commands.EXECUTION_ERROR.formatted(message, cause.getMessage()), cause);
     }
 }
