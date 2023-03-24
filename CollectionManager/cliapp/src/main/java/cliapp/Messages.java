@@ -207,4 +207,17 @@ public class Messages {
         public static final String DESCRIPTION = BUNDLE.getString("PrintDescendingDescription");
         public static final String SUCCESS = BUNDLE.getString("PrintDescendingSuccess");
     }
+
+    /**
+     * cliapp.commands.cli HelpCommand
+     */
+    public static class HelpCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.cli.commands");
+
+        public static final String NAME = BUNDLE.getString("HelpName");
+        public static final String DESCRIPTION = BUNDLE.getString("HelpDescription");
+        public static final String TITLE = BUNDLE.getString("HelpTitle");
+        public static final String HELP_INLINE_PARAMS = BUNDLE.getString("HelpInlineParams");
+    }
 }

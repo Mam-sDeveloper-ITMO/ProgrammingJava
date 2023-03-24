@@ -3,6 +3,7 @@ package cliapp;
 import java.io.IOException;
 
 import cliapp.cliclient.CLIClient;
+import cliapp.commands.cli.HelpCommand;
 import cliapp.commands.collection.AddElementCommand;
 import cliapp.commands.collection.ClearCommand;
 import cliapp.commands.collection.InfoCommand;
@@ -32,13 +33,15 @@ public class App {
 
         // create client and register commands
         CLIClient client = new CLIClient();
-
+        // Collection commands
         client.registerCommand("info", new InfoCommand(manager));
         client.registerCommand("show", new ShowCommand(manager));
         client.registerCommand("add", new AddElementCommand(manager));
         client.registerCommand("update", new UpdateElementCommand(manager));
         client.registerCommand("remove_by_id", new RemoveByIdCommand(manager));
         client.registerCommand("clear", new ClearCommand(manager));
+        // CLI commands
+        client.registerCommand("help", new HelpCommand(client));
 
         // let's go!
         client.runClient();
