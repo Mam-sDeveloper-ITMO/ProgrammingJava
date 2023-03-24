@@ -15,7 +15,7 @@ import humandeque.manager.exceptions.ElementNotExistsError;
 /**
  * That command removes element from collection by id.
  */
-public class RemoveByIdCommand extends ElementCommand {
+public class RemoveByIdCommand extends CollectionCommand {
     public RemoveByIdCommand(CollectionManager collectionManager) {
         super(Messages.UpdateElementCommand.NAME, Messages.UpdateElementCommand.DESCRIPTION, collectionManager);
     }
