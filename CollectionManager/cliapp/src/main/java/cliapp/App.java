@@ -3,6 +3,7 @@ package cliapp;
 import java.io.IOException;
 
 import cliapp.cliclient.CLIClient;
+import cliapp.commands.cli.ExitCommand;
 import cliapp.commands.cli.HelpCommand;
 import cliapp.commands.collection.AddElementCommand;
 import cliapp.commands.collection.ClearCommand;
@@ -42,6 +43,7 @@ public class App {
         client.registerCommand("clear", new ClearCommand(manager));
         // CLI commands
         client.registerCommand("help", new HelpCommand(client));
+        client.registerCommand("exit", new ExitCommand(client));
 
         // let's go!
         client.runClient();
