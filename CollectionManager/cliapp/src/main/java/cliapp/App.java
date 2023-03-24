@@ -5,6 +5,7 @@ import java.io.IOException;
 import cliapp.cliclient.CLIClient;
 import cliapp.commands.cli.ExitCommand;
 import cliapp.commands.cli.HelpCommand;
+import cliapp.commands.cli.HistoryCommand;
 import cliapp.commands.collection.AddElementCommand;
 import cliapp.commands.collection.ClearCommand;
 import cliapp.commands.collection.InfoCommand;
@@ -44,6 +45,7 @@ public class App {
         // CLI commands
         client.registerCommand("help", new HelpCommand(client));
         client.registerCommand("exit", new ExitCommand(client));
+        client.registerCommand("history", new HistoryCommand(client));
 
         // let's go!
         client.runClient();

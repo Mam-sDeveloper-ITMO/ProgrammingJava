@@ -2,7 +2,6 @@ package cliapp.commands.collection;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,6 @@ import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsCountError;
 import commands.Command;
-import commands.exceptions.ExecutionError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.local.LocalManager;
 

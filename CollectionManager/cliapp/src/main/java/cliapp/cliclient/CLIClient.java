@@ -29,6 +29,9 @@ public class CLIClient {
     @Getter
     private HashMap<String, Command> commands = new HashMap<String, Command>();
 
+    @Getter
+    private List<String> history = new ArrayList<String>();
+
     /**
      * If fuzzy matching enabled, then cli will try to find command by prefix of
      * trigger
@@ -100,7 +103,8 @@ public class CLIClient {
      * 
      * @return Map where key is requirement name and value is inline param
      */
-    public Map<String, String> mapStaticRequirements(List<Requirement<?, ?>> staticRequirements, List<String> inlineParams)
+    public Map<String, String> mapStaticRequirements(List<Requirement<?, ?>> staticRequirements,
+            List<String> inlineParams)
             throws InlineParamsCountError {
 
         if (staticRequirements.size() != inlineParams.size()) {
@@ -167,6 +171,8 @@ public class CLIClient {
             }
             // execute command
             executeCommand(command, inlineParams);
+            // save trigger to history
+            history.add(trigger);
         }
     }
 }

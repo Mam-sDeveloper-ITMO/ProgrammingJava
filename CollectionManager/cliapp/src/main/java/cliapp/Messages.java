@@ -234,6 +234,19 @@ public class Messages {
     }
 
     /**
+     * cliapp.commands.cli HistoryCommand
+     */
+    public static class HistoryCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.cli.commands");
+
+        public static final String NAME = BUNDLE.getString("HistoryName");
+        public static final String DESCRIPTION = BUNDLE.getString("HistoryDescription");
+        public static final String TITLE = BUNDLE.getString("HistoryTitle");
+        public static final String EMPTY = BUNDLE.getString("HistoryEmpty");
+    }
+
+    /**
      * Neko !
      */
     public static class Cats {
