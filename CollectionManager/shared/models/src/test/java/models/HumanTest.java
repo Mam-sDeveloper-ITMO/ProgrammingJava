@@ -49,4 +49,20 @@ public class HumanTest {
                 .car(new Car("TestCar"))
                 .build();
     }
+
+    @Test
+    public void testHumanToString() {
+        Human human = Human.builder()
+                .name("TestName")
+                .coordinates(new Coordinates(1.0f, 2.0f))
+                .realHero(true)
+                .hasToothpick(false)
+                .impactSpeed(1.0)
+                .soundtrackName("Civilian Defense")
+                .minutesOfWaiting(1.0f)
+                .mood(Mood.SADNESS)
+                .car(new Car("TestCar"))
+                .build();
+        System.out.println(human);
+    }
 }

@@ -1,6 +1,7 @@
 package models;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import lombok.Builder;
@@ -77,5 +78,23 @@ public class Human implements Comparable<Human> {
     @Override
     public int compareTo(Human o) {
         return this.impactSpeed - o.impactSpeed > 0 ? 1 : -1;
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return "Human(\n"
+                + "    id=" + id + ",\n"
+                + "    name=" + name + ",\n"
+                + "    creationDate=" + creationDate.format(formatter) + ",\n"
+                + "    coordinates=" + coordinates + ",\n"
+                + "    realHero=" + realHero + ",\n"
+                + "    hasToothpick=" + hasToothpick + ",\n"
+                + "    impactSpeed=" + impactSpeed + ",\n"
+                + "    soundtrackName=" + soundtrackName + ",\n"
+                + "    minutesOfWaiting=" + minutesOfWaiting + ",\n"
+                + "    mood=" + mood + ",\n"
+                + "    car=" + car + "\n"
+                + ")";
     }
 }
