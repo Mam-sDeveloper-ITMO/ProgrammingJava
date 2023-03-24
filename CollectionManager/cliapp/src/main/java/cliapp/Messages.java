@@ -131,6 +131,8 @@ public class Messages {
         public static final String NAME = BUNDLE.getString("ClearName");
         public static final String DESCRIPTION = BUNDLE.getString("ClearDescription");
         public static final String SUCCESS = BUNDLE.getString("ClearSuccess");
+        public static final String APPROVE = BUNDLE.getString("ClearApprove");
+        public static final String APPROVE_DESCRIPTION = BUNDLE.getString("ClearApproveDescription");
     }
 
     /**

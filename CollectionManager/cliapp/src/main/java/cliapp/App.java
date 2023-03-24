@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import cliapp.cliclient.CLIClient;
 import cliapp.commands.collection.AddElementCommand;
+import cliapp.commands.collection.ClearCommand;
 import cliapp.commands.collection.InfoCommand;
 import cliapp.commands.collection.RemoveByIdCommand;
 import cliapp.commands.collection.ShowCommand;
@@ -37,6 +38,7 @@ public class App {
         client.registerCommand("add", new AddElementCommand(manager));
         client.registerCommand("update", new UpdateElementCommand(manager));
         client.registerCommand("remove_by_id", new RemoveByIdCommand(manager));
+        client.registerCommand("clear", new ClearCommand(manager));
 
         // let's go!
         client.runClient();

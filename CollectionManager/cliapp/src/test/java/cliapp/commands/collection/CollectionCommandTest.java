@@ -82,6 +82,7 @@ public class CollectionCommandTest {
             params.put("minutes of waiting", "4");
             params.put("mood", "SADNESS");
             params.put("car name", "testCarName");
+            params.put("Are you sure you want to clear the collection?", "true");
         }
 
         @Override
@@ -198,6 +199,23 @@ public class CollectionCommandTest {
         }
         try {
             command.execute(new IdPipeline(human.getId()), output);
+        } catch (ExecutionError e) {
+            Assert.fail("Error handled");
+        }
+        assertEquals(collectionManager.getCollection().size(), 0);
+    }
+
+    @Test
+    public void testClearCommand() {
+        TestOutput output = new TestOutput();
+        Command command = new ClearCommand(collectionManager);
+        try {
+            collectionManager.add(human);
+        } catch (Exception e) {
+            Assert.fail();
+        }
+        try {
+            command.execute(new TestPipeline(), output);
         } catch (ExecutionError e) {
             Assert.fail("Error handled");
         }
