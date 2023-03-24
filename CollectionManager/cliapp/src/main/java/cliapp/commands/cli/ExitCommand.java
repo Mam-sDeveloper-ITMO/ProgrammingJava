@@ -16,7 +16,7 @@ public class ExitCommand extends CLICommand {
 
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
-        output.putString(Messages.ExitCommand.GOODBYE + Messages.Cats.CAT1);
+        output.putString(Messages.ExitCommand.GOODBYE + "\n" + Messages.Cats.CAT1);
         System.exit(0);
     }
 }

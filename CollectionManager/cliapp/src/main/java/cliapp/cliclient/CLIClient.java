@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import cliapp.Messages;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsCountError;
 import commands.Command;
@@ -140,6 +141,8 @@ public class CLIClient {
      * Wait user input and try resolve and execute command
      */
     public void runClient() {
+        System.out.println(Messages.Cats.CAT3);
+        System.out.println();
         // create user input inputScanner
         @Cleanup
         Scanner inputScanner = new Scanner(System.in);

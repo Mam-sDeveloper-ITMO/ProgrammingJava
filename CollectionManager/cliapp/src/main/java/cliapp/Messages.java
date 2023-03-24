@@ -241,5 +241,7 @@ public class Messages {
                 .getBundle("cliapp.cats.cats");
 
         public static final String CAT1 = BUNDLE.getString("Cat1");
+        public static final String CAT2 = BUNDLE.getString("Cat2");
+        public static final String CAT3 = BUNDLE.getString("Cat3");
     }
 }
