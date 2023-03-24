@@ -20,18 +20,18 @@ import models.Mood;
 public class LocalManagerTest {
     File resourcesDirectory = new File("src/test/resources/humandeque");
     LocalManager manager;
-    
+
     Human testHuman = Human.builder()
-    .name("test")
-    .coordinates(new Coordinates(1.f, 1.f))
-    .realHero(true)
-    .hasToothpick(true)
-            .impactSpeed(1)
+            .name("test")
+            .coordinates(new Coordinates(1.f, 1.f))
+            .realHero(true)
+            .hasToothpick(true)
+            .impactSpeed(1.0)
             .minutesOfWaiting(1.f)
             .mood(Mood.FRENZY)
             .car(new Car("testCar"))
             .build();
-            
+
     @Before
     @Test
     public void setUp() throws Exception {
@@ -87,7 +87,7 @@ public class LocalManagerTest {
         } catch (Exception e) {
         }
     }
-    
+
     @Test
     @SneakyThrows
     public void testUpdate() {
@@ -98,7 +98,7 @@ public class LocalManagerTest {
                 .coordinates(new Coordinates(1.f, 1.f))
                 .realHero(true)
                 .hasToothpick(true)
-                .impactSpeed(1)
+                .impactSpeed(1.0)
                 .minutesOfWaiting(1.f)
                 .mood(Mood.FRENZY)
                 .car(new Car("testCar"))

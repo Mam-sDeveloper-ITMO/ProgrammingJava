@@ -54,15 +54,8 @@ public class LocalManager extends CollectionManager {
     @Override
     public void update(Human element) throws ElementNotExistsError {
         Human human = getElementById(element.getId());
-        human.setName(element.getName());
-        human.setCoordinates(element.getCoordinates());
-        human.setCreationDate(element.getCreationDate());
-        human.setRealHero(element.isRealHero());
-        human.setHasToothpick(element.isHasToothpick());
-        human.setImpactSpeed(element.getImpactSpeed());
-        human.setMinutesOfWaiting(element.getMinutesOfWaiting());
-        human.setMood(element.getMood());
-        human.setCar(element.getCar());
+        collection.remove(human);
+        collection.add(element);
         return;
     }
 

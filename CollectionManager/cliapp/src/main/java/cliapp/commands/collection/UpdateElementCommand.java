@@ -37,8 +37,22 @@ public class UpdateElementCommand extends ElementCommand {
         }
 
         try {
+            // get new values of human fields from user
             Human human = askHuman(pipeline, output);
-            human.setId(id);
+            // create same human but with specified id
+            human = Human.builder()
+                    .id(id)
+                    .name(human.getName())
+                    .coordinates(human.getCoordinates())
+                    .realHero(human.getRealHero())
+                    .hasToothpick(human.getHasToothpick())
+                    .impactSpeed(human.getImpactSpeed())
+                    .soundtrackName(human.getSoundtrackName())
+                    .minutesOfWaiting(human.getMinutesOfWaiting())
+                    .mood(human.getMood())
+                    .car(human.getCar())
+                    .build();
+            // try to update element in collection
             try {
                 collectionManager.update(human);
                 output.putString(Messages.UpdateElementCommand.SUCCESS);

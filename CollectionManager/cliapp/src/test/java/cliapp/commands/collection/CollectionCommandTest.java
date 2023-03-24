@@ -18,6 +18,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import humandeque.manager.CollectionManager;
+import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.local.LocalManager;
 import models.Car;
 import models.Coordinates;
@@ -29,7 +30,6 @@ public class CollectionCommandTest {
     private Human human = Human.builder()
             .name("TestName")
             .coordinates(new Coordinates(1.0f, 2.0f))
-            .creationDate(null)
             .realHero(true)
             .hasToothpick(false)
             .impactSpeed(1.0)
@@ -143,8 +143,8 @@ public class CollectionCommandTest {
             } catch (ExecutionError e) {
                 Assert.fail("Error handled");
             }
-            assertTrue(output.getOutput(), output.getOutput().startsWith("Collection elements:\nHuman(id="));
-        } catch (Exception e) {
+            assertTrue(output.getOutput(), output.getOutput().startsWith("Collection elements:\nHuman("));
+        } catch (ElementAlreadyExistsError e) {
             Assert.fail();
         }
     }
@@ -164,8 +164,8 @@ public class CollectionCommandTest {
         assertEquals(human.getName(), "TestName");
         assertEquals(human.getCoordinates().getX(), 1.0f, 0.0001f);
         assertEquals(human.getCoordinates().getY(), 2.0f, 0.0001f);
-        assertEquals(human.isRealHero(), true);
-        assertEquals(human.isHasToothpick(), false);
+        assertEquals(human.getRealHero(), true);
+        assertEquals(human.getHasToothpick(), false);
         assertEquals(human.getImpactSpeed(), 3.0, 0.0001);
         assertEquals(human.getSoundtrackName(), "testSoundtrackName");
         assertEquals(human.getMinutesOfWaiting(), 4.0f, 0.0001f);
