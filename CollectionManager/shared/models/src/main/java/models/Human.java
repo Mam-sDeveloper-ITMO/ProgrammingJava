@@ -5,9 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Main entity of the collection.
@@ -18,41 +18,52 @@ import lombok.RequiredArgsConstructor;
  *      "https://se.ifmo.ru/courses/programming">https://se.ifmo.ru/courses/programming</a>
  * 
  */
-@Data
 @Builder
-@RequiredArgsConstructor
+@EqualsAndHashCode
 public class Human implements Comparable<Human> {
+    @Getter
     @Builder.Default
     private long id = (new Random()).nextLong(1, Long.MAX_VALUE);
 
+    @Getter
     @NonNull
     private String name;
 
+    @Getter
     @NonNull
     private Coordinates coordinates;
 
+    @Getter
     @Builder.Default
+    @NonNull
     private LocalDateTime creationDate = LocalDateTime.now();
 
+    @Getter
     private boolean realHero;
 
+    @Getter
     private boolean hasToothpick;
 
+    @Getter
     private double impactSpeed;
 
+    @Getter
     @NonNull
     private String soundtrackName;
 
+    @Getter
     private Float minutesOfWaiting;
 
+    @Getter
     private Mood mood;
 
+    @Getter
     @NonNull
     private Car car;
 
-    private Human(long id, String name, Coordinates coordinates, LocalDateTime creationDate, boolean realHero,
-            boolean hasToothpick, double impactSpeed, String soundtrackName, Float minutesOfWaiting, Mood mood,
-            Car car) {
+    private Human(long id, String name, Coordinates coordinates, LocalDateTime creationDate,
+            boolean realHero, boolean hasToothpick, double impactSpeed, String soundtrackName,
+            Float minutesOfWaiting, Mood mood, Car car) {
 
         if (id <= 0) {
             throw new IllegalArgumentException();

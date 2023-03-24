@@ -8,21 +8,12 @@ public class HumanTest {
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
-    @Test
-    public void testHumanConstructor() {
-        Human human = new Human(
-                "TestName",
-                new Coordinates(1.0f, 2.0f),
-                "Civilian Defense",
-                new Car("TestCar"));
-    }
 
     @Test
     public void testHumanBuilderAllField() {
         Human human = Human.builder()
                 .name("TestName")
                 .coordinates(new Coordinates(1.0f, 2.0f))
-                .creationDate(null)
                 .realHero(true)
                 .hasToothpick(false)
                 .impactSpeed(1.0)
@@ -39,7 +30,6 @@ public class HumanTest {
         Human human = Human.builder()
                 .name("")
                 .coordinates(new Coordinates(1.0f, 2.0f))
-                .creationDate(null)
                 .realHero(true)
                 .hasToothpick(false)
                 .impactSpeed(1.0)
