@@ -19,7 +19,7 @@ import lombok.NonNull;
  * 
  */
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(of = { "id" })
 public class Human implements Comparable<Human> {
     @Getter
     @Builder.Default
@@ -39,13 +39,16 @@ public class Human implements Comparable<Human> {
     private LocalDateTime creationDate = LocalDateTime.now();
 
     @Getter
-    private boolean realHero;
+    @NonNull
+    private Boolean realHero;
 
     @Getter
-    private boolean hasToothpick;
+    @NonNull
+    private Boolean hasToothpick;
 
     @Getter
-    private double impactSpeed;
+    @NonNull
+    private Double impactSpeed;
 
     @Getter
     @NonNull
