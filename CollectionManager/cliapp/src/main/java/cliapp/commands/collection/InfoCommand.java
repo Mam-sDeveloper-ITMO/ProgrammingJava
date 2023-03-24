@@ -25,7 +25,8 @@ public class InfoCommand extends CollectionCommand {
         output.putString(Messages.InfoCommand.TYPE.formatted(collectionType));
 
         LocalDateTime initTime = collectionManager.getCollection().getCreateTime();
-        String formattedInitTime = initTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        String formattedInitTime = initTime.format(formatter);
         output.putString(Messages.InfoCommand.INIT_TIME.formatted(formattedInitTime));
 
         long size = collectionManager.getCollection().size();
