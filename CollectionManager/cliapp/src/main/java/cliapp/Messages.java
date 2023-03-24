@@ -220,4 +220,26 @@ public class Messages {
         public static final String TITLE = BUNDLE.getString("HelpTitle");
         public static final String HELP_INLINE_PARAMS = BUNDLE.getString("HelpInlineParams");
     }
+
+    /**
+     * cliapp.commands.cli ExitCommand
+     */
+    public static class ExitCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.cli.commands");
+
+        public static final String NAME = BUNDLE.getString("ExitName");
+        public static final String DESCRIPTION = BUNDLE.getString("ExitDescription");
+        public static final String GOODBYE = BUNDLE.getString("ExitGoodbye");
+    }
+
+    /**
+     * Neko !
+     */
+    public static class Cats {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.cats.cats");
+
+        public static final String CAT1 = BUNDLE.getString("Cat1");
+    }
 }
