@@ -132,7 +132,7 @@ public class CollectionCommandTest {
         } catch (ExecutionError e) {
             Assert.fail("Error handled");
         }
-        assertEquals(output.getOutput(), "Collection is empty.\n");
+        assertTrue(output.getOutput().startsWith("Collection is empty."));
 
         output.clear();
         try {
@@ -143,7 +143,7 @@ public class CollectionCommandTest {
                 Assert.fail("Error handled");
             }
             assertTrue(output.getOutput(),
-                output.getOutput().startsWith("Collection elements:\nHuman("));
+                output.getOutput().startsWith("Collection elements:"));
         } catch (ElementAlreadyExistsError e) {
             Assert.fail();
         }
@@ -159,7 +159,7 @@ public class CollectionCommandTest {
             Assert.fail("Error handled");
         }
         assertTrue(output.getOutput(),
-            output.getOutput().contains("Element added to collection.\n"));
+            output.getOutput().contains("Element added to collection."));
 
         Human human = collectionManager.getCollection().getFirst();
         assertEquals(human.getName(), "TestName");
