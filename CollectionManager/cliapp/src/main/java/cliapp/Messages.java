@@ -226,6 +226,20 @@ public class Messages {
     }
 
     /**
+     * cliapp.commands.collection RemoveLastCommand
+     */
+    public static class RemoveLastCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+            .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("RemoveLastName");
+
+        public static final String DESCRIPTION = BUNDLE.getString("RemoveLastDescription");
+
+        public static final String SUCCESS = BUNDLE.getString("RemoveLastSuccess");
+    }
+
+    /**
      * cliapp.commands.collection HeadCommand
      */
     public static class HeadCommand {

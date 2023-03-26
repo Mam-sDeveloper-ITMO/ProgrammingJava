@@ -10,6 +10,8 @@ import cliapp.commands.collection.AddElementCommand;
 import cliapp.commands.collection.ClearCommand;
 import cliapp.commands.collection.InfoCommand;
 import cliapp.commands.collection.RemoveByIdCommand;
+import cliapp.commands.collection.RemoveFirstCommand;
+import cliapp.commands.collection.RemoveLastCommand;
 import cliapp.commands.collection.ShowCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
@@ -41,6 +43,8 @@ public class App {
         client.registerCommand("show", new ShowCommand(manager));
         client.registerCommand("add", new AddElementCommand(manager));
         client.registerCommand("update", new UpdateElementCommand(manager));
+        client.registerCommand("remove_first", new RemoveFirstCommand(manager));
+        client.registerCommand("remove_last", new RemoveLastCommand(manager));
         client.registerCommand("remove_by_id", new RemoveByIdCommand(manager));
         client.registerCommand("clear", new ClearCommand(manager));
         // CLI commands

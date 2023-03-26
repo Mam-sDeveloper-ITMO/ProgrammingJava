@@ -31,7 +31,7 @@ public class SetFuzzyCommand extends CLICommand {
             output.putString(
                 fuzzyMode ? Messages.SetFuzzyCommand.FUZZY_ON : Messages.SetFuzzyCommand.FUZZY_OFF);
         } catch (RequirementAskError e) {
-            throw new ExecutionError(e.getMessage(), e);
+            throw new ExecutionError(e.getMessage());
         }
     }
 
