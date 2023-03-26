@@ -1,10 +1,8 @@
 package commands;
 
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
@@ -19,14 +17,17 @@ public class CommandTest {
 
         @Override
         public List<Requirement<?, ?>> getStaticRequirements() {
-            return List.of(new Requirement<>("Float", "Some Float", StringValidators.integerValidator));
+            return List
+                .of(new Requirement<>("Float", "Some Float", StringValidators.integerValidator));
         }
 
         @Override
-        public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
+        public void execute(RequirementsPipeline pipeline, OutputChannel output)
+            throws ExecutionError {
             try {
                 Integer age = pipeline
-                        .askRequirement(new Requirement<String, Integer>("Integer", "Some Integer", StringValidators.integerValidator));
+                    .askRequirement(new Requirement<String, Integer>("Integer", "Some Integer",
+                        StringValidators.integerValidator));
                 output.putString(age.toString());
             } catch (Exception e) {
                 throw new ExecutionError("Failed to execute command", e);

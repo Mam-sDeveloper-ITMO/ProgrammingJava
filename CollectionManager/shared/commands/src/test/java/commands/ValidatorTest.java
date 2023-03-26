@@ -1,17 +1,19 @@
 package commands;
 
+import static commands.requirements.validators.common.StringValidators.dateTimeValidator;
+import static commands.requirements.validators.common.StringValidators.doubleValidator;
+import static commands.requirements.validators.common.StringValidators.floatValidator;
+import static commands.requirements.validators.common.StringValidators.integerValidator;
+import static commands.requirements.validators.common.StringValidators.notEmptyValidator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-
 import java.time.LocalDateTime;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
-import static commands.requirements.validators.common.StringValidators.*;
-import static commands.requirements.validators.common.Misc.*;
+import commands.requirements.validators.common.Misc.NotNullValidator;
+import commands.requirements.validators.common.Misc.OrNullValidator;
 
 public class ValidatorTest {
     /**
@@ -161,6 +163,7 @@ public class ValidatorTest {
             Assert.fail("Exception  handled");
         }
     }
+
     @Test
     public void testValidatorsChain() {
         try {

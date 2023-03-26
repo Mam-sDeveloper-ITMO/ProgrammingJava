@@ -15,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserInputPipeline implements RequirementsPipeline {
     private final Map<String, String> staticRequirementsMap;
+
     private final Scanner inputScanner;
+
     private final int askRequirementAttempts;
 
     /**

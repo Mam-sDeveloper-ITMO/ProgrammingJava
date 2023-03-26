@@ -1,7 +1,6 @@
 package cliapp.commands.collection;
 
 import static commands.requirements.validators.common.StringValidators.booleanValidator;
-
 import cliapp.Messages;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -24,10 +23,10 @@ public class ClearCommand extends CollectionCommand {
         Boolean approveClear;
         try {
             approveClear = pipeline.askRequirement(
-                    new Requirement<>(
-                            Messages.ClearCommand.APPROVE,
-                            Messages.ClearCommand.APPROVE_DESCRIPTION,
-                            booleanValidator));
+                new Requirement<>(
+                    Messages.ClearCommand.APPROVE,
+                    Messages.ClearCommand.APPROVE_DESCRIPTION,
+                    booleanValidator));
 
         } catch (RequirementAskError e) {
             throw new ExecutionError(e.getMessage());

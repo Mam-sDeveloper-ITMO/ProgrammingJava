@@ -2,13 +2,10 @@ package humandeque;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-
 import java.io.File;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.local.LocalManager;
 import lombok.SneakyThrows;
@@ -19,18 +16,19 @@ import models.Mood;
 
 public class LocalManagerTest {
     File resourcesDirectory = new File("src/test/resources/humandeque");
+
     LocalManager manager;
 
     Human testHuman = Human.builder()
-            .name("test")
-            .coordinates(new Coordinates(1.f, 1.f))
-            .realHero(true)
-            .hasToothpick(true)
-            .impactSpeed(1.0)
-            .minutesOfWaiting(1.f)
-            .mood(Mood.FRENZY)
-            .car(new Car("testCar"))
-            .build();
+        .name("test")
+        .coordinates(new Coordinates(1.f, 1.f))
+        .realHero(true)
+        .hasToothpick(true)
+        .impactSpeed(1.0)
+        .minutesOfWaiting(1.f)
+        .mood(Mood.FRENZY)
+        .car(new Car("testCar"))
+        .build();
 
     @Before
     @Test
@@ -93,16 +91,16 @@ public class LocalManagerTest {
     public void testUpdate() {
         manager.add(testHuman);
         Human updatedHuman = Human.builder()
-                .id(1)
-                .name("test")
-                .coordinates(new Coordinates(1.f, 1.f))
-                .realHero(true)
-                .hasToothpick(true)
-                .impactSpeed(1.0)
-                .minutesOfWaiting(1.f)
-                .mood(Mood.FRENZY)
-                .car(new Car("testCar"))
-                .build();
+            .id(1)
+            .name("test")
+            .coordinates(new Coordinates(1.f, 1.f))
+            .realHero(true)
+            .hasToothpick(true)
+            .impactSpeed(1.0)
+            .minutesOfWaiting(1.f)
+            .mood(Mood.FRENZY)
+            .car(new Car("testCar"))
+            .build();
         manager.update(updatedHuman);
     }
 

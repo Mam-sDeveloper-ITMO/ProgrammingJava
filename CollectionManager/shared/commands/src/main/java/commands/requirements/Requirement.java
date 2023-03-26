@@ -12,11 +12,9 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 public class Requirement<I, O> {
-    @Getter
-    private final String name;
+    @Getter private final String name;
 
-    @Getter
-    private final String description;
+    @Getter private final String description;
 
     private final Validator<I, O> validator;
 

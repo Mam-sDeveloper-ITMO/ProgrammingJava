@@ -7,17 +7,14 @@ import lombok.NonNull;
 /**
  * Coordinates of the human.
  * 
- * @see <a href=
- *      "https://se.ifmo.ru/courses/programming">https://se.ifmo.ru/courses/programming</a>
+ * @see <a href= "https://se.ifmo.ru/courses/programming">https://se.ifmo.ru/courses/programming</a>
  */
 @Data
 @Builder
 public class Coordinates {
-    @NonNull
-    private Float x;
+    @NonNull private Float x;
 
-    @NonNull
-    private Float y;
+    @NonNull private Float y;
 
     public Coordinates(Float x, Float y) {
         if (x <= -566) {

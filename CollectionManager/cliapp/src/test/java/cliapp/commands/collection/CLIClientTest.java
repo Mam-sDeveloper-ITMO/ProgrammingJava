@@ -1,14 +1,11 @@
 package cliapp.commands.collection;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsCountError;
@@ -65,7 +62,8 @@ public class CLIClientTest {
         List<String> params = client.parseInlineParams("update 3");
         params.remove(0);
         try {
-            Map<String, String> requirements = client.mapStaticRequirements(command.getStaticRequirements(), params);
+            Map<String, String> requirements =
+                client.mapStaticRequirements(command.getStaticRequirements(), params);
             assertEquals(requirements.get("id"), "3");
         } catch (InlineParamsCountError e) {
             Assert.fail("Exception thrown");

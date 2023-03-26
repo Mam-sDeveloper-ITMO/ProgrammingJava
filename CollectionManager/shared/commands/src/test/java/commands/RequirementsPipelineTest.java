@@ -1,10 +1,8 @@
 package commands;
 
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
@@ -28,10 +26,12 @@ public class RequirementsPipelineTest {
     }
 
     @Test
-    public void testAskRequirementWithValidRequirement() throws RequirementAskError, RequirementAskError {
+    public void testAskRequirementWithValidRequirement()
+        throws RequirementAskError, RequirementAskError {
         RequirementsPipeline pipeline = new MockPipeline();
 
-        Requirement<String, String> requirement = new Requirement<>("name", "description", value -> value.toString());
+        Requirement<String, String> requirement =
+            new Requirement<>("name", "description", value -> value.toString());
         String value = pipeline.askRequirement(requirement);
         assertEquals("test", value);
     }
@@ -40,7 +40,8 @@ public class RequirementsPipelineTest {
     public void testAskRequirementWithInvalidRequirement() {
         RequirementsPipeline pipeline = new MockIncorrectPipeline();
 
-        Requirement<String, String> requirement = new Requirement<>("name", "description", value -> value.toString());
+        Requirement<String, String> requirement =
+            new Requirement<>("name", "description", value -> value.toString());
         try {
             pipeline.askRequirement(requirement);
             Assert.fail("Expected a RequirementAskError to be thrown");

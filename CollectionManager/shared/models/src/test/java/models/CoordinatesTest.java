@@ -5,22 +5,21 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class CoordinatesTest {
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
+    @Rule public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void testCoordinatesConstructor() {
         Coordinates coordinates = new Coordinates(
-                1.0f,
-                2.0f);
+            1.0f,
+            2.0f);
     }
 
     @Test
     public void testCoordinatesBuilder() {
         Coordinates coordinates = Coordinates.builder()
-                .x(1.0f)
-                .y(2.0f)
-                .build();
+            .x(1.0f)
+            .y(2.0f)
+            .build();
     }
 
     @Test()

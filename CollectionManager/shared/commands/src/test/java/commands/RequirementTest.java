@@ -2,9 +2,7 @@ package commands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
 import org.junit.Test;
-
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
@@ -20,7 +18,8 @@ public class RequirementTest {
                 throw new ValidationError(value, "Value is not a string");
             }
         };
-        Requirement<String, String> requirement = new Requirement<>("name", "description", validator);
+        Requirement<String, String> requirement =
+            new Requirement<>("name", "description", validator);
 
         // call getValue with a valid value and verify that the result is correct
         String result = requirement.getValue("valid");
@@ -37,7 +36,8 @@ public class RequirementTest {
                 throw new ValidationError(value, "Value is not a string");
             }
         };
-        Requirement<Object, String> requirement = new Requirement<>("name", "description", validator);
+        Requirement<Object, String> requirement =
+            new Requirement<>("name", "description", validator);
 
         // call getValue with an invalid value and verify that a ValidationError is thrown
         try {

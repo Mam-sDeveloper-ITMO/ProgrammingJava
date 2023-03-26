@@ -2,7 +2,6 @@ package humandeque;
 
 import java.time.LocalDateTime;
 import java.util.ArrayDeque;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import models.Human;

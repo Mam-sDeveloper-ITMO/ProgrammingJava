@@ -1,7 +1,6 @@
 package cliapp.commands.cli;
 
 import java.util.List;
-
 import cliapp.Messages;
 import cliapp.cliclient.CLIClient;
 import commands.OutputChannel;

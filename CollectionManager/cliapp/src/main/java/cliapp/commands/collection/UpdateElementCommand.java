@@ -1,7 +1,6 @@
 package cliapp.commands.collection;
 
 import java.util.List;
-
 import cliapp.Messages;
 import cliapp.Messages.ElementRequirements;
 import cliapp.commands.collection.requirements.CarNameRequirement;
@@ -32,7 +31,8 @@ import models.Mood;
  */
 public class UpdateElementCommand extends CollectionCommand {
     public UpdateElementCommand(CollectionManager collectionManager) {
-        super(Messages.UpdateElementCommand.NAME, Messages.UpdateElementCommand.DESCRIPTION, collectionManager);
+        super(Messages.UpdateElementCommand.NAME, Messages.UpdateElementCommand.DESCRIPTION,
+            collectionManager);
     }
 
     @Override
@@ -43,11 +43,12 @@ public class UpdateElementCommand extends CollectionCommand {
     /**
      * Try to ask requirement with default option, except return default value
      */
-    private <I, O> O askOrDefault(RequirementsPipeline pipeline, OutputChannel output, Requirement<I, O> requirement,
-            O defaultValue) {
+    private <I, O> O askOrDefault(RequirementsPipeline pipeline, OutputChannel output,
+        Requirement<I, O> requirement,
+        O defaultValue) {
         // suggest to skip field
         output.putString(
-                Messages.CLIClient.ASK_DEFAULT_REQUIREMENT.formatted(defaultValue));
+            Messages.CLIClient.ASK_DEFAULT_REQUIREMENT.formatted(defaultValue));
         try {
             O value = pipeline.askRequirement(requirement);
             return value;
@@ -57,51 +58,60 @@ public class UpdateElementCommand extends CollectionCommand {
     }
 
     /**
-     * Ask fields that must be updated.
-     * If field is skipped set default value
+     * Ask fields that must be updated. If field is skipped set default value
      */
-    private Human askUpdatedHuman(Human defaultHuman, RequirementsPipeline pipeline, OutputChannel output)
-            throws RequirementAskError {
+    private Human askUpdatedHuman(Human defaultHuman, RequirementsPipeline pipeline,
+        OutputChannel output)
+        throws RequirementAskError {
 
         Human.HumanBuilder humanBuilder = Human.builder();
 
         humanBuilder.id(defaultHuman.getId());
         humanBuilder.creationDate(defaultHuman.getCreationDate());
 
-        humanBuilder.name(askOrDefault(pipeline, output, new NameRequirement(), defaultHuman.getName()));
+        humanBuilder
+            .name(askOrDefault(pipeline, output, new NameRequirement(), defaultHuman.getName()));
 
         Coordinates defaultCoordinates = defaultHuman.getCoordinates();
         Coordinates.CoordinatesBuilder coordinatesBuilder = Coordinates.builder();
         coordinatesBuilder.x(
-                askOrDefault(pipeline, output, new CoordinatesXRequirement(), defaultCoordinates.getX()));
+            askOrDefault(pipeline, output, new CoordinatesXRequirement(),
+                defaultCoordinates.getX()));
         coordinatesBuilder.y(
-                askOrDefault(pipeline, output, new CoordinatesYRequirement(), defaultCoordinates.getY()));
+            askOrDefault(pipeline, output, new CoordinatesYRequirement(),
+                defaultCoordinates.getY()));
 
         humanBuilder.coordinates(coordinatesBuilder.build());
 
         humanBuilder.realHero(
-                askOrDefault(pipeline, output, new RealHeroRequirement(), defaultHuman.getRealHero()));
+            askOrDefault(pipeline, output, new RealHeroRequirement(), defaultHuman.getRealHero()));
 
         humanBuilder.hasToothpick(
-                askOrDefault(pipeline, output, new HasToothpickRequirement(), defaultHuman.getHasToothpick()));
+            askOrDefault(pipeline, output, new HasToothpickRequirement(),
+                defaultHuman.getHasToothpick()));
 
         humanBuilder.impactSpeed(
-                askOrDefault(pipeline, output, new ImpactSpeedRequirement(), defaultHuman.getImpactSpeed()));
+            askOrDefault(pipeline, output, new ImpactSpeedRequirement(),
+                defaultHuman.getImpactSpeed()));
 
         humanBuilder.soundtrackName(
-                askOrDefault(pipeline, output, new SoundtrackNameRequirement(), defaultHuman.getSoundtrackName()));
+            askOrDefault(pipeline, output, new SoundtrackNameRequirement(),
+                defaultHuman.getSoundtrackName()));
 
         humanBuilder.minutesOfWaiting(
-                askOrDefault(pipeline, output, new MinutesOfWaitingRequirement(), defaultHuman.getMinutesOfWaiting()));
+            askOrDefault(pipeline, output, new MinutesOfWaitingRequirement(),
+                defaultHuman.getMinutesOfWaiting()));
 
         String moods = "";
         for (int i = 0; i < Mood.values().length; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
         output.putString(ElementRequirements.MOODS_TITLE + "\n" + moods);
-        humanBuilder.mood(askOrDefault(pipeline, output, new MoodRequirement(), defaultHuman.getMood()));
+        humanBuilder
+            .mood(askOrDefault(pipeline, output, new MoodRequirement(), defaultHuman.getMood()));
 
-        Car car = new Car(askOrDefault(pipeline, output, new CarNameRequirement(), defaultHuman.getCar().getName()));
+        Car car = new Car(askOrDefault(pipeline, output, new CarNameRequirement(),
+            defaultHuman.getCar().getName()));
         humanBuilder.car(car);
 
         return humanBuilder.build();

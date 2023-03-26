@@ -28,10 +28,12 @@ import models.Mood;
  */
 public class AddElementCommand extends CollectionCommand {
     public AddElementCommand(CollectionManager collectionManager) {
-        super(Messages.AddElementCommand.NAME, Messages.AddElementCommand.DESCRIPTION, collectionManager);
+        super(Messages.AddElementCommand.NAME, Messages.AddElementCommand.DESCRIPTION,
+            collectionManager);
     }
 
-    private Human askHuman(RequirementsPipeline pipeline, OutputChannel output) throws RequirementAskError {
+    private Human askHuman(RequirementsPipeline pipeline, OutputChannel output)
+        throws RequirementAskError {
         Human.HumanBuilder humanBuilder = Human.builder();
 
         humanBuilder.name(pipeline.askRequirement(new NameRequirement()));

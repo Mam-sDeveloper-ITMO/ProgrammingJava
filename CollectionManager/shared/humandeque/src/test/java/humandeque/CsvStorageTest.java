@@ -1,9 +1,7 @@
 package humandeque;
 
 import java.io.File;
-
 import org.junit.Test;
-
 import humandeque.manager.local.CsvStorage;
 import models.Car;
 import models.Coordinates;
@@ -17,28 +15,28 @@ public class CsvStorageTest {
     public void testSave() {
         HumanDeque collection = new HumanDeque();
         Human human = Human.builder()
-                .name("TestName")
-                .coordinates(new Coordinates(1.0f, 2.0f))
-                .realHero(true)
-                .hasToothpick(false)
-                .impactSpeed(1.0)
-                .soundtrackName("Civilian Defense")
-                .minutesOfWaiting(1.0f)
-                .mood(Mood.SADNESS)
-                .car(new Car("TestCar"))
-                .build();
+            .name("TestName")
+            .coordinates(new Coordinates(1.0f, 2.0f))
+            .realHero(true)
+            .hasToothpick(false)
+            .impactSpeed(1.0)
+            .soundtrackName("Civilian Defense")
+            .minutesOfWaiting(1.0f)
+            .mood(Mood.SADNESS)
+            .car(new Car("TestCar"))
+            .build();
 
         Human human2 = Human.builder()
-                .name("TestName")
-                .coordinates(new Coordinates(1.0f, 2.0f))
-                .realHero(true)
-                .hasToothpick(false)
-                .impactSpeed(1.0)
-                .soundtrackName("Civilian Defense")
-                .minutesOfWaiting(1.0f)
-                .mood(Mood.SADNESS)
-                .car(new Car("TestCar"))
-                .build();
+            .name("TestName")
+            .coordinates(new Coordinates(1.0f, 2.0f))
+            .realHero(true)
+            .hasToothpick(false)
+            .impactSpeed(1.0)
+            .soundtrackName("Civilian Defense")
+            .minutesOfWaiting(1.0f)
+            .mood(Mood.SADNESS)
+            .car(new Car("TestCar"))
+            .build();
 
         collection.add(human);
         collection.add(human2);

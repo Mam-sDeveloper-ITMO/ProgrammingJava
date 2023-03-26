@@ -2,14 +2,11 @@ package cliapp.commands.collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import commands.Command;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -27,17 +24,18 @@ import models.Mood;
 
 public class CollectionCommandTest {
     private CollectionManager collectionManager;
+
     private Human human = Human.builder()
-            .name("TestName")
-            .coordinates(new Coordinates(1.0f, 2.0f))
-            .realHero(true)
-            .hasToothpick(false)
-            .impactSpeed(1.0)
-            .soundtrackName("Civilian Defense")
-            .minutesOfWaiting(1.0f)
-            .mood(Mood.SADNESS)
-            .car(new Car("TestCar"))
-            .build();
+        .name("TestName")
+        .coordinates(new Coordinates(1.0f, 2.0f))
+        .realHero(true)
+        .hasToothpick(false)
+        .impactSpeed(1.0)
+        .soundtrackName("Civilian Defense")
+        .minutesOfWaiting(1.0f)
+        .mood(Mood.SADNESS)
+        .car(new Car("TestCar"))
+        .build();
 
     {
         try {
@@ -144,7 +142,8 @@ public class CollectionCommandTest {
             } catch (ExecutionError e) {
                 Assert.fail("Error handled");
             }
-            assertTrue(output.getOutput(), output.getOutput().startsWith("Collection elements:\nHuman("));
+            assertTrue(output.getOutput(),
+                output.getOutput().startsWith("Collection elements:\nHuman("));
         } catch (ElementAlreadyExistsError e) {
             Assert.fail();
         }
@@ -159,7 +158,8 @@ public class CollectionCommandTest {
         } catch (ExecutionError e) {
             Assert.fail("Error handled");
         }
-        assertTrue(output.getOutput(), output.getOutput().contains("Element added to collection.\n"));
+        assertTrue(output.getOutput(),
+            output.getOutput().contains("Element added to collection.\n"));
 
         Human human = collectionManager.getCollection().getFirst();
         assertEquals(human.getName(), "TestName");

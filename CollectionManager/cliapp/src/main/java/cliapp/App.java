@@ -1,7 +1,6 @@
 package cliapp;
 
 import java.io.IOException;
-
 import cliapp.cliclient.CLIClient;
 import cliapp.commands.cli.ExitCommand;
 import cliapp.commands.cli.HelpCommand;
@@ -29,7 +28,8 @@ public class App {
                 return;
             }
         } else {
-            System.out.println("Incorrect command line arguments. Usage: java -jar cliapp.jar [file]");
+            System.out
+                .println("Incorrect command line arguments. Usage: java -jar cliapp.jar [file]");
             return;
         }
 

@@ -2,7 +2,6 @@ package cliapp.commands.cli;
 
 import java.util.HashMap;
 import java.util.List;
-
 import cliapp.Messages;
 import cliapp.cliclient.CLIClient;
 import commands.Command;
@@ -23,21 +22,21 @@ public class HelpCommand extends CLICommand {
         StringBuilder builder = new StringBuilder();
         // trigger and description
         builder.append("\t")
-                .append(trigger)
-                .append("\t")
-                .append(command.getDescription());
+            .append(trigger)
+            .append("\t")
+            .append(command.getDescription());
 
         List<Requirement<?, ?>> staticRequirements = command.getStaticRequirements();
         if (!staticRequirements.isEmpty()) {
             builder.append("\n")
-                    .append("\t")
-                    .append(Messages.HelpCommand.HELP_INLINE_PARAMS + "\n");
+                .append("\t")
+                .append(Messages.HelpCommand.HELP_INLINE_PARAMS + "\n");
             for (Requirement<?, ?> requirement : staticRequirements) {
                 builder.append("\t\t")
-                        .append(requirement.getName())
-                        .append(" - ")
-                        .append(requirement.getDescription())
-                        .append("\n");
+                    .append(requirement.getName())
+                    .append(" - ")
+                    .append(requirement.getDescription())
+                    .append("\n");
             }
         }
         return builder.toString();

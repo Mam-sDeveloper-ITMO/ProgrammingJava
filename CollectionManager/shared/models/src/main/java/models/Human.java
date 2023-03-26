@@ -14,59 +14,37 @@ import lombok.NonNull;
  * 
  * Consists representation of human.
  * 
- * @see <a href=
- *      "https://se.ifmo.ru/courses/programming">https://se.ifmo.ru/courses/programming</a>
+ * @see <a href= "https://se.ifmo.ru/courses/programming">https://se.ifmo.ru/courses/programming</a>
  * 
  */
 @Builder
-@EqualsAndHashCode(of = { "id" })
+@EqualsAndHashCode(of = {"id"})
 public class Human implements Comparable<Human> {
-    @Getter
-    @Builder.Default
-    private long id = (new Random()).nextLong(1, Long.MAX_VALUE);
+    @Getter @Builder.Default private long id = (new Random()).nextLong(1, Long.MAX_VALUE);
 
-    @Getter
-    @NonNull
-    private String name;
+    @Getter @NonNull private String name;
 
-    @Getter
-    @NonNull
-    private Coordinates coordinates;
+    @Getter @NonNull private Coordinates coordinates;
 
-    @Getter
-    @Builder.Default
-    @NonNull
-    private LocalDateTime creationDate = LocalDateTime.now();
+    @Getter @Builder.Default @NonNull private LocalDateTime creationDate = LocalDateTime.now();
 
-    @Getter
-    @NonNull
-    private Boolean realHero;
+    @Getter @NonNull private Boolean realHero;
 
-    @Getter
-    @NonNull
-    private Boolean hasToothpick;
+    @Getter @NonNull private Boolean hasToothpick;
 
-    @Getter
-    @NonNull
-    private Double impactSpeed;
+    @Getter @NonNull private Double impactSpeed;
 
-    @Getter
-    @NonNull
-    private String soundtrackName;
+    @Getter @NonNull private String soundtrackName;
 
-    @Getter
-    private Float minutesOfWaiting;
+    @Getter private Float minutesOfWaiting;
 
-    @Getter
-    private Mood mood;
+    @Getter private Mood mood;
 
-    @Getter
-    @NonNull
-    private Car car;
+    @Getter @NonNull private Car car;
 
     private Human(long id, String name, Coordinates coordinates, LocalDateTime creationDate,
-            boolean realHero, boolean hasToothpick, double impactSpeed, String soundtrackName,
-            Float minutesOfWaiting, Mood mood, Car car) {
+        boolean realHero, boolean hasToothpick, double impactSpeed, String soundtrackName,
+        Float minutesOfWaiting, Mood mood, Car car) {
 
         if (id <= 0) {
             throw new IllegalArgumentException();
@@ -98,17 +76,17 @@ public class Human implements Comparable<Human> {
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return "Human(\n"
-                + "    id=" + id + ",\n"
-                + "    name=" + name + ",\n"
-                + "    creationDate=" + creationDate.format(formatter) + ",\n"
-                + "    coordinates=" + coordinates + ",\n"
-                + "    realHero=" + realHero + ",\n"
-                + "    hasToothpick=" + hasToothpick + ",\n"
-                + "    impactSpeed=" + impactSpeed + ",\n"
-                + "    soundtrackName=" + soundtrackName + ",\n"
-                + "    minutesOfWaiting=" + minutesOfWaiting + ",\n"
-                + "    mood=" + mood + ",\n"
-                + "    car=" + car + "\n"
-                + ")";
+            + "    id=" + id + ",\n"
+            + "    name=" + name + ",\n"
+            + "    creationDate=" + creationDate.format(formatter) + ",\n"
+            + "    coordinates=" + coordinates + ",\n"
+            + "    realHero=" + realHero + ",\n"
+            + "    hasToothpick=" + hasToothpick + ",\n"
+            + "    impactSpeed=" + impactSpeed + ",\n"
+            + "    soundtrackName=" + soundtrackName + ",\n"
+            + "    minutesOfWaiting=" + minutesOfWaiting + ",\n"
+            + "    mood=" + mood + ",\n"
+            + "    car=" + car + "\n"
+            + ")";
     }
 }
