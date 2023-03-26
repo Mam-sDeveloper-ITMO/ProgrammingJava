@@ -284,17 +284,26 @@ public class Messages {
     }
 
     /**
-     * cliapp.commands.collection PrintDescendingCommand
+     * cliapp.commands.collection PrintSortedCommand
      */
-    public static class PrintDescendingCommand {
+    public static class PrintSortedCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
             .getBundle("cliapp.commands.collection.commands");
 
-        public static final String NAME = BUNDLE.getString("PrintDescendingName");
+        public static final String NAME = BUNDLE.getString("PrintSortedName");
 
-        public static final String DESCRIPTION = BUNDLE.getString("PrintDescendingDescription");
+        public static final String DESCRIPTION = BUNDLE.getString("PrintSortedDescription");
 
-        public static final String SUCCESS = BUNDLE.getString("PrintDescendingSuccess");
+        public static final String SUCCESS = BUNDLE.getString("PrintSortedSuccess");
+
+        public static final String ORDER_REQUIREMENT_NAME =
+            BUNDLE.getString("OrderRequirementName");
+
+        public static final String ORDER_REQUIREMENT_DESCRIPTION =
+            BUNDLE.getString("OrderRequirementDescription");
+
+        public static final String ORDER_REQUIREMENT_ERROR =
+            BUNDLE.getString("OrderRequirementError");
     }
 
     /**

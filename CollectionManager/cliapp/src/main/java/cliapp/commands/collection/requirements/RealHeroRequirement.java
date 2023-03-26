@@ -9,6 +9,9 @@ import static commands.requirements.validators.common.StringValidators.booleanVa
  */
 public class RealHeroRequirement extends Requirement<String, Boolean> {
     public RealHeroRequirement() {
-        super(Messages.ElementRequirements.REAL_HERO, Messages.ElementRequirements.REAL_HERO_DESCR, booleanValidator);
+        super(
+            Messages.ElementRequirements.REAL_HERO,
+            Messages.ElementRequirements.REAL_HERO_DESCR,
+            booleanValidator);
     }
 }
