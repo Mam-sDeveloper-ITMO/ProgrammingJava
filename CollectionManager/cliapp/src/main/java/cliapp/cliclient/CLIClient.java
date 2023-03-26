@@ -123,6 +123,7 @@ public class CLIClient {
      * Handle exceptions and print error messages
      */
     public void executeCommand(Command command, List<String> inlineParams) {
+        // map static requirements to inline params
         Map<String, String> staticRequirementsMap;
         try {
             staticRequirementsMap = mapStaticRequirements(command.getStaticRequirements(), inlineParams);
@@ -130,8 +131,13 @@ public class CLIClient {
             System.out.println(e.getMessage());
             return;
         }
-        RequirementsPipeline pipeline = new UserInputPipeline(staticRequirementsMap, new Scanner(System.in));
+        // init output channel and requirements pipeline
         OutputChannel output = System.out::println;
+        RequirementsPipeline pipeline = new UserInputPipeline(
+                staticRequirementsMap,
+                new Scanner(System.in),
+                askRequirementAttempts);
+        // try execute command
         try {
             command.execute(pipeline, output);
         } catch (ExecutionError e) {

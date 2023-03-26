@@ -17,6 +17,8 @@ public class Messages {
         public static final String INLINE_PARAMS_COUNT_ERROR = BUNDLE.getString("InlineParamsCountError");
         public static final String ASK_REQUIREMENT = BUNDLE.getString("AskRequirement");
         public static final String ASK_DEFAULT_REQUIREMENT = BUNDLE.getString("AskDefaultRequirement");
+        public static final String ASK_REQUIREMENT_ATTEMPTS_ERROR = BUNDLE.getString("AskRequirementAttemptsError");
+        public static final String ASK_REQUIREMENT_ERROR_WITH_ATTEMPTS = BUNDLE.getString("AskRequirementErrorWithAttempts");
     }
 
     /**
