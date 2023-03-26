@@ -6,11 +6,11 @@ import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.exceptions.ElementNotExistsError;
+import humandeque.manager.exceptions.EmptyCollectionError;
 import models.Human;
 
 /**
- * That manager execute all manipulations on client and store collection in
- * local csv file
+ * That manager execute all manipulations on client and store collection in local csv file
  */
 public class LocalManager extends CollectionManager {
     private String filePath;
@@ -68,5 +68,21 @@ public class LocalManager extends CollectionManager {
     @Override
     public void clear() {
         collection.clear();
+    }
+
+    @Override
+    public void removeFirst() throws EmptyCollectionError {
+        if (collection.isEmpty()) {
+            throw new EmptyCollectionError();
+        }
+        collection.removeFirst();
+    }
+
+    @Override
+    public void removeLast() throws EmptyCollectionError {
+        if (collection.isEmpty()) {
+            throw new EmptyCollectionError();
+        }
+        collection.removeLast();
     }
 }

@@ -18,5 +18,8 @@ public class Messages {
 
         public static final String ELEMENT_ALREADY_EXISTS =
             EXCEPTIONS_BUNDLE.getString("ElementAlreadyExistsError");
+
+        public static final String EMPTY_COLLECTION =
+            EXCEPTIONS_BUNDLE.getString("EmptyCollectionError");
     }
 }

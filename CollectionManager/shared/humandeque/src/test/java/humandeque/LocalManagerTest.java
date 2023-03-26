@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
+import humandeque.manager.exceptions.EmptyCollectionError;
 import humandeque.manager.local.LocalManager;
 import lombok.SneakyThrows;
 import models.Car;
@@ -105,6 +106,48 @@ public class LocalManagerTest {
     }
 
     @Test
+    public void testRemoveFirst() {
+        try {
+            manager.add(testHuman);
+        } catch (Exception e) {
+            Assert.fail(e.getMessage());
+        }
+        try {
+            manager.removeFirst();
+        } catch (Exception e) {
+            Assert.fail(e.getMessage());
+        }
+
+        manager.clear();
+        try {
+            manager.removeFirst();
+            Assert.fail("EmptyCollectionError should be thrown");
+        } catch (EmptyCollectionError e) {
+        }
+    }
+
+    @Test
+    public void testRemoveLast() {
+        try {
+            manager.add(testHuman);
+        } catch (Exception e) {
+            Assert.fail(e.getMessage());
+        }
+        try {
+            manager.removeLast();
+        } catch (Exception e) {
+            Assert.fail(e.getMessage());
+        }
+
+        manager.clear();
+        try {
+            manager.removeLast();
+            Assert.fail("EmptyCollectionError should be thrown");
+        } catch (EmptyCollectionError e) {
+        }
+    }
+
+    @Test
     @SneakyThrows
     public void testClear() {
         manager.add(testHuman);
@@ -123,4 +166,5 @@ public class LocalManagerTest {
         }
         assertNotEquals(manager.getCollection().size(), 0);
     }
+
 }

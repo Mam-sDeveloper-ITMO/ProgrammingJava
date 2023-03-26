@@ -5,6 +5,7 @@ import java.io.IOException;
 import humandeque.HumanDeque;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.exceptions.ElementNotExistsError;
+import humandeque.manager.exceptions.EmptyCollectionError;
 import models.Human;
 
 /**
@@ -40,6 +41,18 @@ public abstract class CollectionManager {
      * @throws ElementNotExistsError - if element with id not exists in collection
      */
     public abstract void remove(long id) throws ElementNotExistsError;
+
+    /**
+     * Remove first collection element
+     * @throws EmptyCollectionError - if collection is empty
+     */
+    public abstract void removeFirst() throws EmptyCollectionError;
+
+    /**
+     * Remove last collection element
+     * @throws EmptyCollectionError - if collection is empty
+     */
+    public abstract void removeLast() throws EmptyCollectionError;
 
     /**
      * Remove all items in collection
