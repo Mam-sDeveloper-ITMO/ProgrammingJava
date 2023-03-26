@@ -240,6 +240,30 @@ public class Messages {
     }
 
     /**
+     * cliapp.commands.collection RandomCommand
+     */
+    public static class RandomCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+            .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("RandomName");
+
+        public static final String DESCRIPTION = BUNDLE.getString("RandomDescription");
+
+        public static final String TITLE = BUNDLE.getString("RandomTitle");
+
+        private static final ResourceBundle RANDOM_BUNDLE = ResourceBundle
+            .getBundle("cliapp.commands.collection.random");
+
+        public static final String[] NAMES = RANDOM_BUNDLE.getString("Names").split(",");
+
+        public static final String[] SOUNDTRACKS =
+            RANDOM_BUNDLE.getString("Soundtracks").split(",");
+
+        public static final String[] CARS = RANDOM_BUNDLE.getString("Cars").split(",");
+    }
+
+    /**
      * cliapp.commands.collection HeadCommand
      */
     public static class HeadCommand {

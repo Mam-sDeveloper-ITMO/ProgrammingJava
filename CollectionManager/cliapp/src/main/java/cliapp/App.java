@@ -10,6 +10,7 @@ import cliapp.commands.collection.AddElementCommand;
 import cliapp.commands.collection.ClearCommand;
 import cliapp.commands.collection.InfoCommand;
 import cliapp.commands.collection.PrintSortedCommand;
+import cliapp.commands.collection.RandomCommand;
 import cliapp.commands.collection.RemoveByIdCommand;
 import cliapp.commands.collection.RemoveFirstCommand;
 import cliapp.commands.collection.RemoveLastCommand;
@@ -48,6 +49,7 @@ public class App {
         client.registerCommand("remove_last", new RemoveLastCommand(manager));
         client.registerCommand("remove_by_id", new RemoveByIdCommand(manager));
         client.registerCommand("print_sorted", new PrintSortedCommand(manager));
+        client.registerCommand("random", new RandomCommand(manager));
         client.registerCommand("clear", new ClearCommand(manager));
         // CLI commands
         client.registerCommand("help", new HelpCommand(client));

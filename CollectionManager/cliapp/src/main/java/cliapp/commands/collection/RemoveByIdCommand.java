@@ -17,7 +17,7 @@ import humandeque.manager.exceptions.ElementNotExistsError;
 public class RemoveByIdCommand extends CollectionCommand {
     public RemoveByIdCommand(CollectionManager collectionManager) {
         super(Messages.UpdateElementCommand.NAME, Messages.UpdateElementCommand.DESCRIPTION,
-            collectionManager);
+                collectionManager);
     }
 
     @Override
