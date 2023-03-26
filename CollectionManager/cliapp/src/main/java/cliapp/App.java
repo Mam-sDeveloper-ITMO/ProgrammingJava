@@ -5,6 +5,7 @@ import cliapp.cliclient.CLIClient;
 import cliapp.commands.cli.ExitCommand;
 import cliapp.commands.cli.HelpCommand;
 import cliapp.commands.cli.HistoryCommand;
+import cliapp.commands.cli.SetFuzzyCommand;
 import cliapp.commands.collection.AddElementCommand;
 import cliapp.commands.collection.ClearCommand;
 import cliapp.commands.collection.InfoCommand;
@@ -46,6 +47,7 @@ public class App {
         client.registerCommand("help", new HelpCommand(client));
         client.registerCommand("exit", new ExitCommand(client));
         client.registerCommand("history", new HistoryCommand(client));
+        client.registerCommand("fuzzy", new SetFuzzyCommand(client));
 
         // let's go!
         client.runClient();

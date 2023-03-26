@@ -330,6 +330,28 @@ public class Messages {
     }
 
     /**
+     * cliapp.commands.cli SetFuzzyCommand
+     */
+    public static class SetFuzzyCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+            .getBundle("cliapp.commands.cli.commands");
+
+        public static final String NAME = BUNDLE.getString("SetFuzzyName");
+
+        public static final String DESCRIPTION = BUNDLE.getString("SetFuzzyDescription");
+
+        public static final String FUZZY_ON = BUNDLE.getString("SetFuzzyOn");
+
+        public static final String FUZZY_OFF = BUNDLE.getString("SetFuzzyOff");
+
+        public static final String FUZZY_MODE_REQUIREMENT_NAME =
+            BUNDLE.getString("FuzzyModeRequirementName");
+
+        public static final String FUZZY_MODE_REQUIREMENT_DESCRIPTION =
+            BUNDLE.getString("FuzzyModeRequirementDescription");
+    }
+
+    /**
      * Neko !
      */
     public static class Cats {
