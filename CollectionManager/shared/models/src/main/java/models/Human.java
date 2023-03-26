@@ -19,7 +19,7 @@ import lombok.NonNull;
 @Builder
 @EqualsAndHashCode(of = {"id"})
 public class Human implements Comparable<Human> {
-    @Getter @Builder.Default private long id = (new Random()).nextLong(1, Long.MAX_VALUE);
+    @Getter @Builder.Default private long id = (new Random()).nextLong(111111, 999999);
 
     @Getter @NonNull private String name;
 
