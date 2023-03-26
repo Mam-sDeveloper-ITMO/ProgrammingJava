@@ -8,6 +8,7 @@ import java.util.Scanner;
 import cliapp.Messages;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsCountError;
+import cliapp.utils.TextColor;
 import commands.Command;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -124,7 +125,7 @@ public class CLIClient {
             staticRequirementsMap =
                 mapStaticRequirements(command.getStaticRequirements(), inlineParams);
         } catch (InlineParamsCountError e) {
-            System.out.println(e.getMessage());
+            System.out.println(TextColor.getColoredString(e.getMessage(), TextColor.RED));
             return;
         }
         // init output channel and requirements pipeline
@@ -137,7 +138,7 @@ public class CLIClient {
         try {
             command.execute(pipeline, output);
         } catch (ExecutionError e) {
-            System.out.println(e.getMessage());
+            System.out.println(TextColor.getColoredString(e.getMessage(), TextColor.RED));
         }
     }
 
@@ -168,7 +169,7 @@ public class CLIClient {
             try {
                 command = resolveCommand(trigger);
             } catch (CommandNotFoundError e) {
-                System.out.println(e.getMessage());
+                System.out.println(TextColor.getColoredString(e.getMessage(), TextColor.RED));
                 continue;
             }
             // execute command

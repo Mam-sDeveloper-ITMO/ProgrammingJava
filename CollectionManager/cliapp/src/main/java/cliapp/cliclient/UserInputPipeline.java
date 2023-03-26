@@ -3,6 +3,7 @@ package cliapp.cliclient;
 import java.util.Map;
 import java.util.Scanner;
 import cliapp.Messages;
+import cliapp.utils.TextColor;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
@@ -44,43 +45,21 @@ public class UserInputPipeline implements RequirementsPipeline {
                     // if attempts are over throw error
                     break;
                 }
-                // wrap error and show warning with count of left attempts
+                // wrap error and show warning
                 Exception exceptionWrapper = new RequirementAskError(requirement.getName(), e);
                 System.out.println(
-                    Messages.CLIClient.ASK_REQUIREMENT_ERROR_WITH_ATTEMPTS.formatted(
-                        exceptionWrapper.getMessage(),
-                        attempts));
+                    TextColor.getColoredString(exceptionWrapper.getMessage(), TextColor.RED));
+                // ask to new try with count of left attempts
+                String askText =
+                    Messages.CLIClient.ASK_REQUIREMENT_WITH_ATTEMPTS.formatted(attempts);
+                System.out.println();
+                System.out.println(TextColor.getColoredString(askText, TextColor.CYAN));
             }
         }
         throw new RequirementAskError(requirement.getName(),
             Messages.CLIClient.ASK_REQUIREMENT_ATTEMPTS_ERROR);
     }
 
-    // for (int i = 0; i < askRequirementAttempts; i++) {
-    // try {
-    // System.out.print(
-    // Messages.CLIClient.ASK_REQUIREMENT.formatted(
-    // requirement.getName(),
-    // requirement.getDescription()));
-    // return requirement.getValue((I) inputScanner.nextLine());
-    // } catch (ValidationError e) {
-    // int attemptsLeft = askRequirementAttempts - i - 1;
-    // // if attempts are over throw error
-    // if (attemptsLeft == 0) {
-    // break;
-    // }
-    // // wrap error and show warning with count of left attempts
-    // Exception exceptionWrapper = new RequirementAskError(requirement.getName(),
-    // e);
-    // System.out.println(
-    // Messages.CLIClient.ASK_REQUIREMENT_ERROR_WITH_ATTEMPTS.formatted(
-    // exceptionWrapper.getMessage(),
-    // askRequirementAttempts - i - 1));
-    // }
-    // }
-    // // if attempts are over, throw an error
-    // throw new RequirementAskError(requirement.getName(),
-    // Messages.CLIClient.ASK_REQUIREMENT_ATTEMPTS_ERROR);
     @Override
     public <I, O> O askRequirement(Requirement<I, O> requirement) throws RequirementAskError {
         try {

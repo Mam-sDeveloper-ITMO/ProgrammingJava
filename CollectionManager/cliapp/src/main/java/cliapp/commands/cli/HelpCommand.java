@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import cliapp.Messages;
 import cliapp.cliclient.CLIClient;
+import cliapp.utils.TextColor;
 import commands.Command;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -22,21 +23,22 @@ public class HelpCommand extends CLICommand {
         StringBuilder builder = new StringBuilder();
         // trigger and description
         builder.append("\t")
-            .append(trigger)
+            .append(TextColor.getColoredString(trigger, TextColor.CYAN))
             .append("\t")
-            .append(command.getDescription());
+            .append(TextColor.getColoredString(command.getDescription(), TextColor.YELLOW));
 
         List<Requirement<?, ?>> staticRequirements = command.getStaticRequirements();
         if (!staticRequirements.isEmpty()) {
-            builder.append("\n")
+            builder.append(System.lineSeparator())
                 .append("\t")
-                .append(Messages.HelpCommand.HELP_INLINE_PARAMS + "\n");
+                .append(Messages.HelpCommand.HELP_INLINE_PARAMS + System.lineSeparator());
             for (Requirement<?, ?> requirement : staticRequirements) {
                 builder.append("\t\t")
-                    .append(requirement.getName())
+                    .append(TextColor.getColoredString(requirement.getName(), TextColor.BLUE))
                     .append(" - ")
-                    .append(requirement.getDescription())
-                    .append("\n");
+                    .append(
+                        TextColor.getColoredString(requirement.getDescription(), TextColor.BLUE))
+                    .append(System.lineSeparator());
             }
         }
         return builder.toString();
@@ -47,10 +49,10 @@ public class HelpCommand extends CLICommand {
         HashMap<String, Command> commands = client.getCommands();
 
         StringBuilder builder = new StringBuilder();
-        builder.append(Messages.HelpCommand.TITLE).append("\n");
+        builder.append(Messages.HelpCommand.TITLE).append(System.lineSeparator());
         for (String trigger : commands.keySet()) {
             Command command = commands.get(trigger);
-            builder.append(getCommandLine(trigger, command)).append("\n");
+            builder.append(getCommandLine(trigger, command)).append(System.lineSeparator());
         }
         output.putString(builder.toString());
     }

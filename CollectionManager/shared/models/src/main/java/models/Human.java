@@ -3,7 +3,6 @@ package models;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
-
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -86,7 +85,7 @@ public class Human implements Comparable<Human> {
             + "    soundtrackName=" + soundtrackName + ",\n"
             + "    minutesOfWaiting=" + minutesOfWaiting + ",\n"
             + "    mood=" + mood + ",\n"
-            + "    car=" + car + "\n"
+            + "    car=" + car + System.lineSeparator()
             + ")";
     }
 }

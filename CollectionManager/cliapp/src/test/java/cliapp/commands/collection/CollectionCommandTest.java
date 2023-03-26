@@ -98,7 +98,7 @@ public class CollectionCommandTest {
 
         @Override
         public void putString(String string) {
-            this.output += string + "\n";
+            this.output += string + System.lineSeparator();
             System.out.println(string);
         }
 

@@ -55,10 +55,12 @@ public class AddElementCommand extends CollectionCommand {
         humanBuilder.minutesOfWaiting(pipeline.askRequirement(new MinutesOfWaitingRequirement()));
 
         String moods = "";
-        for (int i = 0; i < Mood.values().length; i++) {
+        for (int i = 0; i < Mood.values().length - 1; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
-        output.putString(ElementRequirements.MOODS_TITLE + "\n" + moods);
+        moods += (Mood.values().length - 1) + " - " + Mood.values()[Mood.values().length - 1];
+        
+        output.putString(ElementRequirements.MOODS_TITLE + System.lineSeparator() + moods);
         humanBuilder.mood(pipeline.askRequirement(new MoodRequirement()));
 
         Car car = new Car(pipeline.askRequirement(new CarNameRequirement()));

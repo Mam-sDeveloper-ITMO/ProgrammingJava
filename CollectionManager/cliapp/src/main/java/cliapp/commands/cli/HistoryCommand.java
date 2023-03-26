@@ -21,11 +21,11 @@ public class HistoryCommand extends CLICommand {
 
         if (history.size() == 0) {
             output.putString(Messages.HistoryCommand.EMPTY);
-            return;
-        }
-
-        for (String trigger : history) {
-            output.putString("- " + trigger);
+        } else {
+            output.putString(Messages.HistoryCommand.TITLE);
+            for (String trigger : history) {
+                output.putString("- " + trigger);
+            }
         }
     }
 }

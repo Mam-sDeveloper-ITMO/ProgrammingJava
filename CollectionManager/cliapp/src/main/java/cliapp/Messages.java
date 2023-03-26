@@ -27,8 +27,8 @@ public class Messages {
         public static final String ASK_REQUIREMENT_ATTEMPTS_ERROR =
             BUNDLE.getString("AskRequirementAttemptsError");
 
-        public static final String ASK_REQUIREMENT_ERROR_WITH_ATTEMPTS =
-            BUNDLE.getString("AskRequirementErrorWithAttempts");
+        public static final String ASK_REQUIREMENT_WITH_ATTEMPTS =
+            BUNDLE.getString("AskRequirementWithAttempts");
     }
 
     /**

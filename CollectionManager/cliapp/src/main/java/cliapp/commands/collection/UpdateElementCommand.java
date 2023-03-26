@@ -106,7 +106,7 @@ public class UpdateElementCommand extends CollectionCommand {
         for (int i = 0; i < Mood.values().length; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
-        output.putString(ElementRequirements.MOODS_TITLE + "\n" + moods);
+        output.putString(ElementRequirements.MOODS_TITLE + System.lineSeparator() + moods);
         humanBuilder
             .mood(askOrDefault(pipeline, output, new MoodRequirement(), defaultHuman.getMood()));
 
