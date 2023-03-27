@@ -22,5 +22,7 @@ public class Messages {
         public static final String COLLECTION_LOAD_ERROR = EXCEPTIONS_BUNDLE.getString("CollectionLoadError");
 
         public static final String COLLECTION_SAVE_ERROR = EXCEPTIONS_BUNDLE.getString("CollectionSaveError");
+
+        public static final String FILE_PATH_NOT_SPECIFIED = EXCEPTIONS_BUNDLE.getString("FilePathNotSpecified");
     }
 }

@@ -3,17 +3,23 @@ package humandeque.manager.local;
 import java.io.IOException;
 
 import humandeque.HumanDeque;
+import humandeque.Messages.Manager;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.CollectionLoadError;
+import humandeque.manager.exceptions.CollectionSaveError;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.exceptions.ElementNotExistsError;
 import humandeque.manager.exceptions.EmptyCollectionError;
+import lombok.Getter;
+import lombok.Setter;
 import models.Human;
 
 /**
- * That manager execute all manipulations on client and store collection in local csv file
+ * That manager execute all manipulations on client and store collection in
+ * local csv file
  */
 public class LocalManager extends CollectionManager {
+    @Getter @Setter
     private String filePath;
 
     /**
@@ -32,16 +38,7 @@ public class LocalManager extends CollectionManager {
      */
     public LocalManager(String filePath) throws CollectionLoadError {
         this.filePath = filePath;
-        storage = new CsvStorage(filePath);
         load();
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
     }
 
     @Override
@@ -85,5 +82,23 @@ public class LocalManager extends CollectionManager {
             throw new EmptyCollectionError();
         }
         collection.removeLast();
+    }
+
+    @Override
+    public void load() throws CollectionLoadError {
+        if (filePath == null) {
+            throw new CollectionLoadError(Manager.FILE_PATH_NOT_SPECIFIED);
+        }
+        storage = new CsvStorage(filePath);
+        super.load();
+    }
+
+    @Override
+    public void save() throws CollectionSaveError {
+        if (filePath == null) {
+            throw new CollectionSaveError(Manager.FILE_PATH_NOT_SPECIFIED);
+        }
+        storage = new CsvStorage(filePath);
+        super.save();
     }
 }
