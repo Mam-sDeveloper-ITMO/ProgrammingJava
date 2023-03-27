@@ -73,19 +73,34 @@ public class CLIClient {
     }
 
     /**
-     * Try to find command by trigger or prefix (if fuzzy matching enabled). If
-     * command not found,
-     * then throw CommandNotFound exception
+     * Find trigger in registered commands map by full word or prefix if fuzzy mode
+     * enabled.
+     * 
+     * @throws CommandNotFoundError if command not found
      */
-    public Command resolveCommand(String trigger) throws CommandNotFoundError {
+    public String getTrigger(String trigger) throws CommandNotFoundError {
         if (commands.containsKey(trigger)) {
-            return commands.get(trigger);
-        } else if (fuzzyMatching) {
+            return trigger;
+        }
+        if (fuzzyMatching) {
             for (String key : commands.keySet()) {
                 if (key.startsWith(trigger)) {
-                    return commands.get(key);
+                    return key;
                 }
             }
+        }
+        throw new CommandNotFoundError(trigger);
+    }
+
+    /**
+     * Normalize trigger and return command associated with it.
+     * 
+     * @throws CommandNotFoundError if command not found
+     */
+    public Command resolveCommand(String trigger) throws CommandNotFoundError {
+        trigger = getTrigger(trigger);
+        if (commands.containsKey(trigger)) {
+            return commands.get(trigger);
         }
         throw new CommandNotFoundError(trigger);
     }
@@ -98,7 +113,7 @@ public class CLIClient {
      */
     public List<String> parseInlineParams(String line) {
         List<String> params = new ArrayList<String>();
-        String[] split = line.split(" ");
+        String[] split = line.strip().split(" ");
         for (String param : split) {
             if (param.length() > 0) {
                 params.add(param);
@@ -179,6 +194,7 @@ public class CLIClient {
             String trigger = inlineParams.get(0);
             inlineParams.remove(0);
             try {
+                trigger = getTrigger(trigger);
                 command = resolveCommand(trigger);
             } catch (CommandNotFoundError e) {
                 System.out.println(TextColor.getColoredString(e.getMessage(), TextColor.RED));
