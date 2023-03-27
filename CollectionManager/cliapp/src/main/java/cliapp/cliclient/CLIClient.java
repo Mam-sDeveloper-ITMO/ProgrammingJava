@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cliapp.Messages;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
@@ -106,17 +108,22 @@ public class CLIClient {
     }
 
     /**
-     * Split user input line to separated non-empty words
+     * Split user input line to separated non-empty params. Params in quotes are
+     * matched as one param
      * 
      * @param line - user input line
      * @return List of separated words
      */
     public List<String> parseInlineParams(String line) {
-        List<String> params = new ArrayList<String>();
-        String[] split = line.strip().split(" ");
-        for (String param : split) {
-            if (param.length() > 0) {
-                params.add(param);
+        Pattern pattern = Pattern.compile("(\"[^\"]+\"|\\S+)");
+        Matcher matcher = pattern.matcher(line);
+        ArrayList<String> params = new ArrayList<String>();
+        while (matcher.find()) {
+            String item = matcher.group(1);
+            if (item != null) {
+                params.add(item);
+            } else {
+                params.add(matcher.group(2));
             }
         }
         return params;

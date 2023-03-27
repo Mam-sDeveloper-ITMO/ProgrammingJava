@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import cliapp.cliclient.CLIClient;
+import cliapp.commands.cli.ExecuteCommand;
 import cliapp.commands.cli.ExitCommand;
 import cliapp.commands.cli.HelpCommand;
 import cliapp.commands.cli.HistoryCommand;
@@ -79,6 +80,7 @@ public class App {
         client.registerCommand("exit", new ExitCommand(client));
         client.registerCommand("history", new HistoryCommand(client));
         client.registerCommand("fuzzy", new SetFuzzyCommand(client));
+        client.registerCommand("execute", new ExecuteCommand(client));
 
         // let's go!
         client.runClient();

@@ -423,6 +423,33 @@ public class Messages {
     }
 
     /**
+     * cliapp.commands.cli ExecuteCommand
+     */
+    public static class ExecuteCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.cli.commands");
+
+        public static final String NAME = BUNDLE.getString("ExecuteName");
+
+        public static final String DESCRIPTION = BUNDLE.getString("ExecuteDescription");
+
+        public static final String TITLE = BUNDLE.getString("ExecuteTitle");
+
+        public static final String INCORRECT_FILE = BUNDLE.getString("ExecuteIncorrectFile");
+
+        public static final String SCRIPT_FILE_REQUIREMENT_NAME = BUNDLE.getString("ExecuteScriptFileRequirementName");
+
+        public static final String SCRIPT_FILE_REQUIREMENT_DESCRIPTION = BUNDLE
+                .getString("ExecuteScriptFileRequirementDescription");
+
+        public static final String LINE_ERROR = BUNDLE.getString("ExecuteLineError");
+
+        public static final String NOT_ENOUGH_DYNAMIC_PARAMS = BUNDLE.getString("ExecuteNotEnoughDynamicParams");
+
+        public static final String INCORRECT_LINE_FORMAT = BUNDLE.getString("ExecuteIncorrectFormat");
+    }
+
+    /**
      * Neko !
      */
     public static class Cats {
