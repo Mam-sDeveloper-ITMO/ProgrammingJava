@@ -10,6 +10,7 @@ import cliapp.commands.cli.SetFuzzyCommand;
 import cliapp.commands.collection.AddElementCommand;
 import cliapp.commands.collection.AverageOfImpactSpeedCommand;
 import cliapp.commands.collection.ClearCommand;
+import cliapp.commands.collection.FilterByImpactSpeed;
 import cliapp.commands.collection.HeadCommand;
 import cliapp.commands.collection.InfoCommand;
 import cliapp.commands.collection.PrintSortedCommand;
@@ -58,6 +59,7 @@ public class App {
         client.registerCommand("average_speed", new AverageOfImpactSpeedCommand(manager));
         client.registerCommand("head", new HeadCommand(manager));
         client.registerCommand("tail", new TailCommand(manager));
+        client.registerCommand("filter", new FilterByImpactSpeed(manager));
 
         // CLI commands
         client.registerCommand("help", new HelpCommand(client));

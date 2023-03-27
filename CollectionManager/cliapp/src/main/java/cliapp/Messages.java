@@ -299,15 +299,17 @@ public class Messages {
     /**
      * cliapp.commands.collection FilterBySoundtrackNameCommand
      */
-    public static class FilterBySoundtrackNameCommand {
+    public static class FilterByImpactSpeed {
         private static final ResourceBundle BUNDLE = ResourceBundle
                 .getBundle("cliapp.commands.collection.commands");
 
-        public static final String NAME = BUNDLE.getString("FilterBySoundtrackNameName");
+        public static final String NAME = BUNDLE.getString("FilterByImpactSpeedName");
 
-        public static final String DESCRIPTION = BUNDLE.getString("FilterBySoundtrackNameDescription");
+        public static final String DESCRIPTION = BUNDLE.getString("FilterByImpactSpeedDescription");
 
-        public static final String SUCCESS = BUNDLE.getString("FilterBySoundtrackNameSuccess");
+        public static final String TITLE = BUNDLE.getString("FilterByImpactSpeedTitle");
+
+        public static final String EMPTY = BUNDLE.getString("FilterByImpactSpeedEmpty");
     }
 
     /**
