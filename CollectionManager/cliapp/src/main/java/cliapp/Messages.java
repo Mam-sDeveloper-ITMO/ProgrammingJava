@@ -289,7 +289,7 @@ public class Messages {
         public static final String DESCRIPTION = BUNDLE
             .getString("AverageOfImpactSpeedDescription");
 
-        public static final String SUCCESS = BUNDLE.getString("AverageOfImpactSpeedSuccess");
+        public static final String TITLE = BUNDLE.getString("AverageOfImpactSpeedTitle");
     }
 
     /**

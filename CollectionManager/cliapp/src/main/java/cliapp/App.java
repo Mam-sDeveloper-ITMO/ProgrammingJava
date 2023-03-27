@@ -7,6 +7,7 @@ import cliapp.commands.cli.HelpCommand;
 import cliapp.commands.cli.HistoryCommand;
 import cliapp.commands.cli.SetFuzzyCommand;
 import cliapp.commands.collection.AddElementCommand;
+import cliapp.commands.collection.AverageOfImpactSpeedCommand;
 import cliapp.commands.collection.ClearCommand;
 import cliapp.commands.collection.InfoCommand;
 import cliapp.commands.collection.PrintSortedCommand;
@@ -34,7 +35,7 @@ public class App {
             }
         } else {
             System.out
-                .println("Incorrect command line arguments. Usage: java -jar cliapp.jar [file]");
+                    .println("Incorrect command line arguments. Usage: java -jar cliapp.jar [file]");
             return;
         }
 
@@ -51,6 +52,8 @@ public class App {
         client.registerCommand("print_sorted", new PrintSortedCommand(manager));
         client.registerCommand("random", new RandomCommand(manager));
         client.registerCommand("clear", new ClearCommand(manager));
+        client.registerCommand("average_speed", new AverageOfImpactSpeedCommand(manager));
+
         // CLI commands
         client.registerCommand("help", new HelpCommand(client));
         client.registerCommand("exit", new ExitCommand(client));
