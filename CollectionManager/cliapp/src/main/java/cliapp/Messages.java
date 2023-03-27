@@ -16,8 +16,8 @@ public class Messages {
         public static final String COMMAND_NOT_FOUND_ERROR =
             BUNDLE.getString("CommandNotFoundError");
 
-        public static final String INLINE_PARAMS_COUNT_ERROR =
-            BUNDLE.getString("InlineParamsCountError");
+        public static final String INLINE_PARAMS_ERROR =
+            BUNDLE.getString("InlineParamsError");
 
         public static final String ASK_REQUIREMENT = BUNDLE.getString("AskRequirement");
 

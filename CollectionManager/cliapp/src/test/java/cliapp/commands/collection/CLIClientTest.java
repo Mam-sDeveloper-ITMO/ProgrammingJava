@@ -1,14 +1,17 @@
 package cliapp.commands.collection;
 
 import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
-import cliapp.cliclient.exceptions.InlineParamsCountError;
+import cliapp.cliclient.exceptions.InlineParamsError;
 import commands.Command;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.local.LocalManager;
@@ -65,7 +68,7 @@ public class CLIClientTest {
             Map<String, String> requirements =
                 client.mapStaticRequirements(command.getStaticRequirements(), params);
             assertEquals(requirements.get("id"), "3");
-        } catch (InlineParamsCountError e) {
+        } catch (InlineParamsError e) {
             Assert.fail("Exception thrown");
         }
     }

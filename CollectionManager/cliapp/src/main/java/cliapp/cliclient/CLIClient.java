@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
 import cliapp.Messages;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
-import cliapp.cliclient.exceptions.InlineParamsCountError;
+import cliapp.cliclient.exceptions.InlineParamsError;
 import cliapp.utils.TextColor;
 import commands.Command;
 import commands.OutputChannel;
@@ -21,33 +22,44 @@ import lombok.Setter;
 /**
  * CLIClient implement command line interaction with user.
  * 
- * It contains Command objects and methods for them execution. It provides input and output,
+ * It contains Command objects and methods for them execution. It provides input
+ * and output,
  * commands resolving and execution, exceptions processing and other shell stuff
  */
 public class CLIClient {
     /**
-     * Map with triggers associated with commands. Trigger is name of command for invoke from
+     * Map with triggers associated with commands. Trigger is name of command for
+     * invoke from
      */
-    @Getter private HashMap<String, Command> commands = new HashMap<String, Command>();
+    @Getter
+    private HashMap<String, Command> commands = new HashMap<String, Command>();
 
     /**
      * List of user input triggers
      */
-    @Getter private List<String> history = new ArrayList<String>();
+    @Getter
+    private List<String> history = new ArrayList<String>();
 
     /**
-     * If fuzzy matching enabled, then cli will try to find command by prefix of trigger
+     * If fuzzy matching enabled, then cli will try to find command by prefix of
+     * trigger
      */
-    @Setter @Getter private boolean fuzzyMatching = false;
+    @Setter
+    @Getter
+    private boolean fuzzyMatching = false;
 
     /**
-     * Specify count of attempts for ask requirements from user After this count of attempts, if
+     * Specify count of attempts for ask requirements from user After this count of
+     * attempts, if
      * requirement not satisfied, then command will not be executed
      */
-    @Setter @Getter private int askRequirementAttempts = 3;
+    @Setter
+    @Getter
+    private int askRequirementAttempts = 3;
 
     /**
-     * Add new command to cli. Trigger will be used as name of command for invoke from command line
+     * Add new command to cli. Trigger will be used as name of command for invoke
+     * from command line
      */
     public void registerCommand(String trigger, Command command) {
         commands.put(trigger, command);
@@ -61,7 +73,8 @@ public class CLIClient {
     }
 
     /**
-     * Try to find command by trigger or prefix (if fuzzy matching enabled). If command not found,
+     * Try to find command by trigger or prefix (if fuzzy matching enabled). If
+     * command not found,
      * then throw CommandNotFound exception
      */
     public Command resolveCommand(String trigger) throws CommandNotFoundError {
@@ -100,11 +113,11 @@ public class CLIClient {
      * @return Map where key is requirement name and value is inline param
      */
     public Map<String, String> mapStaticRequirements(List<Requirement<?, ?>> staticRequirements,
-        List<String> inlineParams)
-        throws InlineParamsCountError {
+            List<String> inlineParams)
+            throws InlineParamsError {
 
         if (staticRequirements.size() != inlineParams.size()) {
-            throw new InlineParamsCountError(staticRequirements.size(), inlineParams.size());
+            throw new InlineParamsError(staticRequirements);
         }
         Map<String, String> map = new HashMap<String, String>();
         for (int i = 0; i < staticRequirements.size(); i++) {
@@ -122,18 +135,17 @@ public class CLIClient {
         // map static requirements to inline params
         Map<String, String> staticRequirementsMap;
         try {
-            staticRequirementsMap =
-                mapStaticRequirements(command.getStaticRequirements(), inlineParams);
-        } catch (InlineParamsCountError e) {
+            staticRequirementsMap = mapStaticRequirements(command.getStaticRequirements(), inlineParams);
+        } catch (InlineParamsError e) {
             System.out.println(TextColor.getColoredString(e.getMessage(), TextColor.RED));
             return;
         }
         // init output channel and requirements pipeline
         OutputChannel output = System.out::println;
         RequirementsPipeline pipeline = new UserInputPipeline(
-            staticRequirementsMap,
-            new Scanner(System.in),
-            askRequirementAttempts);
+                staticRequirementsMap,
+                new Scanner(System.in),
+                askRequirementAttempts);
         // try execute command
         try {
             command.execute(pipeline, output);
