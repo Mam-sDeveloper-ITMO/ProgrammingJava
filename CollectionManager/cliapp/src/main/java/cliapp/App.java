@@ -1,6 +1,7 @@
 package cliapp;
 
 import java.io.IOException;
+
 import cliapp.cliclient.CLIClient;
 import cliapp.commands.cli.ExitCommand;
 import cliapp.commands.cli.HelpCommand;
@@ -9,6 +10,7 @@ import cliapp.commands.cli.SetFuzzyCommand;
 import cliapp.commands.collection.AddElementCommand;
 import cliapp.commands.collection.AverageOfImpactSpeedCommand;
 import cliapp.commands.collection.ClearCommand;
+import cliapp.commands.collection.HeadCommand;
 import cliapp.commands.collection.InfoCommand;
 import cliapp.commands.collection.PrintSortedCommand;
 import cliapp.commands.collection.RandomCommand;
@@ -16,6 +18,7 @@ import cliapp.commands.collection.RemoveByIdCommand;
 import cliapp.commands.collection.RemoveFirstCommand;
 import cliapp.commands.collection.RemoveLastCommand;
 import cliapp.commands.collection.ShowCommand;
+import cliapp.commands.collection.TailCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.local.LocalManager;
@@ -53,6 +56,8 @@ public class App {
         client.registerCommand("random", new RandomCommand(manager));
         client.registerCommand("clear", new ClearCommand(manager));
         client.registerCommand("average_speed", new AverageOfImpactSpeedCommand(manager));
+        client.registerCommand("head", new HeadCommand(manager));
+        client.registerCommand("tail", new TailCommand(manager));
 
         // CLI commands
         client.registerCommand("help", new HelpCommand(client));

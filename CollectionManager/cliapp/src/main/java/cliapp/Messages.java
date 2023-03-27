@@ -11,24 +11,19 @@ public class Messages {
      */
     public static class CLIClient {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.cliclient.cliclient");
+                .getBundle("cliapp.cliclient.cliclient");
 
-        public static final String COMMAND_NOT_FOUND_ERROR =
-            BUNDLE.getString("CommandNotFoundError");
+        public static final String COMMAND_NOT_FOUND_ERROR = BUNDLE.getString("CommandNotFoundError");
 
-        public static final String INLINE_PARAMS_ERROR =
-            BUNDLE.getString("InlineParamsError");
+        public static final String INLINE_PARAMS_ERROR = BUNDLE.getString("InlineParamsError");
 
         public static final String ASK_REQUIREMENT = BUNDLE.getString("AskRequirement");
 
-        public static final String ASK_DEFAULT_REQUIREMENT =
-            BUNDLE.getString("AskDefaultRequirement");
+        public static final String ASK_DEFAULT_REQUIREMENT = BUNDLE.getString("AskDefaultRequirement");
 
-        public static final String ASK_REQUIREMENT_ATTEMPTS_ERROR =
-            BUNDLE.getString("AskRequirementAttemptsError");
+        public static final String ASK_REQUIREMENT_ATTEMPTS_ERROR = BUNDLE.getString("AskRequirementAttemptsError");
 
-        public static final String ASK_REQUIREMENT_WITH_ATTEMPTS =
-            BUNDLE.getString("AskRequirementWithAttempts");
+        public static final String ASK_REQUIREMENT_WITH_ATTEMPTS = BUNDLE.getString("AskRequirementWithAttempts");
     }
 
     /**
@@ -36,7 +31,7 @@ public class Messages {
      */
     public static class ElementRequirements {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.element");
+                .getBundle("cliapp.commands.collection.element");
 
         public static final String ID = BUNDLE.getString("Id");
 
@@ -78,8 +73,7 @@ public class Messages {
 
         public static final String MINUTES_OF_WAITING = BUNDLE.getString("MinutesOfWaiting");
 
-        public static final String MINUTES_OF_WAITING_DESCR =
-            BUNDLE.getString("MinutesOfWaitingDescr");
+        public static final String MINUTES_OF_WAITING_DESCR = BUNDLE.getString("MinutesOfWaitingDescr");
 
         public static final String MOOD = BUNDLE.getString("Mood");
 
@@ -87,11 +81,9 @@ public class Messages {
 
         public static final String MOODS_TITLE = BUNDLE.getString("MoodsTitle");
 
-        public static final String MOOD_BY_NUMBER_NOT_EXISTS =
-            BUNDLE.getString("MoodByNumberNotExists");
+        public static final String MOOD_BY_NUMBER_NOT_EXISTS = BUNDLE.getString("MoodByNumberNotExists");
 
-        public static final String MOOD_BY_NAME_NOT_EXISTS =
-            BUNDLE.getString("MoodByNameNotExists");
+        public static final String MOOD_BY_NAME_NOT_EXISTS = BUNDLE.getString("MoodByNameNotExists");
 
         public static final String MOOD_VALIDATION_ERROR = BUNDLE.getString("MoodValidationError");
 
@@ -105,7 +97,7 @@ public class Messages {
      */
     public static class InfoCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("InfoName");
 
@@ -125,7 +117,7 @@ public class Messages {
      */
     public static class ShowCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("ShowName");
 
@@ -141,7 +133,7 @@ public class Messages {
      */
     public static class AddElementCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("AddElementName");
 
@@ -155,7 +147,7 @@ public class Messages {
      */
     public static class UpdateElementCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("UpdateName");
 
@@ -169,7 +161,7 @@ public class Messages {
      */
     public static class RemoveByIdCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("RemoveByIdName");
 
@@ -183,7 +175,7 @@ public class Messages {
      */
     public static class ClearCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("ClearName");
 
@@ -193,8 +185,7 @@ public class Messages {
 
         public static final String APPROVE = BUNDLE.getString("ClearApprove");
 
-        public static final String APPROVE_DESCRIPTION =
-            BUNDLE.getString("ClearApproveDescription");
+        public static final String APPROVE_DESCRIPTION = BUNDLE.getString("ClearApproveDescription");
     }
 
     /**
@@ -202,7 +193,7 @@ public class Messages {
      */
     public static class SaveCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("SaveName");
 
@@ -216,7 +207,7 @@ public class Messages {
      */
     public static class RemoveFirstCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("RemoveFirstName");
 
@@ -230,7 +221,7 @@ public class Messages {
      */
     public static class RemoveLastCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("RemoveLastName");
 
@@ -244,7 +235,7 @@ public class Messages {
      */
     public static class RandomCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("RandomName");
 
@@ -253,12 +244,11 @@ public class Messages {
         public static final String TITLE = BUNDLE.getString("RandomTitle");
 
         private static final ResourceBundle RANDOM_BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.random");
+                .getBundle("cliapp.commands.collection.random");
 
         public static final String[] NAMES = RANDOM_BUNDLE.getString("Names").split(",");
 
-        public static final String[] SOUNDTRACKS =
-            RANDOM_BUNDLE.getString("Soundtracks").split(",");
+        public static final String[] SOUNDTRACKS = RANDOM_BUNDLE.getString("Soundtracks").split(",");
 
         public static final String[] CARS = RANDOM_BUNDLE.getString("Cars").split(",");
     }
@@ -268,13 +258,27 @@ public class Messages {
      */
     public static class HeadCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("HeadName");
 
         public static final String DESCRIPTION = BUNDLE.getString("HeadDescription");
 
-        public static final String SUCCESS = BUNDLE.getString("HeadSuccess");
+        public static final String TITLE = BUNDLE.getString("HeadTitle");
+    }
+
+    /**
+     * cliapp.commands.collection TailCommand
+     */
+    public static class TailCommand {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.commands.collection.commands");
+
+        public static final String NAME = BUNDLE.getString("TailName");
+
+        public static final String DESCRIPTION = BUNDLE.getString("TailDescription");
+
+        public static final String TITLE = BUNDLE.getString("TailTitle");
     }
 
     /**
@@ -282,12 +286,12 @@ public class Messages {
      */
     public static class AverageOfImpactSpeedCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("AverageOfImpactSpeedName");
 
         public static final String DESCRIPTION = BUNDLE
-            .getString("AverageOfImpactSpeedDescription");
+                .getString("AverageOfImpactSpeedDescription");
 
         public static final String TITLE = BUNDLE.getString("AverageOfImpactSpeedTitle");
     }
@@ -297,12 +301,11 @@ public class Messages {
      */
     public static class FilterBySoundtrackNameCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("FilterBySoundtrackNameName");
 
-        public static final String DESCRIPTION =
-            BUNDLE.getString("FilterBySoundtrackNameDescription");
+        public static final String DESCRIPTION = BUNDLE.getString("FilterBySoundtrackNameDescription");
 
         public static final String SUCCESS = BUNDLE.getString("FilterBySoundtrackNameSuccess");
     }
@@ -312,7 +315,7 @@ public class Messages {
      */
     public static class PrintSortedCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.collection.commands");
+                .getBundle("cliapp.commands.collection.commands");
 
         public static final String NAME = BUNDLE.getString("PrintSortedName");
 
@@ -320,14 +323,11 @@ public class Messages {
 
         public static final String SUCCESS = BUNDLE.getString("PrintSortedSuccess");
 
-        public static final String ORDER_REQUIREMENT_NAME =
-            BUNDLE.getString("OrderRequirementName");
+        public static final String ORDER_REQUIREMENT_NAME = BUNDLE.getString("OrderRequirementName");
 
-        public static final String ORDER_REQUIREMENT_DESCRIPTION =
-            BUNDLE.getString("OrderRequirementDescription");
+        public static final String ORDER_REQUIREMENT_DESCRIPTION = BUNDLE.getString("OrderRequirementDescription");
 
-        public static final String ORDER_REQUIREMENT_ERROR =
-            BUNDLE.getString("OrderRequirementError");
+        public static final String ORDER_REQUIREMENT_ERROR = BUNDLE.getString("OrderRequirementError");
     }
 
     /**
@@ -335,7 +335,7 @@ public class Messages {
      */
     public static class HelpCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.cli.commands");
+                .getBundle("cliapp.commands.cli.commands");
 
         public static final String NAME = BUNDLE.getString("HelpName");
 
@@ -351,7 +351,7 @@ public class Messages {
      */
     public static class ExitCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.cli.commands");
+                .getBundle("cliapp.commands.cli.commands");
 
         public static final String NAME = BUNDLE.getString("ExitName");
 
@@ -365,7 +365,7 @@ public class Messages {
      */
     public static class HistoryCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.cli.commands");
+                .getBundle("cliapp.commands.cli.commands");
 
         public static final String NAME = BUNDLE.getString("HistoryName");
 
@@ -381,7 +381,7 @@ public class Messages {
      */
     public static class SetFuzzyCommand {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.commands.cli.commands");
+                .getBundle("cliapp.commands.cli.commands");
 
         public static final String NAME = BUNDLE.getString("SetFuzzyName");
 
@@ -391,11 +391,10 @@ public class Messages {
 
         public static final String FUZZY_OFF = BUNDLE.getString("SetFuzzyOff");
 
-        public static final String FUZZY_MODE_REQUIREMENT_NAME =
-            BUNDLE.getString("FuzzyModeRequirementName");
+        public static final String FUZZY_MODE_REQUIREMENT_NAME = BUNDLE.getString("FuzzyModeRequirementName");
 
-        public static final String FUZZY_MODE_REQUIREMENT_DESCRIPTION =
-            BUNDLE.getString("FuzzyModeRequirementDescription");
+        public static final String FUZZY_MODE_REQUIREMENT_DESCRIPTION = BUNDLE
+                .getString("FuzzyModeRequirementDescription");
     }
 
     /**
@@ -403,7 +402,7 @@ public class Messages {
      */
     public static class Cats {
         private static final ResourceBundle BUNDLE = ResourceBundle
-            .getBundle("cliapp.cats.cats");
+                .getBundle("cliapp.cats.cats");
 
         public static final String CAT1 = BUNDLE.getString("Cat1");
 
