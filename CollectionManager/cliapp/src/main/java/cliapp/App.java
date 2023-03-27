@@ -18,10 +18,12 @@ import cliapp.commands.collection.RandomCommand;
 import cliapp.commands.collection.RemoveByIdCommand;
 import cliapp.commands.collection.RemoveFirstCommand;
 import cliapp.commands.collection.RemoveLastCommand;
+import cliapp.commands.collection.SaveCommand;
 import cliapp.commands.collection.ShowCommand;
 import cliapp.commands.collection.TailCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
+import humandeque.manager.exceptions.CollectionLoadError;
 import humandeque.manager.local.LocalManager;
 
 public class App {
@@ -33,8 +35,8 @@ public class App {
         } else if (args.length == 1) {
             try {
                 manager = new LocalManager(args[0]);
-            } catch (IOException e) {
-                System.out.println("Cannot load collection from file");
+            } catch (CollectionLoadError e) {
+                System.out.println(e.getMessage());
                 return;
             }
         } else {
@@ -60,6 +62,7 @@ public class App {
         client.registerCommand("head", new HeadCommand(manager));
         client.registerCommand("tail", new TailCommand(manager));
         client.registerCommand("filter", new FilterByImpactSpeed(manager));
+        client.registerCommand("save", new SaveCommand(manager));
 
         // CLI commands
         client.registerCommand("help", new HelpCommand(client));

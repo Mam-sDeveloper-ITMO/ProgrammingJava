@@ -200,6 +200,10 @@ public class Messages {
         public static final String DESCRIPTION = BUNDLE.getString("SaveDescription");
 
         public static final String SUCCESS = BUNDLE.getString("SaveSuccess");
+
+        public static final String ERROR = BUNDLE.getString("SaveError");
+
+        public static final String FILE_NOT_FOUND = BUNDLE.getString("SaveFileNotFound");
     }
 
     /**
