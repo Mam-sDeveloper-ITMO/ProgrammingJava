@@ -32,17 +32,17 @@ public class CsvStorage implements CollectionStorage {
     private String[] humanToStrings(Human human) {
         return new String[] {
                 String.valueOf(human.getId()),
-                human.getName(),
+                String.valueOf(human.getName()),
                 String.valueOf(human.getCoordinates().getX()),
                 String.valueOf(human.getCoordinates().getY()),
                 String.valueOf(human.getCreationDate()),
                 String.valueOf(human.getRealHero()),
                 String.valueOf(human.getHasToothpick()),
                 String.valueOf(human.getImpactSpeed()),
-                human.getSoundtrackName(),
+                String.valueOf(human.getSoundtrackName()),
                 String.valueOf(human.getMinutesOfWaiting()),
                 String.valueOf(human.getMood()),
-                human.getCar().getName()
+                String.valueOf(human.getCar().getName())
         };
     }
 
@@ -76,10 +76,8 @@ public class CsvStorage implements CollectionStorage {
     public void save(HumanDeque collection) throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter(filePath));
 
-        String[] header = new String[] {
-                "id", "name", "x", "y", "creationDate", "realHero", "hasToothpick",
-                "impactSpeed", "impactSpeed", "minutesOfWaiting", "mood", "carName"
-        };
+        String[] header = new String[] { "id", "name", "coordinates.x", "coordinates.y", "creationDate", "realHero",
+                "hasToothpick", "impactSpeed", "soundtrackName", "minutesOfWaiting", "mood", "car.name" };
         writer.writeNext(header);
 
         String[] humanRow;
