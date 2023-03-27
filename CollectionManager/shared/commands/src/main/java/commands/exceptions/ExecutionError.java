@@ -12,6 +12,6 @@ public class ExecutionError extends Exception {
     }
 
     public ExecutionError(String message, Throwable cause) {
-        super(Commands.EXECUTION_ERROR.formatted(message, cause.getMessage()), cause);
+        super(Commands.EXECUTION_ERROR_WITH_CAUSE.formatted(message, cause.getMessage()), cause);
     }
 }

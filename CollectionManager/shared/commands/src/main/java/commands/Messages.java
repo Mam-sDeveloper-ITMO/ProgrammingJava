@@ -14,6 +14,8 @@ public class Messages {
             ResourceBundle.getBundle("commands.exceptions");
 
         public static final String EXECUTION_ERROR = EXCEPTIONS_BUNDLE.getString("ExecutionError");
+
+        public static final String EXECUTION_ERROR_WITH_CAUSE = EXCEPTIONS_BUNDLE.getString("ExecutionErrorWithCause");
     }
 
     /**
