@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
+import humandeque.manager.exceptions.CollectionLoadError;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.exceptions.ElementNotExistsError;
 import humandeque.manager.exceptions.EmptyCollectionError;
@@ -29,7 +30,7 @@ public class LocalManager extends CollectionManager {
      * @param filePath - path to csv file
      * @throws IOException
      */
-    public LocalManager(String filePath) throws IOException {
+    public LocalManager(String filePath) throws CollectionLoadError {
         this.filePath = filePath;
         storage = new CsvStorage(filePath);
         load();

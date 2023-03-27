@@ -7,10 +7,12 @@ import java.time.LocalDateTime;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvException;
 
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionStorage;
+import humandeque.manager.exceptions.CollectionLoadError;
+import humandeque.manager.exceptions.CollectionSaveError;
+import lombok.Cleanup;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import models.Car;
@@ -25,6 +27,10 @@ import models.Mood;
 public class CsvStorage implements CollectionStorage {
     @NonNull
     private String filePath;
+
+    private static final String[] collectionHeader = new String[] {
+            "id", "name", "coordinates.x", "coordinates.y", "creationDate", "realHero",
+            "hasToothpick", "impactSpeed", "soundtrackName", "minutesOfWaiting", "mood", "car.name" };
 
     /**
      * Convert human to strings array
@@ -73,40 +79,41 @@ public class CsvStorage implements CollectionStorage {
      * Save collection to csv file
      */
     @Override
-    public void save(HumanDeque collection) throws IOException {
-        CSVWriter writer = new CSVWriter(new FileWriter(filePath));
-
-        String[] header = new String[] { "id", "name", "coordinates.x", "coordinates.y", "creationDate", "realHero",
-                "hasToothpick", "impactSpeed", "soundtrackName", "minutesOfWaiting", "mood", "car.name" };
-        writer.writeNext(header);
-
-        String[] humanRow;
-        for (Human human : collection) {
-            humanRow = humanToStrings(human);
-            writer.writeNext(humanRow);
+    public void save(HumanDeque collection) throws CollectionSaveError {
+        try {
+            @Cleanup
+            CSVWriter writer = new CSVWriter(new FileWriter(filePath));
+            
+            writer.writeNext(collectionHeader);
+            for (Human human : collection) {
+                String[] humanRow = humanToStrings(human);
+                writer.writeNext(humanRow);
+            }
+        } catch (IOException e) {
+            throw new CollectionSaveError(e.getMessage(), e);
         }
-        writer.close();
     }
 
     /**
      * Load collection from csv file
      */
     @Override
-    public HumanDeque load() throws IOException {
-        CSVReader reader = new CSVReader(new FileReader(filePath));
+    public HumanDeque load() throws CollectionLoadError {
         try {
+            @Cleanup
+            CSVReader reader = new CSVReader(new FileReader(filePath));
+
             String[] nextLine;
             nextLine = reader.readNext(); // skip header
 
-            Human human;
             HumanDeque collection = new HumanDeque();
             while ((nextLine = reader.readNext()) != null) {
-                human = stringsToHuman(nextLine);
+                Human human = stringsToHuman(nextLine);
                 collection.add(human);
             }
             return collection;
-        } catch (CsvException e) {
-            throw new IOException(e);
+        } catch (Exception e) {
+            throw new CollectionLoadError(e.getMessage(), e);
         }
     }
 }

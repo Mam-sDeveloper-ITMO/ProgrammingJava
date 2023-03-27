@@ -1,8 +1,8 @@
 package humandeque.manager;
 
-import java.io.IOException;
-
 import humandeque.HumanDeque;
+import humandeque.manager.exceptions.CollectionLoadError;
+import humandeque.manager.exceptions.CollectionSaveError;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.exceptions.ElementNotExistsError;
 import humandeque.manager.exceptions.EmptyCollectionError;
@@ -44,12 +44,14 @@ public abstract class CollectionManager {
 
     /**
      * Remove first collection element
+     * 
      * @throws EmptyCollectionError - if collection is empty
      */
     public abstract void removeFirst() throws EmptyCollectionError;
 
     /**
      * Remove last collection element
+     * 
      * @throws EmptyCollectionError - if collection is empty
      */
     public abstract void removeLast() throws EmptyCollectionError;
@@ -62,15 +64,21 @@ public abstract class CollectionManager {
     /**
      * Load collection from storage
      */
-    public void load() throws IOException {
+    public void load() throws CollectionLoadError {
         collection = storage.load();
     }
 
     /**
      * Save collection to storage
      */
-    public void save() throws IOException {
-        storage.save(collection);
+    public void save() throws CollectionSaveError {
+        try {
+            storage.save(collection);
+        } catch (CollectionSaveError e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CollectionSaveError(e.getMessage(), e);
+        }
     }
 
     /**
