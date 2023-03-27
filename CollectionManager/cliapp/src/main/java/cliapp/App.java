@@ -1,6 +1,8 @@
 package cliapp;
 
-import java.io.IOException;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import cliapp.cliclient.CLIClient;
 import cliapp.commands.cli.ExitCommand;
@@ -23,27 +25,35 @@ import cliapp.commands.collection.ShowCommand;
 import cliapp.commands.collection.TailCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
-import humandeque.manager.exceptions.CollectionLoadError;
 import humandeque.manager.local.LocalManager;
 
 public class App {
-    public static void main(String[] args) {
-        // depends on args count we create new collection or load from file
-        CollectionManager manager;
-        if (args.length == 0) {
-            manager = new LocalManager();
-        } else if (args.length == 1) {
-            try {
-                manager = new LocalManager(args[0]);
-            } catch (CollectionLoadError e) {
-                System.out.println(e.getMessage());
-                return;
-            }
-        } else {
-            System.out
-                    .println("Incorrect command line arguments. Usage: java -jar cliapp.jar [file]");
-            return;
+    /**
+     * Dumb initialization of manager.
+     * 
+     * TODO: ask for file, better errors output
+     */
+    private static CollectionManager initManager(String[] args) {
+        try {
+            String filePath = args[args.length - 1];
+            Paths.get(filePath);
+        } catch (IndexOutOfBoundsException | InvalidPathException e) {
+            System.out.println(Messages.App.INCORRECT_ARGS);
+            System.exit(1);
         }
+
+        try {
+            return new LocalManager(args[args.length - 1]);
+        } catch (Exception e) {
+            System.out.println(Messages.App.CANNOT_CREATE_MANAGER.formatted(e.getMessage()));
+            System.exit(1);
+        }
+        System.exit(1);
+        return null;
+    }
+
+    public static void main(String[] args) {
+        CollectionManager manager = initManager(args);
 
         // create client and register commands
         CLIClient client = new CLIClient();

@@ -7,6 +7,18 @@ import java.util.ResourceBundle;
  */
 public class Messages {
     /**
+     * cliapp App
+     */
+    public static class App {
+        private static final ResourceBundle BUNDLE = ResourceBundle
+                .getBundle("cliapp.app");
+
+        public static final String CANNOT_CREATE_MANAGER = BUNDLE.getString("CannotInitManager");
+
+        public static final String INCORRECT_ARGS = BUNDLE.getString("IncorrectArgs");
+    }
+
+    /**
      * cliapp.cliclient
      */
     public static class CLIClient {
@@ -204,6 +216,13 @@ public class Messages {
         public static final String ERROR = BUNDLE.getString("SaveError");
 
         public static final String FILE_NOT_FOUND = BUNDLE.getString("SaveFileNotFound");
+
+        public static final String FILE_ASK_FILE_NAME = BUNDLE.getString("SaveAskFilePath");
+
+        public static final String FILE_NAME_REQUIREMENT_NAME = BUNDLE.getString("SaveFileNameRequirementName");
+
+        public static final String FILE_NAME_REQUIREMENT_DESCRIPTION = BUNDLE
+                .getString("SaveFileNameRequirementDescription");
     }
 
     /**
