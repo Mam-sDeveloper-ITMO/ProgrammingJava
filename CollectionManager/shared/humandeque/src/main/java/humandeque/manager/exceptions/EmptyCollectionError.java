@@ -1,12 +1,12 @@
 package humandeque.manager.exceptions;
 
-import static humandeque.Messages.Manager;
+import static humandeque.TextResources.Manager.ExceptionsResources;
 
 /**
  * Thrown when collection is empty 
  */
 public class EmptyCollectionError extends Exception {
     public EmptyCollectionError() {
-        super(Manager.EMPTY_COLLECTION);
+        super(ExceptionsResources.EMPTY_COLLECTION);
     }
 }

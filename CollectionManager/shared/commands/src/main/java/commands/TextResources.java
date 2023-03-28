@@ -2,13 +2,7 @@ package commands;
 
 import java.util.ResourceBundle;
 
-/**
- * That class provides handy static access for project text resources
- */
 public class TextResources {
-    /**
-     * Resources of root package
-     */
     public static class Commands {
         public static class ExceptionsResources {
             private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("commands.exceptions");
@@ -19,9 +13,6 @@ public class TextResources {
         }
     }
 
-    /**
-     * Resources of commands.requirements subpackage
-     */
     public static class Requirements {
         public static class ExceptionsResources {
             private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
@@ -42,9 +33,6 @@ public class TextResources {
         }
 
         public static class Common {
-            /**
-             * Resources of commands.requirements.validators.common.StringValidators
-             */
             public static class StringValidatorsResources {
                 private static final ResourceBundle BUNDLE = ResourceBundle
                         .getBundle("commands.requirements.validators.common.string");
@@ -64,9 +52,6 @@ public class TextResources {
                 public static final String NOT_EMPTY_VALIDATOR_ERROR = BUNDLE.getString("NotEmptyValidator.Error");
             }
 
-            /**
-             * Resources of commands.requirements.validators.common.Misc
-             */
             public static class MiscValidatorsResources {
                 private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
                         "commands.requirements.validators.common.misc");

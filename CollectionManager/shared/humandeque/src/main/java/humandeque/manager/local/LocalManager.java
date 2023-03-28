@@ -3,7 +3,7 @@ package humandeque.manager.local;
 import java.io.IOException;
 
 import humandeque.HumanDeque;
-import humandeque.Messages.Manager;
+import humandeque.TextResources.Manager.ExceptionsResources;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.CollectionLoadError;
 import humandeque.manager.exceptions.CollectionSaveError;
@@ -87,7 +87,7 @@ public class LocalManager extends CollectionManager {
     @Override
     public void load() throws CollectionLoadError {
         if (filePath == null) {
-            throw new CollectionLoadError(Manager.FILE_PATH_NOT_SPECIFIED);
+            throw new CollectionLoadError(ExceptionsResources.FILE_PATH_NOT_SPECIFIED_ERROR);
         }
         storage = new CsvStorage(filePath);
         super.load();
@@ -96,7 +96,7 @@ public class LocalManager extends CollectionManager {
     @Override
     public void save() throws CollectionSaveError {
         if (filePath == null) {
-            throw new CollectionSaveError(Manager.FILE_PATH_NOT_SPECIFIED);
+            throw new CollectionSaveError(ExceptionsResources.FILE_PATH_NOT_SPECIFIED_ERROR);
         }
         storage = new CsvStorage(filePath);
         super.save();
