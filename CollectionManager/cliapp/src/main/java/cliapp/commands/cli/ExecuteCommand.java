@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,16 @@ import commands.requirements.validators.Validator;
  * show
  */
 public class ExecuteCommand extends CLICommand {
+    /**
+     * Maximum count of recursive call for one script file
+     */
+    private Integer maxRecursionDepth = 5;
+
+    /**
+     * Map with count of call for each script file. Used to prevent recursion
+     */
+    private Map<Path, Integer> callCounter = new HashMap<>();
+
     private static final Requirement<String, Path> scriptFileRequirement = new Requirement<>(
             ScriptFileRequirementResources.NAME,
             ScriptFileRequirementResources.DESCRIPTION,
@@ -151,7 +162,7 @@ public class ExecuteCommand extends CLICommand {
      * @return the list of static parameters extracted from the given line
      */
     private List<String> extractStaticParams(String line) {
-        Pattern pattern = Pattern.compile("^(\\w+ ?)+(?=\\{|$)");
+        Pattern pattern = Pattern.compile("^[^{\\n]+");
         Matcher matcher = pattern.matcher(line);
         String match = matcher.find() ? matcher.group() : "";
         return client.parseInlineParams(match);
@@ -243,10 +254,10 @@ public class ExecuteCommand extends CLICommand {
      * Parse one script line, resolve params type and execute command
      */
     private void executeScriptLine(String line) throws ExecutionError {
-        if (line.matches("^(\\w+ ?)+\\{.+\\}$")) {
+        if (line.matches("^.+\\{.+\\}$")) {
             // with direct loaded params
             executeWithDynamicParams(line);
-        } else if (line.matches("^(\\w+ ?)+(\\{})?$")) {
+        } else if (line.matches("^.+(\\{\\})?$")) {
             // with params from user
             executeWithUserParams(line);
         } else {
@@ -259,17 +270,36 @@ public class ExecuteCommand extends CLICommand {
      * Executes a script by iterating over its lines and calling
      * {@link #executeScriptLine(String)} on each line.
      *
-     * @param script The script content.
+     * @param scriptPath Path of script file.
+     * @param script     The script content.
      * @throws ExecutionError If an error occurs while executing any of the script
      *                        lines.
      */
-    private void executeScript(String script) throws ExecutionError {
+    private void executeScript(Path scriptPath, String script) throws ExecutionError {
+        // update call counter
+        Integer callCount = callCounter.getOrDefault(scriptPath, 0);
+        callCounter.put(scriptPath, callCount + 1);
+        // check max recursion depth exceeding
+        if (callCount + 1 > maxRecursionDepth) {
+            // reset counter and throw error
+            callCounter.remove(scriptPath);
+            throw new ExecutionError(
+                    ExecuteCommandResources.MAX_CALL_COUNT_EXCEED.formatted(maxRecursionDepth, scriptPath));
+        }
+
+        // execute script
         for (String line : script.split(System.lineSeparator())) {
             try {
                 executeScriptLine(line);
             } catch (Exception e) {
                 throw new ExecutionError(ExecuteCommandResources.LINE_ERROR.formatted(line), e);
             }
+        }
+
+        // if whole script was executed decrease counter cause it is not recursive
+        callCount = callCounter.get(scriptPath);
+        if (callCount != null) {
+            callCounter.put(scriptPath, callCount - 1);
         }
     }
 
@@ -293,14 +323,13 @@ public class ExecuteCommand extends CLICommand {
         } catch (RequirementAskError e) {
             throw new ExecutionError(e.getMessage());
         }
-
         // read script file
         String scriptContent;
         try {
             scriptContent = Files.readString(scriptPath);
         } catch (IOException e) {
-            throw new ExecutionError(e.getMessage());
+            throw new ExecutionError(e.getMessage(), e);
         }
-        executeScript(scriptContent);
+        executeScript(scriptPath, scriptContent);
     }
 }

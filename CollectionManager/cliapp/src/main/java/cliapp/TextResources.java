@@ -124,6 +124,9 @@ public class TextResources {
                 public static final String INCORRECT_LINE_FORMAT = BUNDLE
                         .getString("ExecuteCommand.IncorrectLineFormat");
 
+                public static final String MAX_CALL_COUNT_EXCEED = BUNDLE
+                        .getString("ExecuteCommand.MaxCallCountExceed");
+
                 public static class ScriptFileRequirementResources {
                     public static final String NAME = BUNDLE.getString("ExecuteCommand.ScriptFileRequirement.Name");
 
