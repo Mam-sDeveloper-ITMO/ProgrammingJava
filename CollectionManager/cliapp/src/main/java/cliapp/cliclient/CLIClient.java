@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +17,6 @@ import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
-import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -66,6 +65,21 @@ public class CLIClient {
     @Setter
     @Getter
     private int askRequirementAttempts = 3;
+
+    /**
+     * 
+     * A supplier that provides user input from the command line in a safe way.
+     */
+    @Getter
+    private Supplier<String> userInputSupplier = new SafeLineInput();
+
+    /**
+     * 
+     * An output channel that prints messages to the console using
+     * System.out.println().
+     */
+    @Getter
+    private OutputChannel output = System.out::println;
 
     /**
      * 
@@ -195,12 +209,11 @@ public class CLIClient {
             System.out.println(TextColor.getColoredString(e.getMessage(), TextColor.RED));
             return;
         }
-        // init output channel and requirements pipeline
-        OutputChannel output = System.out::println;
+        // init requirements pipeline for specified params
         RequirementsPipeline pipeline = new UserInputPipeline(
                 staticRequirementsMap,
-                new Scanner(System.in),
-                askRequirementAttempts);
+                askRequirementAttempts,
+                userInputSupplier);
         // try execute command
         try {
             command.execute(pipeline, output);
@@ -217,15 +230,12 @@ public class CLIClient {
     public void runClient() {
         System.out.println(CatsResources.CAT3);
         System.out.println();
-        // create user input inputScanner
-        @Cleanup
-        Scanner inputScanner = new Scanner(System.in);
         while (true) {
             // cute arrows
             System.out.print(">> ");
             // get user input and parse on separated words
             // if line is empty, then skip it
-            List<String> inlineParams = parseInlineParams(inputScanner.nextLine());
+            List<String> inlineParams = parseInlineParams(userInputSupplier.get());
             if (inlineParams.size() == 0) {
                 continue;
             }

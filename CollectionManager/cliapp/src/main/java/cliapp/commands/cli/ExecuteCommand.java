@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -244,8 +243,8 @@ public class ExecuteCommand extends CLICommand {
         OutputChannel output = System.out::println;
         RequirementsPipeline pipeline = new UserInputPipeline(
                 staticRequirementsMap,
-                new Scanner(System.in),
-                client.getAskRequirementAttempts());
+                client.getAskRequirementAttempts(),
+                client.getUserInputSupplier());
         // execute command
         command.execute(pipeline, output);
     }

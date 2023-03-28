@@ -1,7 +1,7 @@
 package cliapp.cliclient;
 
 import java.util.Map;
-import java.util.Scanner;
+import java.util.function.Supplier;
 
 import cliapp.TextResources;
 import cliapp.utils.TextColor;
@@ -22,14 +22,32 @@ public class UserInputPipeline implements RequirementsPipeline {
     private final Map<String, String> staticRequirementsMap;
 
     /**
-     * The scanner to read user input.
-     */
-    private final Scanner inputScanner;
-
-    /**
      * The number of attempts to ask a requirement before throwing an error.
      */
     private final int askRequirementAttempts;
+
+    /**
+     * 
+     * A supplier that provides user input from the command line in a safe way.
+     */
+    private final Supplier<String> userInputSupplier;
+
+    /**
+     * Show warning with cause of asking fail and left count of attempts
+     * 
+     * @param requirement the processed requirement.
+     * @param attempts    left attempts
+     * @param error       error of requirement asking
+     */
+    private void showAttemptWarning(Requirement<?, ?> requirement, Integer attempts, Throwable error) {
+        // wrap error and show warning
+        Exception exceptionWrapper = new RequirementAskError(requirement.getName(), error);
+        System.out.println(TextColor.getColoredString(exceptionWrapper.getMessage(), TextColor.RED));
+        // ask to new try with count of left attempts
+        String askText = TextResources.CLIClientResources.ASK_REQUIREMENT_WITH_ATTEMPTS.formatted(attempts);
+        System.out.println();
+        System.out.println(TextColor.getColoredString(askText, TextColor.CYAN));
+    }
 
     /**
      * This method asks a requirement from the user and retries if there are
@@ -46,7 +64,7 @@ public class UserInputPipeline implements RequirementsPipeline {
             throws RequirementAskError {
 
         int attempts = askRequirementAttempts;
-        while (attempts > 0) {
+        do {
             System.out.print(
                     TextResources.CLIClientResources.ASK_REQUIREMENT.formatted(
                             requirement.getName(),
@@ -54,24 +72,15 @@ public class UserInputPipeline implements RequirementsPipeline {
 
             try {
                 // try get value
-                return requirement.getValue((I) inputScanner.nextLine());
+                return requirement.getValue((I) userInputSupplier.get());
             } catch (ValidationError e) {
                 // if ValidationError occurs, ask requirement again and decrease attempts
                 attempts--;
-                if (attempts == 0) {
-                    // if attempts are over throw error
-                    break;
-                }
-                // wrap error and show warning
-                Exception exceptionWrapper = new RequirementAskError(requirement.getName(), e);
-                System.out.println(
-                        TextColor.getColoredString(exceptionWrapper.getMessage(), TextColor.RED));
-                // ask to new try with count of left attempts
-                String askText = TextResources.CLIClientResources.ASK_REQUIREMENT_WITH_ATTEMPTS.formatted(attempts);
-                System.out.println();
-                System.out.println(TextColor.getColoredString(askText, TextColor.CYAN));
+                showAttemptWarning(requirement, attempts, e);
             }
-        }
+        } while (attempts > 0);
+
+        // if attempt exceeded
         throw new RequirementAskError(requirement.getName(),
                 TextResources.CLIClientResources.ASK_REQUIREMENT_ATTEMPTS_ERROR);
     }
