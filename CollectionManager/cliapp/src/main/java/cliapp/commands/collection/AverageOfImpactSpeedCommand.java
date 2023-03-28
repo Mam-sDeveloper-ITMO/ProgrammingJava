@@ -8,13 +8,29 @@ import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
 
-
+/**
+ * Command that calculates the average of impact speeds of all humans in the
+ * collection.
+ */
 public class AverageOfImpactSpeedCommand extends CollectionCommand {
+
+    /**
+     * Constructor for AverageOfImpactSpeedCommand.
+     *
+     * @param collectionManager instance of CollectionManager class.
+     */
     public AverageOfImpactSpeedCommand(CollectionManager collectionManager) {
         super(AverageOfImpactSpeedCommandResources.NAME, AverageOfImpactSpeedCommandResources.DESCRIPTION,
                 collectionManager);
     }
 
+    /**
+     * Calculate the average impact speed of humans in the collection.
+     *
+     * @param pipeline RequirementsPipeline instance.
+     * @param output   OutputChannel instance.
+     * @throws ExecutionError when there is an error while executing.
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         HumanDeque humans = collectionManager.getCollection();

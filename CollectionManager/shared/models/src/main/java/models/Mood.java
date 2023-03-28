@@ -1,10 +1,34 @@
 package models;
 
 /**
- * Human mood enumeration.
- * 
- * @see <a href= "https://se.ifmo.ru/courses/programming">https://se.ifmo.ru/courses/programming</a>
+ * An enumeration representing the possible moods of a human.
+ *
+ * @see <a href="https://se.ifmo.ru/courses/programming">Programming course
+ *      website</a>
  */
 public enum Mood {
-    SADNESS, LONGING, GLOOM, RAGE, FRENZY;
+    /**
+     * Indicates a feeling of sadness.
+     */
+    SADNESS,
+
+    /**
+     * Indicates a feeling of longing.
+     */
+    LONGING,
+
+    /**
+     * Indicates a feeling of gloom.
+     */
+    GLOOM,
+
+    /**
+     * Indicates a feeling of rage.
+     */
+    RAGE,
+
+    /**
+     * Indicates a feeling of frenzy.
+     */
+    FRENZY;
 }

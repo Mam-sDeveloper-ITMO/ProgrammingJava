@@ -1,11 +1,19 @@
 /**
- * Target collection of project and stuff for it.
  * 
- * Consists HumanDeque collection that is a collection of humans.
+ * Represents a collection of humans and provides common manipulations over it.
+ * The {@code HumanDeque} collection represents the target collection of the
+ * project and contains instances of
+ * {@code Human} objects. The {@code CollectionManager} class serves as an
+ * abstract base class for all managers and
+ * provides access to the {@code HumanDeque} collection instance and common
+ * manipulations over it.
+ * The {@code LocalManager} class is designed for local manipulations and can be
+ * used on both the client and server side.
  * 
- * Manager module provides manipulations over HumanDeque and can be used as receiver.
- * 
- * LocalManager can be used on client or server side for local manipulations.
+ * @see HumanDeque
+ * @see Human
+ * @see CollectionManager
+ * @see LocalManager
  */
 
 package humandeque;

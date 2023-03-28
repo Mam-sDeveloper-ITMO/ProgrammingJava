@@ -7,18 +7,23 @@ import lombok.EqualsAndHashCode;
 import models.Human;
 
 /**
+ * Represents a collection of human objects and associated metadata.
  * 
- * Target collection of project.
- * 
- * Consists human objects and some meta information.
+ * This class extends the {@link java.util.ArrayDeque} class and adds a creation
+ * time field to track when the
+ * collection was created.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HumanDeque extends ArrayDeque<Human> {
+    /**
+     * The time when this collection was created.
+     */
     private LocalDateTime createTime;
 
     /**
-     * Constructor for new empty collection.
+     * Creates a new, empty HumanDeque instance with the current time set as the
+     * creation time.
      */
     public HumanDeque() {
         super();
@@ -26,11 +31,14 @@ public class HumanDeque extends ArrayDeque<Human> {
     }
 
     /**
-     * Constructor for existed collection.
+     * Creates a new HumanDeque instance with the same contents as the provided
+     * ArrayDeque. The creation time
+     * of this new instance will be set to the current time.
      * 
-     * @param arrayDeque
+     * @param arrayDeque the ArrayDeque to copy
      */
     public HumanDeque(ArrayDeque<Human> arrayDeque) {
         this();
+        this.addAll(arrayDeque);
     }
 }

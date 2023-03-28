@@ -1,10 +1,11 @@
 /**
- * Consists abstract command class and stuff for interaction with Command.
  * 
- * Can be used for command pattern implementation.
- * 
- * Instead of usual command pattern, this implementation provides static and dynamic access for
- * command`s parameters that can be used for commands with complex context.
+ * This package contains an abstract command class and related objects for
+ * interaction with commands.
+ * It can be used to implement the command pattern. Instead of the usual command
+ * pattern, this implementation
+ * provides static and dynamic access to command parameters, which can be useful
+ * for commands with complex context.
  */
 
 package commands;

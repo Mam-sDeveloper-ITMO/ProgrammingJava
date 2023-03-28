@@ -1,7 +1,8 @@
 /**
- * Package with common validators implementations.
  * 
- * You can use them in your custom validators for simple validating and
- * converting.
+ * This package contains common validator implementations that can be used for
+ * simple validation and conversion.
+ * These validators can be used in custom validators to provide common
+ * validation functionality.
  */
 package commands.requirements.validators.common;

@@ -14,14 +14,28 @@ import models.Human;
 import models.Mood;
 
 /**
- * That command adds new element to collection.
+ * Command that adds a new human element to the collection.
  */
 public class AddElementCommand extends CollectionCommand {
+
+    /**
+     * Constructor for AddElementCommand.
+     *
+     * @param collectionManager instance of CollectionManager class.
+     */
     public AddElementCommand(CollectionManager collectionManager) {
-        super(AddElementCommandResources.NAME, AddElementCommandResources.DESCRIPTION,
-                collectionManager);
+        super(AddElementCommandResources.NAME, AddElementCommandResources.DESCRIPTION, collectionManager);
     }
 
+    /**
+     * Asks the user for input to create a new {@link Human} object.
+     * 
+     * @param pipeline the requirements pipeline to ask for input requirements
+     * @param output   the output channel to write the input prompts and messages to
+     * @return a {@link Human} object created with the input from the user
+     * @throws RequirementAskError if there is an error asking for input
+     *                             requirements
+     */
     private Human askHuman(RequirementsPipeline pipeline, OutputChannel output)
             throws RequirementAskError {
         Human.HumanBuilder humanBuilder = Human.builder();
@@ -59,6 +73,13 @@ public class AddElementCommand extends CollectionCommand {
         return humanBuilder.build();
     }
 
+    /**
+     * Add a human element to the collection.
+     *
+     * @param pipeline RequirementsPipeline instance.
+     * @param output   OutputChannel instance.
+     * @throws ExecutionError when there is an error while executing.
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {

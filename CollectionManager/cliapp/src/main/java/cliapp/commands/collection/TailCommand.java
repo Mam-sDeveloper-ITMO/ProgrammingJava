@@ -8,11 +8,27 @@ import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
 
+/**
+ * A command that displays the last element of the collection.
+ */
 public class TailCommand extends CollectionCommand {
+
+    /**
+     * Constructs a TailCommand object with a collection manager.
+     * 
+     * @param collectionManager the collection manager to be used by this command.
+     */
     public TailCommand(CollectionManager collectionManager) {
         super(TailCommandResources.NAME, TailCommandResources.DESCRIPTION, collectionManager);
     }
 
+    /**
+     * Displays the last element of the collection to the output channel.
+     * 
+     * @param pipeline the pipeline of requirements to be used by this command.
+     * @param output   the output channel where messages will be displayed.
+     * @throws ExecutionError if the collection is empty.
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         HumanDeque humans = collectionManager.getCollection();

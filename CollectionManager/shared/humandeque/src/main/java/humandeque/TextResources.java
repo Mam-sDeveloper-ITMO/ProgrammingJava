@@ -2,6 +2,11 @@ package humandeque;
 
 import java.util.ResourceBundle;
 
+/**
+ * This class holds all the text resources used in the application, organized
+ * into different nested classes for
+ * easier access.
+ */
 public class TextResources {
     public static class Manager {
         public static class ExceptionsResources {

@@ -14,7 +14,7 @@ import models.Human;
 import models.Mood;
 
 /**
- * Add human with random fields to collection
+ * Adds a randomly generated human with various fields to the collection
  */
 public class RandomCommand extends CollectionCommand {
     public RandomCommand(CollectionManager collectionManager) {
@@ -23,7 +23,9 @@ public class RandomCommand extends CollectionCommand {
     }
 
     /**
-     * Generate human with random fields
+     * Generates a human with random values for all fields
+     * 
+     * @return the randomly generated human
      */
     private Human generateHuman() {
         Random random = new Random();
@@ -60,6 +62,15 @@ public class RandomCommand extends CollectionCommand {
         return humanBuilder.build();
     }
 
+    /**
+     * Adds a randomly generated human to the collection and prints information
+     * about it
+     * 
+     * @param pipeline the pipeline of requirements
+     * @param output   the output channel to write to
+     * @throws ExecutionError if an error occurs while adding the human to the
+     *                        collection
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         Human human = generateHuman();

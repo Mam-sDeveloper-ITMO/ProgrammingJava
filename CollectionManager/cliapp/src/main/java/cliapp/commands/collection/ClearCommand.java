@@ -11,30 +11,49 @@ import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
 
 /**
- * That command remove all elements collection.
+ * A command that removes all elements from the collection.
  */
 public class ClearCommand extends CollectionCommand {
+
+    /**
+     * The requirement that asks the user to confirm that they want to clear the
+     * collection.
+     */
     private static Requirement<String, Boolean> approveRequirement = new Requirement<>(
             ClearCommandResources.ApproveRequirement.NAME,
             ClearCommandResources.ApproveRequirement.DESCRIPTION,
             booleanValidator);
 
+    /**
+     * Constructs a new ClearCommand with the given collection manager.
+     *
+     * @param collectionManager the collection manager
+     */
     public ClearCommand(CollectionManager collectionManager) {
         super(ClearCommandResources.NAME, ClearCommandResources.DESCRIPTION, collectionManager);
     }
 
+    /**
+     * Executes the ClearCommand by asking the user to confirm that they want to
+     * clear the collection,
+     * and then clearing the collection if the user confirms.
+     *
+     * @param pipeline the requirements pipeline
+     * @param output   the output channel
+     * @throws ExecutionError if there is an error executing the command
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
-        // ask that user sure
+        // ask the user to confirm that they want to clear the collection
         Boolean approveClear;
         try {
             approveClear = pipeline.askRequirement(approveRequirement);
-
         } catch (RequirementAskError e) {
             throw new ExecutionError(e.getMessage());
         }
 
         if (approveClear) {
+            // clear the collection and output a success message
             collectionManager.clear();
             output.putString(ClearCommandResources.SUCCESS);
         }

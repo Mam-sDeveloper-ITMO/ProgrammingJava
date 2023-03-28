@@ -1,7 +1,7 @@
 package cliapp.commands.cli;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cliapp.TextResources.Commands.Cli.HelpCommandResources;
 import cliapp.cliclient.CLIClient;
@@ -13,13 +13,28 @@ import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 
 /**
- * Show list of all registered commands with description and static requirements
+ * HelpCommand is a CLICommand that shows a list of all registered commands with
+ * their descriptions and static requirements
  */
 public class HelpCommand extends CLICommand {
+
+    /**
+     * Constructor for HelpCommand class
+     *
+     * @param client the CLIClient instance
+     */
     public HelpCommand(CLIClient client) {
         super(HelpCommandResources.NAME, HelpCommandResources.DESCRIPTION, client);
     }
 
+    /**
+     * Returns a string representation of a command line that includes its trigger,
+     * description, and static requirements
+     *
+     * @param trigger the trigger string of the command
+     * @param command the Command instance
+     * @return a string representation of the command line
+     */
     private String getCommandLine(String trigger, Command command) {
         StringBuilder builder = new StringBuilder();
         // trigger and description
@@ -45,9 +60,17 @@ public class HelpCommand extends CLICommand {
         return builder.toString();
     }
 
+    /**
+     * Executes the command by outputting a list of all registered commands with
+     * their descriptions and static requirements
+     *
+     * @param pipeline the RequirementsPipeline instance
+     * @param output   the OutputChannel instance
+     * @throws ExecutionError if an error occurs during execution
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
-        HashMap<String, Command> commands = client.getCommands();
+        Map<String, Command> commands = client.getCommands();
 
         StringBuilder builder = new StringBuilder();
         builder.append(HelpCommandResources.COMMANDS_TITLE).append(System.lineSeparator());

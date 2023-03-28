@@ -8,7 +8,16 @@ import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;;
 
+/**
+ * This command returns the first element of the collection.
+ */
 public class HeadCommand extends CollectionCommand {
+
+    /**
+     * Constructs a new HeadCommand with the given collection manager.
+     * 
+     * @param collectionManager the collection manager to be used by this command
+     */
     public HeadCommand(CollectionManager collectionManager) {
         super(HeadCommandResources.NAME, HeadCommandResources.DESCRIPTION, collectionManager);
     }

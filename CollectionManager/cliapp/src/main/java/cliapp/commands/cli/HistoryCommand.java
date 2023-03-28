@@ -9,13 +9,25 @@ import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 
 /**
- * Show list of all registered commands with description and static requirements
+ * Show list of all previously executed commands
  */
 public class HistoryCommand extends CLICommand {
+    /**
+     * Constructor for HistoryCommand
+     * 
+     * @param client the instance of {@link CLIClient} class
+     */
     public HistoryCommand(CLIClient client) {
         super(HistoryCommandResources.NAME, HistoryCommandResources.DESCRIPTION, client);
     }
 
+    /**
+     * Show the list of all previously executed commands
+     * 
+     * @param pipeline an instance of {@link RequirementsPipeline} class
+     * @param output   an instance of {@link OutputChannel} class
+     * @throws ExecutionError if there is an error executing the command
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         List<String> history = client.getHistory();

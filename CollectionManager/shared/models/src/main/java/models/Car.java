@@ -5,12 +5,18 @@ import lombok.Data;
 import lombok.NonNull;
 
 /**
- * Car of the human.
+ * A representation of a car that belongs to a human.
  * 
- * @see <a href= "https://se.ifmo.ru/courses/programming">https://se.ifmo.ru/courses/programming</a>
+ * @see <a href="https://se.ifmo.ru/courses/programming">Programming course
+ *      website</a>
  */
 @Data
 @AllArgsConstructor
 public class Car {
-    @NonNull private String name;
+
+    /**
+     * The name of the car.
+     */
+    @NonNull
+    private String name;
 }

@@ -18,21 +18,37 @@ import models.Human;
 import models.Mood;
 
 /**
- * That command updates element in collection.
+ * Command for updating an element in the collection.
  */
 public class UpdateElementCommand extends CollectionCommand {
+    /**
+     * Constructs a new UpdateElementCommand with the specified collection manager.
+     *
+     * @param collectionManager the collection manager to use
+     */
     public UpdateElementCommand(CollectionManager collectionManager) {
         super(UpdateElementCommandResources.NAME, UpdateElementCommandResources.DESCRIPTION,
                 collectionManager);
     }
 
+    /**
+     * Gets the list of static requirements for this command.
+     *
+     * @return the list of static requirements
+     */
     @Override
     public List<Requirement<?, ?>> getStaticRequirements() {
         return List.of(new ExistingIdRequirement(collectionManager));
     }
 
     /**
-     * Try to ask requirement with default option, except return default value
+     * Asks the specified requirement with the default option, or returns the default value.
+     *
+     * @param pipeline the requirements pipeline to use
+     * @param output   the output channel to use
+     * @param requirement the requirement to ask
+     * @param defaultValue the default value to use
+     * @return the value obtained from the requirement, or the default value if the requirement fails
      */
     private <I, O> O askOrDefault(RequirementsPipeline pipeline, OutputChannel output,
             Requirement<I, O> requirement,
@@ -49,7 +65,13 @@ public class UpdateElementCommand extends CollectionCommand {
     }
 
     /**
-     * Ask fields that must be updated. If field is skipped set default value
+     * Asks for the updated fields of a human. If a field is skipped, sets its default value.
+     *
+     * @param defaultHuman the default human to use
+     * @param pipeline the requirements pipeline to use
+     * @param output the output channel to use
+     * @return the updated human
+     * @throws RequirementAskError if there is an error while asking a requirement
      */
     private Human askUpdatedHuman(Human defaultHuman, RequirementsPipeline pipeline,
             OutputChannel output)
@@ -97,6 +119,13 @@ public class UpdateElementCommand extends CollectionCommand {
         return humanBuilder.build();
     }
 
+    /**
+     * Update user by provided values
+     * 
+     * @param pipeline the pipeline of requirements to be used by this command.
+     * @param output   the output channel where messages will be displayed.
+     * @throws ExecutionError if the collection is empty.
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         // ask id requirement

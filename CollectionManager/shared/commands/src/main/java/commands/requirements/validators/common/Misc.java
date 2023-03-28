@@ -5,6 +5,10 @@ import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
 import lombok.RequiredArgsConstructor;
 
+
+/**
+ * Miscellaneous validators.
+ */
 public class Misc {
     /**
      * Wrap validator and return null if ValidationError was ocurred.

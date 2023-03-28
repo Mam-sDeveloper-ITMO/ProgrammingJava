@@ -27,13 +27,22 @@ import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.local.LocalManager;
 
+/**
+ * The main application class for running the space collection manager.
+ */
 public class App {
+
     /**
-     * Dumb initialization of manager.
+     * Initializes the collection manager.
      * 
-     * TODO: ask for file, better errors output
+     * @param args The command line arguments, which must include the path to the
+     *             collection file.
+     * 
+     * @return The newly-initialized collection manager.
+     * 
+     * @throws InvalidPathException If the specified file path is invalid.
      */
-    private static CollectionManager initManager(String[] args) {
+    private static CollectionManager initManager(String[] args) throws InvalidPathException {
         try {
             String filePath = args[args.length - 1];
             Paths.get(filePath);
@@ -52,6 +61,12 @@ public class App {
         return null;
     }
 
+    /**
+     * The entry point for the application. Initializes the collection manager and
+     * the CLI client, and registers all commands.
+     * 
+     * @param args The command line arguments.
+     */
     public static void main(String[] args) {
         CollectionManager manager = initManager(args);
 

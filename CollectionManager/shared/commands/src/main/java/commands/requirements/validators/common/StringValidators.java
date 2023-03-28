@@ -8,6 +8,9 @@ import commands.TextResources.Requirements.Common.StringValidatorsResources;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
 
+/**
+ * String validators.
+ */
 public class StringValidators {
     /**
      * Provides validation for String from String that is not empty

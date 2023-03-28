@@ -1,52 +1,35 @@
 package cliapp.commands.collection;
 
 import java.io.FileNotFoundException;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import cliapp.TextResources.Commands.Collection.SaveCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
-import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
-import commands.requirements.exceptions.ValidationError;
-import commands.requirements.validators.Validator;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.CollectionSaveError;;
 
 /**
- * Save collection to file
+ * A command that saves the collection to a file.
  */
 public class SaveCommand extends CollectionCommand {
+
+    /**
+     * Constructs a SaveCommand object with a collection manager.
+     * 
+     * @param collectionManager the collection manager to be used by this command.
+     */
     public SaveCommand(CollectionManager collectionManager) {
         super(SaveCommandResources.NAME, SaveCommandResources.DESCRIPTION, collectionManager);
     }
 
     /**
-     * TODO: ask new file path on error
+     * Saves the collection and displays a message to the output channel.
+     * 
+     * @param pipeline the pipeline of requirements to be used by this command.
+     * @param output   the output channel where messages will be displayed.
+     * @throws ExecutionError if there was an error while saving the collection.
      */
-    private static class FileNameRequirement extends Requirement<String, String> {
-        public FileNameRequirement() {
-            super(
-                    SaveCommandResources.FileNameRequirement.NAME,
-                    SaveCommandResources.FileNameRequirement.DESCRIPTION,
-                    filePathValidator);
-        }
-
-        private static final Validator<String, String> filePathValidator = new Validator<String, String>() {
-            @Override
-            public String validate(String value) throws ValidationError {
-                try {
-                    Path path = Paths.get(value);
-                    return path.toAbsolutePath().toString();
-                } catch (InvalidPathException e) {
-                    throw new ValidationError(e.getMessage(), value);
-                }
-            }
-        };
-    }
-
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {

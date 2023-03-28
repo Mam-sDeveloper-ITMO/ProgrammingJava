@@ -9,67 +9,86 @@ import humandeque.manager.exceptions.EmptyCollectionError;
 import models.Human;
 
 /**
- * Abstract class for all managers.
+ * An abstract class for managing a collection of Human objects.
  * 
- * Store collection instance and provide common manipulations over it.
+ * This class provides common manipulations for a HumanDeque collection,
+ * including adding, updating, and removing
+ * elements from the collection. It also allows the collection to be loaded and
+ * saved from a storage medium using
+ * a CollectionStorage object.
  */
 public abstract class CollectionManager {
+    /**
+     * The HumanDeque collection being managed.
+     */
     protected HumanDeque collection;
+
+    /**
+     * The CollectionStorage object used to load and save the collection.
+     */
     protected CollectionStorage storage;
 
     /**
-     * Add element to collection if it not already exists.
+     * Add an element to the collection if it does not already exist.
      * 
-     * @param element - element to add
-     * @throws ElementAlreadyExistsError - if element with id already exists in
-     *                                   collection
+     * @param element the element to add
+     * @throws ElementAlreadyExistsError if an element with the same id already
+     *                                   exists in the collection
      */
     public abstract void add(Human element) throws ElementAlreadyExistsError;
 
     /**
-     * Update element in collection by id.
+     * Update an element in the collection by its id.
      * 
-     * @param element
-     * @throws ElementNotExistsError - if element with id not exists in collection
+     * @param element the updated element
+     * @throws ElementNotExistsError if no element with the same id exists in the
+     *                               collection
      */
     public abstract void update(Human element) throws ElementNotExistsError;
 
     /**
-     * Remove element from collection by id.
+     * Remove an element from the collection by its id.
      * 
-     * @param id - id of element to remove
-     * @throws ElementNotExistsError - if element with id not exists in collection
+     * @param id the id of the element to remove
+     * @throws ElementNotExistsError if no element with the given id exists in the
+     *                               collection
      */
     public abstract void remove(long id) throws ElementNotExistsError;
 
     /**
-     * Remove first collection element
+     * Remove the first element in the collection.
      * 
-     * @throws EmptyCollectionError - if collection is empty
+     * @throws EmptyCollectionError if the collection is empty
      */
     public abstract void removeFirst() throws EmptyCollectionError;
 
     /**
-     * Remove last collection element
+     * Remove the last element in the collection.
      * 
-     * @throws EmptyCollectionError - if collection is empty
+     * @throws EmptyCollectionError if the collection is empty
      */
     public abstract void removeLast() throws EmptyCollectionError;
 
     /**
-     * Remove all items in collection
+     * Remove all elements from the collection.
      */
     public abstract void clear();
 
     /**
-     * Load collection from storage
+     * Load the collection from the storage medium using the assigned
+     * CollectionStorage object.
+     * 
+     * @throws CollectionLoadError if there was an error loading the collection
      */
     public void load() throws CollectionLoadError {
         collection = storage.load();
     }
 
     /**
-     * Save collection to storage
+     * Save the collection to the storage medium using the assigned
+     * CollectionStorage object.
+     * 
+     * @throws CollectionSaveError if there was an error saving the collection
      */
     public void save() throws CollectionSaveError {
         try {
@@ -82,17 +101,20 @@ public abstract class CollectionManager {
     }
 
     /**
-     * Return current collection instance
+     * Get the current collection instance.
+     * 
+     * @return the current collection instance
      */
     public HumanDeque getCollection() {
         return collection;
     }
 
     /**
-     * Check if element with id exists in collection.
+     * Check if an element with the given id exists in the collection.
      * 
-     * @param id
-     * @return
+     * @param id the id to check for
+     * @return true if an element with the given id exists in the collection, false
+     *         otherwise
      */
     public boolean isElementExists(long id) {
         for (Human human : collection) {
@@ -106,8 +128,8 @@ public abstract class CollectionManager {
     /**
      * Return element from collection by id.
      * 
-     * @param id
-     * @return
+     * @param id id of element
+     * @return element from collection
      * @throws ElementNotExistsError - if element with id not exists in collection
      */
     public Human getElementById(long id) throws ElementNotExistsError {

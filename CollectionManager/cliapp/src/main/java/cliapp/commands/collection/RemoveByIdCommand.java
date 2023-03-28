@@ -12,7 +12,7 @@ import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementNotExistsError;
 
 /**
- * That command removes element from collection by id.
+ * This command removes an element from the collection by ID.
  */
 public class RemoveByIdCommand extends CollectionCommand {
     public RemoveByIdCommand(CollectionManager collectionManager) {
@@ -20,11 +20,23 @@ public class RemoveByIdCommand extends CollectionCommand {
                 collectionManager);
     }
 
+    /**
+     * Returns a list of requirements for this command.
+     *
+     * @return A list of requirements.
+     */
     @Override
     public List<Requirement<?, ?>> getStaticRequirements() {
         return List.of(new ExistingIdRequirement(collectionManager));
     }
 
+    /**
+     * Executes the command to remove an element from the collection by ID.
+     *
+     * @param pipeline The pipeline to use for gathering requirements.
+     * @param output   The output channel to use for displaying messages.
+     * @throws ExecutionError If there is an error executing the command.
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         Long id;

@@ -2,7 +2,9 @@ package cliapp.commands.cli;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +13,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cliapp.TextResources.Commands.Cli.ExecuteCommandResources;
+import cliapp.TextResources.Commands.Cli.ExecuteCommandResources.ScriptFileRequirementResources;
 import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.UserInputPipeline;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsError;
-import cliapp.commands.cli.requirements.ScriptFileRequirement;
 import commands.Command;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -23,49 +25,106 @@ import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
+import commands.requirements.validators.Validator;
 
 /**
- * Execute specified script with commands.
+ * A command that executes specified script with commands.
  * 
- * Script format:
  * Script file must have .neko extension.
  * 
  * Direct dynamic params load:
- * update 0 {Alex 25 1.75 1 true false SADNESS KIA}
+ * add {TestName 0 0 true false 10.4 KW "" SADNESS KiaRio}
  * 
  * Ask dynamic params from user:
  * update 0 {}
  * 
  * Example script:
- * add {Alex 25 1.75 1 true false SADNESS KIA}
+ * add {TestName 0 0 true false 10.4 KW "" SADNESS KiaRio}
  * print_sorted des
  * show
  */
 public class ExecuteCommand extends CLICommand {
+    private static final Requirement<String, Path> scriptFileRequirement = new Requirement<>(
+            ScriptFileRequirementResources.NAME,
+            ScriptFileRequirementResources.DESCRIPTION,
+            new ScriptPathValidator());
+
+    /**
+     * Validates string as file path and returns absolute path
+     */
+    private static class ScriptPathValidator implements Validator<String, Path> {
+
+        /**
+         * Validates a string as a file path with .neko extension and returns its
+         * absolute path.
+         *
+         * @param value the string to be validated as a file path
+         * @return the absolute path of the validated file path
+         * @throws ValidationError if the value is not a valid file path or does not
+         *                         have a .neko extension
+         */
+        @Override
+        public Path validate(String value) throws ValidationError {
+            if (!value.endsWith(".neko")) {
+                throw new ValidationError(value, ScriptFileRequirementResources.INCORRECT_EXTENSION);
+            }
+            try {
+                Path path = Paths.get(value);
+                return path.toAbsolutePath();
+            } catch (InvalidPathException e) {
+                throw new ValidationError(value, e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Creates a new ExecuteCommand object.
+     * 
+     * @param client a {@link cliapp.cliclient.CLIClient} instance.
+     */
     public ExecuteCommand(CLIClient client) {
         super(ExecuteCommandResources.NAME, ExecuteCommandResources.DESCRIPTION, client);
     }
 
+    /**
+     * Returns the static requirements of this command.
+     * 
+     * @return a list of {@link commands.requirements.Requirement}.
+     */
     @Override
     public List<Requirement<?, ?>> getStaticRequirements() {
-        return List.of(new ScriptFileRequirement());
+        return List.of(scriptFileRequirement);
     }
 
     /**
-     * Pipeline that store dynamic params and pop one of them when asked for next
-     * param
-     * 
+     * A pipeline that stores dynamic parameters and pops one of them when asked for
+     * next parameter.
      */
     private static class DirectLoadPipeline implements RequirementsPipeline {
         private final Map<String, String> staticRequirementsMap;
 
         private final LinkedList<String> dynamicRequirements;
 
+        /**
+         * Creates a new DirectLoadPipeline object.
+         * 
+         * @param staticRequirementsMap a map containing the static requirements.
+         * @param dynamicRequirements   a list of dynamic requirements.
+         */
         public DirectLoadPipeline(Map<String, String> staticRequirementsMap, List<String> dynamicRequirements) {
             this.staticRequirementsMap = staticRequirementsMap;
             this.dynamicRequirements = new LinkedList<>(dynamicRequirements);
         }
 
+        /**
+         * Asks for the requirement and returns the value of it.
+         * 
+         * @param requirement a {@link commands.requirements.Requirement} instance.
+         * 
+         * @throws RequirementAskError if there's an error while asking the requirement.
+         * 
+         * @return the value of the requirement.
+         */
         @Override
         public <I, O> O askRequirement(Requirement<I, O> requirement) throws RequirementAskError {
             try {
@@ -86,9 +145,10 @@ public class ExecuteCommand extends CLICommand {
     }
 
     /**
-     * Extract list of static params from line.
+     * Extracts the list of static parameters from a given script line.
      * 
-     * Static params must be specified before "{}" construction
+     * @param line the script line to extract static parameters from
+     * @return the list of static parameters extracted from the given line
      */
     private List<String> extractStaticParams(String line) {
         Pattern pattern = Pattern.compile("^(\\w+ ?)+(?=\\{|$)");
@@ -98,9 +158,10 @@ public class ExecuteCommand extends CLICommand {
     }
 
     /**
-     * Extract list of dynamic params from line
+     * Extracts the list of dynamic parameters from a given script line.
      * 
-     * Dynamic params must be specified in "{}" construction
+     * @param line the script line to extract dynamic parameters from
+     * @return the list of dynamic parameters extracted from the given line
      */
     private List<String> extractDynamicParams(String line) {
         Pattern pattern = Pattern.compile("(?<=\\{).+(?=\\})");
@@ -110,7 +171,10 @@ public class ExecuteCommand extends CLICommand {
     }
 
     /**
-     * Execute script line with specified dynamic arguments
+     * Executes a script line with specified dynamic arguments.
+     * 
+     * @param line the script line to execute with dynamic arguments
+     * @throws ExecutionError if an error occurs while executing the command
      */
     private void executeWithDynamicParams(String line) throws ExecutionError {
         // parse line for static params
@@ -141,7 +205,10 @@ public class ExecuteCommand extends CLICommand {
     }
 
     /**
-     * Execute script line that require input from user
+     * Executes a script line that requires input from the user.
+     * 
+     * @param line the script line to execute with user input
+     * @throws ExecutionError if an error occurs while executing the command
      */
     private void executeWithUserParams(String line) throws ExecutionError {
         // parse line for static params
@@ -189,7 +256,12 @@ public class ExecuteCommand extends CLICommand {
     }
 
     /**
-     * Execute script line by line
+     * Executes a script by iterating over its lines and calling
+     * {@link #executeScriptLine(String)} on each line.
+     *
+     * @param script The script content.
+     * @throws ExecutionError If an error occurs while executing any of the script
+     *                        lines.
      */
     private void executeScript(String script) throws ExecutionError {
         for (String line : script.split(System.lineSeparator())) {
@@ -201,11 +273,23 @@ public class ExecuteCommand extends CLICommand {
         }
     }
 
+    /**
+     * Executes the command by reading the script file from a
+     * {@link ScriptFileRequirement} provided by the given
+     * {@link RequirementsPipeline}, parsing the script, and executing each line.
+     *
+     * @param pipeline The pipeline from which to obtain the
+     *                 {@link ScriptFileRequirement}.
+     * @param output   Unused in this implementation.
+     * @throws ExecutionError If the script file cannot be read or if an error
+     *                        occurs while executing any of the script
+     *                        lines.
+     */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         Path scriptPath;
         try {
-            scriptPath = pipeline.askRequirement(new ScriptFileRequirement());
+            scriptPath = pipeline.askRequirement(scriptFileRequirement);
         } catch (RequirementAskError e) {
             throw new ExecutionError(e.getMessage());
         }
@@ -219,5 +303,4 @@ public class ExecuteCommand extends CLICommand {
         }
         executeScript(scriptContent);
     }
-
 }
