@@ -25,7 +25,7 @@ public class RequirementAskError extends Exception {
      * @param requirementName - the name of the requirement that caused the error
      * @param cause           - the cause of this error
      */
-    public RequirementAskError(String requirementName, Exception cause) {
+    public RequirementAskError(String requirementName, Throwable cause) {
         super(
                 ExceptionsResources.REQUIREMENT_ASK_ERROR_WITH_CAUSE.formatted(
                         requirementName,
@@ -52,7 +52,7 @@ public class RequirementAskError extends Exception {
      * @param message         - a detail message describing the error
      * @param cause           - the cause of this error
      */
-    public RequirementAskError(String requirementName, String message, Exception cause) {
+    public RequirementAskError(String requirementName, String message, Throwable cause) {
         super(
                 ExceptionsResources.REQUIREMENT_ASK_ERROR_WITH_MESSAGE_AND_CAUSE.formatted(
                         requirementName,
