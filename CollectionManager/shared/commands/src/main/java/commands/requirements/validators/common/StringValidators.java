@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import commands.Messages.StringValidatorsMessages;
+import commands.TextResources.Requirements.Common.StringValidatorsResources;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
 
@@ -16,7 +16,7 @@ public class StringValidators {
         @Override
         public String validate(String value) throws ValidationError {
             if (value != null & value.isEmpty()) {
-                throw new ValidationError(value, StringValidatorsMessages.EMPTY_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsResources.NOT_EMPTY_VALIDATOR_ERROR.formatted(value));
             }
             return value;
         }
@@ -34,7 +34,7 @@ public class StringValidators {
             } else if (stringValue.equals("false")) {
                 return false;
             } else {
-                throw new ValidationError(value, StringValidatorsMessages.BOOLEAN_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsResources.BOOLEAN_VALIDATOR_ERROR.formatted(value));
             }
         }
     };
@@ -48,7 +48,7 @@ public class StringValidators {
             try {
                 return Integer.parseInt(value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, StringValidatorsMessages.INTEGER_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsResources.INTEGER_VALIDATOR_ERROR.formatted(value));
             }
         }
     };
@@ -62,7 +62,7 @@ public class StringValidators {
             try {
                 return Long.parseLong(value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, StringValidatorsMessages.LONG_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsResources.LONG_VALIDATOR_ERROR.formatted(value));
             }
         }
     };
@@ -76,7 +76,7 @@ public class StringValidators {
             try {
                 return Float.parseFloat(value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, StringValidatorsMessages.FLOAT_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsResources.FLOAT_VALIDATOR_ERROR.formatted(value));
             }
         }
     };
@@ -90,7 +90,7 @@ public class StringValidators {
             try {
                 return Double.parseDouble(value);
             } catch (NumberFormatException e) {
-                throw new ValidationError(value, StringValidatorsMessages.DOUBLE_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsResources.DOUBLE_VALIDATOR_ERROR.formatted(value));
             }
         }
     };
@@ -107,7 +107,7 @@ public class StringValidators {
             try {
                 return LocalDateTime.parse(value, formatter);
             } catch (DateTimeParseException e) {
-                throw new ValidationError(value, StringValidatorsMessages.DATETIME_ERROR.formatted(value));
+                throw new ValidationError(value, StringValidatorsResources.DATETIME_VALIDATOR_ERROR.formatted(value));
             }
         }
     };

@@ -1,6 +1,6 @@
 package commands.requirements.validators.common;
 
-import commands.Messages.MiscValidatorsMessages;
+import commands.TextResources.Requirements.Common.MiscValidatorsResources;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class Misc {
         @Override
         public I validate(I value) throws ValidationError {
             if (value == null) {
-                throw new ValidationError(value, MiscValidatorsMessages.NULL_ERROR.formatted(value));
+                throw new ValidationError(value, MiscValidatorsResources.NOT_NULL_VALIDATOR_ERROR.formatted(value));
             }
             return value;
         }
@@ -46,7 +46,8 @@ public class Misc {
         @Override
         public I validate(I value) throws ValidationError {
             if (value.compareTo(other) <= 0) {
-                throw new ValidationError(value, MiscValidatorsMessages.GREATER_ERROR.formatted(value, other));
+                throw new ValidationError(value,
+                        MiscValidatorsResources.GREATER_VALIDATOR_ERROR.formatted(value, other));
             }
             return value;
         }
@@ -62,7 +63,7 @@ public class Misc {
         @Override
         public I validate(I value) throws ValidationError {
             if (value.compareTo(other) >= 0) {
-                throw new ValidationError(value, MiscValidatorsMessages.LOWER_ERROR.formatted(value, other));
+                throw new ValidationError(value, MiscValidatorsResources.LOWER_VALIDATOR_ERROR.formatted(value, other));
             }
             return value;
         }
