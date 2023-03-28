@@ -83,7 +83,7 @@ public class CsvStorage implements CollectionStorage {
         try {
             @Cleanup
             CSVWriter writer = new CSVWriter(new FileWriter(filePath));
-            
+
             writer.writeNext(collectionHeader);
             for (Human human : collection) {
                 String[] humanRow = humanToStrings(human);
@@ -108,6 +108,10 @@ public class CsvStorage implements CollectionStorage {
 
             HumanDeque collection = new HumanDeque();
             while ((nextLine = reader.readNext()) != null) {
+                // skip empty lines
+                if (nextLine.length <= 1) {
+                    continue;
+                }
                 Human human = stringsToHuman(nextLine);
                 collection.add(human);
             }
