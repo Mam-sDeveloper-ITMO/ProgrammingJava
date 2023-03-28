@@ -44,8 +44,8 @@
                 <version>2.9.1</version>
                 <configuration>
                     <failOnError>false</failOnError>
-                    <reportOutputDirectory>./site/javadocs</reportOutputDirectory>
-                    <destDir>easy-delivery</destDir>
+                    <reportOutputDirectory>./site</reportOutputDirectory>
+                    <destDir>javadocs</destDir>
                 </configuration>
             </plugin>
             <plugin>
