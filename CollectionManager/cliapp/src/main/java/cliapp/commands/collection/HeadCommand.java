@@ -1,16 +1,16 @@
 package cliapp.commands.collection;
 
-import cliapp.Messages;
+import cliapp.TextResources.Commands.Collection.HeadCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
-import humandeque.manager.exceptions.EmptyCollectionError;
+import humandeque.manager.exceptions.EmptyCollectionError;;
 
 public class HeadCommand extends CollectionCommand {
     public HeadCommand(CollectionManager collectionManager) {
-        super(Messages.HeadCommand.NAME, Messages.HeadCommand.DESCRIPTION, collectionManager);
+        super(HeadCommandResources.NAME, HeadCommandResources.DESCRIPTION, collectionManager);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class HeadCommand extends CollectionCommand {
             Exception cause = new EmptyCollectionError();
             throw new ExecutionError(cause.getMessage(), cause);
         } else {
-            output.putString(Messages.HeadCommand.TITLE);
+            output.putString(HeadCommandResources.TITLE);
             output.putString(humans.getFirst().toString());
         }
     }

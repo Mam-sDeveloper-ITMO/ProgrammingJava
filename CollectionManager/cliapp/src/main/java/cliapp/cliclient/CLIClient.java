@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cliapp.Messages;
+import cliapp.TextResources.CatsResources;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsError;
 import cliapp.utils.TextColor;
@@ -182,7 +182,7 @@ public class CLIClient {
      * Wait user input and try resolve and execute command
      */
     public void runClient() {
-        System.out.println(Messages.Cats.CAT3);
+        System.out.println(CatsResources.CAT3);
         System.out.println();
         // create user input inputScanner
         @Cleanup

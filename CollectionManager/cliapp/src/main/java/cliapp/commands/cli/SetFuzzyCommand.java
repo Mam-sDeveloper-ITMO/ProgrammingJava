@@ -1,7 +1,8 @@
 package cliapp.commands.cli;
 
 import java.util.List;
-import cliapp.Messages;
+
+import cliapp.TextResources.Commands.Cli.SetFuzzyCommandResources;
 import cliapp.cliclient.CLIClient;
 import cliapp.commands.cli.requirements.FuzzyModeRequirement;
 import commands.OutputChannel;
@@ -15,7 +16,7 @@ import commands.requirements.exceptions.RequirementAskError;
  */
 public class SetFuzzyCommand extends CLICommand {
     public SetFuzzyCommand(CLIClient client) {
-        super(Messages.SetFuzzyCommand.NAME, Messages.SetFuzzyCommand.DESCRIPTION, client);
+        super(SetFuzzyCommandResources.NAME, SetFuzzyCommandResources.DESCRIPTION, client);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class SetFuzzyCommand extends CLICommand {
             Boolean fuzzyMode = pipeline.askRequirement(new FuzzyModeRequirement());
             client.setFuzzyMatching(fuzzyMode);
             output.putString(
-                fuzzyMode ? Messages.SetFuzzyCommand.FUZZY_ON : Messages.SetFuzzyCommand.FUZZY_OFF);
+                    fuzzyMode ? SetFuzzyCommandResources.FUZZY_ON : SetFuzzyCommandResources.FUZZY_OFF);
         } catch (RequirementAskError e) {
             throw new ExecutionError(e.getMessage());
         }

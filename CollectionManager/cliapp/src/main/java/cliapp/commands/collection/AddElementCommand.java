@@ -1,17 +1,7 @@
 package cliapp.commands.collection;
 
-import cliapp.Messages;
-import cliapp.Messages.ElementRequirements;
-import cliapp.commands.collection.requirements.CarNameRequirement;
-import cliapp.commands.collection.requirements.CoordinatesXRequirement;
-import cliapp.commands.collection.requirements.CoordinatesYRequirement;
-import cliapp.commands.collection.requirements.HasToothpickRequirement;
-import cliapp.commands.collection.requirements.ImpactSpeedRequirement;
-import cliapp.commands.collection.requirements.MinutesOfWaitingRequirement;
-import cliapp.commands.collection.requirements.MoodRequirement;
-import cliapp.commands.collection.requirements.NameRequirement;
-import cliapp.commands.collection.requirements.RealHeroRequirement;
-import cliapp.commands.collection.requirements.SoundtrackNameRequirement;
+import cliapp.TextResources.Commands.Collection.AddElementCommandResources;
+import cliapp.TextResources.Commands.Collection.RequirementsResources.MoodRequirement;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -28,42 +18,42 @@ import models.Mood;
  */
 public class AddElementCommand extends CollectionCommand {
     public AddElementCommand(CollectionManager collectionManager) {
-        super(Messages.AddElementCommand.NAME, Messages.AddElementCommand.DESCRIPTION,
-            collectionManager);
+        super(AddElementCommandResources.NAME, AddElementCommandResources.DESCRIPTION,
+                collectionManager);
     }
 
     private Human askHuman(RequirementsPipeline pipeline, OutputChannel output)
-        throws RequirementAskError {
+            throws RequirementAskError {
         Human.HumanBuilder humanBuilder = Human.builder();
 
-        humanBuilder.name(pipeline.askRequirement(new NameRequirement()));
+        humanBuilder.name(pipeline.askRequirement(nameRequirement));
 
         Coordinates.CoordinatesBuilder coordinatesBuilder = Coordinates.builder();
-        coordinatesBuilder.x(pipeline.askRequirement(new CoordinatesXRequirement()));
-        coordinatesBuilder.y(pipeline.askRequirement(new CoordinatesYRequirement()));
+        coordinatesBuilder.x(pipeline.askRequirement(coordinateXRequirement));
+        coordinatesBuilder.y(pipeline.askRequirement(coordinateYRequirement));
 
         humanBuilder.coordinates(coordinatesBuilder.build());
 
-        humanBuilder.realHero(pipeline.askRequirement(new RealHeroRequirement()));
+        humanBuilder.realHero(pipeline.askRequirement(realHeroRequirement));
 
-        humanBuilder.hasToothpick(pipeline.askRequirement(new HasToothpickRequirement()));
+        humanBuilder.hasToothpick(pipeline.askRequirement(hasToothpickRequirement));
 
-        humanBuilder.impactSpeed(pipeline.askRequirement(new ImpactSpeedRequirement()));
+        humanBuilder.impactSpeed(pipeline.askRequirement(impactSpeedRequirement));
 
-        humanBuilder.soundtrackName(pipeline.askRequirement(new SoundtrackNameRequirement()));
+        humanBuilder.soundtrackName(pipeline.askRequirement(soundtrackRequirement));
 
-        humanBuilder.minutesOfWaiting(pipeline.askRequirement(new MinutesOfWaitingRequirement()));
+        humanBuilder.minutesOfWaiting(pipeline.askRequirement(minutesOfWaitingRequirement));
 
         String moods = "";
         for (int i = 0; i < Mood.values().length - 1; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
         moods += (Mood.values().length - 1) + " - " + Mood.values()[Mood.values().length - 1];
-        
-        output.putString(ElementRequirements.MOODS_TITLE + System.lineSeparator() + moods);
-        humanBuilder.mood(pipeline.askRequirement(new MoodRequirement()));
 
-        Car car = new Car(pipeline.askRequirement(new CarNameRequirement()));
+        output.putString(MoodRequirement.TITLE + System.lineSeparator() + moods);
+        humanBuilder.mood(pipeline.askRequirement(moodRequirement));
+
+        Car car = new Car(pipeline.askRequirement(carNameRequirement));
         humanBuilder.car(car);
 
         return humanBuilder.build();
@@ -75,7 +65,7 @@ public class AddElementCommand extends CollectionCommand {
             Human human = askHuman(pipeline, output);
             try {
                 collectionManager.add(human);
-                output.putString(Messages.AddElementCommand.SUCCESS);
+                output.putString(AddElementCommandResources.SUCCESS);
             } catch (ElementAlreadyExistsError e) {
                 throw new ExecutionError(e.getMessage());
             }

@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import cliapp.Messages;
+import cliapp.TextResources.Commands.Collection.RemoveFirstCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -12,14 +12,14 @@ import humandeque.manager.exceptions.EmptyCollectionError;
  */
 public class RemoveFirstCommand extends CollectionCommand {
     public RemoveFirstCommand(CollectionManager collectionManager) {
-        super(Messages.RemoveFirstCommand.NAME, Messages.RemoveFirstCommand.DESCRIPTION, collectionManager);
+        super(RemoveFirstCommandResources.NAME, RemoveFirstCommandResources.DESCRIPTION, collectionManager);
     }
 
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {
             collectionManager.removeFirst();
-            output.putString(Messages.RemoveFirstCommand.SUCCESS);
+            output.putString(RemoveFirstCommandResources.SUCCESS);
         } catch (EmptyCollectionError e) {
             throw new ExecutionError(e.getMessage());
         }

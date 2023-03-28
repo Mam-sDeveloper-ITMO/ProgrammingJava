@@ -1,6 +1,7 @@
 package cliapp.commands.cli;
 
-import cliapp.Messages;
+import cliapp.TextResources.Commands.Cli.ExitCommandResources;
+import cliapp.TextResources.CatsResources;
 import cliapp.cliclient.CLIClient;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -11,13 +12,13 @@ import commands.requirements.RequirementsPipeline;
  */
 public class ExitCommand extends CLICommand {
     public ExitCommand(CLIClient client) {
-        super(Messages.ExitCommand.NAME, Messages.ExitCommand.DESCRIPTION, client);
+        super(ExitCommandResources.NAME, ExitCommandResources.DESCRIPTION, client);
     }
 
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         output
-            .putString(Messages.ExitCommand.GOODBYE + System.lineSeparator() + Messages.Cats.CAT1);
+                .putString(ExitCommandResources.GOODBYE + System.lineSeparator() + CatsResources.CAT1);
         System.exit(0);
     }
 }

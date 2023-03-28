@@ -2,7 +2,8 @@ package cliapp.commands.collection;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import cliapp.Messages;
+
+import cliapp.TextResources.Commands.Collection.InfoCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -13,22 +14,22 @@ import humandeque.manager.CollectionManager;
  */
 public class InfoCommand extends CollectionCommand {
     public InfoCommand(CollectionManager collectionManager) {
-        super(Messages.InfoCommand.NAME, Messages.InfoCommand.DESCRIPTION, collectionManager);
+        super(InfoCommandResources.NAME, InfoCommandResources.DESCRIPTION, collectionManager);
     }
 
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
-        output.putString(Messages.InfoCommand.SUCCESS);
+        output.putString(InfoCommandResources.TITLE);
 
         String collectionType = collectionManager.getCollection().getClass().getSimpleName();
-        output.putString(Messages.InfoCommand.TYPE.formatted(collectionType));
+        output.putString(InfoCommandResources.TYPE.formatted(collectionType));
 
         LocalDateTime initTime = collectionManager.getCollection().getCreateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         String formattedInitTime = initTime.format(formatter);
-        output.putString(Messages.InfoCommand.INIT_TIME.formatted(formattedInitTime));
+        output.putString(InfoCommandResources.INIT_TIME.formatted(formattedInitTime));
 
         long size = collectionManager.getCollection().size();
-        output.putString(Messages.InfoCommand.ELEMENTS_COUNT.formatted(size));
+        output.putString(InfoCommandResources.ELEMENTS_COUNT.formatted(size));
     }
 }

@@ -1,7 +1,8 @@
 package cliapp.commands.collection;
 
 import static commands.requirements.validators.common.StringValidators.booleanValidator;
-import cliapp.Messages;
+
+import cliapp.TextResources.Commands.Collection.ClearCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -13,8 +14,13 @@ import humandeque.manager.CollectionManager;
  * That command remove all elements collection.
  */
 public class ClearCommand extends CollectionCommand {
+    private static Requirement<String, Boolean> approveRequirement = new Requirement<>(
+            ClearCommandResources.ApproveRequirement.NAME,
+            ClearCommandResources.ApproveRequirement.DESCRIPTION,
+            booleanValidator);
+
     public ClearCommand(CollectionManager collectionManager) {
-        super(Messages.ClearCommand.NAME, Messages.ClearCommand.DESCRIPTION, collectionManager);
+        super(ClearCommandResources.NAME, ClearCommandResources.DESCRIPTION, collectionManager);
     }
 
     @Override
@@ -22,11 +28,7 @@ public class ClearCommand extends CollectionCommand {
         // ask that user sure
         Boolean approveClear;
         try {
-            approveClear = pipeline.askRequirement(
-                new Requirement<>(
-                    Messages.ClearCommand.APPROVE,
-                    Messages.ClearCommand.APPROVE_DESCRIPTION,
-                    booleanValidator));
+            approveClear = pipeline.askRequirement(approveRequirement);
 
         } catch (RequirementAskError e) {
             throw new ExecutionError(e.getMessage());
@@ -34,7 +36,7 @@ public class ClearCommand extends CollectionCommand {
 
         if (approveClear) {
             collectionManager.clear();
-            output.putString(Messages.ClearCommand.SUCCESS);
+            output.putString(ClearCommandResources.SUCCESS);
         }
     }
 }

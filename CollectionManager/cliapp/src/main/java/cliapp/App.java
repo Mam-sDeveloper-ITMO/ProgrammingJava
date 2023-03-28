@@ -1,7 +1,6 @@
 package cliapp;
 
 import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import cliapp.cliclient.CLIClient;
@@ -39,14 +38,14 @@ public class App {
             String filePath = args[args.length - 1];
             Paths.get(filePath);
         } catch (IndexOutOfBoundsException | InvalidPathException e) {
-            System.out.println(Messages.App.INCORRECT_ARGS);
+            System.out.println(TextResources.App.INCORRECT_ARGS);
             System.exit(1);
         }
 
         try {
             return new LocalManager(args[args.length - 1]);
         } catch (Exception e) {
-            System.out.println(Messages.App.CANNOT_CREATE_MANAGER.formatted(e.getMessage()));
+            System.out.println(TextResources.App.CANNOT_CREATE_MANAGER.formatted(e.getMessage()));
             System.exit(1);
         }
         System.exit(1);

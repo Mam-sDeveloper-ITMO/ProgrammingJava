@@ -2,7 +2,8 @@ package cliapp.cliclient;
 
 import java.util.Map;
 import java.util.Scanner;
-import cliapp.Messages;
+
+import cliapp.TextResources;
 import cliapp.utils.TextColor;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
@@ -31,7 +32,7 @@ public class UserInputPipeline implements RequirementsPipeline {
         int attempts = askRequirementAttempts;
         while (attempts > 0) {
             System.out.print(
-                Messages.CLIClient.ASK_REQUIREMENT.formatted(
+                TextResources.CLIClientResources.ASK_REQUIREMENT.formatted(
                     requirement.getName(),
                     requirement.getDescription()));
 
@@ -51,13 +52,13 @@ public class UserInputPipeline implements RequirementsPipeline {
                     TextColor.getColoredString(exceptionWrapper.getMessage(), TextColor.RED));
                 // ask to new try with count of left attempts
                 String askText =
-                    Messages.CLIClient.ASK_REQUIREMENT_WITH_ATTEMPTS.formatted(attempts);
+                    TextResources.CLIClientResources.ASK_REQUIREMENT_WITH_ATTEMPTS.formatted(attempts);
                 System.out.println();
                 System.out.println(TextColor.getColoredString(askText, TextColor.CYAN));
             }
         }
         throw new RequirementAskError(requirement.getName(),
-            Messages.CLIClient.ASK_REQUIREMENT_ATTEMPTS_ERROR);
+            TextResources.CLIClientResources.ASK_REQUIREMENT_ATTEMPTS_ERROR);
     }
 
     @Override

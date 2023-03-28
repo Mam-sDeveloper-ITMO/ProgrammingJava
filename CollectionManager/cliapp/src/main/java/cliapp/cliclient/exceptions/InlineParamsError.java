@@ -2,7 +2,7 @@ package cliapp.cliclient.exceptions;
 
 import java.util.List;
 
-import cliapp.Messages;
+import cliapp.TextResources;
 import commands.requirements.Requirement;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +24,6 @@ public class InlineParamsError extends Exception {
                 .reduce((name1, name2) -> name1 + " " + name2)
                 .orElse("");
 
-        return Messages.CLIClient.INLINE_PARAMS_ERROR.formatted(requirementsNames);
+        return TextResources.CLIClientResources.INLINE_PARAMS_ERROR.formatted(requirementsNames);
     }
 }

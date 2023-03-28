@@ -1,8 +1,8 @@
 package cliapp.commands.collection;
 
 import java.util.List;
-import cliapp.Messages;
-import cliapp.commands.collection.requirements.ExistingIdRequirement;
+
+import cliapp.TextResources.Commands.Collection.RemoveByIdCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -16,7 +16,7 @@ import humandeque.manager.exceptions.ElementNotExistsError;
  */
 public class RemoveByIdCommand extends CollectionCommand {
     public RemoveByIdCommand(CollectionManager collectionManager) {
-        super(Messages.UpdateElementCommand.NAME, Messages.UpdateElementCommand.DESCRIPTION,
+        super(RemoveByIdCommandResources.NAME, RemoveByIdCommandResources.DESCRIPTION,
                 collectionManager);
     }
 
@@ -37,7 +37,7 @@ public class RemoveByIdCommand extends CollectionCommand {
 
         try {
             collectionManager.remove(id);
-            output.putString(Messages.RemoveByIdCommand.SUCCESS);
+            output.putString(RemoveByIdCommandResources.SUCCESS);
         } catch (ElementNotExistsError e) {
             throw new ExecutionError(e.getMessage());
         }

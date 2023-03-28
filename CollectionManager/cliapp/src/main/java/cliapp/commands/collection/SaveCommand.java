@@ -5,7 +5,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import cliapp.Messages;
+import cliapp.TextResources.Commands.Collection.SaveCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -13,14 +13,14 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
 import humandeque.manager.CollectionManager;
-import humandeque.manager.exceptions.CollectionSaveError;
+import humandeque.manager.exceptions.CollectionSaveError;;
 
 /**
  * Save collection to file
  */
 public class SaveCommand extends CollectionCommand {
     public SaveCommand(CollectionManager collectionManager) {
-        super(Messages.SaveCommand.NAME, Messages.SaveCommand.DESCRIPTION, collectionManager);
+        super(SaveCommandResources.NAME, SaveCommandResources.DESCRIPTION, collectionManager);
     }
 
     /**
@@ -29,8 +29,8 @@ public class SaveCommand extends CollectionCommand {
     private static class FileNameRequirement extends Requirement<String, String> {
         public FileNameRequirement() {
             super(
-                    Messages.SaveCommand.FILE_NAME_REQUIREMENT_NAME,
-                    Messages.SaveCommand.FILE_NAME_REQUIREMENT_DESCRIPTION,
+                    SaveCommandResources.FileNameRequirement.NAME,
+                    SaveCommandResources.FileNameRequirement.DESCRIPTION,
                     filePathValidator);
         }
 
@@ -51,12 +51,12 @@ public class SaveCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {
             collectionManager.save();
-            output.putString(Messages.SaveCommand.SUCCESS);
+            output.putString(SaveCommandResources.SUCCESS);
         } catch (CollectionSaveError e) {
             if (e.getCause() instanceof FileNotFoundException) {
-                throw new ExecutionError(Messages.SaveCommand.FILE_NOT_FOUND);
+                throw new ExecutionError(SaveCommandResources.FILE_NOT_FOUND);
             } else {
-                throw new ExecutionError(Messages.SaveCommand.ERROR);
+                throw new ExecutionError(SaveCommandResources.SAVE_ERROR);
             }
         }
     }

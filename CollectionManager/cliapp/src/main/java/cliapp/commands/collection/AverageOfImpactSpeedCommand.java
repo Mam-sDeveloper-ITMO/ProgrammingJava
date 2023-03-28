@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import cliapp.Messages;
+import cliapp.TextResources.Commands.Collection.AverageOfImpactSpeedCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -8,9 +8,10 @@ import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
 
+
 public class AverageOfImpactSpeedCommand extends CollectionCommand {
     public AverageOfImpactSpeedCommand(CollectionManager collectionManager) {
-        super(Messages.AverageOfImpactSpeedCommand.NAME, Messages.AverageOfImpactSpeedCommand.DESCRIPTION,
+        super(AverageOfImpactSpeedCommandResources.NAME, AverageOfImpactSpeedCommandResources.DESCRIPTION,
                 collectionManager);
     }
 
@@ -24,6 +25,6 @@ public class AverageOfImpactSpeedCommand extends CollectionCommand {
         Double averageSpeed = humans.stream()
                 .map(human -> human.getImpactSpeed())
                 .reduce(0d, (a, b) -> a + b) / humans.size();
-        output.putString(Messages.AverageOfImpactSpeedCommand.TITLE.formatted(averageSpeed));
+        output.putString(AverageOfImpactSpeedCommandResources.TITLE.formatted(averageSpeed));
     }
 }

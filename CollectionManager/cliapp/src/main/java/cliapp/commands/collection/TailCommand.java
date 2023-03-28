@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import cliapp.Messages;
+import cliapp.TextResources.Commands.Collection.TailCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -10,7 +10,7 @@ import humandeque.manager.exceptions.EmptyCollectionError;
 
 public class TailCommand extends CollectionCommand {
     public TailCommand(CollectionManager collectionManager) {
-        super(Messages.TailCommand.NAME, Messages.TailCommand.DESCRIPTION, collectionManager);
+        super(TailCommandResources.NAME, TailCommandResources.DESCRIPTION, collectionManager);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class TailCommand extends CollectionCommand {
             Exception cause = new EmptyCollectionError();
             throw new ExecutionError(cause.getMessage(), cause);
         } else {
-            output.putString(Messages.TailCommand.TITLE);
+            output.putString(TailCommandResources.TITLE);
             output.putString(humans.getLast().toString());
         }
     }

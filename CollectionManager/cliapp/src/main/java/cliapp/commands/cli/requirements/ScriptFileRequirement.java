@@ -4,7 +4,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import cliapp.Messages;
+import cliapp.TextResources.Commands.Cli.ExecuteCommandResources.ScriptFileRequirementResources;
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
@@ -12,8 +12,8 @@ import commands.requirements.validators.Validator;
 public class ScriptFileRequirement extends Requirement<String, Path> {
     public ScriptFileRequirement() {
         super(
-                Messages.ExecuteCommand.SCRIPT_FILE_REQUIREMENT_NAME,
-                Messages.ExecuteCommand.SCRIPT_FILE_REQUIREMENT_DESCRIPTION,
+                ScriptFileRequirementResources.NAME,
+                ScriptFileRequirementResources.DESCRIPTION,
                 new ScriptPathValidator());
     }
 
@@ -26,7 +26,7 @@ public class ScriptFileRequirement extends Requirement<String, Path> {
         @Override
         public Path validate(String value) throws ValidationError {
             if (!value.endsWith(".neko")) {
-                throw new ValidationError(value, Messages.ExecuteCommand.INCORRECT_FILE);
+                throw new ValidationError(value, ScriptFileRequirementResources.INCORRECT_EXTENSION);
             }
             try {
                 Path path = Paths.get(value);

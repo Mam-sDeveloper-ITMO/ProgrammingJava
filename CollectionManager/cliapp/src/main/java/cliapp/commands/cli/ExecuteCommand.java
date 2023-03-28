@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cliapp.Messages;
+import cliapp.TextResources.Commands.Cli.ExecuteCommandResources;
 import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.UserInputPipeline;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
@@ -22,7 +22,7 @@ import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
-import commands.requirements.exceptions.ValidationError;;
+import commands.requirements.exceptions.ValidationError;
 
 /**
  * Execute specified script with commands.
@@ -43,7 +43,7 @@ import commands.requirements.exceptions.ValidationError;;
  */
 public class ExecuteCommand extends CLICommand {
     public ExecuteCommand(CLIClient client) {
-        super(Messages.ExecuteCommand.NAME, Messages.ExecuteCommand.DESCRIPTION, client);
+        super(ExecuteCommandResources.NAME, ExecuteCommandResources.DESCRIPTION, client);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ExecuteCommand extends CLICommand {
                 } else {
                     // dynamic requirements
                     if (dynamicRequirements.isEmpty()) {
-                        throw new RequirementAskError(Messages.ExecuteCommand.NOT_ENOUGH_DYNAMIC_PARAMS);
+                        throw new RequirementAskError(ExecuteCommandResources.NOT_ENOUGH_DYNAMIC_PARAMS);
                     }
                     return requirement.getValue((I) dynamicRequirements.poll());
                 }
@@ -184,7 +184,7 @@ public class ExecuteCommand extends CLICommand {
             executeWithUserParams(line);
         } else {
             // without dynamic params
-            throw new ExecutionError(Messages.ExecuteCommand.INCORRECT_LINE_FORMAT.formatted(line));
+            throw new ExecutionError(ExecuteCommandResources.INCORRECT_LINE_FORMAT.formatted(line));
         }
     }
 
@@ -196,7 +196,7 @@ public class ExecuteCommand extends CLICommand {
             try {
                 executeScriptLine(line);
             } catch (Exception e) {
-                throw new ExecutionError(Messages.ExecuteCommand.LINE_ERROR.formatted(line), e);
+                throw new ExecutionError(ExecuteCommandResources.LINE_ERROR.formatted(line), e);
             }
         }
     }

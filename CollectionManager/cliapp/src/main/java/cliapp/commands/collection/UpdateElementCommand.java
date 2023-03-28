@@ -1,19 +1,10 @@
 package cliapp.commands.collection;
 
 import java.util.List;
-import cliapp.Messages;
-import cliapp.Messages.ElementRequirements;
-import cliapp.commands.collection.requirements.CarNameRequirement;
-import cliapp.commands.collection.requirements.CoordinatesXRequirement;
-import cliapp.commands.collection.requirements.CoordinatesYRequirement;
-import cliapp.commands.collection.requirements.ExistingIdRequirement;
-import cliapp.commands.collection.requirements.HasToothpickRequirement;
-import cliapp.commands.collection.requirements.ImpactSpeedRequirement;
-import cliapp.commands.collection.requirements.MinutesOfWaitingRequirement;
-import cliapp.commands.collection.requirements.MoodRequirement;
-import cliapp.commands.collection.requirements.NameRequirement;
-import cliapp.commands.collection.requirements.RealHeroRequirement;
-import cliapp.commands.collection.requirements.SoundtrackNameRequirement;
+
+import cliapp.TextResources;
+import cliapp.TextResources.Commands.Collection.RequirementsResources.MoodRequirement;
+import cliapp.TextResources.Commands.Collection.UpdateElementCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -31,8 +22,8 @@ import models.Mood;
  */
 public class UpdateElementCommand extends CollectionCommand {
     public UpdateElementCommand(CollectionManager collectionManager) {
-        super(Messages.UpdateElementCommand.NAME, Messages.UpdateElementCommand.DESCRIPTION,
-            collectionManager);
+        super(UpdateElementCommandResources.NAME, UpdateElementCommandResources.DESCRIPTION,
+                collectionManager);
     }
 
     @Override
@@ -44,11 +35,11 @@ public class UpdateElementCommand extends CollectionCommand {
      * Try to ask requirement with default option, except return default value
      */
     private <I, O> O askOrDefault(RequirementsPipeline pipeline, OutputChannel output,
-        Requirement<I, O> requirement,
-        O defaultValue) {
+            Requirement<I, O> requirement,
+            O defaultValue) {
         // suggest to skip field
         output.putString(
-            Messages.CLIClient.ASK_DEFAULT_REQUIREMENT.formatted(defaultValue));
+                TextResources.CLIClientResources.ASK_DEFAULT_REQUIREMENT.formatted(defaultValue));
         try {
             O value = pipeline.askRequirement(requirement);
             return value;
@@ -61,57 +52,46 @@ public class UpdateElementCommand extends CollectionCommand {
      * Ask fields that must be updated. If field is skipped set default value
      */
     private Human askUpdatedHuman(Human defaultHuman, RequirementsPipeline pipeline,
-        OutputChannel output)
-        throws RequirementAskError {
+            OutputChannel output)
+            throws RequirementAskError {
 
         Human.HumanBuilder humanBuilder = Human.builder();
 
         humanBuilder.id(defaultHuman.getId());
         humanBuilder.creationDate(defaultHuman.getCreationDate());
 
-        humanBuilder
-            .name(askOrDefault(pipeline, output, new NameRequirement(), defaultHuman.getName()));
+        humanBuilder.name(askOrDefault(pipeline, output, nameRequirement, defaultHuman.getName()));
 
         Coordinates defaultCoordinates = defaultHuman.getCoordinates();
         Coordinates.CoordinatesBuilder coordinatesBuilder = Coordinates.builder();
-        coordinatesBuilder.x(
-            askOrDefault(pipeline, output, new CoordinatesXRequirement(),
-                defaultCoordinates.getX()));
-        coordinatesBuilder.y(
-            askOrDefault(pipeline, output, new CoordinatesYRequirement(),
-                defaultCoordinates.getY()));
+        coordinatesBuilder.x(askOrDefault(pipeline, output, coordinateXRequirement, defaultCoordinates.getX()));
+
+        coordinatesBuilder.y(askOrDefault(pipeline, output, coordinateYRequirement, defaultCoordinates.getY()));
 
         humanBuilder.coordinates(coordinatesBuilder.build());
 
-        humanBuilder.realHero(
-            askOrDefault(pipeline, output, new RealHeroRequirement(), defaultHuman.getRealHero()));
+        humanBuilder.realHero(askOrDefault(pipeline, output, realHeroRequirement, defaultHuman.getRealHero()));
 
         humanBuilder.hasToothpick(
-            askOrDefault(pipeline, output, new HasToothpickRequirement(),
-                defaultHuman.getHasToothpick()));
+                askOrDefault(pipeline, output, hasToothpickRequirement, defaultHuman.getHasToothpick()));
 
         humanBuilder.impactSpeed(
-            askOrDefault(pipeline, output, new ImpactSpeedRequirement(),
-                defaultHuman.getImpactSpeed()));
+                askOrDefault(pipeline, output, impactSpeedRequirement, defaultHuman.getImpactSpeed()));
 
         humanBuilder.soundtrackName(
-            askOrDefault(pipeline, output, new SoundtrackNameRequirement(),
-                defaultHuman.getSoundtrackName()));
+                askOrDefault(pipeline, output, soundtrackRequirement, defaultHuman.getSoundtrackName()));
 
         humanBuilder.minutesOfWaiting(
-            askOrDefault(pipeline, output, new MinutesOfWaitingRequirement(),
-                defaultHuman.getMinutesOfWaiting()));
+                askOrDefault(pipeline, output, minutesOfWaitingRequirement, defaultHuman.getMinutesOfWaiting()));
 
         String moods = "";
         for (int i = 0; i < Mood.values().length; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
-        output.putString(ElementRequirements.MOODS_TITLE + System.lineSeparator() + moods);
-        humanBuilder
-            .mood(askOrDefault(pipeline, output, new MoodRequirement(), defaultHuman.getMood()));
+        output.putString(MoodRequirement.TITLE + System.lineSeparator() + moods);
+        humanBuilder.mood(askOrDefault(pipeline, output, moodRequirement, defaultHuman.getMood()));
 
-        Car car = new Car(askOrDefault(pipeline, output, new CarNameRequirement(),
-            defaultHuman.getCar().getName()));
+        Car car = new Car(askOrDefault(pipeline, output, carNameRequirement, defaultHuman.getCar().getName()));
         humanBuilder.car(car);
 
         return humanBuilder.build();
@@ -143,7 +123,7 @@ public class UpdateElementCommand extends CollectionCommand {
         // update human element in collection
         try {
             collectionManager.update(human);
-            output.putString(Messages.UpdateElementCommand.SUCCESS);
+            output.putString(UpdateElementCommandResources.SUCCESS);
         } catch (ElementNotExistsError e) {
             throw new ExecutionError(e.getMessage());
         }
