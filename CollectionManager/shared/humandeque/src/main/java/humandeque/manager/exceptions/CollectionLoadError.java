@@ -24,6 +24,6 @@ public class CollectionLoadError extends Exception {
      * @param cause   - The cause of this exception.
      */
     public CollectionLoadError(String message, Throwable cause) {
-        super(ExceptionsResources.COLLECTION_SAVE_ERROR.formatted(message), cause);
+        super(ExceptionsResources.COLLECTION_LOAD_ERROR.formatted(message), cause);
     }
 }

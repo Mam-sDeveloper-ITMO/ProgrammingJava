@@ -56,8 +56,8 @@ public class CsvStorage implements CollectionStorage {
      * Convert strings array to human
      */
     private Human stringsToHuman(String[] strings) {
-        return Human.builder()
-                .id(Long.parseLong(strings[0]))
+        Human.HumanBuilder builder = Human.builder();
+        builder.id(Long.parseLong(strings[0]))
                 .name(strings[1])
                 .coordinates(
                         Coordinates.builder()
@@ -68,11 +68,20 @@ public class CsvStorage implements CollectionStorage {
                 .realHero(Boolean.parseBoolean(strings[5]))
                 .hasToothpick(Boolean.parseBoolean(strings[6]))
                 .impactSpeed(Double.parseDouble(strings[7]))
-                .soundtrackName(strings[8])
-                .minutesOfWaiting(Float.parseFloat(strings[9]))
-                .mood(Mood.valueOf(strings[10]))
-                .car(new Car(strings[11]))
-                .build();
+                .soundtrackName(strings[8]);
+
+        if (strings[9].equals("null")) {
+            builder.minutesOfWaiting(null);
+        } else {
+            builder.minutesOfWaiting(Float.parseFloat(strings[9]));
+        }
+        if (strings[10].equals("null")) {
+            builder.mood(null);
+        } else {
+            builder.mood(Mood.valueOf(strings[10]));
+        }
+        builder.car(new Car(strings[11]));
+        return builder.build();
     }
 
     /**
