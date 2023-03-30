@@ -231,29 +231,35 @@ public class CLIClient {
         System.out.println(CatsResources.CAT3);
         System.out.println();
         while (true) {
-            // cute arrows
-            System.out.print(">> ");
-            // get user input and parse on separated words
-            // if line is empty, then skip it
-            List<String> inlineParams = parseInlineParams(userInputSupplier.get());
-            if (inlineParams.size() == 0) {
-                continue;
-            }
-            // try to resolve command by trigger
-            Command command;
-            String trigger = inlineParams.get(0);
-            inlineParams.remove(0);
+            // ASAP IMMEDIATELY REFACTOR
             try {
-                trigger = getTrigger(trigger);
-                command = resolveCommand(trigger);
-            } catch (CommandNotFoundError e) {
-                System.out.println(TextColor.getColoredString(e.getMessage(), TextColor.RED));
-                continue;
+                // cute arrows
+                System.out.print(">> ");
+                // get user input and parse on separated words
+                // if line is empty, then skip it
+                List<String> inlineParams = parseInlineParams(userInputSupplier.get());
+                if (inlineParams.size() == 0) {
+                    continue;
+                }
+                // try to resolve command by trigger
+                Command command;
+                String trigger = inlineParams.get(0);
+                inlineParams.remove(0);
+                try {
+                    trigger = getTrigger(trigger);
+                    command = resolveCommand(trigger);
+                } catch (CommandNotFoundError e) {
+                    System.out.println(TextColor.getColoredString(e.getMessage(), TextColor.RED));
+                    continue;
+                }
+                // execute command
+                executeCommand(command, inlineParams);
+                // save trigger to history
+                history.add(trigger);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("sorry :(");
             }
-            // execute command
-            executeCommand(command, inlineParams);
-            // save trigger to history
-            history.add(trigger);
         }
     }
 }
