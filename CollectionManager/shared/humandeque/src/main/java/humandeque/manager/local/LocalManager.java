@@ -19,7 +19,8 @@ import models.Human;
  * local csv file
  */
 public class LocalManager extends CollectionManager {
-    @Getter @Setter
+    @Getter
+    @Setter
     private String filePath;
 
     /**
@@ -90,7 +91,17 @@ public class LocalManager extends CollectionManager {
             throw new CollectionLoadError(ExceptionsResources.FILE_PATH_NOT_SPECIFIED_ERROR);
         }
         storage = new CsvStorage(filePath);
-        super.load();
+        
+        // load manually for validate values and check uniqueness of ids
+        this.collection = new HumanDeque();
+        HumanDeque loadedCollection = storage.load();
+        for (Human human : loadedCollection) {
+            try {
+                this.add(human);
+            } catch (ElementAlreadyExistsError e) {
+                throw new CollectionLoadError(e.getMessage(), e);
+            }
+        }
     }
 
     @Override
