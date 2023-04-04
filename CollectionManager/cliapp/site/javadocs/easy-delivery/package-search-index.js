@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"cliapp"},{"l":"cliapp.cliclient"},{"l":"cliapp.cliclient.exceptions"},{"l":"cliapp.commands.cli"},{"l":"cliapp.commands.collection"},{"l":"cliapp.utils"}];updateSearchResults();

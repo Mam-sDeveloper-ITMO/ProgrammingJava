@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>mamsdeveloper.itmo</groupId>
+        <artifactId>collection-manager</artifactId>
+        <version>1.0</version>
+    </parent>
+    <artifactId>cliapp</artifactId>
+    <name>Command line client</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mamsdeveloper.itmo</groupId>
+            <artifactId>commands</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mamsdeveloper.itmo</groupId>
+            <artifactId>models</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mamsdeveloper.itmo</groupId>
+            <artifactId>humandeque</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>cliapp.App</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

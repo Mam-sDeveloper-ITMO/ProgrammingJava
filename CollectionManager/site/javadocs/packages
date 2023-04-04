@@ -1,0 +1,17 @@
+commands
+commands.exceptions
+commands.requirements.exceptions
+commands.requirements
+commands.requirements.validators.common
+commands.requirements.validators
+models
+humandeque
+humandeque.manager
+humandeque.manager.exceptions
+humandeque.manager.local
+cliapp
+cliapp.cliclient
+cliapp.cliclient.exceptions
+cliapp.commands.cli
+cliapp.commands.collection
+cliapp.utils

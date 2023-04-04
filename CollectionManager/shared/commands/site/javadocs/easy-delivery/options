@@ -1,0 +1,24 @@
+-classpath
+'C:/Coding/Itmo/ProgrammingJava/CollectionManager/shared/commands/target/classes;C:/Users/belk1/.m2/repository/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'C:/Coding/Itmo/ProgrammingJava/CollectionManager/shared/commands/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Coding/Itmo/ProgrammingJava/CollectionManager/shared/commands/site/javadocs/easy-delivery'
+-docencoding
+'UTF-8'
+-doctitle
+'Commands 1.0 API'
+-linkoffline
+'http://docs.oracle.com/javase/7/docs/api' 'C:/Coding/Itmo/ProgrammingJava/CollectionManager/shared/commands/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'Commands 1.0 API'
