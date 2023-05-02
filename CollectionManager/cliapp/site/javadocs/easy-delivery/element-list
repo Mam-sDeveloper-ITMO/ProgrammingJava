@@ -1,6 +1,0 @@
-cliapp
-cliapp.cliclient
-cliapp.cliclient.exceptions
-cliapp.commands.cli
-cliapp.commands.collection
-cliapp.utils
