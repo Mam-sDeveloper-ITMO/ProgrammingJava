@@ -1,4 +1,4 @@
-package server.dispatcher.exceptions;
+package server.utils.exceptions;
 
 /**
  * Exception thrown when the input stream cannot be serialized to

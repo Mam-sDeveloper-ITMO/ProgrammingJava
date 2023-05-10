@@ -2,9 +2,6 @@ package server.dispatcher;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,12 +9,12 @@ import lombok.Getter;
 import lombok.Setter;
 import server.Request;
 import server.Response;
-import server.Server;
-import server.dispatcher.exceptions.BadRequestStream;
 import server.routing.Handler;
 import server.routing.Router;
 import server.routing.exceptions.IncorrectRequestData;
 import server.routing.exceptions.UnhandledRequest;
+import server.utils.Serializer;
+import server.utils.exceptions.BadRequestStream;
 
 /**
  * Dispatcher is a class that handles requests from clients
@@ -66,12 +63,12 @@ public class Dispatcher {
     public ByteArrayOutputStream dispatchStreams(ByteArrayInputStream requestStream) {
         Request request;
         try {
-            request = this.deserializeRequest(requestStream);
+            request = Serializer.deserializeRequest(requestStream);
             Response response = dispatch(request);
-            return serializeResponse(response);
+            return Serializer.serializeResponse(response);
         } catch (BadRequestStream e) {
             Response response = new Response(false, "Bad request stream", null);
-            return this.serializeResponse(response);
+            return Serializer.serializeResponse(response);
         }
     }
 
@@ -98,38 +95,5 @@ public class Dispatcher {
             }
         }
         return new Response(false, "Not handlers for such trigger", null);
-    }
-
-    /**
-     * Deserialize request from stream.
-     *
-     * @param requestBuffer stream with request
-     * @return deserialized request
-     * @throws BadRequestStream if stream is not valid
-     */
-    private Request deserializeRequest(ByteArrayInputStream requestBuffer) throws BadRequestStream {
-        try (ObjectInputStream objectInputStream = new ObjectInputStream(requestBuffer);) {
-            Request request = (Request) objectInputStream.readObject();
-            return request;
-        } catch (IOException | ClassNotFoundException e) {
-            throw new BadRequestStream();
-        }
-    }
-
-    /**
-     * Serialize response to stream.
-     *
-     * @param response response to serialize
-     * @return stream with serialized response
-     */
-    private ByteArrayOutputStream serializeResponse(Response response) {
-        // Java Google Style must die
-        try (ByteArrayOutputStream responseBuffer = new ByteArrayOutputStream();
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(responseBuffer);) {
-            objectOutputStream.writeObject(response);
-            return responseBuffer;
-        } catch (IOException e) {
-            return null;
-        }
     }
 }

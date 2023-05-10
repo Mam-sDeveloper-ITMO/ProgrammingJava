@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import server.dispatcher.exceptions.BadRequestStream;
+import server.utils.exceptions.BadRequestStream;
 
 public class Utils {
     public static Request deserializeRequest(ByteArrayInputStream requestBuffer) throws BadRequestStream {
