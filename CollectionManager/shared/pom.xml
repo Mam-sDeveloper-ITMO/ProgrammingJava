@@ -18,5 +18,6 @@
         <module>humandeque</module>
         <module>commands</module>
         <module>server</module>
+        <module>adapter</module>
     </modules>
 </project>
