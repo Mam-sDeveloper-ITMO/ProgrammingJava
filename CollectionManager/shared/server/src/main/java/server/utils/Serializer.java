@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import server.Request;
 import server.Response;
 import server.utils.exceptions.BadRequestStream;
+import server.utils.exceptions.BadResponseStream;
 
 /**
  * Serializer provides static methods to serialize and deserialize
@@ -55,12 +56,12 @@ public class Serializer {
      * @return deserialized response
      * @throws BadRequestStream if stream is not valid
      */
-    public static Response deserializeResponse(ByteArrayInputStream responseBuffer) throws BadRequestStream {
+    public static Response deserializeResponse(ByteArrayInputStream responseBuffer) throws BadResponseStream {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(responseBuffer);) {
             Response response = (Response) objectInputStream.readObject();
             return response;
         } catch (IOException | ClassNotFoundException e) {
-            throw new BadRequestStream();
+            throw new BadResponseStream();
         }
     }
 
