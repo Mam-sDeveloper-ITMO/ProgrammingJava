@@ -2,6 +2,8 @@ package server;
 
 import org.junit.Test;
 
+import server.requests.Request;
+import server.responses.Response;
 import server.routing.Router;
 import server.routing.Trigger;
 import server.routing.exceptions.IncorrectHandlerParams;

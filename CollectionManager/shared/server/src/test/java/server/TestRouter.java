@@ -1,5 +1,6 @@
 package server;
 
+import server.responses.Response;
 import server.routing.Router;
 import server.routing.Trigger;
 import server.routing.exceptions.IncorrectHandlerParams;

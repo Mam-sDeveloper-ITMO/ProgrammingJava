@@ -7,8 +7,8 @@ import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
-import server.Request;
-import server.Response;
+import server.requests.Request;
+import server.responses.Response;
 import server.routing.Handler;
 import server.routing.Router;
 import server.routing.exceptions.IncorrectRequestData;

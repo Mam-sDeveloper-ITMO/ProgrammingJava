@@ -2,7 +2,7 @@ package server.routing;
 
 import java.util.Map;
 
-import server.Response;
+import server.responses.Response;
 import server.routing.exceptions.IncorrectRequestData;
 
 /**

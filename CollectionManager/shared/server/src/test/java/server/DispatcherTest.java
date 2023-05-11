@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import server.dispatcher.Dispatcher;
+import server.requests.Request;
+import server.responses.Response;
 import server.routing.Router;
 
 public class DispatcherTest {

@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
-import server.Request;
-import server.Response;
+import server.requests.Request;
+import server.responses.Response;
 import server.routing.exceptions.IncorrectHandlerParams;
 import server.routing.exceptions.IncorrectHandlerReturns;
 import server.routing.exceptions.UnhandledRequest;

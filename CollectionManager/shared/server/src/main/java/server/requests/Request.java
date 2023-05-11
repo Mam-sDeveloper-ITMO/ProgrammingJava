@@ -1,4 +1,4 @@
-package server;
+package server.requests;
 
 import java.io.Serializable;
 import java.util.Map;
