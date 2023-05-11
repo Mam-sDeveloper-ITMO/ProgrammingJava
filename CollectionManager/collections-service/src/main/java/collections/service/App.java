@@ -1,12 +1,12 @@
-package service;
+package collections.service;
 
+import collections.service.routers.CollectionsRouter;
 import io.github.cdimascio.dotenv.Dotenv;
 import pingback.Level;
 import pingback.Logger;
 import server.Server;
 import server.dispatcher.Dispatcher;
 import server.routing.Router;
-import service.routers.CollectionsRouter;
 
 /**
  * The main application class for running the collection service.

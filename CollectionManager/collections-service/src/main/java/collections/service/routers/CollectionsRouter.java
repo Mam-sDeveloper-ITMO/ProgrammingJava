@@ -1,4 +1,4 @@
-package service.routers;
+package collections.service.routers;
 
 import java.util.Map;
 
