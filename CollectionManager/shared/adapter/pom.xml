@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>mamsdeveloper.itmo</groupId>
-            <artifactId>models</artifactId>
+            <artifactId>server</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
@@ -26,11 +26,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>mamsdeveloper.itmo</groupId>
-            <artifactId>server</artifactId>
-            <version>1.0</version>
         </dependency>
     </dependencies>
 </project>
