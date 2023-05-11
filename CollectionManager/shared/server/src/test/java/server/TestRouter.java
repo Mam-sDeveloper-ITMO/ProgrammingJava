@@ -6,6 +6,7 @@ import server.routing.exceptions.IncorrectHandlerParams;
 import server.routing.exceptions.IncorrectHandlerReturns;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class TestRouter extends Router {
     public TestRouter() throws IncorrectHandlerParams, IncorrectHandlerReturns {
@@ -17,16 +18,12 @@ public class TestRouter extends Router {
     }
 
     @Trigger(trigger = "foo")
-    Response foo(Request request) {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("handler", "foo");
+    Response foo(Map<String, ?> data) {
         return new Response(true, "Hello from foo", data);
     }
 
     @Trigger(trigger = "bar")
-    Response bar(Request request) {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("handler", "bar");
+    Response bar(Map<String, ?> data) {
         return new Response(true, "Hello from bar", data);
     }
 }

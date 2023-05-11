@@ -2,6 +2,7 @@ package server.routing;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Getter;
 import server.Request;
@@ -93,13 +94,13 @@ public class Router {
      *
      * @param method method that is annotated with @Trigger
      * @return handler function
-     * @throws IncorrectHandlerParams  if handler method has incorrect signature
+.gitignore     * @throws IncorrectHandlerParams  if handler method has incorrect signature
      * @throws IncorrectHandlerReturns if handler method has incorrect signature
      */
     private Handler buildHandler(Method method) {
         // Java Google Style must die
         Class<?>[] parameterTypes = method.getParameterTypes();
-        if (parameterTypes.length != 1 || parameterTypes[0] != Request.class) {
+        if (parameterTypes.length != 1 || !Map.class.isAssignableFrom(parameterTypes[0])) {
             throw new IncorrectHandlerParams();
         }
 
