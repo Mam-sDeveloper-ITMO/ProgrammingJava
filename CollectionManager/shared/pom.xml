@@ -19,5 +19,6 @@
         <module>commands</module>
         <module>server</module>
         <module>adapter</module>
+        <module>pingback</module>
     </modules>
 </project>
