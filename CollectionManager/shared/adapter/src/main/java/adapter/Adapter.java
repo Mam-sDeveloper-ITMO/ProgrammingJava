@@ -10,8 +10,8 @@ import java.util.Map;
 import adapter.exceptions.ReceiveResponseFailed;
 import adapter.exceptions.SendRequestFailed;
 import adapter.exceptions.SocketInitFailed;
-import server.Request;
-import server.Response;
+import server.requests.Request;
+import server.responses.Response;
 import server.utils.Serializer;
 import server.utils.exceptions.BadResponseStream;
 

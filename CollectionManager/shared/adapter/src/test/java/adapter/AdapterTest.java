@@ -15,8 +15,8 @@ import org.junit.Test;
 import adapter.exceptions.ReceiveResponseFailed;
 import adapter.exceptions.SendRequestFailed;
 import adapter.exceptions.SocketInitFailed;
-import server.Request;
-import server.Response;
+import server.requests.Request;
+import server.responses.Response;
 
 public class AdapterTest {
     private static final String IP = "localhost";
