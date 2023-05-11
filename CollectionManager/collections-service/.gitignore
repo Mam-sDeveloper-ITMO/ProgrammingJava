@@ -42,3 +42,4 @@ buildNumber.properties
 .classpath
 
 site/
+.env

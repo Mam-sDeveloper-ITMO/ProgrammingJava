@@ -7,10 +7,11 @@
     <artifactId>collection-manager</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-    <name>Applications for collection managment</name>
+    <name>Applications for collection management</name>
 
     <modules>
         <module>cliapp</module>
+        <module>collections-service</module>
         <module>shared</module>
     </modules>
 
