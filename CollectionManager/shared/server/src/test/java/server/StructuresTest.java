@@ -22,6 +22,10 @@ public class StructuresTest {
         Response response = Response.success("test", null);
         assertTrue(response.getOk());
 
+        response = Response.success(new HashMap<>());
+        assertTrue(response.getOk());
+        assertEquals(response.getMessage(), null);
+
         response = Response.failure("test");
         assertFalse(response.getOk());
 

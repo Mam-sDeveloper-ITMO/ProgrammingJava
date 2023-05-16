@@ -35,6 +35,13 @@ public class Response implements Serializable {
     }
 
     /**
+     * Return a new Response for successful requests.
+     */
+    public static Response success(Map<String, ?> data) {
+        return new Response(true, null, data);
+    }
+
+    /**
      * Return a new Response for failed requests.
      */
     public static Response failure(String message) {
