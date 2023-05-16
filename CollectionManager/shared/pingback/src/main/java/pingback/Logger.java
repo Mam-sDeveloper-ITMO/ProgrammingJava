@@ -13,6 +13,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import com.google.gson.Gson;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -23,12 +24,14 @@ public class Logger {
     /**
      * Logger instances
      */
+    @Getter
     private static Map<String, Logger> loggers = new HashMap<>();
 
     /**
      * Deta PingBack app url
      */
-    public final String appUrl;
+    @Getter
+    private final String appUrl;
 
     /**
      * Deta PingBack api key
@@ -38,12 +41,14 @@ public class Logger {
     /**
      * Deta PingBack project name
      */
-    public final String project;
+    @Getter
+    private final String project;
 
     /**
      * Logger name. Used for global accessing logger instance.
      */
-    public final String name;
+    @Getter
+    private final String name;
 
     /**
      * Log message to PingBack.
