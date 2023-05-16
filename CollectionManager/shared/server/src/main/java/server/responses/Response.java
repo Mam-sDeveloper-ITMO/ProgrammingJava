@@ -10,6 +10,8 @@ import lombok.Data;
  */
 @Data
 public class Response implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /**
      * ok is a boolean that represents whether the request was successful.
      */
@@ -24,4 +26,18 @@ public class Response implements Serializable {
      * data is a map that represents the data of the response.
      */
     public final Map<String, ?> data;
+
+    /**
+     * Return a new Response for successful requests.
+     */
+    public static Response success(String message, Map<String, ?> data) {
+        return new Response(true, message, data);
+    }
+
+    /**
+     * Return a new Response for failed requests.
+     */
+    public static Response failure(String message) {
+        return new Response(false, message, null);
+    }
 }
