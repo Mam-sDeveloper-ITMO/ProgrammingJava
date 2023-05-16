@@ -1,18 +1,20 @@
 package models;
 
+import java.io.Serializable;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
 /**
  * The coordinates of a human.
- * 
+ *
  * @see <a href="https://se.ifmo.ru/courses/programming">Programming course
  *      website</a>
  */
 @Data
 @Builder
-public class Coordinates {
+public class Coordinates implements Serializable {
 
     /**
      * The x-coordinate of the human.
@@ -28,7 +30,7 @@ public class Coordinates {
 
     /**
      * Constructs a new instance of Coordinates.
-     * 
+     *
      * @param x The x-coordinate of the human.
      * @param y The y-coordinate of the human.
      * @throws IllegalArgumentException If x is less than or equal to -566, or y is
