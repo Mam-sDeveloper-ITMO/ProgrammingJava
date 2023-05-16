@@ -15,9 +15,11 @@ import com.google.gson.Gson;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 /**
- * Logger provides logging to PingBack. {@link https://deta.space/discovery/r/xqsncnys6yzsgzjd}
+ * Logger provides logging to PingBack.
+ * {@link https://deta.space/discovery/r/xqsncnys6yzsgzjd}
  */
 @RequiredArgsConstructor
 public class Logger {
@@ -51,6 +53,25 @@ public class Logger {
     private final String name;
 
     /**
+     * Enable simple console logging with System.out.println
+     */
+    @Getter @Setter
+    private boolean consoleLogging = false;
+
+    /**
+     * Simple console logging with System.out.println
+     *
+     * @param channel
+     * @param title
+     * @param description
+     * @param level
+     * @return
+     */
+    public void consoleLog(String channel, String title, String description, Level level) {
+        System.out.println("[" + channel + "] " + title + ": " + description);
+    }
+
+    /**
      * Log message to PingBack.
      *
      * @param project     project name
@@ -67,6 +88,10 @@ public class Logger {
         data.put("title", title);
         data.put("description", description);
         data.put("icon", level.getIcon());
+
+        if (this.consoleLogging) {
+            consoleLog(channel, title, description, level);
+        }
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(appUrl + "/api/v1/events");
