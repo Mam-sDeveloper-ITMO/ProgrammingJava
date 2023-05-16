@@ -10,6 +10,7 @@ import humandeque.manager.exceptions.CollectionSaveError;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.exceptions.ElementNotExistsError;
 import humandeque.manager.exceptions.EmptyCollectionError;
+import humandeque.manager.exceptions.ManipulationError;
 import lombok.Getter;
 import lombok.Setter;
 import models.Human;
@@ -33,7 +34,7 @@ public class LocalManager extends CollectionManager {
 
     /**
      * Create new LocalManager with collection from csv file
-     * 
+     *
      * @param filePath - path to csv file
      * @throws IOException
      */
@@ -52,16 +53,23 @@ public class LocalManager extends CollectionManager {
 
     @Override
     public void update(Human element) throws ElementNotExistsError {
-        Human human = getElementById(element.getId());
-        collection.remove(human);
-        collection.add(element);
-        return;
+        try {
+            Human human = getElementById(element.getId());
+            collection.remove(human);
+            collection.add(element);
+        } catch (ManipulationError e) {
+            // unreachable for local implementation
+        }
     }
 
     @Override
     public void remove(long id) throws ElementNotExistsError {
-        Human human = getElementById(id);
-        collection.remove(human);
+        try {
+            Human human = getElementById(id);
+            collection.remove(human);
+        } catch (ManipulationError e) {
+            // unreachable for local implementation
+        }
     }
 
     @Override
@@ -91,7 +99,7 @@ public class LocalManager extends CollectionManager {
             throw new CollectionLoadError(ExceptionsResources.FILE_PATH_NOT_SPECIFIED_ERROR);
         }
         storage = new CsvStorage(filePath);
-        
+
         // load manually for validate values and check uniqueness of ids
         this.collection = new HumanDeque();
         HumanDeque loadedCollection = storage.load();
@@ -110,6 +118,10 @@ public class LocalManager extends CollectionManager {
             throw new CollectionSaveError(ExceptionsResources.FILE_PATH_NOT_SPECIFIED_ERROR);
         }
         storage = new CsvStorage(filePath);
-        super.save();
+        try {
+            super.save();
+        } catch (ManipulationError e) {
+            //unreachable for local implementation
+        }
     }
 }

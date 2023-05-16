@@ -22,6 +22,8 @@ public class TextResources {
 
             public static final String COLLECTION_SAVE_ERROR = BUNDLE.getString("CollectionSaveError");
 
+            public static final String MANIPULATION_ERROR = BUNDLE.getString("ManipulationError");
+
             public static final String FILE_PATH_NOT_SPECIFIED_ERROR = BUNDLE.getString("FilePathNotSpecifiedError");
         }
     }
