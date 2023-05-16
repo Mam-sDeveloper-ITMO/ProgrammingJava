@@ -5,23 +5,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
-import server.requests.Request;
 import server.responses.Response;
 import server.routing.exceptions.IncorrectHandlerParams;
 import server.routing.exceptions.IncorrectHandlerReturns;
 import server.routing.exceptions.UnhandledRequest;
+import server.routing.handlers.Handler;
+import server.routing.handlers.HandlerFunction;
 
 /**
  * Router class
  *
  * This class is responsible for routing requests to handlers
  *
- * Handlers are methods of the class that are annotated with @Trigger
- * annotation (@see Trigger).
+ * Handlers are methods of the class that are annotated with @Handler
+ * annotation (@see Handler).
  * The annotation contains a trigger string that is used to
  * determine which handler should be called.
  *
- * Methods annotated with @Trigger must have the following signature:
+ * Methods annotated with @Handler must have the following signature:
  * - return type: Response
  * - single parameter: Request
  *
@@ -41,7 +42,7 @@ public class Router {
     /**
      * Map of handlers triggers and handlers
      */
-    private final HashMap<String, Handler> handlers;
+    private final HashMap<String, HandlerFunction> handlers;
 
     /**
      * Router constructor with default prefix
@@ -76,7 +77,7 @@ public class Router {
      * @return handler function
      * @throws UnhandledRequest if the trigger does not start with the prefix
      */
-    public Handler resolveHandler(String trigger) throws UnhandledRequest {
+    public HandlerFunction resolveHandler(String trigger) throws UnhandledRequest {
         if (!this.triggersPrefix.isEmpty()) {
             if (!trigger.startsWith(this.triggersPrefix + ".")) {
                 throw new UnhandledRequest();
@@ -92,12 +93,12 @@ public class Router {
     /**
      * Builds handler function for the given method
      *
-     * @param method method that is annotated with @Trigger
+     * @param method method that is annotated with @Handler
      * @return handler function
-.gitignore     * @throws IncorrectHandlerParams  if handler method has incorrect signature
+     * @throws IncorrectHandlerParams  if handler method has incorrect signature
      * @throws IncorrectHandlerReturns if handler method has incorrect signature
      */
-    private Handler buildHandler(Method method) {
+    private HandlerFunction buildHandler(Method method) {
         // Java Google Style must die
         Class<?>[] parameterTypes = method.getParameterTypes();
         if (parameterTypes.length != 1 || !Map.class.isAssignableFrom(parameterTypes[0])) {
@@ -109,7 +110,7 @@ public class Router {
             throw new IncorrectHandlerReturns();
         }
 
-        Handler handler = (request) -> {
+        HandlerFunction handler = (request) -> {
             try {
                 method.setAccessible(true);
                 return (Response) method.invoke(this, request);
@@ -123,25 +124,25 @@ public class Router {
 
     /**
      * Parse all methods of the class and build handlers for the methods
-     * annotated with @Trigger
+     * annotated with @Handler
      *
      * @return map of handlers with trigger strings as keys
      * @throws IncorrectHandlerParams  if handler method has incorrect signature
      * @throws IncorrectHandlerReturns if handler method has incorrect signature
      */
-    private HashMap<String, Handler> defineHandlers() {
+    private HashMap<String, HandlerFunction> defineHandlers() {
         // Java Google Style must die
-        HashMap<String, Handler> handlers = new HashMap<String, Handler>();
+        HashMap<String, HandlerFunction> handlers = new HashMap<String, HandlerFunction>();
 
         Method[] methods = this.getClass().getDeclaredMethods();
         for (Method method : methods) {
-            if (!method.isAnnotationPresent(Trigger.class)) {
+            if (!method.isAnnotationPresent(Handler.class)) {
                 continue;
             }
-            Handler handler = buildHandler(method);
+            HandlerFunction handler = buildHandler(method);
 
-            Trigger annotation = method.getAnnotation(Trigger.class);
-            String trigger = annotation.trigger();
+            Handler annotation = method.getAnnotation(Handler.class);
+            String trigger = annotation.value();
 
             handlers.put(trigger, handler);
         }

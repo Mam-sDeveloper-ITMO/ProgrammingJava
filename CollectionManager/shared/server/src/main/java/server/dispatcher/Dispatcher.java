@@ -9,10 +9,10 @@ import lombok.Getter;
 import lombok.Setter;
 import server.requests.Request;
 import server.responses.Response;
-import server.routing.Handler;
 import server.routing.Router;
 import server.routing.exceptions.IncorrectRequestData;
 import server.routing.exceptions.UnhandledRequest;
+import server.routing.handlers.HandlerFunction;
 import server.utils.Serializer;
 import server.utils.exceptions.BadRequestStream;
 
@@ -82,7 +82,7 @@ public class Dispatcher {
      */
     public Response dispatch(Request request) {
         for (Router router : this.routers) {
-            Handler handler;
+            HandlerFunction handler;
             try {
                 handler = router.resolveHandler(request.trigger);
             } catch (UnhandledRequest e) {

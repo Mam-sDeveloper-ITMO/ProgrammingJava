@@ -1,4 +1,4 @@
-package server.routing;
+package server.routing.handlers;
 
 import java.util.Map;
 
@@ -6,12 +6,14 @@ import server.responses.Response;
 import server.routing.exceptions.IncorrectRequestData;
 
 /**
- * Handler interface
+ * Interface for handler functions
  *
  * This interface is used to define handler methods
- * annotated with @Handler (@see Handler) annotation.
+ * annotated with @Handler annotation.
+ *
+ * @see server.routing.handlers.Handler
  */
-public interface Handler {
+public interface HandlerFunction {
     /**
      * Handle and process the request
      *

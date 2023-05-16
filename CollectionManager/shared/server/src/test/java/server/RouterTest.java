@@ -5,10 +5,10 @@ import org.junit.Test;
 import server.requests.Request;
 import server.responses.Response;
 import server.routing.Router;
-import server.routing.Trigger;
 import server.routing.exceptions.IncorrectHandlerParams;
 import server.routing.exceptions.IncorrectHandlerReturns;
 import server.routing.exceptions.UnhandledRequest;
+import server.routing.handlers.Handler;
 
 public class RouterTest {
     @Test
@@ -18,7 +18,7 @@ public class RouterTest {
                 super();
             }
 
-            @Trigger(trigger = "testPrefix.foo")
+            @Handler("testPrefix.foo")
             public Response foo(Request request) {
                 return null;
             }
