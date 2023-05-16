@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Logger provides logging to PingBack.
+ * Logger provides logging to PingBack. {@link https://deta.space/discovery/r/xqsncnys6yzsgzjd}
  */
 @RequiredArgsConstructor
 public class Logger {
