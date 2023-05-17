@@ -73,7 +73,7 @@ public abstract class CollectionManager {
     /**
      * Remove all elements from the collection.
      */
-    public abstract void clear();
+    public abstract void clear() throws ManipulationError;
 
     /**
      * Load the collection from the storage medium using the assigned
