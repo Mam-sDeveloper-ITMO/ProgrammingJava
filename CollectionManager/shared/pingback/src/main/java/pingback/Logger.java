@@ -13,6 +13,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import com.google.gson.Gson;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,7 +22,7 @@ import lombok.Setter;
  * Logger provides logging to PingBack.
  * {@link https://deta.space/discovery/r/xqsncnys6yzsgzjd}
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Logger {
     /**
      * Logger instances
@@ -55,7 +56,8 @@ public class Logger {
     /**
      * Enable simple console logging with System.out.println
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean consoleLogging = false;
 
     /**
@@ -68,7 +70,8 @@ public class Logger {
      * @return
      */
     public void consoleLog(String channel, String title, String description, Level level) {
-        System.out.println("[" + channel + "] " + title + ": " + description);
+        String log = "[%s] [%s] [%s] %s: %s".formatted(this.project, channel, level.name(), title, description);
+        System.out.println(log);
     }
 
     /**
@@ -110,7 +113,7 @@ public class Logger {
     }
 
     /**
-     * Log message to default chann
+     * Log message to default channel
      *
      * @param title       log title
      * @param description log description
@@ -128,5 +131,20 @@ public class Logger {
      */
     public static Logger getLogger(String name) {
         return loggers.get(name);
+    }
+
+    /**
+     * Get logger instance if exists, otherwise create new logger instance.
+     *
+     *
+     */
+    public static Logger getLogger(String appUrl, String apiKey, String project, String name) {
+        if (loggers.containsKey(name)) {
+            return loggers.get(name);
+        } else {
+            Logger logger = new Logger(appUrl, apiKey, project, name);
+            loggers.put(name, logger);
+            return logger;
+        }
     }
 }

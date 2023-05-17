@@ -7,7 +7,7 @@ import org.junit.Test;
 public class LoggerTest {
     @Test
     public void liveLoggerTest() {
-        Logger logger = new Logger("", "", "", "test");
+        Logger logger = Logger.getLogger("", "", "", "test");
         logger.setConsoleLogging(true);
         HttpResponse result = logger.log("default", "title1", "description1", Level.INFO);
 
