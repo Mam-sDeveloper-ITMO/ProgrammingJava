@@ -1,10 +1,11 @@
 package server.routing;
 
 import java.lang.reflect.Method;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -50,7 +51,7 @@ public class Router {
     /**
      * Map of handlers triggers and handlers
      */
-    private final HashMap<String, HandlerFunction> handlers;
+    private final LinkedHashMap<String, HandlerFunction> handlers;
 
     /**
      * Inner middleware triggers prefixes and inner middleware functions
@@ -58,7 +59,7 @@ public class Router {
      */
     @Getter
     @NonNull
-    private final TreeMap<String, InnerMiddlewareFunction> innerMiddlewares;
+    private final LinkedHashMap<String, InnerMiddlewareFunction> innerMiddlewares;
 
     /**
      * Router constructor with default prefix
@@ -169,7 +170,7 @@ public class Router {
      * @throws IncorrectHandlerParams  if handler method has incorrect signature
      * @throws IncorrectHandlerReturns if handler method has incorrect signature
      */
-    private HashMap<String, HandlerFunction> defineHandlers() {
+    private LinkedHashMap<String, HandlerFunction> defineHandlers() {
         HashMap<String, HandlerFunction> handlers = new HashMap<String, HandlerFunction>();
 
         Method[] methods = this.getClass().getDeclaredMethods();
@@ -184,7 +185,13 @@ public class Router {
 
             handlers.put(trigger, handler);
         }
-        return handlers;
+        // sort handlers by trigger length in descending order
+        LinkedHashMap<String, HandlerFunction> sortedHandlers = new LinkedHashMap<>();
+        handlers.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(String::length).reversed()))
+                .forEachOrdered(x -> sortedHandlers.put(x.getKey(), x.getValue()));
+
+        return sortedHandlers;
     }
 
     /**
@@ -230,9 +237,8 @@ public class Router {
      * @throws IncorrectHandlerParams  if handler method has incorrect signature
      * @throws IncorrectHandlerReturns if handler method has incorrect signature
      */
-    private TreeMap<String, InnerMiddlewareFunction> defineInnerMiddlewares() {
-        TreeMap<String, InnerMiddlewareFunction> innerMiddlewares = new TreeMap<String, InnerMiddlewareFunction>(
-                (k1, k2) -> (k2.length() - k1.length()));
+    private LinkedHashMap<String, InnerMiddlewareFunction> defineInnerMiddlewares() {
+        HashMap<String, InnerMiddlewareFunction> innerMiddlewares = new HashMap<String, InnerMiddlewareFunction>();
 
         Method[] methods = this.getClass().getDeclaredMethods();
         for (Method method : methods) {
@@ -246,6 +252,12 @@ public class Router {
 
             innerMiddlewares.put(triggersPrefix, innerMiddleware);
         }
-        return innerMiddlewares;
+        // sort inner middlewares by trigger length in descending order
+        LinkedHashMap<String, InnerMiddlewareFunction> sortedInnerMiddlewares = new LinkedHashMap<>();
+        innerMiddlewares.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(String::length).reversed()))
+                .forEachOrdered(x -> sortedInnerMiddlewares.put(x.getKey(), x.getValue()));
+
+        return sortedInnerMiddlewares;
     }
 }

@@ -27,4 +27,9 @@ public class BasicRouter extends Router {
     Response bar(Map<String, ?> data) {
         return new Response(true, "Hello from bar", data);
     }
+
+    @Handler("bar.sub")
+    Response barSub(Map<String, ?> data) {
+        return new Response(true, "Hello from bar.sub", data);
+    }
 }

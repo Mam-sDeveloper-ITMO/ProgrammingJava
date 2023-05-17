@@ -54,6 +54,10 @@ public class DispatcherTest {
             assertEquals("Hello from bar", response.message);
             assertTrue(response.ok);
 
+            response = dispatcher.dispatch(new Request("prefix2.bar.sub", null));
+            assertEquals("Hello from bar.sub", response.message);
+            assertTrue(response.ok);
+
             response = dispatcher.dispatch(new Request("000", null));
             assertEquals("Not handlers for such trigger", response.message);
             assertFalse(response.ok);
