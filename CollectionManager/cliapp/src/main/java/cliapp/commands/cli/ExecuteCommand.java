@@ -29,15 +29,15 @@ import commands.requirements.validators.Validator;
 
 /**
  * A command that executes specified script with commands.
- * 
+ *
  * Script file must have .neko extension.
- * 
+ *
  * Direct dynamic params load:
  * add {TestName 0 0 true false 10.4 KW "" SADNESS KiaRio}
- * 
+ *
  * Ask dynamic params from user:
  * update 0 {}
- * 
+ *
  * Example script:
  * add {TestName 0 0 true false 10.4 KW "" SADNESS KiaRio}
  * print_sorted des
@@ -89,7 +89,7 @@ public class ExecuteCommand extends CLICommand {
 
     /**
      * Creates a new ExecuteCommand object.
-     * 
+     *
      * @param client a {@link cliapp.cliclient.CLIClient} instance.
      */
     public ExecuteCommand(CLIClient client) {
@@ -98,7 +98,7 @@ public class ExecuteCommand extends CLICommand {
 
     /**
      * Returns the static requirements of this command.
-     * 
+     *
      * @return a list of {@link commands.requirements.Requirement}.
      */
     @Override
@@ -117,7 +117,7 @@ public class ExecuteCommand extends CLICommand {
 
         /**
          * Creates a new DirectLoadPipeline object.
-         * 
+         *
          * @param staticRequirementsMap a map containing the static requirements.
          * @param dynamicRequirements   a list of dynamic requirements.
          */
@@ -128,11 +128,11 @@ public class ExecuteCommand extends CLICommand {
 
         /**
          * Asks for the requirement and returns the value of it.
-         * 
+         *
          * @param requirement a {@link commands.requirements.Requirement} instance.
-         * 
+         *
          * @throws RequirementAskError if there's an error while asking the requirement.
-         * 
+         *
          * @return the value of the requirement.
          */
         @Override
@@ -156,7 +156,7 @@ public class ExecuteCommand extends CLICommand {
 
     /**
      * Extracts the list of static parameters from a given script line.
-     * 
+     *
      * @param line the script line to extract static parameters from
      * @return the list of static parameters extracted from the given line
      */
@@ -169,7 +169,7 @@ public class ExecuteCommand extends CLICommand {
 
     /**
      * Extracts the list of dynamic parameters from a given script line.
-     * 
+     *
      * @param line the script line to extract dynamic parameters from
      * @return the list of dynamic parameters extracted from the given line
      */
@@ -182,7 +182,7 @@ public class ExecuteCommand extends CLICommand {
 
     /**
      * Executes a script line with specified dynamic arguments.
-     * 
+     *
      * @param line the script line to execute with dynamic arguments
      * @throws ExecutionError if an error occurs while executing the command
      */
@@ -216,7 +216,7 @@ public class ExecuteCommand extends CLICommand {
 
     /**
      * Executes a script line that requires input from the user.
-     * 
+     *
      * @param line the script line to execute with user input
      * @throws ExecutionError if an error occurs while executing the command
      */
@@ -253,7 +253,13 @@ public class ExecuteCommand extends CLICommand {
      * Parse one script line, resolve params type and execute command
      */
     private void executeScriptLine(String line) throws ExecutionError {
-        if (line.matches("^.+\\{.+\\}$")) {
+        if (line.startsWith("#")) {
+            // comment
+            return;
+        } else if (line.matches("^ *$")) {
+            // empty line
+            return;
+        } else if (line.matches("^.+\\{.+\\}$")) {
             // with direct loaded params
             executeWithDynamicParams(line);
         } else if (line.matches("^.+(\\{\\})?$")) {
