@@ -2,6 +2,8 @@ package pingback;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,7 +71,10 @@ public class Logger {
      * @param level       log level
      */
     private void consoleLog(String channel, String title, String description, Level level) {
-        String log = "[%s] [%s] [%s] %s: %s".formatted(this.project, channel, level.name(), title, description);
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+        String log = "[%s] [%s - %s] [%s] %s: %s".formatted(formattedDateTime, project, channel, level.name(), title, description);
         System.out.println(log);
     }
 
