@@ -14,6 +14,13 @@ import server.routing.middlewares.InnerMiddlewareFunction;
  * @see InnerMiddlewareFunction
  */
 public class BasicInnerMiddleware implements InnerMiddlewareFunction {
+    /**
+     * Calls handler function with request data.
+     *
+     * @param handler Handler function to call.
+     * @param request Request to handle.
+     * @return Response from handler function.
+     */
     @Override
     public Response handle(HandlerFunction handler, Request request) throws IncorrectRequestData {
         return handler.handle(request.getData());

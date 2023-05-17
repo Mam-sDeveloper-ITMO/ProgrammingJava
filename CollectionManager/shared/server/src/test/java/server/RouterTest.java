@@ -18,6 +18,8 @@ import server.routing.handlers.Handler;
 import server.routing.handlers.exceptions.IncorrectHandlerParams;
 import server.routing.handlers.exceptions.IncorrectHandlerReturns;
 import server.routing.middlewares.InnerMiddlewareFunction;
+import server.routing.middlewares.OuterMiddleware;
+import server.routing.middlewares.OuterMiddlewareFunction;
 
 public class RouterTest {
     @Test
@@ -43,22 +45,30 @@ public class RouterTest {
         }
     }
 
+
     @Test
-    public void testMiddlewaresResolve() {
+    public void testMiddlewares() {
         Router router;
         router = new MiddlewareRouter("testPrefix");
 
         Optional<InnerMiddlewareFunction> innerMiddleware;
+        Optional<OuterMiddlewareFunction> outerMiddleware;
         Response response;
 
         String trigger;
         trigger = router.resolveTrigger("testPrefix.foo").get();
+
         innerMiddleware = router.resolveInnerMiddleware(trigger);
         assertTrue(innerMiddleware.isPresent());
+
+        outerMiddleware = router.resolveOuterMiddleware(trigger);
+        assertTrue(outerMiddleware.isPresent());
 
         try {
             response = innerMiddleware.get().handle(null, null);
             assertEquals(response.getMessage(), "Hello from foo!");
+            response = outerMiddleware.get().handle(response);
+            assertEquals(response.getData().get("hint"), "foo");
         } catch (Exception e) {
             assert false;
             return;
@@ -67,9 +77,15 @@ public class RouterTest {
         trigger = router.resolveTrigger("testPrefix.bar").get();
         innerMiddleware = router.resolveInnerMiddleware("testPrefix.bar");
         assertTrue(innerMiddleware.isPresent());
+
+        outerMiddleware = router.resolveOuterMiddleware(trigger);
+        assertTrue(outerMiddleware.isPresent());
+        
         try {
             response = innerMiddleware.get().handle(null, null);
             assertEquals(response.getMessage(), "Hello from all!");
+            response = outerMiddleware.get().handle(response);
+            assertEquals(response.getData().get("hint"), "all");
         } catch (Exception e) {
             assert false;
             return;

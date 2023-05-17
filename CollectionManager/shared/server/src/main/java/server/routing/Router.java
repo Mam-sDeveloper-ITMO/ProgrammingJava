@@ -18,8 +18,12 @@ import server.routing.handlers.exceptions.IncorrectHandlerParams;
 import server.routing.handlers.exceptions.IncorrectHandlerReturns;
 import server.routing.middlewares.InnerMiddleware;
 import server.routing.middlewares.InnerMiddlewareFunction;
+import server.routing.middlewares.OuterMiddleware;
+import server.routing.middlewares.OuterMiddlewareFunction;
 import server.routing.middlewares.exceptions.IncorrectInnerMiddlewareParams;
 import server.routing.middlewares.exceptions.IncorrectInnerMiddlewareReturns;
+import server.routing.middlewares.exceptions.IncorrectOuterMiddlewareParams;
+import server.routing.middlewares.exceptions.IncorrectOuterMiddlewareReturns;
 
 /**
  * Router class
@@ -62,6 +66,14 @@ public class Router {
     private final LinkedHashMap<String, InnerMiddlewareFunction> innerMiddlewares;
 
     /**
+     * Outer middleware triggers prefixes and outer middleware functions
+     * Middlewares sorted by prefix length in descending order
+     */
+    @Getter
+    @NonNull
+    private final LinkedHashMap<String, OuterMiddlewareFunction> outerMiddlewares;
+
+    /**
      * Router constructor with default prefix
      *
      * @param eventPrefix prefix string that is used to determine whether the
@@ -83,6 +95,7 @@ public class Router {
         this.triggersPrefix = eventPrefix;
         this.handlers = defineHandlers();
         this.innerMiddlewares = defineInnerMiddlewares();
+        this.outerMiddlewares = defineOuterMiddlewares();
     }
 
     /**
@@ -132,6 +145,23 @@ public class Router {
         for (String prefix : this.innerMiddlewares.keySet()) {
             if (trigger.startsWith(prefix + ".") || trigger.equals(prefix) || prefix.isEmpty()) {
                 return Optional.of(this.innerMiddlewares.get(prefix));
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Resolve outer middleware for the given trigger
+     * If middleware for the given trigger is not found, returns empty optional
+     *
+     * @param trigger string that is used to determine which outer middleware
+     *                should be called
+     * @return outer middleware function
+     */
+    public Optional<OuterMiddlewareFunction> resolveOuterMiddleware(String trigger) {
+        for (String prefix : this.outerMiddlewares.keySet()) {
+            if (trigger.startsWith(prefix + ".") || trigger.equals(prefix) || prefix.isEmpty()) {
+                return Optional.of(this.outerMiddlewares.get(prefix));
             }
         }
         return Optional.empty();
@@ -201,7 +231,7 @@ public class Router {
     }
 
     /**
-     * Builds inner middleware function for the given method
+     * Build inner middleware function for the given method
      *
      * @param method method that is annotated with @InnerMiddleware
      * @return inner middleware function
@@ -265,5 +295,70 @@ public class Router {
                 .forEachOrdered(x -> sortedInnerMiddlewares.put(x.getKey(), x.getValue()));
 
         return sortedInnerMiddlewares;
+    }
+
+    /**
+     * Build outer middleware function for the given method
+     *
+     * @param method method that is annotated with @OuterMiddleware
+     * @return middleware function
+     * @throws IncorrectOuterMiddlewareParams  if outer middleware method has
+     *                                         incorrect signature
+     * @throws IncorrectOuterMiddlewareReturns if outer middleware method has
+     *                                         incorrect signature
+     */
+    private OuterMiddlewareFunction buildOuterMiddleware(Method method) {
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        if (parameterTypes.length != 1 || !Response.class.isAssignableFrom(parameterTypes[0])) {
+            throw new IncorrectOuterMiddlewareParams();
+        }
+
+        Class<?> returnType = method.getReturnType();
+        if (returnType != Response.class) {
+            throw new IncorrectOuterMiddlewareReturns();
+        }
+
+        method.setAccessible(true);
+        OuterMiddlewareFunction middleware = (response) -> {
+            try {
+                return (Response) method.invoke(this, response);
+            } catch (Exception e) {
+                // never happens (I hope)
+                return null;
+            }
+        };
+        return middleware;
+    }
+
+    /**
+     * Parse all methods of the class and build outer middlewares for the methods
+     * annotated with @OuterMiddleware
+     *
+     * @return map of outer middlewares with trigger strings as keys
+     * @throws IncorrectHandlerParams  if handler method has incorrect signature
+     * @throws IncorrectHandlerReturns if handler method has incorrect signature
+     */
+    private LinkedHashMap<String, OuterMiddlewareFunction> defineOuterMiddlewares() {
+        HashMap<String, OuterMiddlewareFunction> outerMiddlewares = new HashMap<String, OuterMiddlewareFunction>();
+
+        Method[] methods = this.getClass().getDeclaredMethods();
+        for (Method method : methods) {
+            if (!method.isAnnotationPresent(OuterMiddleware.class)) {
+                continue;
+            }
+            OuterMiddlewareFunction outerMiddleware = buildOuterMiddleware(method);
+
+            OuterMiddleware annotation = method.getAnnotation(OuterMiddleware.class);
+            String triggersPrefix = annotation.value();
+
+            outerMiddlewares.put(triggersPrefix, outerMiddleware);
+        }
+        // sort outer middlewares by trigger length in descending order
+        LinkedHashMap<String, OuterMiddlewareFunction> sortedOuterMiddlewares = new LinkedHashMap<>();
+        outerMiddlewares.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(String::length).reversed()))
+                .forEachOrdered(x -> sortedOuterMiddlewares.put(x.getKey(), x.getValue()));
+
+        return sortedOuterMiddlewares;
     }
 }

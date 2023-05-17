@@ -11,7 +11,8 @@ import server.routing.handlers.HandlerFunction;
  * This interface is used to define handler methods
  * annotated with @InnerMiddleware annotation.
  *
- * @see server.routing.handlers.Handler
+ * @see server.routing.handlers.Router
+ * @see server.dispatcher.Dispatcher
  */
 @FunctionalInterface
 public interface InnerMiddlewareFunction {

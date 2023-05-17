@@ -1,5 +1,6 @@
 package server.routers;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import server.requests.Request;
@@ -10,6 +11,7 @@ import server.routing.handlers.HandlerFunction;
 import server.routing.handlers.exceptions.IncorrectHandlerParams;
 import server.routing.handlers.exceptions.IncorrectHandlerReturns;
 import server.routing.middlewares.InnerMiddleware;
+import server.routing.middlewares.OuterMiddleware;
 
 public class MiddlewareRouter extends Router {
     public MiddlewareRouter(String prefix) throws IncorrectHandlerParams, IncorrectHandlerReturns {
@@ -34,5 +36,19 @@ public class MiddlewareRouter extends Router {
     @Handler("bar")
     Response bar(Map<String, ?> data) {
         return new Response(true, "Hello from bar", data);
+    }
+
+    @OuterMiddleware("foo")
+    Response foo(Response response) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("hint", "foo");
+        return Response.success("Hello from foo!", data);
+    }
+
+    @OuterMiddleware("")
+    Response all(Response response) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("hint", "all");
+        return Response.success("Hello from all!", data);
     }
 }

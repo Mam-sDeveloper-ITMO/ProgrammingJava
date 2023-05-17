@@ -15,7 +15,9 @@ import server.routing.exceptions.IncorrectRequestData;
 import server.routing.exceptions.UnhandledRequest;
 import server.routing.handlers.HandlerFunction;
 import server.routing.middlewares.InnerMiddlewareFunction;
+import server.routing.middlewares.OuterMiddlewareFunction;
 import server.routing.middlewares.basic.BasicInnerMiddleware;
+import server.routing.middlewares.basic.BasicOuterMiddleware;
 import server.utils.Serializer;
 import server.utils.exceptions.BadRequestStream;
 
@@ -35,6 +37,18 @@ public class Dispatcher {
     @Getter
     @Setter
     private Set<Router> routers = new HashSet<>();
+
+    /**
+     * Inner middleware for basic requests handling
+     * if there is no middlewares in router.
+     */
+    private final InnerMiddlewareFunction basicInnerMiddleware = new BasicInnerMiddleware();
+
+    /**
+     * Outer middleware for basic responses handling
+     * if there is no middlewares in router.
+     */
+    private final OuterMiddlewareFunction basicOuterMiddleware = new BasicOuterMiddleware();
 
     /**
      * Include router to the set of routers.
@@ -99,12 +113,19 @@ public class Dispatcher {
             }
 
             Optional<InnerMiddlewareFunction> resolvedInnerMiddleware = router.resolveInnerMiddleware(trigger.get());
-            InnerMiddlewareFunction innerMiddleware = resolvedInnerMiddleware.orElse(new BasicInnerMiddleware());
+            InnerMiddlewareFunction innerMiddleware = resolvedInnerMiddleware.orElse(basicInnerMiddleware);
+
+            Response response;
             try {
-                return innerMiddleware.handle(handler, request);
+                response = innerMiddleware.handle(handler, request);
             } catch (IncorrectRequestData e) {
-                return Response.failure("Bad request data");
+                response = Response.failure("Bad request data");
             }
+
+            Optional<OuterMiddlewareFunction> resolvedOuterMiddleware = router.resolveOuterMiddleware(trigger.get());
+            OuterMiddlewareFunction outerMiddleware = resolvedOuterMiddleware.orElse(basicOuterMiddleware);
+
+            return outerMiddleware.handle(response);
         }
         return new Response(false, "Not handlers for such trigger", null);
     }
