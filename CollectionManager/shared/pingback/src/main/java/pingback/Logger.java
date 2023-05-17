@@ -54,22 +54,21 @@ public class Logger {
     private final String name;
 
     /**
-     * Enable simple console logging with System.out.println
+     * Logging mode (console, pingback, both)
      */
     @Getter
     @Setter
-    private boolean consoleLogging = false;
+    private LogMode logMode = LogMode.BOTH;
 
     /**
      * Simple console logging with System.out.println
      *
-     * @param channel
-     * @param title
-     * @param description
-     * @param level
-     * @return
+     * @param channel     channel name
+     * @param title       log title
+     * @param description log description
+     * @param level       log level
      */
-    public void consoleLog(String channel, String title, String description, Level level) {
+    private void consoleLog(String channel, String title, String description, Level level) {
         String log = "[%s] [%s] [%s] %s: %s".formatted(this.project, channel, level.name(), title, description);
         System.out.println(log);
     }
@@ -77,13 +76,12 @@ public class Logger {
     /**
      * Log message to PingBack.
      *
-     * @param project     project name
      * @param channel     channel name
      * @param title       log title
      * @param description log description
      * @param level       log level
      */
-    public HttpResponse log(String channel, String title, String description, Level level) {
+    private HttpResponse pingbackLog(String channel, String title, String description, Level level) {
         Map<String, Object> data = new HashMap<>();
         data.put("project", this.project);
         data.put("channel", channel);
@@ -91,10 +89,6 @@ public class Logger {
         data.put("title", title);
         data.put("description", description);
         data.put("icon", level.getIcon());
-
-        if (this.consoleLogging) {
-            consoleLog(channel, title, description, level);
-        }
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(appUrl + "/api/v1/events");
@@ -113,14 +107,32 @@ public class Logger {
     }
 
     /**
+     * Log message to PingBack.
+     *
+     * @param project     project name
+     * @param channel     channel name
+     * @param title       log title
+     * @param description log description
+     * @param level       log level
+     */
+    public void log(String channel, String title, String description, Level level) {
+        if (logMode == LogMode.CONSOLE || logMode == LogMode.BOTH) {
+            consoleLog(channel, title, description, level);
+        }
+        if (logMode == LogMode.PINGBACK || logMode == LogMode.BOTH) {
+            pingbackLog(channel, title, description, level);
+        }
+    }
+
+    /**
      * Log message to default channel
      *
      * @param title       log title
      * @param description log description
      * @param level       log level
      */
-    public HttpResponse log(String title, String description, Level level) {
-        return log("default", title, description, level);
+    public void log(String title, String description, Level level) {
+        log("default", title, description, level);
     }
 
     /**
