@@ -85,15 +85,20 @@ public class Dispatcher {
      */
     public Response dispatch(Request request) {
         for (Router router : this.routers) {
+            Optional<String> trigger = router.resolveTrigger(request.trigger);
+            if (!trigger.isPresent()) {
+                continue;
+            }
+
             HandlerFunction handler;
             try {
-                handler = router.resolveHandler(request.trigger);
+                handler = router.resolveHandler(trigger.get());
             } catch (UnhandledRequest e) {
                 // TODO: replace with optional
                 continue; // exception used instead of null to avoid null checks
             }
 
-            Optional<InnerMiddlewareFunction> resolvedInnerMiddleware = router.resolveInnerMiddleware(request.trigger);
+            Optional<InnerMiddlewareFunction> resolvedInnerMiddleware = router.resolveInnerMiddleware(trigger.get());
             InnerMiddlewareFunction innerMiddleware = resolvedInnerMiddleware.orElse(new BasicInnerMiddleware());
             try {
                 return innerMiddleware.handle(handler, request);

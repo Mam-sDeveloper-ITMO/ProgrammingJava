@@ -86,6 +86,25 @@ public class Router {
     }
 
     /**
+     * Resolve if trigger is handled by this router
+     *
+     * Return the trigger without the router prefix if it is handled by this
+     * router, empty optional otherwise
+     *
+     * @param trigger
+     * @return trigger without the router prefix if it is handled by this
+     */
+    public Optional<String> resolveTrigger(String trigger) {
+        if (!this.triggersPrefix.isEmpty()) {
+            if (!trigger.startsWith(this.triggersPrefix + ".")) {
+                return Optional.empty();
+            }
+            trigger = trigger.substring(this.triggersPrefix.length() + 1);
+        }
+        return Optional.of(trigger);
+    }
+
+    /**
      * Resolves handler for the given trigger
      * If handler for the given trigger is not found, throws UnhandledRequest
      *
@@ -95,13 +114,6 @@ public class Router {
      * @throws UnhandledRequest if the trigger does not start with the prefix
      */
     public HandlerFunction resolveHandler(String trigger) throws UnhandledRequest {
-        // TODO: handle case when prefix is empty
-        if (!this.triggersPrefix.isEmpty()) {
-            if (!trigger.startsWith(this.triggersPrefix + ".")) {
-                throw new UnhandledRequest();
-            }
-            trigger = trigger.substring(this.triggersPrefix.length() + 1);
-        }
         if (!this.handlers.containsKey(trigger)) {
             throw new UnhandledRequest();
         }
@@ -117,12 +129,6 @@ public class Router {
      * @return inner middleware function
      */
     public Optional<InnerMiddlewareFunction> resolveInnerMiddleware(String trigger) {
-        if (!this.triggersPrefix.isEmpty()) {
-            if (!trigger.startsWith(this.triggersPrefix + ".")) {
-                return Optional.empty();
-            }
-            trigger = trigger.substring(this.triggersPrefix.length() + 1);
-        }
         for (String prefix : this.innerMiddlewares.keySet()) {
             if (trigger.startsWith(prefix + ".") || trigger.equals(prefix) || prefix.isEmpty()) {
                 return Optional.of(this.innerMiddlewares.get(prefix));

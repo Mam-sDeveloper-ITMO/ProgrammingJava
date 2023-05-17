@@ -51,7 +51,9 @@ public class RouterTest {
         Optional<InnerMiddlewareFunction> innerMiddleware;
         Response response;
 
-        innerMiddleware = router.resolveInnerMiddleware("testPrefix.foo");
+        String trigger;
+        trigger = router.resolveTrigger("testPrefix.foo").get();
+        innerMiddleware = router.resolveInnerMiddleware(trigger);
         assertTrue(innerMiddleware.isPresent());
 
         try {
@@ -62,6 +64,7 @@ public class RouterTest {
             return;
         }
 
+        trigger = router.resolveTrigger("testPrefix.bar").get();
         innerMiddleware = router.resolveInnerMiddleware("testPrefix.bar");
         assertTrue(innerMiddleware.isPresent());
         try {
@@ -71,30 +74,29 @@ public class RouterTest {
             assert false;
             return;
         }
-
-        innerMiddleware = router.resolveInnerMiddleware("testPrefix.baz");
-        innerMiddleware = router.resolveInnerMiddleware("testPrefixbar");
-        innerMiddleware = router.resolveInnerMiddleware("foo");
     }
 
     @Test
     public void testHandlersResolve() {
         Router router;
         try {
-            router = new BasicRouter();
+            router = new BasicRouter("testPrefix");
         } catch (IncorrectHandlerParams | IncorrectHandlerReturns e) {
             assert false;
             return;
         }
 
+        String trigger;
         try {
-            router.resolveHandler("testPrefix.foo");
+            trigger = router.resolveTrigger("testPrefix.foo").get();
+            router.resolveHandler(trigger);
         } catch (UnhandledRequest e) {
             assert false;
             return;
         }
         try {
-            router.resolveHandler("testPrefix.bar");
+            trigger = router.resolveTrigger("testPrefix.bar").get();
+            router.resolveHandler(trigger);
         } catch (UnhandledRequest e) {
             assert false;
             return;
@@ -115,12 +117,14 @@ public class RouterTest {
         }
 
         try {
+            trigger = router.resolveTrigger("foo").get();
             router.resolveHandler("foo");
         } catch (UnhandledRequest e) {
             assert false;
             return;
         }
         try {
+            trigger = router.resolveTrigger("bar").get();
             router.resolveHandler("bar");
         } catch (UnhandledRequest e) {
             assert false;
