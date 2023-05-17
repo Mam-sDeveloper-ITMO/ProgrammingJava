@@ -12,7 +12,6 @@ import server.requests.Request;
 import server.responses.Response;
 import server.routing.Router;
 import server.routing.exceptions.IncorrectRequestData;
-import server.routing.exceptions.UnhandledRequest;
 import server.routing.handlers.HandlerFunction;
 import server.routing.middlewares.InnerMiddlewareFunction;
 import server.routing.middlewares.OuterMiddlewareFunction;
@@ -99,22 +98,26 @@ public class Dispatcher {
      */
     public Response dispatch(Request request) {
         for (Router router : this.routers) {
-            Optional<String> trigger = router.resolveTrigger(request.trigger);
-            if (!trigger.isPresent()) {
+            // Check if router is corresponding to the trigger
+            Optional<String> resolvedTrigger = router.resolveTrigger(request.trigger);
+            if (!resolvedTrigger.isPresent()) {
                 continue;
             }
+            // trigger without router prefix
+            String trigger = resolvedTrigger.get();
 
-            HandlerFunction handler;
-            try {
-                handler = router.resolveHandler(trigger.get());
-            } catch (UnhandledRequest e) {
-                // TODO: replace with optional
-                continue; // exception used instead of null to avoid null checks
+            // Check if router has handler for the trigger
+            Optional<HandlerFunction> resolvedHandler = router.resolveHandler(trigger);
+            if (!resolvedHandler.isPresent()) {
+                continue;
             }
+            HandlerFunction handler = resolvedHandler.get();
 
-            Optional<InnerMiddlewareFunction> resolvedInnerMiddleware = router.resolveInnerMiddleware(trigger.get());
+            // Get router inner middleware for the trigger or set default
+            Optional<InnerMiddlewareFunction> resolvedInnerMiddleware = router.resolveInnerMiddleware(trigger);
             InnerMiddlewareFunction innerMiddleware = resolvedInnerMiddleware.orElse(basicInnerMiddleware);
 
+            // Handle request with inner middleware
             Response response;
             try {
                 response = innerMiddleware.handle(handler, request);
@@ -122,9 +125,11 @@ public class Dispatcher {
                 response = Response.failure("Bad request data");
             }
 
-            Optional<OuterMiddlewareFunction> resolvedOuterMiddleware = router.resolveOuterMiddleware(trigger.get());
+            // Get router outer middleware for the trigger or set default
+            Optional<OuterMiddlewareFunction> resolvedOuterMiddleware = router.resolveOuterMiddleware(trigger);
             OuterMiddlewareFunction outerMiddleware = resolvedOuterMiddleware.orElse(basicOuterMiddleware);
 
+            // process response with outer middleware
             return outerMiddleware.handle(response);
         }
         return new Response(false, "Not handlers for such trigger", null);

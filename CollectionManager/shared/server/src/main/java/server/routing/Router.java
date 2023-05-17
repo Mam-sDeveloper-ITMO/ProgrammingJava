@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import server.requests.Request;
 import server.responses.Response;
-import server.routing.exceptions.UnhandledRequest;
 import server.routing.handlers.Handler;
 import server.routing.handlers.HandlerFunction;
 import server.routing.handlers.exceptions.IncorrectHandlerParams;
@@ -119,18 +118,17 @@ public class Router {
 
     /**
      * Resolves handler for the given trigger
-     * If handler for the given trigger is not found, throws UnhandledRequest
+     * If handler for the given trigger is not found, returns empty optional
      *
      * @param trigger string that is used to determine which handler should be
      *                called
-     * @return handler function
-     * @throws UnhandledRequest if the trigger does not start with the prefix
+     * @return optional handler function
      */
-    public HandlerFunction resolveHandler(String trigger) throws UnhandledRequest {
+    public Optional<HandlerFunction> resolveHandler(String trigger) {
         if (!this.handlers.containsKey(trigger)) {
-            throw new UnhandledRequest();
+            return Optional.empty();
         }
-        return this.handlers.get(trigger);
+        return Optional.of(this.handlers.get(trigger));
     }
 
     /**

@@ -13,12 +13,11 @@ import server.responses.Response;
 import server.routers.BasicRouter;
 import server.routers.MiddlewareRouter;
 import server.routing.Router;
-import server.routing.exceptions.UnhandledRequest;
 import server.routing.handlers.Handler;
+import server.routing.handlers.HandlerFunction;
 import server.routing.handlers.exceptions.IncorrectHandlerParams;
 import server.routing.handlers.exceptions.IncorrectHandlerReturns;
 import server.routing.middlewares.InnerMiddlewareFunction;
-import server.routing.middlewares.OuterMiddleware;
 import server.routing.middlewares.OuterMiddlewareFunction;
 
 public class RouterTest {
@@ -44,7 +43,6 @@ public class RouterTest {
             assert false;
         }
     }
-
 
     @Test
     public void testMiddlewares() {
@@ -80,7 +78,7 @@ public class RouterTest {
 
         outerMiddleware = router.resolveOuterMiddleware(trigger);
         assertTrue(outerMiddleware.isPresent());
-        
+
         try {
             response = innerMiddleware.get().handle(null, null);
             assertEquals(response.getMessage(), "Hello from all!");
@@ -103,28 +101,23 @@ public class RouterTest {
         }
 
         String trigger;
-        try {
-            trigger = router.resolveTrigger("testPrefix.foo").get();
-            router.resolveHandler(trigger);
-        } catch (UnhandledRequest e) {
-            assert false;
-            return;
-        }
-        try {
-            trigger = router.resolveTrigger("testPrefix.bar").get();
-            router.resolveHandler(trigger);
-        } catch (UnhandledRequest e) {
-            assert false;
-            return;
-        }
-        try {
-            router.resolveHandler("testPrefix.baz");
-            router.resolveHandler("testPrefixbar");
-            router.resolveHandler("foo");
-            assert false;
-        } catch (UnhandledRequest e) {
-            assert true;
-        }
+        Optional<HandlerFunction> handler;
+
+        trigger = router.resolveTrigger("testPrefix.foo").get();
+        handler = router.resolveHandler(trigger);
+        assertTrue(handler.isPresent());
+
+        trigger = router.resolveTrigger("testPrefix.bar").get();
+        handler = router.resolveHandler(trigger);
+        assertTrue(handler.isPresent());
+
+        handler = router.resolveHandler("testPrefix.baz");
+        assertFalse(handler.isPresent());
+        handler = router.resolveHandler("testPrefixbar");
+        assertFalse(handler.isPresent());
+        handler = router.resolveHandler(".foo");
+        assertFalse(handler.isPresent());
+
         try {
             router = new BasicRouter("");
         } catch (IncorrectHandlerParams | IncorrectHandlerReturns e) {
@@ -132,27 +125,19 @@ public class RouterTest {
             return;
         }
 
-        try {
-            trigger = router.resolveTrigger("foo").get();
-            router.resolveHandler("foo");
-        } catch (UnhandledRequest e) {
-            assert false;
-            return;
-        }
-        try {
-            trigger = router.resolveTrigger("bar").get();
-            router.resolveHandler("bar");
-        } catch (UnhandledRequest e) {
-            assert false;
-            return;
-        }
-        try {
-            router.resolveHandler("baz");
-            router.resolveHandler("testPrefixbar");
-            router.resolveHandler(".foo");
-            assert false;
-        } catch (UnhandledRequest e) {
-            assert true;
-        }
+        trigger = router.resolveTrigger("foo").get();
+        handler = router.resolveHandler("foo");
+        assertTrue(handler.isPresent());
+
+        trigger = router.resolveTrigger("bar").get();
+        handler = router.resolveHandler("bar");
+        assertTrue(handler.isPresent());
+
+        handler = router.resolveHandler("baz");
+        assertFalse(handler.isPresent());
+        handler = router.resolveHandler("testPrefixbar");
+        assertFalse(handler.isPresent());
+        handler = router.resolveHandler(".foo");
+        assertFalse(handler.isPresent());
     }
 }
