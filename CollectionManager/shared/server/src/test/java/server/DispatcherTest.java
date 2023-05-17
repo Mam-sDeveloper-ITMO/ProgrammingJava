@@ -9,6 +9,7 @@ import org.junit.Test;
 import server.dispatcher.Dispatcher;
 import server.requests.Request;
 import server.responses.Response;
+import server.routers.BasicRouter;
 import server.routing.Router;
 
 public class DispatcherTest {
@@ -18,14 +19,14 @@ public class DispatcherTest {
         assertEquals(0, dispatcher.getRouters().size());
 
         try {
-            dispatcher.includeRouter(new TestRouter());
+            dispatcher.includeRouter(new BasicRouter());
         } catch (Exception e) {
             assert false;
         }
         assert dispatcher.getRouters().size() == 1;
 
         try {
-            Router router = new TestRouter("testPrefix2");
+            Router router = new BasicRouter("testPrefix2");
             dispatcher.includeRouter(router);
             assertEquals(2, dispatcher.getRouters().size());
             dispatcher.removeRouter(router);
@@ -37,8 +38,8 @@ public class DispatcherTest {
 
     @Test
     public void testDispatch() {
-        Router router = new TestRouter("prefix");
-        Router router2 = new TestRouter("prefix2");
+        Router router = new BasicRouter("prefix");
+        Router router2 = new BasicRouter("prefix2");
 
         Dispatcher dispatcher = new Dispatcher();
         dispatcher.includeRouter(router);

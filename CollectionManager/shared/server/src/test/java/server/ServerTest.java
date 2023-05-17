@@ -5,13 +5,14 @@ import org.junit.Test;
 import server.dispatcher.Dispatcher;
 import server.exceptions.ChannelInitFailed;
 import server.exceptions.ServerRunningFailed;
+import server.routers.BasicRouter;
 
 public class ServerTest {
     // @Test
     public void testServer() {
         Dispatcher dispatcher = new Dispatcher();
         try {
-            dispatcher.includeRouter(new TestRouter());
+            dispatcher.includeRouter(new BasicRouter());
         } catch (Exception e) {
             assert false;
         }

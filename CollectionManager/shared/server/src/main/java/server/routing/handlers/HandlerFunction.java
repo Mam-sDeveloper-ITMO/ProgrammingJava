@@ -13,6 +13,7 @@ import server.routing.exceptions.IncorrectRequestData;
  *
  * @see server.routing.handlers.Handler
  */
+@FunctionalInterface
 public interface HandlerFunction {
     /**
      * Handle and process the request

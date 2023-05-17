@@ -1,4 +1,4 @@
-package server;
+package server.routers;
 
 import server.responses.Response;
 import server.routing.Router;
@@ -8,13 +8,13 @@ import server.routing.handlers.Handler;
 
 import java.util.Map;
 
-public class TestRouter extends Router {
-    public TestRouter() throws IncorrectHandlerParams, IncorrectHandlerReturns {
+public class BasicRouter extends Router {
+    public BasicRouter() throws IncorrectHandlerParams, IncorrectHandlerReturns {
         super("testPrefix");
         System.out.println();
     }
 
-    public TestRouter(String prefix) throws IncorrectHandlerParams, IncorrectHandlerReturns {
+    public BasicRouter(String prefix) throws IncorrectHandlerParams, IncorrectHandlerReturns {
         super(prefix);
     }
 

@@ -3,6 +3,7 @@ package server.dispatcher;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import lombok.Getter;
@@ -13,6 +14,8 @@ import server.routing.Router;
 import server.routing.exceptions.IncorrectRequestData;
 import server.routing.exceptions.UnhandledRequest;
 import server.routing.handlers.HandlerFunction;
+import server.routing.middlewares.InnerMiddlewareFunction;
+import server.routing.middlewares.basic.BasicInnerMiddleware;
 import server.utils.Serializer;
 import server.utils.exceptions.BadRequestStream;
 
@@ -73,8 +76,8 @@ public class Dispatcher {
     }
 
     /**
-     * Dispatch request to the appropriate handler.
-     * If there is no appropriate handler, return response with
+     * Dispatch request to the appropriate router.
+     * If there is no appropriate router, return response with
      * error message.
      *
      * @param request processed request
@@ -86,12 +89,16 @@ public class Dispatcher {
             try {
                 handler = router.resolveHandler(request.trigger);
             } catch (UnhandledRequest e) {
+                // TODO: replace with optional
                 continue; // exception used instead of null to avoid null checks
             }
+
+            Optional<InnerMiddlewareFunction> resolvedInnerMiddleware = router.resolveInnerMiddleware(request.trigger);
+            InnerMiddlewareFunction innerMiddleware = resolvedInnerMiddleware.orElse(new BasicInnerMiddleware());
             try {
-                return handler.handle(request.data);
+                return innerMiddleware.handle(handler, request);
             } catch (IncorrectRequestData e) {
-                return new Response(false, "Bad request data", null);
+                return Response.failure("Bad request data");
             }
         }
         return new Response(false, "Not handlers for such trigger", null);

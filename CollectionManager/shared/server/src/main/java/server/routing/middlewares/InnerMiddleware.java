@@ -1,4 +1,4 @@
-package server.routing.handlers;
+package server.routing.middlewares;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,18 +6,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for marking handler methods.
- *
- * @value The trigger for the handler.
+ * Annotation for marking inner middleware methods.
  *
  * @see server.routing.Router
- * @see server.routing.handlers.HandlerFunction
+ * @see server.routing.middlewares.InnerMiddlewareFunction
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Handler {
+public @interface InnerMiddleware {
     /**
-     * The trigger for the handler.
+     * The trigger prefix for the inner middleware.
      */
     String value();
 }
