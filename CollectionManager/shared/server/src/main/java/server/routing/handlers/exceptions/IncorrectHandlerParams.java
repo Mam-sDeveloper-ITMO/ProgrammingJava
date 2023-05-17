@@ -1,4 +1,4 @@
-package server.routing.exceptions;
+package server.routing.handlers.exceptions;
 
 /**
  * Exception thrown when method annotated with {@code routing.Trigger}

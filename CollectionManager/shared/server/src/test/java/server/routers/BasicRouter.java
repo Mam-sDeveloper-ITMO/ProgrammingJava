@@ -2,9 +2,9 @@ package server.routers;
 
 import server.responses.Response;
 import server.routing.Router;
-import server.routing.exceptions.IncorrectHandlerParams;
-import server.routing.exceptions.IncorrectHandlerReturns;
 import server.routing.handlers.Handler;
+import server.routing.handlers.exceptions.IncorrectHandlerParams;
+import server.routing.handlers.exceptions.IncorrectHandlerReturns;
 
 import java.util.Map;
 

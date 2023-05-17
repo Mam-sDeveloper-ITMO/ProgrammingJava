@@ -13,10 +13,10 @@ import server.responses.Response;
 import server.routers.BasicRouter;
 import server.routers.MiddlewareRouter;
 import server.routing.Router;
-import server.routing.exceptions.IncorrectHandlerParams;
-import server.routing.exceptions.IncorrectHandlerReturns;
 import server.routing.exceptions.UnhandledRequest;
 import server.routing.handlers.Handler;
+import server.routing.handlers.exceptions.IncorrectHandlerParams;
+import server.routing.handlers.exceptions.IncorrectHandlerReturns;
 import server.routing.middlewares.InnerMiddlewareFunction;
 
 public class RouterTest {
