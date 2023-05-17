@@ -211,6 +211,7 @@ public class ExecuteCommand extends CLICommand {
         OutputChannel output = System.out::println;
         RequirementsPipeline pipeline = new DirectLoadPipeline(staticRequirementsMap, dynamicParams);
         // execute command
+        output.putString("Execute: " + command.getName() + " ...");
         command.execute(pipeline, output);
     }
 
@@ -246,6 +247,7 @@ public class ExecuteCommand extends CLICommand {
                 client.getAskRequirementAttempts(),
                 client.getUserInputSupplier());
         // execute command
+        output.putString("Execute: " + command.getName() + " ...");
         command.execute(pipeline, output);
     }
 
