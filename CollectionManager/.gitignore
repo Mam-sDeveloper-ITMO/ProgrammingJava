@@ -45,3 +45,5 @@ buildNumber.properties
 **/.vscode
 
 dist/
+**/develop/
+**/.env
