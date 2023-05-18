@@ -35,7 +35,7 @@ public class Server {
     /**
      * Size of buffer for reading and writing.
      */
-    private final int BUFFER_SIZE = 1024;
+    private final int BUFFER_SIZE = 1024 * 10;
 
     /**
      * Create server on specified port.
@@ -90,7 +90,8 @@ public class Server {
                         write(channel, key);
                     }
                 } catch (IOException e) {
-                    // LOG
+                    // if UDP doesn't guarantee delivery
+                    // why should we care about exceptions?
                 }
                 keyIterator.remove();
             }
