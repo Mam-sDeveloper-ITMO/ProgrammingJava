@@ -23,6 +23,11 @@
         </dependency>
         <dependency>
             <groupId>mamsdeveloper.itmo</groupId>
+            <artifactId>adapter</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mamsdeveloper.itmo</groupId>
             <artifactId>models</artifactId>
             <version>1.0</version>
         </dependency>

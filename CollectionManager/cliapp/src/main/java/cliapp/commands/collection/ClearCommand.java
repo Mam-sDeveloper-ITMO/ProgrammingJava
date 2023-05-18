@@ -9,6 +9,7 @@ import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
+import humandeque.manager.exceptions.ManipulationError;
 
 /**
  * A command that removes all elements from the collection.
@@ -54,7 +55,11 @@ public class ClearCommand extends CollectionCommand {
 
         if (approveClear) {
             // clear the collection and output a success message
-            collectionManager.clear();
+            try {
+                collectionManager.clear();
+            } catch (ManipulationError e) {
+                throw new ExecutionError(e.getMessage());
+            }
             output.putString(ClearCommandResources.SUCCESS);
         }
     }

@@ -6,6 +6,7 @@ import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
+import humandeque.manager.exceptions.ManipulationError;
 
 /**
  * This command removes the first element from the collection.
@@ -27,7 +28,7 @@ public class RemoveFirstCommand extends CollectionCommand {
         try {
             collectionManager.removeFirst();
             output.putString(RemoveFirstCommandResources.SUCCESS);
-        } catch (EmptyCollectionError e) {
+        } catch (EmptyCollectionError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }
     }

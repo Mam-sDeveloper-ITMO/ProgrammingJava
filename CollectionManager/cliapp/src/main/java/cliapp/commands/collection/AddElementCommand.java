@@ -8,6 +8,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
+import humandeque.manager.exceptions.ManipulationError;
 import models.Car;
 import models.Coordinates;
 import models.Human;
@@ -29,7 +30,7 @@ public class AddElementCommand extends CollectionCommand {
 
     /**
      * Asks the user for input to create a new {@link Human} object.
-     * 
+     *
      * @param pipeline the requirements pipeline to ask for input requirements
      * @param output   the output channel to write the input prompts and messages to
      * @return a {@link Human} object created with the input from the user
@@ -87,7 +88,7 @@ public class AddElementCommand extends CollectionCommand {
             try {
                 collectionManager.add(human);
                 output.putString(AddElementCommandResources.SUCCESS);
-            } catch (ElementAlreadyExistsError e) {
+            } catch (ElementAlreadyExistsError | ManipulationError e) {
                 throw new ExecutionError(e.getMessage());
             }
         } catch (RequirementAskError e) {

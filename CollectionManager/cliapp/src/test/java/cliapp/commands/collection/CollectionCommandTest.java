@@ -16,6 +16,7 @@ import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
+import humandeque.manager.exceptions.ManipulationError;
 import humandeque.manager.local.LocalManager;
 import models.Car;
 import models.Coordinates;
@@ -144,7 +145,7 @@ public class CollectionCommandTest {
             }
             assertTrue(output.getOutput(),
                 output.getOutput().startsWith("Collection elements:"));
-        } catch (ElementAlreadyExistsError e) {
+        } catch (ElementAlreadyExistsError | ManipulationError e) {
             Assert.fail();
         }
     }

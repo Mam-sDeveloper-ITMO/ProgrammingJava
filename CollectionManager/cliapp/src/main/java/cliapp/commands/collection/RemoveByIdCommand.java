@@ -10,6 +10,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementNotExistsError;
+import humandeque.manager.exceptions.ManipulationError;
 
 /**
  * This command removes an element from the collection by ID.
@@ -50,7 +51,7 @@ public class RemoveByIdCommand extends CollectionCommand {
         try {
             collectionManager.remove(id);
             output.putString(RemoveByIdCommandResources.SUCCESS);
-        } catch (ElementNotExistsError e) {
+        } catch (ElementNotExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }
     }

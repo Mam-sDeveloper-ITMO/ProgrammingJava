@@ -3,7 +3,9 @@ package cliapp;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 
+import adapter.Adapter;
 import cliapp.cliclient.CLIClient;
+import cliapp.collection.RemoteManager;
 import cliapp.commands.cli.ExecuteCommand;
 import cliapp.commands.cli.ExitCommand;
 import cliapp.commands.cli.HelpCommand;
@@ -34,12 +36,12 @@ public class App {
 
     /**
      * Initializes the collection manager.
-     * 
+     *
      * @param args The command line arguments, which must include the path to the
      *             collection file.
-     * 
+     *
      * @return The newly-initialized collection manager.
-     * 
+     *
      * @throws InvalidPathException If the specified file path is invalid.
      */
     private static CollectionManager initManager(String[] args) throws InvalidPathException {
@@ -64,11 +66,23 @@ public class App {
     /**
      * The entry point for the application. Initializes the collection manager and
      * the CLI client, and registers all commands.
-     * 
+     *
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
-        CollectionManager manager = initManager(args);
+        // CollectionManager manager = initManager(args);
+        Adapter serviceAdapter = null;
+        try {
+            serviceAdapter = new Adapter("127.0.0.1", 8000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        CollectionManager manager = null;
+        try {
+            manager = new RemoteManager(serviceAdapter, 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // create client and register commands
         CLIClient client = new CLIClient();

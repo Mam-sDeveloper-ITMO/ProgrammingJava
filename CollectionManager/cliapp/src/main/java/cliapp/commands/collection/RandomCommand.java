@@ -8,6 +8,7 @@ import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
+import humandeque.manager.exceptions.ManipulationError;
 import models.Car;
 import models.Coordinates;
 import models.Human;
@@ -24,7 +25,7 @@ public class RandomCommand extends CollectionCommand {
 
     /**
      * Generates a human with random values for all fields
-     * 
+     *
      * @return the randomly generated human
      */
     private Human generateHuman() {
@@ -65,7 +66,7 @@ public class RandomCommand extends CollectionCommand {
     /**
      * Adds a randomly generated human to the collection and prints information
      * about it
-     * 
+     *
      * @param pipeline the pipeline of requirements
      * @param output   the output channel to write to
      * @throws ExecutionError if an error occurs while adding the human to the
@@ -78,7 +79,7 @@ public class RandomCommand extends CollectionCommand {
             collectionManager.add(human);
             output.putString(RandomCommandResources.TITLE);
             output.putString(human.toString());
-        } catch (ElementAlreadyExistsError e) {
+        } catch (ElementAlreadyExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }
     }

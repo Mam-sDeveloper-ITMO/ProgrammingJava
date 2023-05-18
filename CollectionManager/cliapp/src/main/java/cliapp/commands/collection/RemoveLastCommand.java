@@ -5,7 +5,8 @@ import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
-import humandeque.manager.exceptions.EmptyCollectionError;;
+import humandeque.manager.exceptions.EmptyCollectionError;
+import humandeque.manager.exceptions.ManipulationError;;
 
 /**
  * This command removes the last element from the collection.
@@ -27,7 +28,7 @@ public class RemoveLastCommand extends CollectionCommand {
         try {
             collectionManager.removeLast();
             output.putString(RemoveLastCommandResources.SUCCESS);
-        } catch (EmptyCollectionError e) {
+        } catch (EmptyCollectionError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }
     }

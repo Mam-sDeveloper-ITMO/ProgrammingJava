@@ -12,6 +12,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementNotExistsError;
+import humandeque.manager.exceptions.ManipulationError;
 import models.Car;
 import models.Coordinates;
 import models.Human;
@@ -121,7 +122,7 @@ public class UpdateElementCommand extends CollectionCommand {
 
     /**
      * Update user by provided values
-     * 
+     *
      * @param pipeline the pipeline of requirements to be used by this command.
      * @param output   the output channel where messages will be displayed.
      * @throws ExecutionError if the collection is empty.
@@ -141,6 +142,8 @@ public class UpdateElementCommand extends CollectionCommand {
             defaultHuman = collectionManager.getElementById(id);
         } catch (ElementNotExistsError e) {
             return; // unreachable due to id validation
+        } catch (ManipulationError e) {
+            throw new ExecutionError(e.getMessage());
         }
         // create new human with updated field
         Human human;
@@ -153,7 +156,7 @@ public class UpdateElementCommand extends CollectionCommand {
         try {
             collectionManager.update(human);
             output.putString(UpdateElementCommandResources.SUCCESS);
-        } catch (ElementNotExistsError e) {
+        } catch (ElementNotExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }
     }
