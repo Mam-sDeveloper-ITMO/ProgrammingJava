@@ -10,6 +10,8 @@ import java.util.Map;
 import adapter.exceptions.ReceiveResponseFailed;
 import adapter.exceptions.SendRequestFailed;
 import adapter.exceptions.SocketInitFailed;
+import lombok.Cleanup;
+import lombok.RequiredArgsConstructor;
 import server.requests.Request;
 import server.responses.Response;
 import server.utils.Serializer;
@@ -21,35 +23,60 @@ import server.utils.exceptions.BadResponseStream;
  *
  * Adapter use DatagramSocket for sending and receiving data.
  */
+@RequiredArgsConstructor
 public class Adapter {
     /**
-     * Socket used for sending and receiving data.
+     * Socket for sending and receiving data.
      */
-    private DatagramSocket socket;
+    private final String ip;
 
     /**
-     * Create adapter on specified ip and port.
-     *
-     * @param ip   ip on which server is running
-     * @param port port on which server is running
-     * @throws SocketInitFailed if socket initialization failed
+     * Port on which server is running.
      */
-    public Adapter(String ip, int port) throws SocketInitFailed {
-        this.socket = initSocket(ip, port);
-    }
+    private final int port;
+
+    /**
+     * Timeout
+     */
+    private Integer timeout = 4000;
+
+    /**
+     * Buffer size
+     */
+    private Integer bufferSize = 1024 * 10;
 
     /**
      * Send trigger request to server and receive response.
      *
-     * @param trigger trigger name
-     * @param data    trigger data
+     * @param trigger  trigger name
+     * @param data     trigger data
+     * @param attempts number of attempts to send request
      * @return response from server
      * @throws SendRequestFailed     if sending request failed
      * @throws ReceiveResponseFailed if receiving response failed
      */
-    public Response triggerServer(String trigger, Map<String, ?> data) throws SendRequestFailed, ReceiveResponseFailed {
-        this.sendRequest(new Request(trigger, data));
-        return this.receiveResponse();
+    public Response triggerServer(String trigger, Map<String, ?> data, Integer attempts)
+            throws SocketInitFailed, SendRequestFailed, ReceiveResponseFailed {
+        for (int i = 0; i < attempts; i++) {
+            @Cleanup
+            DatagramSocket socket = this.initSocket(ip, port);
+            this.sendRequest(socket, new Request(trigger, data));
+            try {
+                return this.receiveResponse(socket);
+            } catch (ReceiveResponseFailed e) {
+                continue;
+            }
+        }
+        throw new SendRequestFailed();
+    }
+
+    /**
+     * Send trigger request to server and receive response
+     * with default number of attempts (3).
+     */
+    public Response triggerServer(String trigger, Map<String, ?> data)
+            throws SocketInitFailed, SendRequestFailed, ReceiveResponseFailed {
+        return this.triggerServer(trigger, data, 3);
     }
 
     /**
@@ -58,11 +85,11 @@ public class Adapter {
      * @param request request to send
      * @throws SendRequestFailed if sending request failed
      */
-    private void sendRequest(Request request) throws SendRequestFailed {
+    private void sendRequest(DatagramSocket socket, Request request) throws SendRequestFailed {
         byte[] requestBytes = Serializer.serializeRequest(request).toByteArray();
 
         try {
-            this.socket.send(new DatagramPacket(requestBytes, requestBytes.length));
+            socket.send(new DatagramPacket(requestBytes, requestBytes.length));
         } catch (IOException e) {
             throw new SendRequestFailed();
         }
@@ -74,14 +101,14 @@ public class Adapter {
      * @return response from server
      * @throws ReceiveResponseFailed if receiving response failed
      */
-    private Response receiveResponse() throws ReceiveResponseFailed {
-        byte[] buffer = new byte[1024];
+    private Response receiveResponse(DatagramSocket socket) throws ReceiveResponseFailed {
+        byte[] buffer = new byte[bufferSize];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         while (true) {
             try {
-                this.socket.receive(packet);
+                socket.receive(packet);
             } catch (IOException e) {
                 throw new ReceiveResponseFailed();
             }
@@ -114,6 +141,7 @@ public class Adapter {
         try {
             socket = new DatagramSocket();
             socket.connect(new java.net.InetSocketAddress(ip, port));
+            socket.setSoTimeout(timeout);
         } catch (Exception e) {
             throw new SocketInitFailed();
         }
