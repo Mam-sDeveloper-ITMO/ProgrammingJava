@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -18,14 +18,14 @@ public class FilesTest {
         String packageName = "textlocale";
         String extension = ".tl.json";
 
-        List<File> matchingFiles = FilesUtils.findFilesWithExtension(packageName, extension);
+        Map<String, File> matchingFiles = FilesUtils.findFilesWithExtension(packageName, extension);
 
         assertNotNull(matchingFiles);
         assertEquals(2, matchingFiles.size());
 
-        for (File file : matchingFiles) {
-            assertTrue(file.isFile());
-            assertTrue(file.getName().endsWith(extension));
+        for (Map.Entry<String, File> entry : matchingFiles.entrySet()) {
+            assertTrue(entry.getValue().isFile());
+            assertTrue(entry.getValue().getName().endsWith(extension));
         }
     }
 }
