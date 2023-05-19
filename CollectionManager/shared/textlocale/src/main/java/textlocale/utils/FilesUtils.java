@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @see TextLocal
  */
-public class Files {
+public class FilesUtils {
     /**
      * Find all files with the given extension in the given package.
      *

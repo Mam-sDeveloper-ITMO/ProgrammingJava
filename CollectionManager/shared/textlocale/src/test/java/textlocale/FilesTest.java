@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import textlocale.utils.Files;
+import textlocale.utils.FilesUtils;
 
 public class FilesTest {
     @Test
@@ -18,7 +18,7 @@ public class FilesTest {
         String packageName = "textlocale";
         String extension = ".tl.json";
 
-        List<File> matchingFiles = Files.findFilesWithExtension(packageName, extension);
+        List<File> matchingFiles = FilesUtils.findFilesWithExtension(packageName, extension);
 
         assertNotNull(matchingFiles);
         assertEquals(2, matchingFiles.size());
