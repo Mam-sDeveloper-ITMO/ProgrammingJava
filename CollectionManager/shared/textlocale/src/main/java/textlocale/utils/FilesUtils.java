@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Provides utility methods for working with files.
  *
- * @see TextLocal
+ * @see TextLocale
  */
 public class FilesUtils {
     /**
