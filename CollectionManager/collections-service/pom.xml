@@ -55,7 +55,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>collections-service.App</mainClass>
+                            <mainClass>collections.service.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
