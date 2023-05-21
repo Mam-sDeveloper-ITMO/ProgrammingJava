@@ -99,7 +99,7 @@ public class Dispatcher {
     public Response dispatch(Request request) {
         for (Router router : this.routers) {
             // Check if router is corresponding to the trigger
-            Optional<String> resolvedTrigger = router.resolveTrigger(request.trigger);
+            Optional<String> resolvedTrigger = router.resolveTrigger(request.getTrigger());
             if (!resolvedTrigger.isPresent()) {
                 continue;
             }

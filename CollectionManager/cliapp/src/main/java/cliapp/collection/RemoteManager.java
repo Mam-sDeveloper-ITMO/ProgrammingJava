@@ -140,8 +140,8 @@ public class RemoteManager extends CollectionManager {
         try {
             Map<String, Object> data = Map.of("userId", userId);
             Response response = serviceAdapter.triggerServer("collections.get", data);
-            if (response.ok) {
-                HumanDeque loadedCollection = (HumanDeque) response.data.get("collection");
+            if (response.getOk()) {
+                HumanDeque loadedCollection = (HumanDeque) response.getData().get("collection");
                 this.collection = loadedCollection;
             } else {
                 throw new CollectionLoadError(ExceptionsResources.COLLECTION_LOAD_ERROR);

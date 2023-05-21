@@ -47,20 +47,20 @@ public class DispatcherTest {
 
         try {
             Response response = dispatcher.dispatch(new Request("prefix.foo", null));
-            assertEquals("Hello from foo", response.message);
-            assertTrue(response.ok);
+            assertEquals("Hello from foo", response.getMessage());
+            assertTrue(response.getOk());
 
             response = dispatcher.dispatch(new Request("prefix2.bar", null));
-            assertEquals("Hello from bar", response.message);
-            assertTrue(response.ok);
+            assertEquals("Hello from bar", response.getMessage());
+            assertTrue(response.getOk());
 
             response = dispatcher.dispatch(new Request("prefix2.bar.sub", null));
-            assertEquals("Hello from bar.sub", response.message);
-            assertTrue(response.ok);
+            assertEquals("Hello from bar.sub", response.getMessage());
+            assertTrue(response.getOk());
 
             response = dispatcher.dispatch(new Request("000", null));
-            assertEquals("Not handlers for such trigger", response.message);
-            assertFalse(response.ok);
+            assertEquals("Not handlers for such trigger", response.getMessage());
+            assertFalse(response.getOk());
         } catch (Exception e) {
             assert false;
         }

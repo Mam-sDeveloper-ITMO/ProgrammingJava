@@ -15,17 +15,17 @@ public class Response implements Serializable {
     /**
      * ok is a boolean that represents whether the request was successful.
      */
-    public final Boolean ok;
+    private final Boolean ok;
 
     /**
      * message is a string that represents the message of the response.
      */
-    public final String message;
+    private final String message;
 
     /**
      * data is a map that represents the data of the response.
      */
-    public final Map<String, ?> data;
+    private final Map<String, ?> data;
 
     /**
      * Return a new Response for successful requests.

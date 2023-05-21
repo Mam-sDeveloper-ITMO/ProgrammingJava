@@ -15,10 +15,10 @@ public class Request implements Serializable {
     /**
      * trigger define what the client wants to do.
      */
-    public final String trigger;
+    private final String trigger;
 
     /**
      * data is a map that represents the data of the request.
      */
-    public final Map<String, ?> data;
+    private final Map<String, ?> data;
 }

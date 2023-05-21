@@ -55,7 +55,7 @@ public class AdapterTest {
         try {
             Response response = this.adapter.triggerServer(trigger, data);
             // Check that the response has the expected status code
-            assertTrue(response.ok);
+            assertTrue(response.getOk());
 
             // Check that the response data is not null
             assertNotNull(response.getData());
