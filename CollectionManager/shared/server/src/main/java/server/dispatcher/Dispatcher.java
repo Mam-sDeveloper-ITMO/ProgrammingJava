@@ -83,7 +83,7 @@ public class Dispatcher {
             Response response = dispatch(request);
             return Serializer.serializeResponse(response);
         } catch (BadRequestStream e) {
-            Response response = new Response(false, "Bad request stream", null);
+            Response response = Response.failure("Bad request stream");
             return Serializer.serializeResponse(response);
         }
     }
@@ -132,6 +132,6 @@ public class Dispatcher {
             // process response with outer middleware
             return outerMiddleware.handle(response);
         }
-        return new Response(false, "Not handlers for such trigger", null);
+        return Response.failure("Not handlers for such trigger");
     }
 }
