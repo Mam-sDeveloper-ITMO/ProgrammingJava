@@ -60,7 +60,13 @@ public class CollectionsRouter extends Router {
         }
         Map<String, Object> data = new HashMap<>(request.getData());
         data.put("collectionManager", collectionManager);
-        return handler.handle(data);
+        Response response = handler.handle(data);
+        try {
+            collectionManager.save();
+        } catch (Exception e) {
+            logger.log("Middleware", "Collection save error: %s".formatted(e.getMessage()), Level.ERROR);
+        }
+        return response;
     }
 
     @OuterMiddleware("")
