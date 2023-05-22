@@ -6,6 +6,7 @@ import java.util.Map;
 import collections.service.api.StatusCodes;
 import collections.service.collections.storage.CollectionsStorage;
 import humandeque.manager.CollectionManager;
+import humandeque.manager.exceptions.CollectionLoadError;
 import humandeque.manager.exceptions.CollectionSaveError;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.exceptions.ElementNotExistsError;
@@ -44,14 +45,22 @@ public class CollectionsRouter extends Router {
     @InnerMiddleware("")
     public Response handleRequest(HandlerFunction handler, Request request) throws IncorrectRequestData {
         logger.log("Request", request.toString(), Level.DEBUG);
+        CollectionManager collectionManager;
         try {
             Integer userId = (Integer) request.getData().get("userId");
-            CollectionManager collectionManager = collectionsDispatcher.getCollectionManager(userId);
-            // request.getData().put("collectionManager", collectionManager);
-            return handler.handle(request.getData());
+            collectionManager = collectionsDispatcher.getCollectionManager(userId);
         } catch (ClassCastException e) {
             throw new IncorrectRequestData();
         }
+        try {
+            collectionManager.load();
+        } catch (CollectionLoadError | ManipulationError e) {
+            return Response.failure("Collection load error: %s".formatted(e.getMessage()),
+                    StatusCodes.CANNOT_LOAD_COLLECTION);
+        }
+        Map<String, Object> data = new HashMap<>(request.getData());
+        data.put("collectionManager", collectionManager);
+        return handler.handle(data);
     }
 
     @OuterMiddleware("")
@@ -189,8 +198,7 @@ public class CollectionsRouter extends Router {
      */
     private CollectionManager getCollectionManager(Map<String, Object> data) throws IncorrectRequestData {
         try {
-            Integer userId = (Integer) data.get("userId");
-            return collectionsDispatcher.getCollectionManager(userId);
+            return (CollectionManager) data.get("collectionManager");
         } catch (ClassCastException e) {
             throw new IncorrectRequestData();
         }

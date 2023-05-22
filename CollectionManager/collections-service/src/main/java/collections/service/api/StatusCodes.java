@@ -14,4 +14,6 @@ public class StatusCodes {
     public static final int COLLECTION_IS_EMPTY = 423;
     // cannot save collection
     public static final int CANNOT_SAVE_COLLECTION = 424;
+    // cannot load collection
+    public static final int CANNOT_LOAD_COLLECTION = 425;
 }
