@@ -65,7 +65,7 @@ public class Response implements Serializable {
      * Return a new Response for successful requests
      * with empty data and empty message and specified status code.
      */
-    public static Response success(HashMap<String, ?> data, Integer code) {
+    public static Response success(Map<String, ?> data, Integer code) {
         return new Response(true, "", data, code);
     }
 
@@ -73,7 +73,7 @@ public class Response implements Serializable {
      * Return a new Response for successful requests
      * with empty data and empty message and default 200 status code.
      */
-    public static Response success(HashMap<String, ?> data) {
+    public static Response success(Map<String, ?> data) {
         return new Response(true, "", data, StatusCodes.OK);
     }
 
