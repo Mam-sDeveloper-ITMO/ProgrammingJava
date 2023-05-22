@@ -60,9 +60,9 @@ public class CollectionsRouter extends Router {
             collectionManager.add(human);
             return Response.success(data);
         } catch (ElementAlreadyExistsError e) {
-            return Response.failure("Element already exists");
+            return Response.failure("Element already exists", 400);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()));
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
         }
     }
 
@@ -74,9 +74,9 @@ public class CollectionsRouter extends Router {
             collectionManager.update(human);
             return Response.success(data);
         } catch (ElementNotExistsError e) {
-            return Response.failure("Element not exists");
+            return Response.failure("Element not exists", 400);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()));
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
         }
     }
 
@@ -93,9 +93,9 @@ public class CollectionsRouter extends Router {
             collectionManager.remove(id);
             return Response.success(data);
         } catch (ElementNotExistsError e) {
-            return Response.failure("Element not exists");
+            return Response.failure("Element not exists", 400);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()));
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
         }
     }
 
@@ -106,9 +106,9 @@ public class CollectionsRouter extends Router {
             collectionManager.removeFirst();
             return Response.success(data);
         } catch (EmptyCollectionError e) {
-            return Response.failure("Collection is empty");
+            return Response.failure("Collection is empty", 400);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()));
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
         }
     }
 
@@ -119,9 +119,9 @@ public class CollectionsRouter extends Router {
             collectionManager.removeLast();
             return Response.success(data);
         } catch (EmptyCollectionError e) {
-            return Response.failure("Collection is empty");
+            return Response.failure("Collection is empty", 400);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()));
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
         }
     }
 
@@ -131,7 +131,7 @@ public class CollectionsRouter extends Router {
         try {
             collectionManager.clear();
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()));
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
         }
         return Response.success(data);
     }
@@ -174,9 +174,9 @@ public class CollectionsRouter extends Router {
             collectionManager.save();
             return Response.success(data);
         } catch (CollectionSaveError e) {
-            return Response.failure("Collection save error: %s".formatted(e.getMessage()));
+            return Response.failure("Collection save error: %s".formatted(e.getMessage()), 400);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()));
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
         }
     }
 
