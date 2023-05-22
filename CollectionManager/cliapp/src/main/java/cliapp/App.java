@@ -68,7 +68,7 @@ public class App {
         client.registerCommand("head", new HeadCommand(manager));
         client.registerCommand("tail", new TailCommand(manager));
         client.registerCommand("filter", new FilterByImpactSpeed(manager));
-        client.registerCommand("save", new SaveCommand(manager));
+        // client.registerCommand("save", new SaveCommand(manager));
 
         // CLI commands
         client.registerCommand("help", new HelpCommand(client));
