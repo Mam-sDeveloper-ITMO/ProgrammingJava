@@ -66,7 +66,9 @@ public class CollectionsRouter extends Router {
     @OuterMiddleware("")
     public Response handleResponse(Response response) {
         logger.log("Response", response.toString(), Level.DEBUG);
-        return response;
+        Map<String, Object> data = new HashMap<>(response.getData());
+        data.remove("collectionManager");
+        return new Response(response.getOk(), response.getMessage(), data, response.getCode());
     }
 
     @Handler("add")
