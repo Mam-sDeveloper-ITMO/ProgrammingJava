@@ -30,6 +30,15 @@ public class TextResources {
         public static final String CAT3 = BUNDLE.getString("Cat3");
     }
 
+    public static class CollectionResources {
+        public static class RemoteManager {
+            private static final ResourceBundle BUNDLE = ResourceBundle
+                    .getBundle("cliapp.collection.remotemanager");
+
+            public static final String FAILED_REQUEST = BUNDLE.getString("FailedRequest");
+        }
+    }
+
     public static class CLIClientResources {
         private static final ResourceBundle BUNDLE = ResourceBundle
                 .getBundle("cliapp.cliclient.cliclient");
