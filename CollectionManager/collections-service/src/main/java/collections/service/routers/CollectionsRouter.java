@@ -3,6 +3,7 @@ package collections.service.routers;
 import java.util.HashMap;
 import java.util.Map;
 
+import collections.service.api.StatusCodes;
 import collections.service.collections.storage.CollectionsStorage;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.CollectionSaveError;
@@ -60,9 +61,10 @@ public class CollectionsRouter extends Router {
             collectionManager.add(human);
             return Response.success(data);
         } catch (ElementAlreadyExistsError e) {
-            return Response.failure("Element already exists", 400);
+            return Response.failure("Element already exists", StatusCodes.ELEMENT_ALREADY_EXISTS);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
+                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
         }
     }
 
@@ -74,9 +76,10 @@ public class CollectionsRouter extends Router {
             collectionManager.update(human);
             return Response.success(data);
         } catch (ElementNotExistsError e) {
-            return Response.failure("Element not exists", 400);
+            return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
+                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
         }
     }
 
@@ -93,9 +96,10 @@ public class CollectionsRouter extends Router {
             collectionManager.remove(id);
             return Response.success(data);
         } catch (ElementNotExistsError e) {
-            return Response.failure("Element not exists", 400);
+            return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
+                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
         }
     }
 
@@ -106,9 +110,10 @@ public class CollectionsRouter extends Router {
             collectionManager.removeFirst();
             return Response.success(data);
         } catch (EmptyCollectionError e) {
-            return Response.failure("Collection is empty", 400);
+            return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
+                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
         }
     }
 
@@ -119,9 +124,10 @@ public class CollectionsRouter extends Router {
             collectionManager.removeLast();
             return Response.success(data);
         } catch (EmptyCollectionError e) {
-            return Response.failure("Collection is empty", 400);
+            return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
+                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
         }
     }
 
@@ -131,7 +137,8 @@ public class CollectionsRouter extends Router {
         try {
             collectionManager.clear();
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
+                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
         }
         return Response.success(data);
     }
@@ -142,22 +149,6 @@ public class CollectionsRouter extends Router {
         HashMap<String, Object> responseData = new HashMap<>();
         responseData.put("collection", collectionManager.getCollection());
         return Response.success(responseData);
-    }
-
-    /**
-     * Get collection manager for specific user from request data.
-     *
-     * @param data Request data.
-     * @return Collection manager.
-     * @throws IncorrectRequestData
-     */
-    private CollectionManager getCollectionManager(Map<String, ?> data) throws IncorrectRequestData {
-        try {
-            Integer userId = (Integer) data.get("userId");
-            return collectionsDispatcher.getCollectionManager(userId);
-        } catch (ClassCastException e) {
-            throw new IncorrectRequestData();
-        }
     }
 
     /**
@@ -174,9 +165,27 @@ public class CollectionsRouter extends Router {
             collectionManager.save();
             return Response.success(data);
         } catch (CollectionSaveError e) {
-            return Response.failure("Collection save error: %s".formatted(e.getMessage()), 400);
+            return Response.failure("Collection save error: %s".formatted(e.getMessage()),
+                    StatusCodes.CANNOT_SAVE_COLLECTION);
         } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()), 400);
+            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
+                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
+        }
+    }
+
+    /**
+     * Get collection manager for specific user from request data.
+     *
+     * @param data Request data.
+     * @return Collection manager.
+     * @throws IncorrectRequestData
+     */
+    private CollectionManager getCollectionManager(Map<String, ?> data) throws IncorrectRequestData {
+        try {
+            Integer userId = (Integer) data.get("userId");
+            return collectionsDispatcher.getCollectionManager(userId);
+        } catch (ClassCastException e) {
+            throw new IncorrectRequestData();
         }
     }
 
