@@ -54,9 +54,8 @@ public class CollectionsRouter extends Router {
         }
         try {
             collectionManager.load();
-        } catch (CollectionLoadError | ManipulationError e) {
-            return Response.failure("Collection load error: %s".formatted(e.getMessage()),
-                    StatusCodes.CANNOT_LOAD_COLLECTION);
+        } catch (Exception e) {
+            logger.log("Middleware", "Collection load error: %s".formatted(e.getMessage()), Level.ERROR);
         }
         Map<String, Object> data = new HashMap<>(request.getData());
         data.put("collectionManager", collectionManager);
