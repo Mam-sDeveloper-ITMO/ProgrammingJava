@@ -29,12 +29,12 @@ public class MiddlewareRouter extends Router {
     }
 
     @Handler("foo")
-    Response foo(Map<String, ?> data) {
+    Response foo(Map<String, Object> data) {
         return new Response(true, "Hello from foo", data, 200);
     }
 
     @Handler("bar")
-    Response bar(Map<String, ?> data) {
+    Response bar(Map<String, Object> data) {
         return new Response(true, "Hello from bar", data, 200);
     }
 

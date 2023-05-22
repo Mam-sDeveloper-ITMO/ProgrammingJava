@@ -22,5 +22,5 @@ public interface HandlerFunction {
      * @return response object
      * @throws IncorrectRequestData if request data is incorrect
      */
-    Response handle(Map<String, ?> requestData) throws IncorrectRequestData;
+    Response handle(Map<String, Object> requestData) throws IncorrectRequestData;
 }
