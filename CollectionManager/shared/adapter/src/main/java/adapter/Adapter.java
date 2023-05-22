@@ -55,7 +55,7 @@ public class Adapter {
      * @throws SendRequestFailed     if sending request failed
      * @throws ReceiveResponseFailed if receiving response failed
      */
-    public Response triggerServer(String trigger, Map<String, ?> data, Integer attempts)
+    public Response triggerServer(String trigger, Map<String, Object> data, Integer attempts)
             throws SocketInitFailed, SendRequestFailed, ReceiveResponseFailed {
         for (int i = 0; i < attempts; i++) {
             @Cleanup
@@ -74,7 +74,7 @@ public class Adapter {
      * Send trigger request to server and receive response
      * with default number of attempts (3).
      */
-    public Response triggerServer(String trigger, Map<String, ?> data)
+    public Response triggerServer(String trigger, Map<String, Object> data)
             throws SocketInitFailed, SendRequestFailed, ReceiveResponseFailed {
         return this.triggerServer(trigger, data, 3);
     }

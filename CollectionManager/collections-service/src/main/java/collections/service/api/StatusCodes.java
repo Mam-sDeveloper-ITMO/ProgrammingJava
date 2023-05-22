@@ -1,6 +1,8 @@
 package collections.service.api;
 
-
+/**
+ * Status codes for service responses.
+ */
 public class StatusCodes {
     // unexpected manipulation error
     public static final int UNEXPECTED_MANIPULATION_ERROR = 420;

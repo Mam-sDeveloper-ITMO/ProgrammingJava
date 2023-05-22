@@ -44,7 +44,14 @@ public class CollectionsRouter extends Router {
     @InnerMiddleware("")
     public Response handleRequest(HandlerFunction handler, Request request) throws IncorrectRequestData {
         logger.log("Request", request.toString(), Level.DEBUG);
-        return handler.handle(request.getData());
+        try {
+            Integer userId = (Integer) request.getData().get("userId");
+            CollectionManager collectionManager = collectionsDispatcher.getCollectionManager(userId);
+            // request.getData().put("collectionManager", collectionManager);
+            return handler.handle(request.getData());
+        } catch (ClassCastException e) {
+            throw new IncorrectRequestData();
+        }
     }
 
     @OuterMiddleware("")
@@ -54,7 +61,7 @@ public class CollectionsRouter extends Router {
     }
 
     @Handler("add")
-    public Response add(Map<String, ?> data) throws IncorrectRequestData {
+    public Response add(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
         Human human = getHuman(data);
         try {
@@ -69,7 +76,7 @@ public class CollectionsRouter extends Router {
     }
 
     @Handler("update")
-    public Response update(Map<String, ?> data) throws IncorrectRequestData {
+    public Response update(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
         Human human = getHuman(data);
         try {
@@ -84,7 +91,7 @@ public class CollectionsRouter extends Router {
     }
 
     @Handler("remove")
-    public Response remove(Map<String, ?> data) throws IncorrectRequestData {
+    public Response remove(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
         Long id;
         try {
@@ -104,7 +111,7 @@ public class CollectionsRouter extends Router {
     }
 
     @Handler("removeFirst")
-    public Response removeFirst(Map<String, ?> data) throws IncorrectRequestData {
+    public Response removeFirst(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
         try {
             collectionManager.removeFirst();
@@ -118,7 +125,7 @@ public class CollectionsRouter extends Router {
     }
 
     @Handler("removeLast")
-    public Response removeLast(Map<String, ?> data) throws IncorrectRequestData {
+    public Response removeLast(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
         try {
             collectionManager.removeLast();
@@ -132,7 +139,7 @@ public class CollectionsRouter extends Router {
     }
 
     @Handler("clear")
-    public Response clear(Map<String, ?> data) throws IncorrectRequestData {
+    public Response clear(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
         try {
             collectionManager.clear();
@@ -144,7 +151,7 @@ public class CollectionsRouter extends Router {
     }
 
     @Handler("get")
-    public Response get(Map<String, ?> data) throws IncorrectRequestData {
+    public Response get(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
         HashMap<String, Object> responseData = new HashMap<>();
         responseData.put("collection", collectionManager.getCollection());
@@ -159,7 +166,7 @@ public class CollectionsRouter extends Router {
      * @throws IncorrectRequestData
      */
     @Handler("save")
-    public Response save(Map<String, ?> data) throws IncorrectRequestData {
+    public Response save(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
         try {
             collectionManager.save();
@@ -180,7 +187,7 @@ public class CollectionsRouter extends Router {
      * @return Collection manager.
      * @throws IncorrectRequestData
      */
-    private CollectionManager getCollectionManager(Map<String, ?> data) throws IncorrectRequestData {
+    private CollectionManager getCollectionManager(Map<String, Object> data) throws IncorrectRequestData {
         try {
             Integer userId = (Integer) data.get("userId");
             return collectionsDispatcher.getCollectionManager(userId);
@@ -196,7 +203,7 @@ public class CollectionsRouter extends Router {
      * @return Human.
      * @throws IncorrectRequestData
      */
-    private Human getHuman(Map<String, ?> data) throws IncorrectRequestData {
+    private Human getHuman(Map<String, Object> data) throws IncorrectRequestData {
         try {
             return (Human) data.get("human");
         } catch (ClassCastException e) {
