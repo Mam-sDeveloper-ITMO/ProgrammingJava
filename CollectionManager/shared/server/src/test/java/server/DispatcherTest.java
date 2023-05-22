@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+
 import org.junit.Test;
 
 import server.dispatcher.Dispatcher;
@@ -45,22 +47,22 @@ public class DispatcherTest {
         dispatcher.includeRouter(router);
         dispatcher.includeRouter(router2);
 
+        Response response = dispatcher.dispatch(new Request("prefix.foo", new HashMap<>()));
+        assertEquals("Hello from foo", response.getMessage());
+        assertTrue(response.getOk());
+
+        response = dispatcher.dispatch(new Request("prefix2.bar", new HashMap<>()));
+        assertEquals("Hello from bar", response.getMessage());
+        assertTrue(response.getOk());
+
+        response = dispatcher.dispatch(new Request("prefix2.bar.sub", new HashMap<>()));
+        assertEquals("Hello from bar.sub", response.getMessage());
+        assertTrue(response.getOk());
+
+        response = dispatcher.dispatch(new Request("000", new HashMap<>()));
+        assertEquals("Not handlers for such trigger", response.getMessage());
+        assertFalse(response.getOk());
         try {
-            Response response = dispatcher.dispatch(new Request("prefix.foo", null));
-            assertEquals("Hello from foo", response.getMessage());
-            assertTrue(response.getOk());
-
-            response = dispatcher.dispatch(new Request("prefix2.bar", null));
-            assertEquals("Hello from bar", response.getMessage());
-            assertTrue(response.getOk());
-
-            response = dispatcher.dispatch(new Request("prefix2.bar.sub", null));
-            assertEquals("Hello from bar.sub", response.getMessage());
-            assertTrue(response.getOk());
-
-            response = dispatcher.dispatch(new Request("000", null));
-            assertEquals("Not handlers for such trigger", response.getMessage());
-            assertFalse(response.getOk());
         } catch (Exception e) {
             assert false;
         }

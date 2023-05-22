@@ -18,6 +18,7 @@ import server.routing.middlewares.OuterMiddlewareFunction;
 import server.routing.middlewares.basic.BasicInnerMiddleware;
 import server.routing.middlewares.basic.BasicOuterMiddleware;
 import server.utils.Serializer;
+import server.utils.StatusCodes;
 import server.utils.exceptions.BadRequestStream;
 
 /**
@@ -83,7 +84,7 @@ public class Dispatcher {
             Response response = dispatch(request);
             return Serializer.serializeResponse(response);
         } catch (BadRequestStream e) {
-            Response response = Response.failure("Bad request stream");
+            Response response = Response.failure("Bad request stream", StatusCodes.BAD_REQUEST_STREAM);
             return Serializer.serializeResponse(response);
         }
     }
@@ -122,7 +123,7 @@ public class Dispatcher {
             try {
                 response = innerMiddleware.handle(handler, request);
             } catch (IncorrectRequestData e) {
-                response = Response.failure("Bad request data");
+                response = Response.failure("Incorrect request data", StatusCodes.INCORRECT_REQUEST_DATA);
             }
 
             // Get router outer middleware for the trigger or set default
@@ -132,6 +133,6 @@ public class Dispatcher {
             // process response with outer middleware
             return outerMiddleware.handle(response);
         }
-        return Response.failure("Not handlers for such trigger");
+        return Response.failure("Not handlers for such trigger", StatusCodes.UNHANDLED);
     }
 }

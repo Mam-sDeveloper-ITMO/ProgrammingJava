@@ -1,9 +1,11 @@
 package server.responses;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Data;
+import lombok.NonNull;
 
 /**
  * Response is a class that represents a response from the server to the client.
@@ -15,36 +17,83 @@ public class Response implements Serializable {
     /**
      * ok is a boolean that represents whether the request was successful.
      */
+    @NonNull
     private final Boolean ok;
 
     /**
      * message is a string that represents the message of the response.
      */
+    @NonNull
     private final String message;
 
     /**
      * data is a map that represents the data of the response.
      */
+    @NonNull
     private final Map<String, ?> data;
 
     /**
+     * status code is same to HTTP status code concept.
+     */
+    @NonNull
+    private final Integer code;
+
+    /**
      * Return a new Response for successful requests.
+     */
+    public static Response success(String message, Map<String, ?> data, Integer code) {
+        return new Response(true, message, data, code);
+    }
+
+    /**
+     * Return a new Response for successful requests with default 200 status code.
      */
     public static Response success(String message, Map<String, ?> data) {
-        return new Response(true, message, data);
+        return new Response(true, message, data, 200);
     }
 
     /**
-     * Return a new Response for successful requests.
+     * Return a new Response for successful requests
+     * with empty data and specified status code.
      */
-    public static Response success(Map<String, ?> data) {
-        return new Response(true, null, data);
+    public static Response success(String message, Integer code) {
+        return new Response(true, message, new HashMap<>(), code);
     }
 
     /**
-     * Return a new Response for failed requests.
+     * Return a new Response for successful requests with default 200 status code
+     * and empty data.
      */
-    public static Response failure(String message) {
-        return new Response(false, message, null);
+    public static Response success(String message) {
+        return new Response(true, message, new HashMap<>(), 200);
+    }
+
+    /**
+     * Return a new Response for successful requests with empty data and message.
+     */
+    public static Response success(Integer code) {
+        return new Response(true, "", new HashMap<>(), code);
+    }
+
+    /**
+     * Return a new Response for successful requests with default 200 status code
+     * and empty data and message.
+     */
+    public static Response success() {
+        return new Response(true, "", new HashMap<>(), 200);
+    }
+
+    /**
+     * Return a new Response for failed requests with specified data.
+     */
+    public static Response failure(String message, Map<String, ?> data, Integer code) {
+        return new Response(false, message, data, code);
+    }
+
+    /**
+     * Return a new Response for failed requests with empty data.
+     */
+    public static Response failure(String message, Integer code) {
+        return new Response(false, message, new HashMap<>(), code);
     }
 }

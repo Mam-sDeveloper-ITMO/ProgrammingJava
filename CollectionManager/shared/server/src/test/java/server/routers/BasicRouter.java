@@ -20,16 +20,16 @@ public class BasicRouter extends Router {
 
     @Handler("foo")
     Response foo(Map<String, ?> data) {
-        return new Response(true, "Hello from foo", data);
+        return new Response(true, "Hello from foo", data, 200);
     }
 
     @Handler("bar")
     Response bar(Map<String, ?> data) {
-        return new Response(true, "Hello from bar", data);
+        return new Response(true, "Hello from bar", data, 200);
     }
 
     @Handler("bar.sub")
     Response barSub(Map<String, ?> data) {
-        return new Response(true, "Hello from bar.sub", data);
+        return new Response(true, "Hello from bar.sub", data, 200);
     }
 }

@@ -19,25 +19,25 @@ import server.utils.exceptions.BadResponseStream;
 public class StructuresTest {
     @Test
     public void testResponseCreation() {
-        Response response = Response.success("test", null);
+        Response response = Response.success("test", new HashMap<>(), 200);
         assertTrue(response.getOk());
 
-        response = Response.success(new HashMap<>());
+        response = Response.success(200);
         assertTrue(response.getOk());
-        assertEquals(response.getMessage(), null);
+        assertEquals("", response.getMessage());
 
-        response = Response.failure("test");
+        response = Response.failure("test", 200);
         assertFalse(response.getOk());
 
-        response = new Response(true, "test", new HashMap<>());
+        response = new Response(true, "test", new HashMap<>(), 200);
 
-        Response response2 = new Response(true, "test", new HashMap<>());
+        Response response2 = new Response(true, "test", new HashMap<>(), 200);
         assertEquals(response, response2);
     }
 
     @Test
     public void testResponseSerialization() {
-        Response response = Response.success("test", new HashMap<>());
+        Response response = Response.success("test", new HashMap<>(), 200);
         ByteArrayOutputStream outputStream = Serializer.serializeResponse(response);
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         try {
@@ -49,19 +49,19 @@ public class StructuresTest {
             assert false;
         }
 
-        response = Response.failure("test2");
+        response = Response.failure("test2", 200);
         outputStream = Serializer.serializeResponse(response);
         inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         try {
             Response desResponse = Serializer.deserializeResponse(inputStream);
             assertFalse(desResponse.getOk());
             assertEquals(desResponse.getMessage(), "test2");
-            assertEquals(desResponse.getData(), null);
+            assertEquals(desResponse.getData(), new HashMap<>());
         } catch (BadResponseStream e) {
             assert false;
         }
 
-        response = Response.success("test3", new HashMap<>());
+        response = Response.success("test3", new HashMap<>(), 200);
         outputStream = Serializer.serializeResponse(response);
         inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         try {

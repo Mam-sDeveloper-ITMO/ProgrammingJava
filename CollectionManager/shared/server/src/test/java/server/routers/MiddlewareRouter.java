@@ -20,35 +20,35 @@ public class MiddlewareRouter extends Router {
 
     @InnerMiddleware("foo")
     Response foo(HandlerFunction handler, Request request) {
-        return Response.success("Hello from foo!", null);
+        return Response.success("Hello from foo!", 200);
     }
 
     @InnerMiddleware("")
     Response all(HandlerFunction handler, Request request) {
-        return Response.success("Hello from all!", null);
+        return Response.success("Hello from all!");
     }
 
     @Handler("foo")
     Response foo(Map<String, ?> data) {
-        return new Response(true, "Hello from foo", data);
+        return new Response(true, "Hello from foo", data, 200);
     }
 
     @Handler("bar")
     Response bar(Map<String, ?> data) {
-        return new Response(true, "Hello from bar", data);
+        return new Response(true, "Hello from bar", data, 200);
     }
 
     @OuterMiddleware("foo")
     Response foo(Response response) {
         HashMap<String, Object> data = new HashMap<>();
         data.put("hint", "foo");
-        return Response.success("Hello from foo!", data);
+        return Response.success("Hello from foo!", data, 200);
     }
 
     @OuterMiddleware("")
     Response all(Response response) {
         HashMap<String, Object> data = new HashMap<>();
         data.put("hint", "all");
-        return Response.success("Hello from all!", data);
+        return Response.success("Hello from all!", data, 200);
     }
 }
