@@ -6,6 +6,7 @@ import java.util.Map;
 
 import lombok.Data;
 import lombok.NonNull;
+import server.utils.StatusCodes;
 
 /**
  * Response is a class that represents a response from the server to the client.
@@ -49,7 +50,7 @@ public class Response implements Serializable {
      * Return a new Response for successful requests with default 200 status code.
      */
     public static Response success(String message, Map<String, ?> data) {
-        return new Response(true, message, data, 200);
+        return new Response(true, message, data, StatusCodes.OK);
     }
 
     /**
@@ -61,11 +62,27 @@ public class Response implements Serializable {
     }
 
     /**
+     * Return a new Response for successful requests
+     * with empty data and empty message and specified status code.
+     */
+    public static Response success(HashMap<String, ?> data, Integer code) {
+        return new Response(true, "", data, code);
+    }
+
+    /**
+     * Return a new Response for successful requests
+     * with empty data and empty message and default 200 status code.
+     */
+    public static Response success(HashMap<String, ?> data) {
+        return new Response(true, "", data, StatusCodes.OK);
+    }
+
+    /**
      * Return a new Response for successful requests with default 200 status code
      * and empty data.
      */
     public static Response success(String message) {
-        return new Response(true, message, new HashMap<>(), 200);
+        return new Response(true, message, new HashMap<>(), StatusCodes.OK);
     }
 
     /**
@@ -80,7 +97,7 @@ public class Response implements Serializable {
      * and empty data and message.
      */
     public static Response success() {
-        return new Response(true, "", new HashMap<>(), 200);
+        return new Response(true, "", new HashMap<>(), StatusCodes.OK);
     }
 
     /**
