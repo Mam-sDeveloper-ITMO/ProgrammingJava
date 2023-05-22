@@ -43,9 +43,19 @@ public class App {
             System.out.println(TextResources.App.CONNECT_LATER);
             System.exit(1);
         }
+        Integer userId = 0;
+        if (args.length == 1) {
+            try {
+                userId = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.out.println("Incorrect user id");
+                System.exit(1);
+            }
+        }
+
         CollectionManager manager = null;
         try {
-            manager = new RemoteManager(serviceAdapter, 1);
+            manager = new RemoteManager(serviceAdapter, userId);
         } catch (Exception e) {
             System.out.println(TextResources.App.CONNECT_LATER);
             System.exit(1);
