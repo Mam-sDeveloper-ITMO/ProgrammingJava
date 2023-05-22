@@ -14,6 +14,8 @@ public class TextResources {
 
         public static final String CANNOT_CREATE_MANAGER = BUNDLE.getString("CannotInitManager");
 
+        public static final String CONNECT_LATER = BUNDLE.getString("ConnectLater");
+
         public static final String INCORRECT_ARGS = BUNDLE.getString("IncorrectArgs");
     }
 

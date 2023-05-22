@@ -1,8 +1,5 @@
 package cliapp;
 
-import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
-
 import adapter.Adapter;
 import cliapp.cliclient.CLIClient;
 import cliapp.collection.RemoteManager;
@@ -27,42 +24,11 @@ import cliapp.commands.collection.ShowCommand;
 import cliapp.commands.collection.TailCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
-import humandeque.manager.local.LocalManager;
 
 /**
  * The main application class for running the space collection manager.
  */
 public class App {
-
-    /**
-     * Initializes the collection manager.
-     *
-     * @param args The command line arguments, which must include the path to the
-     *             collection file.
-     *
-     * @return The newly-initialized collection manager.
-     *
-     * @throws InvalidPathException If the specified file path is invalid.
-     */
-    private static CollectionManager initManager(String[] args) throws InvalidPathException {
-        try {
-            String filePath = args[args.length - 1];
-            Paths.get(filePath);
-        } catch (IndexOutOfBoundsException | InvalidPathException e) {
-            System.out.println(TextResources.App.INCORRECT_ARGS);
-            System.exit(1);
-        }
-
-        try {
-            return new LocalManager(args[args.length - 1]);
-        } catch (Exception e) {
-            System.out.println(TextResources.App.CANNOT_CREATE_MANAGER.formatted(e.getMessage()));
-            System.exit(1);
-        }
-        System.exit(1);
-        return null;
-    }
-
     /**
      * The entry point for the application. Initializes the collection manager and
      * the CLI client, and registers all commands.
@@ -70,18 +36,19 @@ public class App {
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
-        // CollectionManager manager = initManager(args);
         Adapter serviceAdapter = null;
         try {
             serviceAdapter = new Adapter("127.0.0.1", 8000);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(TextResources.App.CONNECT_LATER);
+            System.exit(1);
         }
         CollectionManager manager = null;
         try {
             manager = new RemoteManager(serviceAdapter, 1);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(TextResources.App.CONNECT_LATER);
+            System.exit(1);
         }
 
         // create client and register commands
