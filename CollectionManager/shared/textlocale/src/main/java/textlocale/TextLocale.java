@@ -2,9 +2,11 @@ package textlocale;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +42,7 @@ public class TextLocale {
      */
     @Getter
     @Setter
-    private static Locale locale = Locale.getDefault();
+    private static String locale = Locale.getDefault().getLanguage();
 
     /**
      * Loads texts from specified directory.
@@ -51,9 +53,17 @@ public class TextLocale {
     public static void loadPackage(String packageName) throws IOException {
         Map<String, Object> matchingFiles = FilesUtils.findFilesWithExtension(packageName, ".tl.json");
         texts = _parseJsonFiles(matchingFiles);
-        System.out.println();
     }
 
+    /**
+     * Parse map with json files.
+     *
+     * Each node in json file must be a map or a string.
+     *
+     * @param jsonFiles map with json files
+     * @return map with parsed json files
+     * @throws IOException if an I/O error occurs
+     */
     private static Map<String, Object> _parseJsonFiles(Map<String, Object> jsonFiles) throws IOException {
         Map<String, Object> texts = new HashMap<>();
 
@@ -68,5 +78,50 @@ public class TextLocale {
             }
         }
         return texts;
+    }
+
+    /**
+     * Get text by key.
+     *
+     * Key format:
+     * package.subpackage.key.subkey
+     *
+     * @param key Text key.
+     * @return Text value.
+     */
+    public static String getText(String key) {
+        return _getText(key, texts);
+    }
+
+    /**
+     * Get text by key.
+     *
+     * Key format:
+     * package.subpackage.key.subkey
+     *
+     * @param key  Text key.
+     * @param args Text arguments.
+     * @return Text value.
+     */
+    private static String _getText(String key, Map<String, Object> texts) {
+        String[] keys = key.split("\\.");
+        String currentKey = keys[0];
+        Object value = texts.get(currentKey);
+
+        if (value instanceof Map) {
+            Map<String, Object> subTexts = (Map<String, Object>) value;
+            if (subTexts.size() > 0) {
+                Entry<String, Object> firstEntry = subTexts.entrySet().iterator().next();
+                if (firstEntry.getValue() instanceof String) {
+                    return (String) subTexts.getOrDefault(TextLocale.locale, key);
+                } else {
+                    String subKey = String.join(".", Arrays.copyOfRange(keys, 1, keys.length));
+                    return _getText(subKey, subTexts);
+                }
+            } else {
+                return key;
+            }
+        }
+        return key;
     }
 }
