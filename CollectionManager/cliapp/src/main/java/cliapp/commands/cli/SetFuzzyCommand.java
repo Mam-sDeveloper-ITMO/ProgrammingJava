@@ -1,11 +1,10 @@
 package cliapp.commands.cli;
 
 import static commands.requirements.validators.common.StringValidators.booleanValidator;
+import static textlocale.TextLocale._;
 
 import java.util.List;
 
-import cliapp.TextResources.Commands.Cli.SetFuzzyCommandResources;
-import cliapp.TextResources.Commands.Cli.SetFuzzyCommandResources.FuzzyModeRequirementResources;
 import cliapp.cliclient.CLIClient;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -19,22 +18,24 @@ import commands.requirements.exceptions.RequirementAskError;
 public class SetFuzzyCommand extends CLICommand {
 
     private static final Requirement<String, Boolean> fuzzyModeRequirement = new Requirement<>(
-            FuzzyModeRequirementResources.NAME,
-            FuzzyModeRequirementResources.DESCRIPTION,
+            _("commands.cli.commands.SetFuzzyCommand.FuzzyModeRequirement.Name"),
+            _("commands.cli.commands.SetFuzzyCommand.FuzzyModeRequirement.Description"),
             booleanValidator);
 
     /**
      * Constructor for SetFuzzyCommand
-     * 
+     *
      * @param client the instance of {@link CLIClient} class
      */
     public SetFuzzyCommand(CLIClient client) {
-        super(SetFuzzyCommandResources.NAME, SetFuzzyCommandResources.DESCRIPTION, client);
+        super(_("commands.cli.commands.SetFuzzyCommand.Name"),
+                _("commands.cli.commands.SetFuzzyCommand.Description"),
+                client);
     }
 
     /**
      * Get the static requirements for this command
-     * 
+     *
      * @return a list of {@link Requirement} objects
      */
     @Override
@@ -44,7 +45,7 @@ public class SetFuzzyCommand extends CLICommand {
 
     /**
      * Change the fuzzy search mode
-     * 
+     *
      * @param pipeline an instance of {@link RequirementsPipeline} class
      * @param output   an instance of {@link OutputChannel} class
      * @throws ExecutionError if there is an error executing the command
@@ -55,7 +56,8 @@ public class SetFuzzyCommand extends CLICommand {
             Boolean fuzzyMode = pipeline.askRequirement(fuzzyModeRequirement);
             client.setFuzzyMatching(fuzzyMode);
             output.putString(
-                    fuzzyMode ? SetFuzzyCommandResources.FUZZY_ON : SetFuzzyCommandResources.FUZZY_OFF);
+                    fuzzyMode ? _("commands.cli.commands.SetFuzzyCommand.FuzzyOn")
+                            : _("commands.cli.commands.SetFuzzyCommand.FuzzyOff"));
         } catch (RequirementAskError e) {
             throw new ExecutionError(e.getMessage());
         }

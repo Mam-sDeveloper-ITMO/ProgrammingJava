@@ -1,7 +1,7 @@
 package cliapp.commands.cli;
 
-import cliapp.TextResources.CatsResources;
-import cliapp.TextResources.Commands.Cli.ExitCommandResources;
+import static textlocale.TextLocale._;
+
 import cliapp.cliclient.CLIClient;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -18,7 +18,7 @@ public class ExitCommand extends CLICommand {
      * @param client the CLIClient instance
      */
     public ExitCommand(CLIClient client) {
-        super(ExitCommandResources.NAME, ExitCommandResources.DESCRIPTION, client);
+        super(_("commands.cli.commands.ExitCommand.Name"), _("commands.cli.commands.ExitCommand.Description"), client);
     }
 
     /**
@@ -30,8 +30,7 @@ public class ExitCommand extends CLICommand {
      */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
-        output
-                .putString(ExitCommandResources.GOODBYE + System.lineSeparator() + CatsResources.CAT1);
+        output.putString(_("commands.cli.commands.ExitCommand.Goodbye") + System.lineSeparator() + _("cats.Cat1"));
         System.exit(0);
     }
 }

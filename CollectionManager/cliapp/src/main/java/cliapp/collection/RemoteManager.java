@@ -1,5 +1,7 @@
 package cliapp.collection;
 
+import static textlocale.TextLocale._;
+
 import java.io.Serializable;
 import java.util.Map;
 
@@ -7,7 +9,6 @@ import adapter.Adapter;
 import adapter.exceptions.ReceiveResponseFailed;
 import adapter.exceptions.SendRequestFailed;
 import adapter.exceptions.SocketInitFailed;
-import cliapp.TextResources;
 import collections.service.api.StatusCodes;
 import humandeque.HumanDeque;
 import humandeque.TextResources.Manager.ExceptionsResources;
@@ -158,7 +159,7 @@ public class RemoteManager extends CollectionManager {
         try {
             return serviceAdapter.triggerServer(method, data);
         } catch (SocketInitFailed | SendRequestFailed | ReceiveResponseFailed e) {
-            throw new ManipulationError(TextResources.CollectionResources.RemoteManager.FAILED_REQUEST);
+            throw new ManipulationError(_("collection.remotemanager.FailedRequest"));
         }
     }
 }

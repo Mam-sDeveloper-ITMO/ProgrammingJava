@@ -1,5 +1,9 @@
 package cliapp;
 
+import static textlocale.TextLocale._;
+
+import java.io.IOException;
+
 import adapter.Adapter;
 import cliapp.cliclient.CLIClient;
 import cliapp.collection.RemoteManager;
@@ -19,11 +23,11 @@ import cliapp.commands.collection.RandomCommand;
 import cliapp.commands.collection.RemoveByIdCommand;
 import cliapp.commands.collection.RemoveFirstCommand;
 import cliapp.commands.collection.RemoveLastCommand;
-import cliapp.commands.collection.SaveCommand;
 import cliapp.commands.collection.ShowCommand;
 import cliapp.commands.collection.TailCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
+import textlocale.TextLocale;
 
 /**
  * The main application class for running the space collection manager.
@@ -36,11 +40,19 @@ public class App {
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
+        try {
+            TextLocale.loadPackage("cliapp");
+            TextLocale.setLocale("en");
+        } catch (IOException e) {
+            System.out.println("Failed to load locale");
+            System.exit(1);
+        }
+
         Adapter serviceAdapter = null;
         try {
             serviceAdapter = new Adapter("127.0.0.1", 8000);
         } catch (Exception e) {
-            System.out.println(TextResources.App.CONNECT_LATER);
+            System.out.println(_("app.ConnectLater"));
             System.exit(1);
         }
         Integer userId = 0;
@@ -57,7 +69,7 @@ public class App {
         try {
             manager = new RemoteManager(serviceAdapter, userId);
         } catch (Exception e) {
-            System.out.println(TextResources.App.CONNECT_LATER);
+            System.out.println(_("app.ConnectLater"));
             System.exit(1);
         }
 

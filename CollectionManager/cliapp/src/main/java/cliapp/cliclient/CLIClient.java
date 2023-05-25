@@ -1,5 +1,7 @@
 package cliapp.cliclient;
 
+import static textlocale.TextLocale._;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +10,6 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cliapp.TextResources.CatsResources;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsError;
 import cliapp.utils.TextColor;
@@ -21,18 +22,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 
+ *
  * CLIClient is a class that implements command-line interaction with the user.
- * 
+ *
  * It contains Command objects and methods for their execution. It provides
  * input
- * 
+ *
  * and output, commands resolving and execution, exception processing, and other
  * shell stuff.
  */
 public class CLIClient {
     /**
-     * 
+     *
      * Map with triggers associated with commands. Trigger is the name of the
      * command for
      * invoking from.
@@ -41,14 +42,14 @@ public class CLIClient {
     private final Map<String, Command> commands = new HashMap<>();
 
     /**
-     * 
+     *
      * List of user input triggers.
      */
     @Getter
     private final List<String> history = new ArrayList<>();
 
     /**
-     * 
+     *
      * If fuzzy matching is enabled, then CLI will try to find the command by the
      * prefix of the trigger.
      */
@@ -57,7 +58,7 @@ public class CLIClient {
     private boolean fuzzyMatching = false;
 
     /**
-     * 
+     *
      * Specify the number of attempts to ask for requirements from the user.
      * After this number of attempts, if the requirement is not satisfied, the
      * command will not be executed.
@@ -67,14 +68,14 @@ public class CLIClient {
     private int askRequirementAttempts = 3;
 
     /**
-     * 
+     *
      * A supplier that provides user input from the command line in a safe way.
      */
     @Getter
     private Supplier<String> userInputSupplier = new SafeLineInput();
 
     /**
-     * 
+     *
      * An output channel that prints messages to the console using
      * System.out.println().
      */
@@ -82,11 +83,11 @@ public class CLIClient {
     private OutputChannel output = System.out::println;
 
     /**
-     * 
+     *
      * Add a new command to the CLI. The trigger will be used as the name of the
      * command for invoking
      * from the command line.
-     * 
+     *
      * @param trigger the trigger for the command
      * @param command the command object
      */
@@ -95,9 +96,9 @@ public class CLIClient {
     }
 
     /**
-     * 
+     *
      * Remove the command associated with the specified trigger from the CLI.
-     * 
+     *
      * @param trigger the trigger for the command
      */
     public void removeCommand(String trigger) {
@@ -105,10 +106,10 @@ public class CLIClient {
     }
 
     /**
-     * 
+     *
      * Find a trigger in the registered commands map by a full word or prefix if
      * fuzzy mode is enabled.
-     * 
+     *
      * @param trigger the trigger for the command
      * @return the trigger associated with the command
      * @throws CommandNotFoundError if the command is not found
@@ -128,9 +129,9 @@ public class CLIClient {
     }
 
     /**
-     * 
+     *
      * Normalize the trigger and return the command associated with it.
-     * 
+     *
      * @param trigger the trigger to resolve
      * @return the command associated with the trigger
      * @throws CommandNotFoundError if the command is not found
@@ -144,11 +145,11 @@ public class CLIClient {
     }
 
     /**
-     * 
+     *
      * Split the user input line into separated, non-empty parameters. Parameters in
      * quotes are
      * matched as one parameter.
-     * 
+     *
      * @param line the user input line
      * @return a list of separated words
      */
@@ -168,9 +169,9 @@ public class CLIClient {
     }
 
     /**
-     * 
+     *
      * Map static requirement names to specified inline parameters.
-     * 
+     *
      * @param staticRequirements a list of static requirements to map
      * @param inlineParams       a list of inline parameters to map to the
      *                           requirements
@@ -194,9 +195,9 @@ public class CLIClient {
     }
 
     /**
-     * 
+     *
      * Execute a command with specified inline parameters.
-     * 
+     *
      * @param command      the command to execute
      * @param inlineParams the inline parameters to pass to the command
      */
@@ -223,12 +224,12 @@ public class CLIClient {
     }
 
     /**
-     * 
+     *
      * Run an infinite loop for command line interaction.
      * Waits for user input and tries to resolve and execute a command.
      */
     public void runClient() {
-        System.out.println(CatsResources.CAT3);
+        System.out.println(_("cats.Cat3"));
         System.out.println();
         while (true) {
             // ASAP IMMEDIATELY REFACTOR

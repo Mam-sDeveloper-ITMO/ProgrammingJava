@@ -1,10 +1,11 @@
 package cliapp.commands.collection;
 
+import static textlocale.TextLocale._;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import cliapp.TextResources.Commands.Collection.PrintSortedCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -23,12 +24,14 @@ public class PrintSortedCommand extends CollectionCommand {
 
     /**
      * Create a new instance of PrintSortedCommand.
-     * 
+     *
      * @param collectionManager a collection manager instance that manages the
      *                          collection to be sorted and printed
      */
     public PrintSortedCommand(CollectionManager collectionManager) {
-        super(PrintSortedCommandResources.NAME, PrintSortedCommandResources.DESCRIPTION, collectionManager);
+        super(_("commands.collection.commands.PrintSortedCommand.Name"),
+                _("commands.collection.commands.PrintSortedCommand.Description"),
+                collectionManager);
     }
 
     /**
@@ -36,8 +39,8 @@ public class PrintSortedCommand extends CollectionCommand {
      * or "des".
      */
     private static final Requirement<String, Boolean> sortOrderRequirement = new Requirement<>(
-            PrintSortedCommandResources.SortOrderRequirement.NAME,
-            PrintSortedCommandResources.SortOrderRequirement.DESCRIPTION,
+            _("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.Name"),
+            _("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.Description"),
             new SortOrderValidator());
 
     /**
@@ -52,14 +55,15 @@ public class PrintSortedCommand extends CollectionCommand {
             } else if (value.equals("asc")) {
                 return false;
             } else {
-                throw new ValidationError(value, PrintSortedCommandResources.SortOrderRequirement.ILLEGAL_ORDER);
+                throw new ValidationError(value,
+                        _("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.IllegalOrder"));
             }
         }
     }
 
     /**
      * Get a sorted version of the collection using a PriorityQueue.
-     * 
+     *
      * @param collection the collection to be sorted
      * @return a sorted version of the collection
      */
@@ -72,7 +76,7 @@ public class PrintSortedCommand extends CollectionCommand {
 
     /**
      * Get the list of requirements for this command.
-     * 
+     *
      * @return a list of requirements for this command
      */
     @Override
@@ -82,7 +86,7 @@ public class PrintSortedCommand extends CollectionCommand {
 
     /**
      * Execute the command by printing the sorted collection.
-     * 
+     *
      * @param pipeline a requirements pipeline to provide dynamic requirements for
      *                 this command
      * @param output   an output channel to print the sorted collection to
@@ -95,9 +99,9 @@ public class PrintSortedCommand extends CollectionCommand {
             Boolean descendingOrder = pipeline.askRequirement(sortOrderRequirement);
             HumanDeque humans = getSortedCollection(collectionManager.getCollection());
             if (humans.isEmpty()) {
-                output.putString(PrintSortedCommandResources.EMPTY);
+                throw new ExecutionError(_("commands.collection.commands.PrintSortedCommand.EmptyCollection"));
             } else {
-                output.putString(PrintSortedCommandResources.TITLE);
+                output.putString(_("commands.collection.commands.PrintSortedCommand.Title"));
                 while (!humans.isEmpty()) {
                     if (descendingOrder) {
                         output.putString(humans.pollLast().toString());

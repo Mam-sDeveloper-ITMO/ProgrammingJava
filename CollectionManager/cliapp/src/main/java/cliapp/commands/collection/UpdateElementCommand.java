@@ -2,9 +2,6 @@ package cliapp.commands.collection;
 
 import java.util.List;
 
-import cliapp.TextResources;
-import cliapp.TextResources.Commands.Collection.RequirementsResources.MoodRequirement;
-import cliapp.TextResources.Commands.Collection.UpdateElementCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -17,6 +14,7 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
+import static textlocale.TextLocale._;
 
 /**
  * Command for updating an element in the collection.
@@ -28,7 +26,8 @@ public class UpdateElementCommand extends CollectionCommand {
      * @param collectionManager the collection manager to use
      */
     public UpdateElementCommand(CollectionManager collectionManager) {
-        super(UpdateElementCommandResources.NAME, UpdateElementCommandResources.DESCRIPTION,
+        super(_("commands.collection.commands.UpdateElementCommand.Name"),
+                _("commands.collection.commands.UpdateElementCommand.Description"),
                 collectionManager);
     }
 
@@ -43,20 +42,22 @@ public class UpdateElementCommand extends CollectionCommand {
     }
 
     /**
-     * Asks the specified requirement with the default option, or returns the default value.
+     * Asks the specified requirement with the default option, or returns the
+     * default value.
      *
-     * @param pipeline the requirements pipeline to use
-     * @param output   the output channel to use
-     * @param requirement the requirement to ask
+     * @param pipeline     the requirements pipeline to use
+     * @param output       the output channel to use
+     * @param requirement  the requirement to ask
      * @param defaultValue the default value to use
-     * @return the value obtained from the requirement, or the default value if the requirement fails
+     * @return the value obtained from the requirement, or the default value if the
+     *         requirement fails
      */
     private <I, O> O askOrDefault(RequirementsPipeline pipeline, OutputChannel output,
             Requirement<I, O> requirement,
             O defaultValue) {
         // suggest to skip field
         output.putString(
-                TextResources.CLIClientResources.ASK_DEFAULT_REQUIREMENT.formatted(defaultValue));
+                _("cliclient.cliclient.AskDefaultRequirement").formatted(defaultValue));
         try {
             O value = pipeline.askRequirement(requirement);
             return value;
@@ -66,11 +67,12 @@ public class UpdateElementCommand extends CollectionCommand {
     }
 
     /**
-     * Asks for the updated fields of a human. If a field is skipped, sets its default value.
+     * Asks for the updated fields of a human. If a field is skipped, sets its
+     * default value.
      *
      * @param defaultHuman the default human to use
-     * @param pipeline the requirements pipeline to use
-     * @param output the output channel to use
+     * @param pipeline     the requirements pipeline to use
+     * @param output       the output channel to use
      * @return the updated human
      * @throws RequirementAskError if there is an error while asking a requirement
      */
@@ -111,7 +113,7 @@ public class UpdateElementCommand extends CollectionCommand {
         for (int i = 0; i < Mood.values().length; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
-        output.putString(MoodRequirement.TITLE + System.lineSeparator() + moods);
+        output.putString(_("commands.collection.requirements.MoodRequirement.Title") + System.lineSeparator() + moods);
         humanBuilder.mood(askOrDefault(pipeline, output, moodRequirement, defaultHuman.getMood()));
 
         Car car = new Car(askOrDefault(pipeline, output, carNameRequirement, defaultHuman.getCar().getName()));
@@ -155,7 +157,7 @@ public class UpdateElementCommand extends CollectionCommand {
         // update human element in collection
         try {
             collectionManager.update(human);
-            output.putString(UpdateElementCommandResources.SUCCESS);
+            output.putString(_("commands.collection.commands.UpdateElementCommand.Success"));
         } catch (ElementNotExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }

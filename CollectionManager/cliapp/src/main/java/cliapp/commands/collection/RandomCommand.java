@@ -1,8 +1,9 @@
 package cliapp.commands.collection;
 
+import static textlocale.TextLocale._;
+
 import java.util.Random;
 
-import cliapp.TextResources.Commands.Collection.RandomCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -19,7 +20,8 @@ import models.Mood;
  */
 public class RandomCommand extends CollectionCommand {
     public RandomCommand(CollectionManager collectionManager) {
-        super(RandomCommandResources.NAME, RandomCommandResources.DESCRIPTION,
+        super(_("commands.collection.commands.RandomCommand.Name"),
+                _("commands.collection.commands.RandomCommand.Description"),
                 collectionManager);
     }
 
@@ -33,8 +35,9 @@ public class RandomCommand extends CollectionCommand {
 
         Human.HumanBuilder humanBuilder = Human.builder();
 
-        int nameIndex = random.nextInt(RandomCommandResources.RandomValues.NAMES.length);
-        humanBuilder.name(RandomCommandResources.RandomValues.NAMES[nameIndex]);
+        String[] names = _("commands.collection.commands.RandomCommand.RandomValues.NAMES").split(",");
+        int nameIndex = random.nextInt(names.length);
+        humanBuilder.name(names[nameIndex]);
 
         Coordinates.CoordinatesBuilder coordinatesBuilder = Coordinates.builder();
         coordinatesBuilder.x(random.nextFloat(-500, 1000000));
@@ -48,16 +51,19 @@ public class RandomCommand extends CollectionCommand {
 
         humanBuilder.impactSpeed(random.nextDouble());
 
-        int soundtrackIndex = random.nextInt(RandomCommandResources.RandomValues.SOUNDTRACKS.length);
-        humanBuilder.soundtrackName(RandomCommandResources.RandomValues.SOUNDTRACKS[soundtrackIndex]);
+        String[] soundtrackNames = _("commands.collection.commands.RandomCommand.RandomValues.SOUNDTRACKS").split(",");
+        int soundtrackIndex = random.nextInt(soundtrackNames.length);
+        humanBuilder.soundtrackName(soundtrackNames[soundtrackIndex]);
 
         humanBuilder.minutesOfWaiting(random.nextFloat(0, 200));
 
         int moodIndex = random.nextInt(Mood.values().length);
         humanBuilder.mood(Mood.values()[moodIndex]);
 
-        int carNameIndex = random.nextInt(RandomCommandResources.RandomValues.CARS.length);
-        Car car = new Car(RandomCommandResources.RandomValues.CARS[carNameIndex]);
+        String[] carNames = _("commands.collection.commands.RandomCommand.RandomValues.CARS").split(",");
+        int carNameIndex = random.nextInt(carNames.length);
+        Car car = new Car(carNames[carNameIndex]);
+
         humanBuilder.car(car);
 
         return humanBuilder.build();
@@ -77,7 +83,7 @@ public class RandomCommand extends CollectionCommand {
         Human human = generateHuman();
         try {
             collectionManager.add(human);
-            output.putString(RandomCommandResources.TITLE);
+            output.putString(_("commands.collection.commands.RandomCommand.Title"));
             output.putString(human.toString());
         } catch (ElementAlreadyExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());

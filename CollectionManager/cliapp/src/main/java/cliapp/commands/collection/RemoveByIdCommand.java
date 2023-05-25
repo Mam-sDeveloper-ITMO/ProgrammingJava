@@ -1,8 +1,9 @@
 package cliapp.commands.collection;
 
+import static textlocale.TextLocale._;
+
 import java.util.List;
 
-import cliapp.TextResources.Commands.Collection.RemoveByIdCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -17,7 +18,8 @@ import humandeque.manager.exceptions.ManipulationError;
  */
 public class RemoveByIdCommand extends CollectionCommand {
     public RemoveByIdCommand(CollectionManager collectionManager) {
-        super(RemoveByIdCommandResources.NAME, RemoveByIdCommandResources.DESCRIPTION,
+        super(_("commands.collection.commands.RemoveByIdCommand.Name"),
+                _("commands.collection.commands.RemoveByIdCommand.Description"),
                 collectionManager);
     }
 
@@ -50,7 +52,7 @@ public class RemoveByIdCommand extends CollectionCommand {
 
         try {
             collectionManager.remove(id);
-            output.putString(RemoveByIdCommandResources.SUCCESS);
+            output.putString(_("commands.collection.commands.RemoveByIdCommand.Success"));
         } catch (ElementNotExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }

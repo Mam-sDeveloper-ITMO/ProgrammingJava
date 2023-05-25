@@ -1,6 +1,7 @@
 package cliapp.commands.collection;
 
-import cliapp.TextResources.Commands.Collection.RemoveFirstCommandResources;
+import static textlocale.TextLocale._;
+
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -13,7 +14,9 @@ import humandeque.manager.exceptions.ManipulationError;
  */
 public class RemoveFirstCommand extends CollectionCommand {
     public RemoveFirstCommand(CollectionManager collectionManager) {
-        super(RemoveFirstCommandResources.NAME, RemoveFirstCommandResources.DESCRIPTION, collectionManager);
+        super(_("commands.collection.commands.RemoveFirstCommand.Name"),
+                _("commands.collection.commands.RemoveFirstCommand.Description"),
+                collectionManager);
     }
 
     /**
@@ -27,7 +30,7 @@ public class RemoveFirstCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {
             collectionManager.removeFirst();
-            output.putString(RemoveFirstCommandResources.SUCCESS);
+            output.putString(_("commands.collection.commands.RemoveFirstCommand.Success"));
         } catch (EmptyCollectionError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }

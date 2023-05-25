@@ -1,14 +1,15 @@
 package cliapp.commands.collection;
 
+import static textlocale.TextLocale._;
+
 import java.io.FileNotFoundException;
 
-import cliapp.TextResources.Commands.Collection.SaveCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.CollectionSaveError;
-import humandeque.manager.exceptions.ManipulationError;;
+import humandeque.manager.exceptions.ManipulationError;
 
 /**
  * A command that saves the collection to a file.
@@ -21,7 +22,9 @@ public class SaveCommand extends CollectionCommand {
      * @param collectionManager the collection manager to be used by this command.
      */
     public SaveCommand(CollectionManager collectionManager) {
-        super(SaveCommandResources.NAME, SaveCommandResources.DESCRIPTION, collectionManager);
+        super(_("commands.collection.commands.SaveCommand.Name"),
+                _("commands.collection.commands.SaveCommand.Description"),
+                collectionManager);
     }
 
     /**
@@ -35,12 +38,12 @@ public class SaveCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {
             collectionManager.save();
-            output.putString(SaveCommandResources.SUCCESS);
+            output.putString(_("commands.collection.commands.SaveCommand.Success"));
         } catch (CollectionSaveError e) {
             if (e.getCause() instanceof FileNotFoundException) {
-                throw new ExecutionError(SaveCommandResources.FILE_NOT_FOUND);
+                throw new ExecutionError(_("commands.collection.commands.SaveCommand.FileNotFound"));
             } else {
-                throw new ExecutionError(SaveCommandResources.SAVE_ERROR);
+                throw new ExecutionError(_("commands.collection.commands.SaveCommand.SaveError"));
             }
         } catch (ManipulationError e) {
             throw new ExecutionError(e.getMessage());
