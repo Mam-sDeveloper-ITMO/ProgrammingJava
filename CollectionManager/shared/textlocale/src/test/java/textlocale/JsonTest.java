@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -22,9 +23,10 @@ public class JsonTest {
 
         // Arrange
         String filePath = "src/test/resources/text1.tl.json";
+        File file = new File(filePath);
 
         // Act
-        Map<String, Object> actual = TLJsonUtils.jsonFileToMap(filePath);
+        Map<String, Object> actual = TLJsonUtils.jsonFileToMap(file);
 
         // Assert
         assertEquals(expected, actual);
@@ -35,11 +37,13 @@ public class JsonTest {
     public void testJsonFileToMapInvalidFile() throws IOException {
         // Arrange
         String filePath = "src/test/resources/invalid1.tl.json";
-        Map<String, Object> actual = TLJsonUtils.jsonFileToMap(filePath);
+        File file = new File(filePath);
+        Map<String, Object> actual = TLJsonUtils.jsonFileToMap(file);
         assertFalse(TLJsonUtils.isValidJson(actual));
 
         filePath = "src/test/resources/invalid2.tl.json";
-        actual = TLJsonUtils.jsonFileToMap(filePath);
+        file = new File(filePath);
+        actual = TLJsonUtils.jsonFileToMap(file);
         assertFalse(TLJsonUtils.isValidJson(actual));
     }
 }

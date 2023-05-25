@@ -27,20 +27,22 @@ public class TLJsonUtils {
     /**
      * Convert tl.json file to map.
      *
-     * @param filePath path to json file
+     * @param jsonFile tl.json file
      * @return map with json data
      * @throws IOException
      * @throws JsonSyntaxException
      */
-    public static Map<String, Object> jsonFileToMap(String filePath) throws IOException, JsonSyntaxException {
-        File jsonFile = new File(filePath);
-
+    public static Map<String, Object> jsonFileToMap(File jsonFile) throws IOException, JsonSyntaxException {
         @Cleanup
         FileReader fileReader = new FileReader(jsonFile);
 
         Type type = new TypeToken<HashMap<String, Object>>() {
         }.getType();
-        return gson.fromJson(fileReader, type);
+        Map<String, Object> jsonMap = gson.fromJson(fileReader, type);
+        if (jsonMap == null) {
+            throw new JsonSyntaxException("Json file is empty");
+        }
+        return jsonMap;
     }
 
     /**
