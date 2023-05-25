@@ -1,5 +1,6 @@
 package server.routers;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,25 +30,25 @@ public class MiddlewareRouter extends Router {
     }
 
     @Handler("foo")
-    Response foo(Map<String, Object> data) {
+    Response foo(Map<String, Serializable> data) {
         return new Response(true, "Hello from foo", data, 200);
     }
 
     @Handler("bar")
-    Response bar(Map<String, Object> data) {
+    Response bar(Map<String, Serializable> data) {
         return new Response(true, "Hello from bar", data, 200);
     }
 
     @OuterMiddleware("foo")
     Response foo(Request request, Response response) {
-        HashMap<String, Object> data = new HashMap<>();
+        HashMap<String, Serializable> data = new HashMap<>();
         data.put("hint", "foo");
         return Response.success("Hello from foo!", data, 200);
     }
 
     @OuterMiddleware("")
     Response all(Request request, Response response) {
-        HashMap<String, Object> data = new HashMap<>();
+        HashMap<String, Serializable> data = new HashMap<>();
         data.put("hint", "all");
         return Response.success("Hello from all!", data, 200);
     }

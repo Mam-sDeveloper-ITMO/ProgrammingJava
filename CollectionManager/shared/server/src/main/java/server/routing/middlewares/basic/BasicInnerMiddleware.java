@@ -1,10 +1,13 @@
 package server.routing.middlewares.basic;
 
+import java.util.Map;
+
 import server.requests.Request;
 import server.responses.Response;
 import server.routing.exceptions.IncorrectRequestData;
 import server.routing.handlers.HandlerFunction;
 import server.routing.middlewares.InnerMiddlewareFunction;
+import server.utils.DataConverter;
 
 /**
  * Basic inner middleware function.
@@ -23,6 +26,7 @@ public class BasicInnerMiddleware implements InnerMiddlewareFunction {
      */
     @Override
     public Response handle(HandlerFunction handler, Request request) throws IncorrectRequestData {
-        return handler.handle(request.getData());
+        Map<String, Object> requestData = DataConverter.serializableToObjects(request.getData());
+        return handler.handle(requestData);
     }
 }

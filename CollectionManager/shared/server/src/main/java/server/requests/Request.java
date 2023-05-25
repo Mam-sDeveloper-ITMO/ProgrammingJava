@@ -23,5 +23,5 @@ public class Request implements Serializable {
      * data is a map that represents the data of the request.
      */
     @NonNull
-    private final Map<String, Object> data;
+    private final Map<String, Serializable> data;
 }

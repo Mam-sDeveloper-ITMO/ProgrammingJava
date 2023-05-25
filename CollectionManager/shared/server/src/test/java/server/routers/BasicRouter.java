@@ -1,5 +1,6 @@
 package server.routers;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import server.responses.Response;
@@ -19,17 +20,17 @@ public class BasicRouter extends Router {
     }
 
     @Handler("foo")
-    Response foo(Map<String, Object> data) {
+    Response foo(Map<String, Serializable> data) {
         return new Response(true, "Hello from foo", data, 200);
     }
 
     @Handler("bar")
-    Response bar(Map<String, Object> data) {
+    Response bar(Map<String, Serializable> data) {
         return new Response(true, "Hello from bar", data, 200);
     }
 
     @Handler("bar.sub")
-    Response barSub(Map<String, Object> data) {
+    Response barSub(Map<String, Serializable> data) {
         return new Response(true, "Hello from bar.sub", data, 200);
     }
 }

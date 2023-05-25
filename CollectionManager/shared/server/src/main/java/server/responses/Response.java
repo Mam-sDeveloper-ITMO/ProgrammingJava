@@ -31,7 +31,7 @@ public class Response implements Serializable {
      * data is a map that represents the data of the response.
      */
     @NonNull
-    private final Map<String, Object> data;
+    private final Map<String, Serializable> data;
 
     /**
      * status code is same to HTTP status code concept.
@@ -42,14 +42,14 @@ public class Response implements Serializable {
     /**
      * Return a new Response for successful requests.
      */
-    public static Response success(String message, Map<String, Object> data, Integer code) {
+    public static Response success(String message, Map<String, Serializable> data, Integer code) {
         return new Response(true, message, data, code);
     }
 
     /**
      * Return a new Response for successful requests with default 200 status code.
      */
-    public static Response success(String message, Map<String, Object> data) {
+    public static Response success(String message, Map<String, Serializable> data) {
         return new Response(true, message, data, StatusCodes.OK);
     }
 
@@ -65,7 +65,7 @@ public class Response implements Serializable {
      * Return a new Response for successful requests
      * with empty data and empty message and specified status code.
      */
-    public static Response success(Map<String, Object> data, Integer code) {
+    public static Response success(Map<String, Serializable> data, Integer code) {
         return new Response(true, "", data, code);
     }
 
@@ -73,7 +73,7 @@ public class Response implements Serializable {
      * Return a new Response for successful requests
      * with empty data and empty message and default 200 status code.
      */
-    public static Response success(Map<String, Object> data) {
+    public static Response success(Map<String, Serializable> data) {
         return new Response(true, "", data, StatusCodes.OK);
     }
 
@@ -103,7 +103,7 @@ public class Response implements Serializable {
     /**
      * Return a new Response for failed requests with specified data.
      */
-    public static Response failure(String message, Map<String, Object> data, Integer code) {
+    public static Response failure(String message, Map<String, Serializable> data, Integer code) {
         return new Response(false, message, data, code);
     }
 
