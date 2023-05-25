@@ -21,7 +21,12 @@ public class App {
                 dotenv.get("PINGBACK_API_KEY"),
                 dotenv.get("PINGBACK_PROJECT"),
                 "mainLogger");
-        logger.setLogMode(LogMode.CONSOLE);
+
+        if (dotenv.get("PINGBACK_LOG_MODE").equals("BOTH")) {
+            logger.setLogMode(LogMode.BOTH);
+        } else if (dotenv.get("PINGBACK_LOG_MODE").equals("CONSOLE")) {
+            logger.setLogMode(LogMode.CONSOLE);
+        }
 
         CollectionsStorage collectionsDispatcher = new CollectionsStorage("./storage");
 
