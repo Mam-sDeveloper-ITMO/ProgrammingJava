@@ -39,14 +39,14 @@ public class MiddlewareRouter extends Router {
     }
 
     @OuterMiddleware("foo")
-    Response foo(Response response) {
+    Response foo(Request request, Response response) {
         HashMap<String, Object> data = new HashMap<>();
         data.put("hint", "foo");
         return Response.success("Hello from foo!", data, 200);
     }
 
     @OuterMiddleware("")
-    Response all(Response response) {
+    Response all(Request request, Response response) {
         HashMap<String, Object> data = new HashMap<>();
         data.put("hint", "all");
         return Response.success("Hello from all!", data, 200);

@@ -131,7 +131,7 @@ public class Dispatcher {
             OuterMiddlewareFunction outerMiddleware = resolvedOuterMiddleware.orElse(basicOuterMiddleware);
 
             // process response with outer middleware
-            return outerMiddleware.handle(response);
+            return outerMiddleware.handle(request, response);
         }
         return Response.failure("Not handlers for such trigger", StatusCodes.UNHANDLED);
     }

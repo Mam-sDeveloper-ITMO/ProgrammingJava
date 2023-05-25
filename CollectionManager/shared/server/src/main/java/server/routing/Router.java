@@ -307,7 +307,9 @@ public class Router {
      */
     private OuterMiddlewareFunction buildOuterMiddleware(Method method) {
         Class<?>[] parameterTypes = method.getParameterTypes();
-        if (parameterTypes.length != 1 || !Response.class.isAssignableFrom(parameterTypes[0])) {
+        if (parameterTypes.length != 2
+                || !Request.class.isAssignableFrom(parameterTypes[0])
+                || !Response.class.isAssignableFrom(parameterTypes[1])) {
             throw new IncorrectOuterMiddlewareParams();
         }
 
@@ -317,9 +319,9 @@ public class Router {
         }
 
         method.setAccessible(true);
-        OuterMiddlewareFunction middleware = (response) -> {
+        OuterMiddlewareFunction middleware = (request, response) -> {
             try {
-                return (Response) method.invoke(this, response);
+                return (Response) method.invoke(this, request, response);
             } catch (Exception e) {
                 // never happens (I hope)
                 return null;

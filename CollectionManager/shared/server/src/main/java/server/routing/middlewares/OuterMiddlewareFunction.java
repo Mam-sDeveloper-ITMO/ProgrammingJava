@@ -1,5 +1,6 @@
 package server.routing.middlewares;
 
+import server.requests.Request;
 import server.responses.Response;
 
 /**
@@ -13,5 +14,5 @@ import server.responses.Response;
  */
 @FunctionalInterface
 public interface OuterMiddlewareFunction {
-    Response handle(Response response);
+    Response handle(Request request, Response response);
 }

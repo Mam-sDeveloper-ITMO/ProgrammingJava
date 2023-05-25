@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -62,10 +63,11 @@ public class RouterTest {
         outerMiddleware = router.resolveOuterMiddleware(trigger);
         assertTrue(outerMiddleware.isPresent());
 
+        Request request = new Request("", new HashMap<>());
         try {
             response = innerMiddleware.get().handle(null, null);
             assertEquals(response.getMessage(), "Hello from foo!");
-            response = outerMiddleware.get().handle(response);
+            response = outerMiddleware.get().handle(request, response);
             assertEquals(response.getData().get("hint"), "foo");
         } catch (Exception e) {
             assert false;
@@ -79,10 +81,11 @@ public class RouterTest {
         outerMiddleware = router.resolveOuterMiddleware(trigger);
         assertTrue(outerMiddleware.isPresent());
 
+        request = new Request("", new HashMap<>());
         try {
             response = innerMiddleware.get().handle(null, null);
             assertEquals(response.getMessage(), "Hello from all!");
-            response = outerMiddleware.get().handle(response);
+            response = outerMiddleware.get().handle(request, response);
             assertEquals(response.getData().get("hint"), "all");
         } catch (Exception e) {
             assert false;

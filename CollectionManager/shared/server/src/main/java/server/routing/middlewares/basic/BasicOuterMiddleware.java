@@ -1,5 +1,6 @@
 package server.routing.middlewares.basic;
 
+import server.requests.Request;
 import server.responses.Response;
 import server.routing.middlewares.OuterMiddlewareFunction;
 
@@ -17,7 +18,7 @@ public class BasicOuterMiddleware implements OuterMiddlewareFunction {
      * @return Same response.
      */
     @Override
-    public Response handle(Response response) {
+    public Response handle(Request request, Response response) {
         return response;
     }
 }
