@@ -2,6 +2,7 @@ package server.routing.middlewares;
 
 import server.requests.Request;
 import server.responses.Response;
+import server.routing.exceptions.IncorrectRequestData;
 
 /**
  * Interface for outer middleware functions
@@ -14,5 +15,13 @@ import server.responses.Response;
  */
 @FunctionalInterface
 public interface OuterMiddlewareFunction {
-    Response handle(Request request, Response response);
+    /**
+     * Handle request and response
+     *
+     * @param request  Request object
+     * @param response Response object
+     * @return Response object
+     * @throws IncorrectRequestData Incorrect request data
+     */
+    Response handle(Request request, Response response) throws IncorrectRequestData;
 }

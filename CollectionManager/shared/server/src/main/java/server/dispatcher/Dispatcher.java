@@ -131,7 +131,11 @@ public class Dispatcher {
             OuterMiddlewareFunction outerMiddleware = resolvedOuterMiddleware.orElse(basicOuterMiddleware);
 
             // process response with outer middleware
-            return outerMiddleware.handle(request, response);
+            try {
+                return outerMiddleware.handle(request, response);
+            } catch (IncorrectRequestData e) {
+                return Response.failure("Incorrect request data", StatusCodes.INCORRECT_REQUEST_DATA);
+            }
         }
         return Response.failure("Not handlers for such trigger", StatusCodes.UNHANDLED);
     }
