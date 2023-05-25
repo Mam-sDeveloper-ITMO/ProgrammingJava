@@ -11,45 +11,62 @@ import lombok.Setter;
 import textlocale.utils.FilesUtils;
 import textlocale.utils.TLJsonUtils;
 
+/**
+ * Provides methods for working with text localization.
+ *
+ * Localization is stored in tl.json files.
+ * Format of tl.json files:
+ * {
+ * "key1": {
+ * "en": "value1",
+ * "ru": "значение1"
+ * },
+ * "key2": {
+ * subkey1: {
+ * "en": "value2",
+ * "ru": "значение2"
+ * },
+ * ...
+ * }
+ */
 public class TextLocale {
-    private static final String TL_EXTENSION = ".tl.json";
+    /**
+     * Contains all loaded texts.
+     */
+    private static Map<String, Object> texts = new HashMap<>();
 
-    private static Map<String, Map<String, Object>> packagesToTexts = new HashMap<>();
-
+    /**
+     * Current locale.
+     */
     @Getter
     @Setter
     private static Locale locale = Locale.getDefault();
 
+    /**
+     * Loads texts from specified directory.
+     * Subdirectories used as subkeys.
+     *
+     * @param directory Directory with tl.json files.
+     */
     public static void loadPackage(String packageName) throws IOException {
-        // Map<String, File> tlFiles = FilesUtils.findFilesWithExtension(packageName, TL_EXTENSION);
-        // Map<String, Object> texts = new HashMap<>();
-        // for (Map.Entry<String, File> entry : tlFiles.entrySet()) {
-        //     String fileName = entry.getKey();
-        //     String key = fileName.substring(0, fileName.length() - TL_EXTENSION.length());
-
-        //     File file = entry.getValue();
-        //     Map<String, Object> fileTexts = TLJsonUtils.jsonFileToMap(file.getAbsolutePath());
-
-        //     texts.put(key, fileTexts);
-        // }
-        // packagesToTexts.put(packageName, texts);
+        Map<String, Object> matchingFiles = FilesUtils.findFilesWithExtension(packageName, ".tl.json");
+        texts = _parseJsonFiles(matchingFiles);
+        System.out.println();
     }
 
-    public static String getText(String packageName, String key) {
-        Map<String, Object> texts = packagesToTexts.get(packageName);
-        if (texts == null) {
-            return key;
+    private static Map<String, Object> _parseJsonFiles(Map<String, Object> jsonFiles) throws IOException {
+        Map<String, Object> texts = new HashMap<>();
+
+        for (Map.Entry<String, Object> entry : jsonFiles.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (value instanceof Map) {
+                texts.put(key, _parseJsonFiles((Map<String, Object>) value));
+            } else if (value instanceof File) {
+                texts.put(key, TLJsonUtils.jsonFileToMap((File) value));
+            }
         }
-        if (!texts.containsKey(key)) {
-            return key;
-        }
-        if (texts.get(key) instanceof String) {
-            return (String) texts.get(key);
-        }
-        if (texts.get(key) instanceof Map) {
-            Map<String, String> textsMap = (Map<String, String>) texts.get(key);
-            return textsMap.getOrDefault(key, key);
-        }
-        return key;
+        return texts;
     }
 }

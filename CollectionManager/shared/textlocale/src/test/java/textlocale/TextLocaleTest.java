@@ -19,6 +19,7 @@ public class TextLocaleTest {
     @Before
     public void setUp() throws IOException {
         TextLocale.loadPackage("textlocale");
+        System.out.println();
     }
 
     @Test
