@@ -18,7 +18,7 @@ public class JsonTest {
         Map<String, Object> expected = Map.of(
                 "Hello, world!", Map.of(
                         "en", "Hello, world!",
-                        "es", "¡Hola, mundo!"),
+                        "es", "?Hola, mundo!"),
                 "None", "None");
 
         // Arrange

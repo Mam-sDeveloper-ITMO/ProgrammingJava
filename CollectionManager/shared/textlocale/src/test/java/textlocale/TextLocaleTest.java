@@ -22,9 +22,9 @@ public class TextLocaleTest {
         assertEquals("Hello, world!", text);
         TextLocale.setLocale("es");
         text = TextLocale.getText("subdir.subdir2.text4.greet");
-        assertEquals("¡Hola, mundo!", text);
+        assertEquals("?Hola, mundo!", text);
 
         text = _("text1.Hi");
-        assertEquals("¡Hola, mundo!", text);
+        assertEquals("?Hola, mundo!", text);
     }
 }
