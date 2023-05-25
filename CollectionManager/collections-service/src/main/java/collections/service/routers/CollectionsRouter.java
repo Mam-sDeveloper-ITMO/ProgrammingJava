@@ -1,5 +1,6 @@
 package collections.service.routers;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import server.routing.handlers.Handler;
 import server.routing.handlers.HandlerFunction;
 import server.routing.middlewares.InnerMiddleware;
 import server.routing.middlewares.OuterMiddleware;
+import server.utils.DataConverter;
 
 public class CollectionsRouter extends Router {
     /**
@@ -44,8 +46,9 @@ public class CollectionsRouter extends Router {
     @InnerMiddleware("")
     public Response handleRequest(HandlerFunction handler, Request request) throws IncorrectRequestData {
         logger.log("Request", request.toString(), Level.DEBUG);
+        Map<String, Object> data = DataConverter.serializableToObjects(request.getData());
         // get collection manager attached to user
-        Integer userId = getUserId(request.getData());
+        Integer userId = getUserId(data);
         CollectionManager collectionManager = collectionsDispatcher.getCollectionManager(userId);
         // try update collection
         try {
@@ -54,7 +57,6 @@ public class CollectionsRouter extends Router {
             logger.log("Middleware", "Collection load error: %s".formatted(e.getMessage()), Level.ERROR);
         }
         // pass collection manager to handler
-        Map<String, Object> data = new HashMap<>(request.getData());
         data.put("collectionManager", collectionManager);
         return handler.handle(data);
     }
@@ -62,10 +64,11 @@ public class CollectionsRouter extends Router {
     @OuterMiddleware("")
     public Response handleResponse(Request request, Response response) {
         logger.log("Response", response.toString(), Level.DEBUG);
+        Map<String, Object> data = DataConverter.serializableToObjects(request.getData());
         // get collection manager attached to user
         Integer userId;
         try {
-            userId = getUserId(request.getData());
+            userId = getUserId(data);
         } catch (IncorrectRequestData e) {
             return response;
         }
@@ -172,7 +175,7 @@ public class CollectionsRouter extends Router {
     @Handler("get")
     public Response get(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
-        Map<String, Object> responseData = Map.of("collection", collectionManager.getCollection());
+        Map<String, Serializable> responseData = Map.of("collection", collectionManager.getCollection());
         return Response.success(responseData);
     }
 

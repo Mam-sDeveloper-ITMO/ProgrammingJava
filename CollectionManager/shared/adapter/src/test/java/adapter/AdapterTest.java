@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class AdapterTest {
     public void testCallTrigger() throws SendRequestFailed, ReceiveResponseFailed {
         // Create a request
         String trigger = "testPrefix.foo";
-        Map<String, Object> data = Collections.singletonMap("key", "value");
+        Map<String, Serializable> data = Collections.singletonMap("key", "value");
         Request request = new Request(trigger, data);
 
         try {
@@ -48,7 +49,7 @@ public class AdapterTest {
     public void testLiveCallTrigger() throws SendRequestFailed, ReceiveResponseFailed {
         // Create a request
         String trigger = "testPrefix.foo";
-        Map<String, Object> data = Collections.singletonMap("key", "value");
+        Map<String, Serializable> data = Collections.singletonMap("key", "value");
         Request request = new Request(trigger, data);
 
         // Call the trigger

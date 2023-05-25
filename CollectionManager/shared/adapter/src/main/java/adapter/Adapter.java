@@ -3,6 +3,7 @@ package adapter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class Adapter {
      * @throws SendRequestFailed     if sending request failed
      * @throws ReceiveResponseFailed if receiving response failed
      */
-    public Response triggerServer(String trigger, Map<String, Object> data, Integer attempts)
+    public Response triggerServer(String trigger, Map<String, Serializable> data, Integer attempts)
             throws SocketInitFailed, SendRequestFailed, ReceiveResponseFailed {
         for (int i = 0; i < attempts; i++) {
             @Cleanup
@@ -74,7 +75,7 @@ public class Adapter {
      * Send trigger request to server and receive response
      * with default number of attempts (3).
      */
-    public Response triggerServer(String trigger, Map<String, Object> data)
+    public Response triggerServer(String trigger, Map<String, Serializable> data)
             throws SocketInitFailed, SendRequestFailed, ReceiveResponseFailed {
         return this.triggerServer(trigger, data, 3);
     }
