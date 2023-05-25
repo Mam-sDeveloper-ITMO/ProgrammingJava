@@ -94,6 +94,16 @@ public class TextLocale {
     }
 
     /**
+     * Alias for getText.
+     * @param key Text key.
+     * @param texts Texts map.
+     * @return Text value.
+     */
+    public static String _(String key) {
+        return getText(key);
+    }
+
+    /**
      * Get text by key.
      *
      * Key format:
