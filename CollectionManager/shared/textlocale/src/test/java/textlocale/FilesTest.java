@@ -22,11 +22,18 @@ public class FilesTest {
 
         assertNotNull(matchingFiles);
 
-        for (Map.Entry<String, Object> entry : matchingFiles.entrySet()) {
-            String fileName = entry.getKey();
-            File file = (File) entry.getValue();
+        assertTrue(matchingFiles.containsKey("text1"));
+        assertTrue(matchingFiles.containsKey("subdir"));
+        assertTrue(matchingFiles.containsKey("subdir3"));
 
-            assertTrue(fileName.endsWith(extension));
-        }
+        Map<String, Object> subdir = (Map<String, Object>) matchingFiles.get("subdir");
+        assertTrue(subdir.containsKey("text2"));
+        assertTrue(subdir.containsKey("subdir2"));
+
+        Map<String, Object> subdir2 = (Map<String, Object>) subdir.get("subdir2");
+        assertTrue(subdir2.containsKey("text4"));
+
+        Map<String, Object> subdir3 = (Map<String, Object>) matchingFiles.get("subdir3");
+        assertTrue(subdir3.containsKey("text4"));
     }
 }

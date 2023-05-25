@@ -18,70 +18,48 @@ public class FilesUtils {
     /**
      * Find all files with the given extension in the given package.
      *
-     * @param packageName The package to search.
+     * @param packagePath The package to search.
      * @param extension   The extension to match.
      * @return A map of directories, where each directory is represented as a nested
-     *         map of package+file names and corresponding files.
+     *         map like {subdir1.subdir2: file}.
      * @throws IOException If an I/O error occurs.
      */
-    public static Map<String, Object> findFilesWithExtension(String packageName, String extension) throws IOException {
-        Map<String, Object> directories = new HashMap<>();
-
+    public static Map<String, Object> findFilesWithExtension(String packagePath, String extension) throws IOException {
+        Map<String, Object> files = new HashMap<>();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        String path = packageName.replace('.', '/');
+        String path = packagePath.replace('.', '/');
         Enumeration<URL> resources = classLoader.getResources(path);
-        while (resources.hasMoreElements()) {
-            URL resourceUrl = resources.nextElement();
-            File directory = new File(resourceUrl.getFile());
-            if (directory.exists() && directory.isDirectory()) {
-                addMatchingFiles(directory, extension, directories, packageName);
-            }
+        if (resources.hasMoreElements()) {
+            URL resource = resources.nextElement();
+            File directory = new File(resource.getFile());
+            files.putAll(_findFilesWithExtension(packagePath, directory, extension));
         }
-
-        return directories;
+        return files;
     }
 
     /**
-     * Recursively add files with the given extension to the map of directories.
+     * Recursively find all files with the given extension in the given directory.
      *
-     * @param directory      The directory to search.
-     * @param extension      The extension to match.
-     * @param directories    The map of directories.
-     * @param currentPackage The current package name for constructing the
-     *                       package+file names.
+     * @param packageName The package name. Used as keys prefix.
+     * @param directory   The directory to search.
+     * @param extension   The extension to match.
+     * @return A map of directories, where each directory is represented as a nested
      */
-    private static void addMatchingFiles(File directory, String extension, Map<String, Object> directories,
-            String currentPackage) {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            return;
-        }
-        for (File file : files) {
-            if (file.isFile() && file.getName().endsWith(extension)) {
-                String packageFileName = currentPackage + "." + getRelativeFilePath(directory, file);
-                directories.put(packageFileName, file);
+    private static Map<String, Object> _findFilesWithExtension(String packageName, File directory, String extension) {
+        Map<String, Object> files = new HashMap<>();
+        File[] filesList = directory.listFiles();
+        for (File file : filesList) {
+            if (file.isFile()) {
+                if (file.getName().endsWith(extension)) {
+                    files.put(file.getName().replace(extension, ""), file);
+                }
             } else if (file.isDirectory()) {
-                String subPackageName = currentPackage + "." + file.getName();
-                Map<String, Object> subDirectory = new HashMap<>();
-                directories.put(file.getName(), subDirectory);
-                addMatchingFiles(file, extension, subDirectory, subPackageName);
+                Map<String, Object> subFiles = _findFilesWithExtension(file.getName(), file, extension);
+                if (!subFiles.isEmpty()) {
+                    files.put(file.getName(), subFiles);
+                }
             }
         }
-    }
-
-    /**
-     * Get the relative file path from the base directory to the file.
-     *
-     * @param baseDirectory The base directory.
-     * @param file          The file.
-     * @return The relative file path.
-     */
-    private static String getRelativeFilePath(File baseDirectory, File file) {
-        String basePath = baseDirectory.getAbsolutePath();
-        String filePath = file.getAbsolutePath();
-        if (filePath.startsWith(basePath)) {
-            return filePath.substring(basePath.length() + 1);
-        }
-        return filePath;
+        return files;
     }
 }
