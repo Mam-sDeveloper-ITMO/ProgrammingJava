@@ -76,10 +76,7 @@ public class CollectionsRouter extends Router {
         } catch (CollectionSaveError | ManipulationError e) {
             logger.log("Middleware", "Collection save error: %s".formatted(e.getMessage()), Level.ERROR);
         }
-        // bug fix for unserialize data in response
-        HashMap<String, Object> data = new HashMap<>(response.getData());
-        data.remove("collectionManager");
-        return new Response(response.getOk(), response.getMessage(), data, response.getCode());
+        return response;
     }
 
     @Handler("add")
@@ -88,7 +85,7 @@ public class CollectionsRouter extends Router {
         Human human = getHuman(data);
         try {
             collectionManager.add(human);
-            return Response.success(data);
+            return Response.success(Map.of("human", human));
         } catch (ElementAlreadyExistsError e) {
             return Response.failure("Element already exists", StatusCodes.ELEMENT_ALREADY_EXISTS);
         } catch (ManipulationError e) {
@@ -103,7 +100,7 @@ public class CollectionsRouter extends Router {
         Human human = getHuman(data);
         try {
             collectionManager.update(human);
-            return Response.success(data);
+            return Response.success(Map.of("human", human));
         } catch (ElementNotExistsError e) {
             return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
         } catch (ManipulationError e) {
@@ -123,7 +120,7 @@ public class CollectionsRouter extends Router {
         }
         try {
             collectionManager.remove(id);
-            return Response.success(data);
+            return Response.success(Map.of("id", id));
         } catch (ElementNotExistsError e) {
             return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
         } catch (ManipulationError e) {
@@ -137,7 +134,7 @@ public class CollectionsRouter extends Router {
         CollectionManager collectionManager = getCollectionManager(data);
         try {
             collectionManager.removeFirst();
-            return Response.success(data);
+            return Response.success();
         } catch (EmptyCollectionError e) {
             return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
         } catch (ManipulationError e) {
@@ -151,7 +148,7 @@ public class CollectionsRouter extends Router {
         CollectionManager collectionManager = getCollectionManager(data);
         try {
             collectionManager.removeLast();
-            return Response.success(data);
+            return Response.success();
         } catch (EmptyCollectionError e) {
             return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
         } catch (ManipulationError e) {
@@ -169,14 +166,13 @@ public class CollectionsRouter extends Router {
             return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
                     StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
         }
-        return Response.success(data);
+        return Response.success();
     }
 
     @Handler("get")
     public Response get(Map<String, Object> data) throws IncorrectRequestData {
         CollectionManager collectionManager = getCollectionManager(data);
-        HashMap<String, Object> responseData = new HashMap<>();
-        responseData.put("collection", collectionManager.getCollection());
+        Map<String, Object> responseData = Map.of("collection", collectionManager.getCollection());
         return Response.success(responseData);
     }
 
@@ -192,7 +188,7 @@ public class CollectionsRouter extends Router {
         CollectionManager collectionManager = getCollectionManager(data);
         try {
             collectionManager.save();
-            return Response.success(data);
+            return Response.success();
         } catch (CollectionSaveError e) {
             return Response.failure("Collection save error: %s".formatted(e.getMessage()),
                     StatusCodes.CANNOT_SAVE_COLLECTION);
