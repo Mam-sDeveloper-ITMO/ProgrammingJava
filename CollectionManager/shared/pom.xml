@@ -20,5 +20,6 @@
         <module>server</module>
         <module>adapter</module>
         <module>pingback</module>
+        <module>textlocale</module>
     </modules>
 </project>
