@@ -6,7 +6,6 @@ import java.util.Map;
 import collections.service.api.StatusCodes;
 import collections.service.collections.storage.CollectionsStorage;
 import humandeque.manager.CollectionManager;
-import humandeque.manager.exceptions.CollectionLoadError;
 import humandeque.manager.exceptions.CollectionSaveError;
 import humandeque.manager.exceptions.ElementAlreadyExistsError;
 import humandeque.manager.exceptions.ElementNotExistsError;
@@ -45,33 +44,40 @@ public class CollectionsRouter extends Router {
     @InnerMiddleware("")
     public Response handleRequest(HandlerFunction handler, Request request) throws IncorrectRequestData {
         logger.log("Request", request.toString(), Level.DEBUG);
-        CollectionManager collectionManager;
-        try {
-            Integer userId = (Integer) request.getData().get("userId");
-            collectionManager = collectionsDispatcher.getCollectionManager(userId);
-        } catch (ClassCastException e) {
-            throw new IncorrectRequestData();
-        }
+        // get collection manager attached to user
+        Integer userId = getUserId(request.getData());
+        CollectionManager collectionManager = collectionsDispatcher.getCollectionManager(userId);
+        // try update collection
         try {
             collectionManager.load();
         } catch (Exception e) {
             logger.log("Middleware", "Collection load error: %s".formatted(e.getMessage()), Level.ERROR);
         }
+        // pass collection manager to handler
         Map<String, Object> data = new HashMap<>(request.getData());
         data.put("collectionManager", collectionManager);
-        Response response = handler.handle(data);
-        try {
-            collectionManager.save();
-        } catch (Exception e) {
-            logger.log("Middleware", "Collection save error: %s".formatted(e.getMessage()), Level.ERROR);
-        }
-        return response;
+        return handler.handle(data);
     }
 
     @OuterMiddleware("")
-    public Response handleResponse(Response response) {
+    public Response handleResponse(Request request, Response response) {
         logger.log("Response", response.toString(), Level.DEBUG);
-        Map<String, Object> data = new HashMap<>(response.getData());
+        // get collection manager attached to user
+        Integer userId;
+        try {
+            userId = getUserId(request.getData());
+        } catch (IncorrectRequestData e) {
+            return response;
+        }
+        // try save collection
+        CollectionManager collectionManager = collectionsDispatcher.getCollectionManager(userId);
+        try {
+            collectionManager.save();
+        } catch (CollectionSaveError | ManipulationError e) {
+            logger.log("Middleware", "Collection save error: %s".formatted(e.getMessage()), Level.ERROR);
+        }
+        // bug fix for unserialize data in response
+        HashMap<String, Object> data = new HashMap<>(response.getData());
         data.remove("collectionManager");
         return new Response(response.getOk(), response.getMessage(), data, response.getCode());
     }
@@ -221,6 +227,21 @@ public class CollectionsRouter extends Router {
     private Human getHuman(Map<String, Object> data) throws IncorrectRequestData {
         try {
             return (Human) data.get("human");
+        } catch (ClassCastException e) {
+            throw new IncorrectRequestData();
+        }
+    }
+
+    /**
+     * Get user id from request data.
+     *
+     * @param data Request data.
+     * @return User id.
+     * @throws IncorrectRequestData
+     */
+    private Integer getUserId(Map<String, Object> data) throws IncorrectRequestData {
+        try {
+            return (Integer) data.get("userId");
         } catch (ClassCastException e) {
             throw new IncorrectRequestData();
         }
