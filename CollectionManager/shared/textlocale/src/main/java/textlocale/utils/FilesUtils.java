@@ -20,11 +20,12 @@ public class FilesUtils {
      *
      * @param packageName The package to search.
      * @param extension   The extension to match.
-     * @return A map of package+file names and corresponding files.
+     * @return A map of directories, where each directory is represented as a nested
+     *         map of package+file names and corresponding files.
      * @throws IOException If an I/O error occurs.
      */
-    public static Map<String, File> findFilesWithExtension(String packageName, String extension) throws IOException {
-        Map<String, File> matchingFiles = new HashMap<>();
+    public static Map<String, Object> findFilesWithExtension(String packageName, String extension) throws IOException {
+        Map<String, Object> directories = new HashMap<>();
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String path = packageName.replace('.', '/');
@@ -33,35 +34,37 @@ public class FilesUtils {
             URL resourceUrl = resources.nextElement();
             File directory = new File(resourceUrl.getFile());
             if (directory.exists() && directory.isDirectory()) {
-                addMatchingFiles(directory, extension, matchingFiles, packageName);
+                addMatchingFiles(directory, extension, directories, packageName);
             }
         }
 
-        return matchingFiles;
+        return directories;
     }
 
     /**
-     * Recursively add files with the given extension to the map of package+file
-     * names and files.
+     * Recursively add files with the given extension to the map of directories.
      *
-     * @param directory     The directory to search.
-     * @param extension     The extension to match.
-     * @param matchingFiles The map of package+file names and corresponding files.
-     * @param packageName   The package name for constructing the package+file
-     *                      names.
+     * @param directory      The directory to search.
+     * @param extension      The extension to match.
+     * @param directories    The map of directories.
+     * @param currentPackage The current package name for constructing the
+     *                       package+file names.
      */
-    private static void addMatchingFiles(File directory, String extension, Map<String, File> matchingFiles,
-            String packageName) {
+    private static void addMatchingFiles(File directory, String extension, Map<String, Object> directories,
+            String currentPackage) {
         File[] files = directory.listFiles();
         if (files == null) {
             return;
         }
         for (File file : files) {
             if (file.isFile() && file.getName().endsWith(extension)) {
-                String packageFileName = packageName + "." + getRelativeFilePath(directory, file, extension);
-                matchingFiles.put(packageFileName, file);
+                String packageFileName = currentPackage + "." + getRelativeFilePath(directory, file);
+                directories.put(packageFileName, file);
             } else if (file.isDirectory()) {
-                addMatchingFiles(file, extension, matchingFiles, packageName);
+                String subPackageName = currentPackage + "." + file.getName();
+                Map<String, Object> subDirectory = new HashMap<>();
+                directories.put(file.getName(), subDirectory);
+                addMatchingFiles(file, extension, subDirectory, subPackageName);
             }
         }
     }
@@ -73,11 +76,11 @@ public class FilesUtils {
      * @param file          The file.
      * @return The relative file path.
      */
-    private static String getRelativeFilePath(File baseDirectory, File file, String extension) {
+    private static String getRelativeFilePath(File baseDirectory, File file) {
         String basePath = baseDirectory.getAbsolutePath();
         String filePath = file.getAbsolutePath();
         if (filePath.startsWith(basePath)) {
-            return filePath.substring(basePath.length() + 1, filePath.length() - extension.length());
+            return filePath.substring(basePath.length() + 1);
         }
         return filePath;
     }

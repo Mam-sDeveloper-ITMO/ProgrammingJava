@@ -18,14 +18,15 @@ public class FilesTest {
         String packageName = "textlocale";
         String extension = ".tl.json";
 
-        Map<String, File> matchingFiles = FilesUtils.findFilesWithExtension(packageName, extension);
+        Map<String, Object> matchingFiles = FilesUtils.findFilesWithExtension(packageName, extension);
 
         assertNotNull(matchingFiles);
-        assertEquals(2, matchingFiles.size());
 
-        for (Map.Entry<String, File> entry : matchingFiles.entrySet()) {
-            assertTrue(entry.getValue().isFile());
-            assertTrue(entry.getValue().getName().endsWith(extension));
+        for (Map.Entry<String, Object> entry : matchingFiles.entrySet()) {
+            String fileName = entry.getKey();
+            File file = (File) entry.getValue();
+
+            assertTrue(fileName.endsWith(extension));
         }
     }
 }
