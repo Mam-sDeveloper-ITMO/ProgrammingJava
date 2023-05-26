@@ -1,0 +1,7 @@
+{
+    "CannotInitManager": { "en": "Cannot init collection manager: %s" },
+    "IncorrectArgs": {
+        "en": "You must specify file path to collection storage in arguments, like: java -jar CollectionManager.jar file.csv"
+    },
+    "ConnectLater": { "en": "Cannot connect to server. Will try to reconnect later." }
+}

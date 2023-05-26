@@ -1,9 +1,12 @@
 package cliapp;
 
-import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
+import static textlocale.TextLocale._;
 
+import java.io.IOException;
+
+import adapter.Adapter;
 import cliapp.cliclient.CLIClient;
+import cliapp.collection.RemoteManager;
 import cliapp.commands.cli.ExecuteCommand;
 import cliapp.commands.cli.ExitCommand;
 import cliapp.commands.cli.HelpCommand;
@@ -20,55 +23,55 @@ import cliapp.commands.collection.RandomCommand;
 import cliapp.commands.collection.RemoveByIdCommand;
 import cliapp.commands.collection.RemoveFirstCommand;
 import cliapp.commands.collection.RemoveLastCommand;
-import cliapp.commands.collection.SaveCommand;
 import cliapp.commands.collection.ShowCommand;
 import cliapp.commands.collection.TailCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
-import humandeque.manager.local.LocalManager;
+import textlocale.TextLocale;
 
 /**
  * The main application class for running the space collection manager.
  */
 public class App {
-
-    /**
-     * Initializes the collection manager.
-     * 
-     * @param args The command line arguments, which must include the path to the
-     *             collection file.
-     * 
-     * @return The newly-initialized collection manager.
-     * 
-     * @throws InvalidPathException If the specified file path is invalid.
-     */
-    private static CollectionManager initManager(String[] args) throws InvalidPathException {
-        try {
-            String filePath = args[args.length - 1];
-            Paths.get(filePath);
-        } catch (IndexOutOfBoundsException | InvalidPathException e) {
-            System.out.println(TextResources.App.INCORRECT_ARGS);
-            System.exit(1);
-        }
-
-        try {
-            return new LocalManager(args[args.length - 1]);
-        } catch (Exception e) {
-            System.out.println(TextResources.App.CANNOT_CREATE_MANAGER.formatted(e.getMessage()));
-            System.exit(1);
-        }
-        System.exit(1);
-        return null;
-    }
-
     /**
      * The entry point for the application. Initializes the collection manager and
      * the CLI client, and registers all commands.
-     * 
+     *
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
-        CollectionManager manager = initManager(args);
+        try {
+            TextLocale.loadPackage("cliapp");
+            TextLocale.setLocale("en");
+        } catch (IOException e) {
+            System.out.println("Failed to load locale");
+            System.exit(1);
+        }
+
+        Adapter serviceAdapter = null;
+        try {
+            serviceAdapter = new Adapter("127.0.0.1", 8000);
+        } catch (Exception e) {
+            System.out.println(_("app.ConnectLater"));
+            System.exit(1);
+        }
+        Integer userId = 0;
+        if (args.length == 1) {
+            try {
+                userId = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.out.println("Incorrect user id");
+                System.exit(1);
+            }
+        }
+
+        CollectionManager manager = null;
+        try {
+            manager = new RemoteManager(serviceAdapter, userId);
+        } catch (Exception e) {
+            System.out.println(_("app.ConnectLater"));
+            System.exit(1);
+        }
 
         // create client and register commands
         CLIClient client = new CLIClient();
@@ -87,7 +90,7 @@ public class App {
         client.registerCommand("head", new HeadCommand(manager));
         client.registerCommand("tail", new TailCommand(manager));
         client.registerCommand("filter", new FilterByImpactSpeed(manager));
-        client.registerCommand("save", new SaveCommand(manager));
+        // client.registerCommand("save", new SaveCommand(manager));
 
         // CLI commands
         client.registerCommand("help", new HelpCommand(client));

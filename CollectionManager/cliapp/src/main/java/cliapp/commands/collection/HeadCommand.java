@@ -1,12 +1,13 @@
 package cliapp.commands.collection;
 
-import cliapp.TextResources.Commands.Collection.HeadCommandResources;
+import static textlocale.TextLocale._;
+
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
-import humandeque.manager.exceptions.EmptyCollectionError;;
+import humandeque.manager.exceptions.EmptyCollectionError;
 
 /**
  * This command returns the first element of the collection.
@@ -15,11 +16,13 @@ public class HeadCommand extends CollectionCommand {
 
     /**
      * Constructs a new HeadCommand with the given collection manager.
-     * 
+     *
      * @param collectionManager the collection manager to be used by this command
      */
     public HeadCommand(CollectionManager collectionManager) {
-        super(HeadCommandResources.NAME, HeadCommandResources.DESCRIPTION, collectionManager);
+        super(_("commands.collection.commands.HeadCommand.Name"),
+                _("commands.collection.commands.HeadCommand.Description"),
+                collectionManager);
     }
 
     @Override
@@ -29,7 +32,7 @@ public class HeadCommand extends CollectionCommand {
             Exception cause = new EmptyCollectionError();
             throw new ExecutionError(cause.getMessage(), cause);
         } else {
-            output.putString(HeadCommandResources.TITLE);
+            output.putString(_("commands.collection.commands.HeadCommand.Title"));
             output.putString(humans.getFirst().toString());
         }
     }

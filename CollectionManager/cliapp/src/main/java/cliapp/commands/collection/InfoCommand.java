@@ -1,9 +1,10 @@
 package cliapp.commands.collection;
 
+import static textlocale.TextLocale._;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import cliapp.TextResources.Commands.Collection.InfoCommandResources;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -16,26 +17,28 @@ public class InfoCommand extends CollectionCommand {
 
     /**
      * Constructs a new InfoCommand with the given collection manager.
-     * 
+     *
      * @param collectionManager the collection manager to be used by this command
      */
     public InfoCommand(CollectionManager collectionManager) {
-        super(InfoCommandResources.NAME, InfoCommandResources.DESCRIPTION, collectionManager);
+        super(_("commands.collection.commands.InfoCommand.Name"),
+                _("commands.collection.commands.InfoCommand.Description"),
+                collectionManager);
     }
 
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
-        output.putString(InfoCommandResources.TITLE);
+        output.putString(_("commands.collection.commands.InfoCommand.Title"));
 
         String collectionType = collectionManager.getCollection().getClass().getSimpleName();
-        output.putString(InfoCommandResources.TYPE.formatted(collectionType));
+        output.putString(_("commands.collection.commands.InfoCommand.Type").formatted(collectionType));
 
         LocalDateTime initTime = collectionManager.getCollection().getCreateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         String formattedInitTime = initTime.format(formatter);
-        output.putString(InfoCommandResources.INIT_TIME.formatted(formattedInitTime));
+        output.putString(_("commands.collection.commands.InfoCommand.InitTime").formatted(formattedInitTime));
 
         long size = collectionManager.getCollection().size();
-        output.putString(InfoCommandResources.ELEMENTS_COUNT.formatted(String.valueOf(size)));
+        output.putString(_("commands.collection.commands.InfoCommand.ElementsCount").formatted(String.valueOf(size)));
     }
 }

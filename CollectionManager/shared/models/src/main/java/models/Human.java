@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
@@ -10,13 +11,13 @@ import lombok.NonNull;
 
 /**
  * A representation of a human.
- * 
+ *
  * @see <a href="https://se.ifmo.ru/courses/programming">Programming course
  *      website</a>
  */
 @Builder
 @EqualsAndHashCode(of = { "id" })
-public class Human implements Comparable<Human> {
+public class Human implements Comparable<Human>, Serializable {
 
     /**
      * The id of the human.
@@ -96,7 +97,7 @@ public class Human implements Comparable<Human> {
 
     /**
      * Constructs a new Human object with the specified characteristics.
-     * 
+     *
      * Used by {@link Human.Builder} to create a new instance of Human.
      *
      * @param id               the unique identifier of the human
@@ -153,7 +154,7 @@ public class Human implements Comparable<Human> {
 
     /**
      * Returns a string representation of this Human object.
-     * 
+     *
      * @return a string representation of this Human object
      */
     @Override

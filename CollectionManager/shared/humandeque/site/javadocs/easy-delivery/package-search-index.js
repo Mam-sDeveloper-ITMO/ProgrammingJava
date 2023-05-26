@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"humandeque"},{"l":"humandeque.manager"},{"l":"humandeque.manager.exceptions"},{"l":"humandeque.manager.local"}];updateSearchResults();

@@ -1,0 +1,55 @@
+{
+    "IdRequirement": {
+        "Name": { "en": "id" },
+        "Description": { "en": "positive long number" },
+        "NotPositive": { "en": "Id must be positive" },
+        "NotExists": { "en": "Human with that id not exists" },
+        "Exists": { "en": "Human with that id already exists" }
+    },
+    "NameRequirement": {
+        "Name": { "en": "name" },
+        "Description": { "en": "string" }
+    },
+    "CoordinateXRequirement": {
+        "Name": { "en": "x coordinate" },
+        "Description": { "en": "float number greater than -566" },
+        "ValidationError": { "en": "X coordinate must be greater than -566" }
+    },
+    "CoordinateYRequirement": {
+        "Name": { "en": "y coordinate" },
+        "Description": { "en": "float number greater than -872" },
+        "ValidationError": { "en": "Y coordinate must be greater than -872" }
+    },
+    "RealHeroRequirement": {
+        "Name": { "en": "real hero" },
+        "Description": { "en": "true/false" }
+    },
+    "HasToothpickRequirement": {
+        "Name": { "en": "has toothpick" },
+        "Description": { "en": "true/false" }
+    },
+    "ImpactSpeedRequirement": {
+        "Name": { "en": "impact speed" },
+        "Description": { "en": "float number" }
+    },
+    "SoundtrackRequirement": {
+        "Name": { "en": "soundtrack name" },
+        "Description": { "en": "string" }
+    },
+    "MinutesOfWaitingRequirement": {
+        "Name": { "en": "minutes of waiting" },
+        "Description": { "en": "double value (skip for leave null)" }
+    },
+    "MoodRequirement": {
+        "Name": { "en": "mood" },
+        "Description": { "en": "enter number or name of mood (skip for leave null)" },
+        "Title": { "en": "Available moods:" },
+        "ByNumberNotExists": { "en": "Mood with this number does not exist" },
+        "ByNameNotExists": { "en": "Mood with this name does not exist" },
+        "ValidationError": { "en": "Mood must be integer or string" }
+    },
+    "CarRequirement": {
+        "Name": { "en": "car name" },
+        "Description": { "en": "string" }
+    }
+}

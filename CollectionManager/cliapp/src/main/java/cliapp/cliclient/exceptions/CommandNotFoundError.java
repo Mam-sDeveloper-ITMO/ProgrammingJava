@@ -1,6 +1,6 @@
 package cliapp.cliclient.exceptions;
 
-import cliapp.TextResources.CLIClientResources;;
+import static textlocale.TextLocale._;
 
 /**
  * Exception thrown when the CLI client cannot find a command by its trigger.
@@ -13,6 +13,6 @@ public class CommandNotFoundError extends Exception {
      * @param trigger the trigger that was not found
      */
     public CommandNotFoundError(String trigger) {
-        super(CLIClientResources.COMMAND_NOT_FOUND_ERROR.formatted(trigger));
+        super(_("cliclient.cliclient.CommandNotFoundError").formatted(trigger));
     }
 }

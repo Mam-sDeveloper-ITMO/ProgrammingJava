@@ -1,0 +1,52 @@
+{
+    "HelpCommand": {
+        "Name": { "en": "Help Command" },
+        "Description": {
+            "en": "Show list of all registered commands with description and static requirements"
+        },
+        "Title": { "en": "Available commands:" },
+        "InlineParams": { "en": "Inline parameters:" }
+    },
+    "ExitCommand": {
+        "Name": { "en": "Exit Command" },
+        "Description": { "en": "Exit the CLI" },
+        "Goodbye": { "en": "Goodbye! \\n" }
+    },
+    "HistoryCommand": {
+        "Name": { "en": "History Command" },
+        "Description": { "en": "Show history of executed commands" },
+        "Title": { "en": "History of executed commands:" },
+        "Empty": { "en": "History is empty" }
+    },
+    "SetFuzzyCommand": {
+        "Name": { "en": "Set Fuzzy Command" },
+        "Description": {
+            "en": "Set fuzzy mode for command search (e.g. \"he\" will find \"help\" command)"
+        },
+        "On": { "en": "Fuzzy mode is on" },
+        "Off": { "en": "Fuzzy mode is off" },
+        "FuzzyModeRequirement": {
+            "Name": { "en": "Fuzzy mode for command search" },
+            "Description": { "en": "(true/false)" }
+        }
+    },
+    "ExecuteCommand": {
+        "Name": { "en": "Execute Script Command" },
+        "Description": { "en": "Execute commands from script file with .neko extension" },
+        "Title": { "en": "Executing command: %s" },
+        "LineError": { "en": "Failed execute script at line: \"%s\"" },
+        "NotEnoughDynamicParams": { "en": "Not enough dynamic params specified" },
+        "IncorrectLineFormat": { "en": "Incorrect line format" },
+        "MaxCallCountExceed": {
+            "en": "Potential recursion! Exceed max calls count %d for %s script"
+        },
+        "ScriptFileRequirement": {
+            "FileError": { "en": "Cannot open script file" },
+            "Name": { "en": "Script file" },
+            "Description": { "en": "(path to file with .neko extension)" },
+            "IncorrectExtension": {
+                "en": "Incorrect file extension. File must have .neko extension"
+            }
+        }
+    }
+}
