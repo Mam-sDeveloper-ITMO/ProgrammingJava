@@ -18,18 +18,23 @@ import textlocale.utils.TLJsonUtils;
  *
  * Localization is stored in tl.json files.
  * Format of tl.json files:
+ *
+ * <pre>
  * {
- * "key1": {
- * "en": "value1",
- * "ru": "значение1"
- * },
- * "key2": {
- * subkey1: {
- * "en": "value2",
- * "ru": "значение2"
- * },
- * ...
+ *    "key1": {
+ *        "en": "value1",
+ *        "ru": "значение1"
+ *    },
+ *    "key2": {
+ *        subkey1: {
+ *            "en": "value2",
+ *            "ru": "значение2"
+ *        },
+ *        ...
+ *    }
+ *    ...
  * }
+ * </pre>
  */
 public class TextLocale {
     /**
@@ -95,11 +100,12 @@ public class TextLocale {
 
     /**
      * Alias for getText.
-     * @param key Text key.
+     *
+     * @param key   Text key.
      * @param texts Texts map.
      * @return Text value.
      */
-    public static String _(String key) {
+    public static String t(String key) {
         return getText(key);
     }
 
