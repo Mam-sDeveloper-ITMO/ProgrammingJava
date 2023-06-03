@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.util.List;
 
@@ -24,8 +24,8 @@ public class FilterByImpactSpeed extends CollectionCommand {
      * @param collectionManager the collection manager
      */
     public FilterByImpactSpeed(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.FilterByImpactSpeedCommand.Name"),
-                _("commands.collection.commands.FilterByImpactSpeedCommand.Description"),
+        super(t("commands.collection.commands.FilterByImpactSpeedCommand.Name"),
+                t("commands.collection.commands.FilterByImpactSpeedCommand.Description"),
                 collectionManager);
     }
 
@@ -64,9 +64,9 @@ public class FilterByImpactSpeed extends CollectionCommand {
                 .collect(HumanDeque::new, HumanDeque::add, HumanDeque::addAll);
 
         if (humans.isEmpty()) {
-            output.putString(_("commands.collection.commands.FilterByImpactSpeedCommand.Empty"));
+            output.putString(t("commands.collection.commands.FilterByImpactSpeedCommand.Empty"));
         } else {
-            output.putString(_("commands.collection.commands.FilterByImpactSpeedCommand.Title"));
+            output.putString(t("commands.collection.commands.FilterByImpactSpeedCommand.Title"));
             humans.forEach((human) -> output.putString(human.toString()));
         }
     }

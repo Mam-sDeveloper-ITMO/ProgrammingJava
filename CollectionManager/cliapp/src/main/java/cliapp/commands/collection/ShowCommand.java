@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -19,8 +19,8 @@ public class ShowCommand extends CollectionCommand {
      * @param collectionManager the collection manager to be used by this command.
      */
     public ShowCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.ShowCommand.Name"),
-                _("commands.collection.commands.ShowCommand.Description"),
+        super(t("commands.collection.commands.ShowCommand.Name"),
+                t("commands.collection.commands.ShowCommand.Description"),
                 collectionManager);
     }
 
@@ -35,9 +35,9 @@ public class ShowCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         HumanDeque humans = collectionManager.getCollection();
         if (humans.isEmpty()) {
-            output.putString(_("commands.collection.commands.ShowCommand.Empty"));
+            output.putString(t("commands.collection.commands.ShowCommand.Empty"));
         } else {
-            output.putString(_("commands.collection.commands.ShowCommand.Title"));
+            output.putString(t("commands.collection.commands.ShowCommand.Title"));
             humans.forEach((human) -> output.putString(human.toString()));
         }
     }

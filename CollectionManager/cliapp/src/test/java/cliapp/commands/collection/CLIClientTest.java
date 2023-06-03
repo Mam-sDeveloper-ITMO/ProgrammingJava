@@ -15,13 +15,17 @@ import cliapp.cliclient.exceptions.InlineParamsError;
 import commands.Command;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.local.LocalManager;
+import textlocale.TextLocale;
 
 public class CLIClientTest {
     private CLIClient client;
 
     @Before
     @Test
-    public void testCommandsRegistration() {
+    public void testCommandsRegistration() throws Exception {
+        TextLocale.loadPackage("cliapp");
+        TextLocale.setLocale("en");
+
         client = new CLIClient();
 
         CollectionManager manager = new LocalManager();

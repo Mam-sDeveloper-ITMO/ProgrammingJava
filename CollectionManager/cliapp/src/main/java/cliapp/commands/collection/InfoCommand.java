@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,24 +21,24 @@ public class InfoCommand extends CollectionCommand {
      * @param collectionManager the collection manager to be used by this command
      */
     public InfoCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.InfoCommand.Name"),
-                _("commands.collection.commands.InfoCommand.Description"),
+        super(t("commands.collection.commands.InfoCommand.Name"),
+                t("commands.collection.commands.InfoCommand.Description"),
                 collectionManager);
     }
 
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
-        output.putString(_("commands.collection.commands.InfoCommand.Title"));
+        output.putString(t("commands.collection.commands.InfoCommand.Title"));
 
         String collectionType = collectionManager.getCollection().getClass().getSimpleName();
-        output.putString(_("commands.collection.commands.InfoCommand.Type").formatted(collectionType));
+        output.putString(t("commands.collection.commands.InfoCommand.Type").formatted(collectionType));
 
         LocalDateTime initTime = collectionManager.getCollection().getCreateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         String formattedInitTime = initTime.format(formatter);
-        output.putString(_("commands.collection.commands.InfoCommand.InitTime").formatted(formattedInitTime));
+        output.putString(t("commands.collection.commands.InfoCommand.InitTime").formatted(formattedInitTime));
 
         long size = collectionManager.getCollection().size();
-        output.putString(_("commands.collection.commands.InfoCommand.ElementsCount").formatted(String.valueOf(size)));
+        output.putString(t("commands.collection.commands.InfoCommand.ElementsCount").formatted(String.valueOf(size)));
     }
 }

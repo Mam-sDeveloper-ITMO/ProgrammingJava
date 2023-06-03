@@ -1,6 +1,6 @@
 package cliapp.cliclient;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -229,7 +229,7 @@ public class CLIClient {
      * Waits for user input and tries to resolve and execute a command.
      */
     public void runClient() {
-        System.out.println(_("cats.Cat3"));
+        System.out.println(t("cats.Cat3"));
         System.out.println();
         while (true) {
             // ASAP IMMEDIATELY REFACTOR

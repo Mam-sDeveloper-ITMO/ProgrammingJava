@@ -14,7 +14,7 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 /**
  * Command for updating an element in the collection.
@@ -26,8 +26,8 @@ public class UpdateElementCommand extends CollectionCommand {
      * @param collectionManager the collection manager to use
      */
     public UpdateElementCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.UpdateElementCommand.Name"),
-                _("commands.collection.commands.UpdateElementCommand.Description"),
+        super(t("commands.collection.commands.UpdateElementCommand.Name"),
+                t("commands.collection.commands.UpdateElementCommand.Description"),
                 collectionManager);
     }
 
@@ -57,7 +57,7 @@ public class UpdateElementCommand extends CollectionCommand {
             O defaultValue) {
         // suggest to skip field
         output.putString(
-                _("cliclient.cliclient.AskDefaultRequirement").formatted(defaultValue));
+                t("cliclient.cliclient.AskDefaultRequirement").formatted(defaultValue));
         try {
             O value = pipeline.askRequirement(requirement);
             return value;
@@ -113,7 +113,7 @@ public class UpdateElementCommand extends CollectionCommand {
         for (int i = 0; i < Mood.values().length; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
-        output.putString(_("commands.collection.requirements.MoodRequirement.Title") + System.lineSeparator() + moods);
+        output.putString(t("commands.collection.requirements.MoodRequirement.Title") + System.lineSeparator() + moods);
         humanBuilder.mood(askOrDefault(pipeline, output, moodRequirement, defaultHuman.getMood()));
 
         Car car = new Car(askOrDefault(pipeline, output, carNameRequirement, defaultHuman.getCar().getName()));
@@ -157,7 +157,7 @@ public class UpdateElementCommand extends CollectionCommand {
         // update human element in collection
         try {
             collectionManager.update(human);
-            output.putString(_("commands.collection.commands.UpdateElementCommand.Success"));
+            output.putString(t("commands.collection.commands.UpdateElementCommand.Success"));
         } catch (ElementNotExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }

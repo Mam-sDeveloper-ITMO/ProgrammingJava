@@ -1,6 +1,6 @@
 package cliapp;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.io.IOException;
 
@@ -52,7 +52,7 @@ public class App {
         try {
             serviceAdapter = new Adapter("127.0.0.1", 8000);
         } catch (Exception e) {
-            System.out.println(_("app.ConnectLater"));
+            System.out.println(t("app.ConnectLater"));
             System.exit(1);
         }
         Integer userId = 0;
@@ -69,7 +69,7 @@ public class App {
         try {
             manager = new RemoteManager(serviceAdapter, userId);
         } catch (Exception e) {
-            System.out.println(_("app.ConnectLater"));
+            System.out.println(t("app.ConnectLater"));
             System.exit(1);
         }
 

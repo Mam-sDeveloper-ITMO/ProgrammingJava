@@ -1,7 +1,7 @@
 package cliapp.commands.collection;
 
 import static commands.requirements.validators.common.StringValidators.booleanValidator;
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -21,8 +21,8 @@ public class ClearCommand extends CollectionCommand {
      * collection.
      */
     private static Requirement<String, Boolean> approveRequirement = new Requirement<>(
-            _("commands.collection.commands.ClearCommand.ApproveRequirement.Name"),
-            _("commands.collection.commands.ClearCommand.ApproveRequirement.Description"),
+            t("commands.collection.commands.ClearCommand.ApproveRequirement.Name"),
+            t("commands.collection.commands.ClearCommand.ApproveRequirement.Description"),
             booleanValidator);
 
     /**
@@ -31,8 +31,8 @@ public class ClearCommand extends CollectionCommand {
      * @param collectionManager the collection manager
      */
     public ClearCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.ClearCommand.Name"),
-                _("commands.collection.commands.ClearCommand.Description"),
+        super(t("commands.collection.commands.ClearCommand.Name"),
+                t("commands.collection.commands.ClearCommand.Description"),
                 collectionManager);
     }
 
@@ -62,7 +62,7 @@ public class ClearCommand extends CollectionCommand {
             } catch (ManipulationError e) {
                 throw new ExecutionError(e.getMessage());
             }
-            output.putString(_("commands.collection.commands.ClearCommand.Success"));
+            output.putString(t("commands.collection.commands.ClearCommand.Success"));
         }
     }
 }

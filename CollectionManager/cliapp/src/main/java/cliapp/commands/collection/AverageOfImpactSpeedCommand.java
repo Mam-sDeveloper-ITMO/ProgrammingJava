@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -21,8 +21,8 @@ public class AverageOfImpactSpeedCommand extends CollectionCommand {
      * @param collectionManager instance of CollectionManager class.
      */
     public AverageOfImpactSpeedCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.AverageOfImpactSpeedCommand.Name"),
-                _("commands.collection.commands.AverageOfImpactSpeedCommand.Description"),
+        super(t("commands.collection.commands.AverageOfImpactSpeedCommand.Name"),
+                t("commands.collection.commands.AverageOfImpactSpeedCommand.Description"),
                 collectionManager);
     }
 
@@ -43,6 +43,6 @@ public class AverageOfImpactSpeedCommand extends CollectionCommand {
         Double averageSpeed = humans.stream()
                 .map(human -> human.getImpactSpeed())
                 .reduce(0d, (a, b) -> a + b) / humans.size();
-        output.putString(_("commands.collection.commands.AverageOfImpactSpeedCommand.Title").formatted(averageSpeed));
+        output.putString(t("commands.collection.commands.AverageOfImpactSpeedCommand.Title").formatted(averageSpeed));
     }
 }

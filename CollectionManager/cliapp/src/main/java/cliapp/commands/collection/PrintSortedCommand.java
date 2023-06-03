@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,8 +29,8 @@ public class PrintSortedCommand extends CollectionCommand {
      *                          collection to be sorted and printed
      */
     public PrintSortedCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.PrintSortedCommand.Name"),
-                _("commands.collection.commands.PrintSortedCommand.Description"),
+        super(t("commands.collection.commands.PrintSortedCommand.Name"),
+                t("commands.collection.commands.PrintSortedCommand.Description"),
                 collectionManager);
     }
 
@@ -39,8 +39,8 @@ public class PrintSortedCommand extends CollectionCommand {
      * or "des".
      */
     private static final Requirement<String, Boolean> sortOrderRequirement = new Requirement<>(
-            _("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.Name"),
-            _("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.Description"),
+            t("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.Name"),
+            t("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.Description"),
             new SortOrderValidator());
 
     /**
@@ -56,7 +56,7 @@ public class PrintSortedCommand extends CollectionCommand {
                 return false;
             } else {
                 throw new ValidationError(value,
-                        _("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.IllegalOrder"));
+                        t("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.IllegalOrder"));
             }
         }
     }
@@ -99,9 +99,9 @@ public class PrintSortedCommand extends CollectionCommand {
             Boolean descendingOrder = pipeline.askRequirement(sortOrderRequirement);
             HumanDeque humans = getSortedCollection(collectionManager.getCollection());
             if (humans.isEmpty()) {
-                throw new ExecutionError(_("commands.collection.commands.PrintSortedCommand.EmptyCollection"));
+                throw new ExecutionError(t("commands.collection.commands.PrintSortedCommand.EmptyCollection"));
             } else {
-                output.putString(_("commands.collection.commands.PrintSortedCommand.Title"));
+                output.putString(t("commands.collection.commands.PrintSortedCommand.Title"));
                 while (!humans.isEmpty()) {
                     if (descendingOrder) {
                         output.putString(humans.pollLast().toString());

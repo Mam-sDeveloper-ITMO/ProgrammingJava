@@ -1,7 +1,7 @@
 package cliapp.commands.cli;
 
 import static commands.requirements.validators.common.StringValidators.booleanValidator;
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ import commands.requirements.exceptions.RequirementAskError;
 public class SetFuzzyCommand extends CLICommand {
 
     private static final Requirement<String, Boolean> fuzzyModeRequirement = new Requirement<>(
-            _("commands.cli.commands.SetFuzzyCommand.FuzzyModeRequirement.Name"),
-            _("commands.cli.commands.SetFuzzyCommand.FuzzyModeRequirement.Description"),
+            t("commands.cli.commands.SetFuzzyCommand.FuzzyModeRequirement.Name"),
+            t("commands.cli.commands.SetFuzzyCommand.FuzzyModeRequirement.Description"),
             booleanValidator);
 
     /**
@@ -28,8 +28,8 @@ public class SetFuzzyCommand extends CLICommand {
      * @param client the instance of {@link CLIClient} class
      */
     public SetFuzzyCommand(CLIClient client) {
-        super(_("commands.cli.commands.SetFuzzyCommand.Name"),
-                _("commands.cli.commands.SetFuzzyCommand.Description"),
+        super(t("commands.cli.commands.SetFuzzyCommand.Name"),
+                t("commands.cli.commands.SetFuzzyCommand.Description"),
                 client);
     }
 
@@ -56,8 +56,8 @@ public class SetFuzzyCommand extends CLICommand {
             Boolean fuzzyMode = pipeline.askRequirement(fuzzyModeRequirement);
             client.setFuzzyMatching(fuzzyMode);
             output.putString(
-                    fuzzyMode ? _("commands.cli.commands.SetFuzzyCommand.FuzzyOn")
-                            : _("commands.cli.commands.SetFuzzyCommand.FuzzyOff"));
+                    fuzzyMode ? t("commands.cli.commands.SetFuzzyCommand.FuzzyOn")
+                            : t("commands.cli.commands.SetFuzzyCommand.FuzzyOff"));
         } catch (RequirementAskError e) {
             throw new ExecutionError(e.getMessage());
         }

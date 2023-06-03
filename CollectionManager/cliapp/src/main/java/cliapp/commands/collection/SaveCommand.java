@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.io.FileNotFoundException;
 
@@ -22,8 +22,8 @@ public class SaveCommand extends CollectionCommand {
      * @param collectionManager the collection manager to be used by this command.
      */
     public SaveCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.SaveCommand.Name"),
-                _("commands.collection.commands.SaveCommand.Description"),
+        super(t("commands.collection.commands.SaveCommand.Name"),
+                t("commands.collection.commands.SaveCommand.Description"),
                 collectionManager);
     }
 
@@ -38,12 +38,12 @@ public class SaveCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {
             collectionManager.save();
-            output.putString(_("commands.collection.commands.SaveCommand.Success"));
+            output.putString(t("commands.collection.commands.SaveCommand.Success"));
         } catch (CollectionSaveError e) {
             if (e.getCause() instanceof FileNotFoundException) {
-                throw new ExecutionError(_("commands.collection.commands.SaveCommand.FileNotFound"));
+                throw new ExecutionError(t("commands.collection.commands.SaveCommand.FileNotFound"));
             } else {
-                throw new ExecutionError(_("commands.collection.commands.SaveCommand.SaveError"));
+                throw new ExecutionError(t("commands.collection.commands.SaveCommand.SaveError"));
             }
         } catch (ManipulationError e) {
             throw new ExecutionError(e.getMessage());

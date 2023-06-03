@@ -1,0 +1,122 @@
+{
+    "InfoCommand": {
+        "Name": { "en": "Info Command" },
+        "Description": {
+            "en": "Output to the standard output stream information about the collection (type, initialization date, number of elements, etc.)"
+        },
+        "Title": { "en": "Collection information:" },
+        "Type": { "en": "Type: %s" },
+        "InitTime": { "en": "Initialization date: %s" },
+        "ElementsCount": { "en": "Number of elements: %s" }
+    },
+    "ShowCommand": {
+        "Name": { "en": "Show Command" },
+        "Description": {
+            "en": "Output to the standard output stream all elements of the collection in a string representation"
+        },
+        "Empty": { "en": "Collection is empty." },
+        "Title": { "en": "Collection elements:" }
+    },
+    "AddElementCommand": {
+        "Name": { "en": "Add Command" },
+        "Description": { "en": "Add a new element to the collection" },
+        "Success": { "en": "Element added to collection." }
+    },
+    "UpdateElementCommand": {
+        "Name": { "en": "Update Command" },
+        "Description": {
+            "en": "Update the value of the element in the collection whose id is equal to the specified"
+        },
+        "Success": { "en": "Element updated in collection." }
+    },
+    "RemoveByIdCommand": {
+        "Name": { "en": "Remove By Id Command" },
+        "Description": { "en": "Remove an element from the collection by its id" },
+        "Success": { "en": "Element removed from collection." }
+    },
+    "ClearCommand": {
+        "Name": { "en": "Clear Command" },
+        "Description": { "en": "Clear the collection" },
+        "Success": { "en": "Collection cleared." },
+        "ApproveRequirement": {
+            "Name": { "en": "Are you sure you want to clear the collection?" },
+            "Description": { "en": "true/false" }
+        }
+    },
+    "SaveCommand": {
+        "Name": { "en": "Save Command" },
+        "Description": { "en": "Save the collection to a file" },
+        "Success": { "en": "Collection saved to file." },
+        "SaveError": { "en": "Error while saving collection to file: %s" },
+        "FileNotFound": { "en": "Cannot write in file" },
+        "AskFilePath": { "en": "You can specify another file or skip:" },
+        "FileNameRequirement": {
+            "Name": { "en": "'storage file name'" },
+            "Description": { "en": "'path to csv file where collection will be stored'" }
+        }
+    },
+    "RemoveFirstCommand": {
+        "Name": { "en": "Remove First Command" },
+        "Description": { "en": "Delete the first element from the collection" },
+        "Success": { "en": "First element removed from collection." }
+    },
+    "RemoveLastCommand": {
+        "Name": { "en": "Remove Last Command" },
+        "Description": { "en": "Delete the last element from the collection" },
+        "Success": { "en": "Last element removed from collection." }
+    },
+    "HeadCommand": {
+        "Name": { "en": "Head Command" },
+        "Description": { "en": "Output the first element of the collection" },
+        "Title": { "en": "First element of collection:" }
+    },
+    "TailCommand": {
+        "Name": { "en": "Tail Command" },
+        "Description": { "en": "Output the last element of the collection" },
+        "Title": { "en": "Last element of collection:" }
+    },
+    "AverageOfImpactSpeedCommand": {
+        "Name": { "en": "Average Of Impact Speed Command" },
+        "Description": {
+            "en": "Output the average value of the impactSpeed field for all humans"
+        },
+        "Title": { "en": "Average impact speed of humans: %f" }
+    },
+    "FilterByImpactSpeedCommand": {
+        "Name": { "en": "Filter By Impact Speed Command" },
+        "Description": {
+            "en": "Output elements whose impact speed field value is greater than the specified one"
+        },
+        "Title": { "en": "Filtered elements:" },
+        "Empty": { "en": "No elements found." }
+    },
+    "PrintSortedCommand": {
+        "Name": { "en": "Print Sorted Command" },
+        "Description": {
+            "en": "Print the elements of the collection sorted by impact speed"
+        },
+        "Title": { "en": "Sorted elements:" },
+        "Empty": { "en": "Collection is empty." },
+        "SortOrderRequirement": {
+            "Name": { "en": "Sort order" },
+            "Description": { "en": "asc/desc" },
+            "IllegalOrder": { "en": "Invalid sort order. Valid values: asc, des" }
+        }
+    },
+    "RandomCommand": {
+        "Name": { "en": "Random Command" },
+        "Description": { "en": "Add Human with random fields to collection" },
+        "Title": { "en": "Human is added:" },
+        "RandomValues": {
+            "Names": {
+                "en": "Igor Letov,Konstantin Ryabinov,Arkadiy Klimkin,Oleg Sudakov,Igor Starovatov,Natalya Chumakova,Pavel Peretolchin,Andrey Babenko,Andrey Mashkovtsev,Andrey Vasin,Aleksandr Klipov,Irina Ryabinova,Aleksandr Busel,Oleg Ivanovsky,Aleksandr Rozhkov,Valeriy Rozhkov,Yevgeniy Filatov,Oleg Lishchenko,Yevgeniy Lishchenko,Yana Dyagileva,Dmitriy Selivanov,Yevgeniy Deev,Sergey Zelenskiy,Igor Gulyaev,Yevgeniy Pyanov,Anna Volkova,Aleksandr Chesnakov,Igor Zhevtun,Arkadiy Kuznetsov,Yevgeniy Kokorin,Aleksandr Andryushkin,Sergey Letov"
+            },
+            "Soundtracks": {
+                "en": "Like A Rolling Stone,P.S.SAM,Amnesia,Anarchy,Anarchy,Tired Angel,Armageddon-Pop,BG,Without Me,White Soldiers,Take Your Coat,Pointless Pirozhok,Blues,There is No God,Combat Reggae,Combat Stimulus,Delirium,Be Well,In Every House,In the Lenin Hills,In the Beginning Was the Word,Milkweed Grows in the Field,Headfirst into the Wall,Shattered and Splattered,Tops and Roots,Eternal Spring,A Rifle is a Holiday,War,Wave of Patriotism,That's What the Sky is Like,Forward!,Everything is Fine,Everything is Going According to Plan,All of This is with You,Just Like People Do,Great Universal Love,Second Echelon,Where Are You,Clay Will Teach,Universality,GA,Proud Word in Cooling Ashes,State,Let's Keep Eating,Long Road Ahead,Double Vision,Deserter,Demobilization,Children's Doctor Said \"Cool\",Children's World,Jah Is on Our Side,Zombie Division,Child,Long and Happy Life,Shattered and Splattered,Gospel,Yes!,Just a Little More,Once Again About a Fool,Zheka is Already in Hamburg,Yellow Press,Live,Eat,That's Our Concern,Conspiracy,Scum,Payment on Payday,Great and Eternal,Hello,Black Monday,Grain for the Mill,So,Hurricane,Zombie,Zoo,You're All Wasting Your Time,And Darkness Again,Ivan's Childhood,Bead Game,From the Outside,Judas Will Be in Paradise,To You,Kabuki,To Each Their Own,Buzz or More,How the Soul Died in the Meat Hut,How to Live,Like a Flyer,Like Cream,What's It to Me,What Kind of Sky,One Morning at Dawn,Kaleidoscope,Quarantine,KBG-Rock,KGB,KGB-Rock,Clalafudu Clalafu,Maple Leaf,When I Died,Someone Else,Lullaby,Braid of Civilizations,Nightmare,Red Banner,Red Laughter,We Strengthen,Rabbits,Who Seeks Meaning,Who Will Die First,Stronger One is Right,Someone Else,Where We Are Going"
+            },
+            "Cars": {
+                "en": "Toyota Camry,Honda Accord,Chevrolet Tahoe,Ford Mustang,Jeep Wrangler,Nissan Altima,BMW X5,Mercedes-Benz S-Class,Audi A4,Volkswagen Jetta,Kia Optima,Mazda CX-5,Subaru Outback,Hyundai Elantra,Porsche 911,Dodge Challenger,Tesla Model S,Lexus LS,Cadillac Escalade,GMC Sierra"
+            }
+        }
+    }
+}

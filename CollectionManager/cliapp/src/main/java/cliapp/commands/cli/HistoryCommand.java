@@ -1,6 +1,6 @@
 package cliapp.commands.cli;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class HistoryCommand extends CLICommand {
      * @param client the instance of {@link CLIClient} class
      */
     public HistoryCommand(CLIClient client) {
-        super(_("commands.cli.commands.HistoryCommand.Name"),
-                _("commands.cli.commands.HistoryCommand.Description"),
+        super(t("commands.cli.commands.HistoryCommand.Name"),
+                t("commands.cli.commands.HistoryCommand.Description"),
                 client);
     }
 
@@ -36,9 +36,9 @@ public class HistoryCommand extends CLICommand {
         List<String> history = client.getHistory();
 
         if (history.size() == 0) {
-            output.putString(_("commands.cli.commands.HistoryCommand.Empty"));
+            output.putString(t("commands.cli.commands.HistoryCommand.Empty"));
         } else {
-            output.putString(_("commands.cli.commands.HistoryCommand.Title"));
+            output.putString(t("commands.cli.commands.HistoryCommand.Title"));
             for (String trigger : history) {
                 output.putString("- " + trigger);
             }

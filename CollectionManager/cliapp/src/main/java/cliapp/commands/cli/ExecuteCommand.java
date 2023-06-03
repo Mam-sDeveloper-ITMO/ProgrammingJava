@@ -1,6 +1,6 @@
 package cliapp.commands.cli;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -55,8 +55,8 @@ public class ExecuteCommand extends CLICommand {
     private Map<Path, Integer> callCounter = new HashMap<>();
 
     private static final Requirement<String, Path> scriptFileRequirement = new Requirement<>(
-            _("commands.cli.commands.ExecuteCommand.ScriptFileRequirement.Name"),
-            _("commands.cli.commands.ExecuteCommand.ScriptFileRequirement.Description"),
+            t("commands.cli.commands.ExecuteCommand.ScriptFileRequirement.Name"),
+            t("commands.cli.commands.ExecuteCommand.ScriptFileRequirement.Description"),
             new ScriptPathValidator());
 
     /**
@@ -77,7 +77,7 @@ public class ExecuteCommand extends CLICommand {
         public Path validate(String value) throws ValidationError {
             if (!value.endsWith(".neko")) {
                 throw new ValidationError(value,
-                        _("commands.cli.commands.ExecuteCommand.ScriptFileRequirement.IncorrectExtension"));
+                        t("commands.cli.commands.ExecuteCommand.ScriptFileRequirement.IncorrectExtension"));
             }
             try {
                 Path path = Paths.get(value);
@@ -94,7 +94,7 @@ public class ExecuteCommand extends CLICommand {
      * @param client a {@link cliapp.cliclient.CLIClient} instance.
      */
     public ExecuteCommand(CLIClient client) {
-        super(_("commands.cli.commands.ExecuteCommand.Name"), _("commands.cli.commands.ExecuteCommand.Description"),
+        super(t("commands.cli.commands.ExecuteCommand.Name"), t("commands.cli.commands.ExecuteCommand.Description"),
                 client);
     }
 
@@ -147,7 +147,7 @@ public class ExecuteCommand extends CLICommand {
                     // dynamic requirements
                     if (dynamicRequirements.isEmpty()) {
                         throw new RequirementAskError(requirement.getName(),
-                                _("commands.cli.commands.ExecuteCommand.NotEnoughDynamicParams"));
+                                t("commands.cli.commands.ExecuteCommand.NotEnoughDynamicParams"));
                     }
                     return requirement.getValue((I) dynamicRequirements.poll());
                 }
@@ -272,7 +272,7 @@ public class ExecuteCommand extends CLICommand {
             executeWithUserParams(line);
         } else {
             // without dynamic params
-            throw new ExecutionError(_("commands.cli.commands.ExecuteCommand.IncorrectLineFormat").formatted(line));
+            throw new ExecutionError(t("commands.cli.commands.ExecuteCommand.IncorrectLineFormat").formatted(line));
         }
     }
 
@@ -294,7 +294,7 @@ public class ExecuteCommand extends CLICommand {
             // reset counter and throw error
             callCounter.remove(scriptPath);
             throw new ExecutionError(
-                    _("commands.cli.commands.ExecuteCommand.MaxCallCountExceed").formatted(maxRecursionDepth));
+                    t("commands.cli.commands.ExecuteCommand.MaxCallCountExceed").formatted(maxRecursionDepth));
         }
 
         // execute script
@@ -303,7 +303,7 @@ public class ExecuteCommand extends CLICommand {
                 executeScriptLine(line);
             } catch (Exception e) {
                 throw new ExecutionError(
-                        _("commands.cli.commands.ExecuteCommand.LineError").formatted(scriptPath, e.getMessage()));
+                        t("commands.cli.commands.ExecuteCommand.LineError").formatted(scriptPath, e.getMessage()));
             }
         }
 

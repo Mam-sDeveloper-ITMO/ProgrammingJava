@@ -1,6 +1,6 @@
 package cliapp.commands.cli;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class HelpCommand extends CLICommand {
      * @param client the CLIClient instance
      */
     public HelpCommand(CLIClient client) {
-        super(_("commands.cli.commands.HelpCommand.Name"), _("commands.cli.commands.HelpCommand.Description"), client);
+        super(t("commands.cli.commands.HelpCommand.Name"), t("commands.cli.commands.HelpCommand.Description"), client);
     }
 
     /**
@@ -48,7 +48,7 @@ public class HelpCommand extends CLICommand {
         if (!staticRequirements.isEmpty()) {
             builder.append(System.lineSeparator())
                     .append("\t")
-                    .append(_("commands.cli.commands.HelpCommand.InlineParams") + System.lineSeparator());
+                    .append(t("commands.cli.commands.HelpCommand.InlineParams") + System.lineSeparator());
             for (Requirement<?, ?> requirement : staticRequirements) {
                 builder.append("\t\t")
                         .append(TextColor.getColoredString(requirement.getName(), TextColor.BLUE))
@@ -74,7 +74,7 @@ public class HelpCommand extends CLICommand {
         Map<String, Command> commands = client.getCommands();
 
         StringBuilder builder = new StringBuilder();
-        builder.append(_("commands.cli.commands.HelpCommand.Title")).append(System.lineSeparator());
+        builder.append(t("commands.cli.commands.HelpCommand.Title")).append(System.lineSeparator());
         for (String trigger : commands.keySet()) {
             Command command = commands.get(trigger);
             builder.append(getCommandLine(trigger, command)).append(System.lineSeparator());

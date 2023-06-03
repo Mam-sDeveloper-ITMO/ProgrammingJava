@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -14,8 +14,8 @@ import humandeque.manager.exceptions.ManipulationError;
  */
 public class RemoveLastCommand extends CollectionCommand {
     public RemoveLastCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.RemoveLastCommand.Name"),
-                _("commands.collection.commands.RemoveLastCommand.Description"),
+        super(t("commands.collection.commands.RemoveLastCommand.Name"),
+                t("commands.collection.commands.RemoveLastCommand.Description"),
                 collectionManager);
     }
 
@@ -30,7 +30,7 @@ public class RemoveLastCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {
             collectionManager.removeLast();
-            output.putString(_("commands.collection.commands.RemoveLastCommand.Success"));
+            output.putString(t("commands.collection.commands.RemoveLastCommand.Success"));
         } catch (EmptyCollectionError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }

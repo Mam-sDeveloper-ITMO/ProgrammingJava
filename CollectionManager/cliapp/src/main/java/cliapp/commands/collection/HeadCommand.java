@@ -1,6 +1,6 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -20,8 +20,8 @@ public class HeadCommand extends CollectionCommand {
      * @param collectionManager the collection manager to be used by this command
      */
     public HeadCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.HeadCommand.Name"),
-                _("commands.collection.commands.HeadCommand.Description"),
+        super(t("commands.collection.commands.HeadCommand.Name"),
+                t("commands.collection.commands.HeadCommand.Description"),
                 collectionManager);
     }
 
@@ -32,7 +32,7 @@ public class HeadCommand extends CollectionCommand {
             Exception cause = new EmptyCollectionError();
             throw new ExecutionError(cause.getMessage(), cause);
         } else {
-            output.putString(_("commands.collection.commands.HeadCommand.Title"));
+            output.putString(t("commands.collection.commands.HeadCommand.Title"));
             output.putString(humans.getFirst().toString());
         }
     }

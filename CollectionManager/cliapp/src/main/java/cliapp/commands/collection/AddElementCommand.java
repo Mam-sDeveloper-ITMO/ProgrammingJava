@@ -1,5 +1,7 @@
 package cliapp.commands.collection;
 
+import static textlocale.TextLocale.t;
+
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -11,7 +13,6 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import static textlocale.TextLocale._;
 
 /**
  * Command that adds a new human element to the collection.
@@ -24,8 +25,8 @@ public class AddElementCommand extends CollectionCommand {
      * @param collectionManager instance of CollectionManager class.
      */
     public AddElementCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.AddElementCommand.Name"),
-                _("commands.collection.commands.AddElementCommand.Description"),
+        super(t("commands.collection.commands.AddElementCommand.Name"),
+                t("commands.collection.commands.AddElementCommand.Description"),
                 collectionManager);
     }
 
@@ -66,7 +67,7 @@ public class AddElementCommand extends CollectionCommand {
         }
         moods += (Mood.values().length - 1) + " - " + Mood.values()[Mood.values().length - 1];
 
-        output.putString(_("commands.collection.requirements.MoodRequirement.Title") + System.lineSeparator() + moods);
+        output.putString(t("commands.collection.requirements.MoodRequirement.Title") + System.lineSeparator() + moods);
         humanBuilder.mood(pipeline.askRequirement(moodRequirement));
 
         Car car = new Car(pipeline.askRequirement(carNameRequirement));
@@ -88,7 +89,7 @@ public class AddElementCommand extends CollectionCommand {
             Human human = askHuman(pipeline, output);
             try {
                 collectionManager.add(human);
-                output.putString(_("commands.collection.commands.AddElementCommand.Success"));
+                output.putString(t("commands.collection.commands.AddElementCommand.Success"));
             } catch (ElementAlreadyExistsError | ManipulationError e) {
                 throw new ExecutionError(e.getMessage());
             }

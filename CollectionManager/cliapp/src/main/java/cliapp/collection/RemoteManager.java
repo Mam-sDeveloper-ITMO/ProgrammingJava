@@ -1,6 +1,6 @@
 package cliapp.collection;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -159,7 +159,7 @@ public class RemoteManager extends CollectionManager {
         try {
             return serviceAdapter.triggerServer(method, data);
         } catch (SocketInitFailed | SendRequestFailed | ReceiveResponseFailed e) {
-            throw new ManipulationError(_("collection.remotemanager.FailedRequest"));
+            throw new ManipulationError(t("collection.remotemanager.FailedRequest"));
         }
     }
 }

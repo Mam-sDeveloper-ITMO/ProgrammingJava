@@ -1,6 +1,6 @@
 package cliapp.cliclient.exceptions;
 
-import static textlocale.TextLocale._;
+import static textlocale.TextLocale.t;
 
 import java.util.List;
 
@@ -31,6 +31,6 @@ public class InlineParamsError extends Exception {
                 .reduce((name1, name2) -> name1 + " " + name2)
                 .orElse("");
 
-        return _("cliclient.cliclient.InlineParamsError").formatted(requirementsNames);
+        return t("cliclient.cliclient.InlineParamsError").formatted(requirementsNames);
     }
 }
