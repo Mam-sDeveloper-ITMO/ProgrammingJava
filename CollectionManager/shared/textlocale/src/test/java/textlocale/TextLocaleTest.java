@@ -8,18 +8,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TextLocaleTest {
+    static String locale = "en";
+
+    static TextPackage rootPackage;
+
     @Before
-    public void setUp() throws IOException {
-        TextLocale.loadPackage("textlocale");
+    public void setUp() throws Exception {
+        rootPackage = TextLocale.loadPackage("textlocale", () -> TextLocaleTest.locale);
     }
 
     @Test
     public void testLoadPackage() throws IOException {
-        TextLocale.setLocale("en");
-        TextPackage rootPackage = TextLocale.getRootPackage();
+        locale = "en";
         String text = rootPackage.getText("subdir.subdir2.text4.greet");
         assertEquals("Hello, world!", text);
-        TextLocale.setLocale("es");
+        locale = "es";
         text = rootPackage.getText("subdir.subdir2.text4.greet");
         assertEquals("?Hola, mundo!", text);
 
@@ -28,25 +31,8 @@ public class TextLocaleTest {
     }
 
     @Test
-    public void testHotReload() throws IOException {
-        TextLocale.setLocale("en");
-        TextPackage rootPackage = TextLocale.getRootPackage();
-        String text = rootPackage.getText("subdir.subdir2.text4.greet");
-        assertEquals("Hello, world!", text);
-        TextLocale.setLocale("es");
-        text = rootPackage.getText("subdir.subdir2.text4.greet");
-        assertEquals("?Hola, mundo!", text);
-
-        TextLocale.loadPackage("textlocale.subdir");
-        TextLocale.setLocale("en");
-        text = rootPackage.getText("subdir2.text4.greet");
-        assertEquals("Hello, world!", text);
-    }
-
-    @Test
     public void testSubPackaging() {
-        TextLocale.setLocale("en");
-        TextPackage rootPackage = TextLocale.getRootPackage();
+        locale = "en";
         TextPackage subPackage = rootPackage.getPackage("subdir.subdir2");
 
         String text = subPackage.getText("text4.greet");
@@ -58,7 +44,7 @@ public class TextLocaleTest {
         text = subPackage.getText("text4.greet");
         assertEquals("Hello, world!", text);
 
-        TextLocale.setLocale("es");
+        locale = "es";
 
         text = subPackage.getText("text4.greet");
         assertEquals("?Hola, mundo!", text);

@@ -3,11 +3,9 @@ package textlocale;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
+import java.util.function.Supplier;
 
-import lombok.Getter;
-import lombok.Setter;
 import textlocale.utils.FilesUtils;
 import textlocale.utils.TLJsonUtils;
 import textlocale.utils.TextMapUtils;
@@ -37,38 +35,22 @@ import textlocale.utils.TextMapUtils;
  */
 public class TextLocale {
     /**
-     * Current locale.
-     */
-    @Getter
-    @Setter
-    private static String locale = Locale.getDefault().getLanguage();
-
-    /**
-     * Loaded texts.
-     */
-    @Getter
-    private static Map<String, Object> texts = new HashMap<>();
-
-    /**
-     * Contains all loaded texts.
-     */
-    @Getter
-    private static TextPackage rootPackage = new TextPackage("", () -> TextLocale.texts, TextLocale::getLocale);
-
-    /**
      * Loads texts from specified package.
-     * Previous texts will be removed.
      *
-     * @param directory Directory with tl.json files.
-     * @throws IllegalArgumentException if json file is invalid
+     * @param packageName    name of package
+     * @param localeSupplier supplier of current locale
+     * @return loaded package
+     * @throws IOException              if an I/O error occurs
+     * @throws IllegalArgumentException if texts are invalid
+     * @see TextPackage
      */
-    public static void loadPackage(String packageName) throws IOException {
+    public static TextPackage loadPackage(String packageName, Supplier<String> localeSupplier) throws IOException {
         Map<String, Object> matchingFiles = FilesUtils.findFilesWithExtension(packageName, ".tl.json");
         Map<String, Object> loadedTexts = loadPackageFromJson(matchingFiles);
         if (!TextMapUtils.isValidTextMap(loadedTexts)) {
             throw new IllegalArgumentException("Invalid json file");
         }
-        texts = loadedTexts;
+        return new TextPackage(packageName, () -> loadedTexts, localeSupplier);
     }
 
     /**
@@ -93,17 +75,5 @@ public class TextLocale {
             }
         }
         return texts;
-    }
-
-    /**
-     * Get package by key.
-     *
-     * @param key Package key.
-     * @return Package.
-     *
-     * @see TextPackage
-     */
-    public static TextPackage getPackage(String key) {
-        return rootPackage.getPackage(key);
     }
 }
