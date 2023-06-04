@@ -12,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import lombok.Cleanup;
+import textlocale.TextLocale;
 
 /**
  * Provides utility methods for working with tl.json files.
@@ -43,26 +44,5 @@ public class TLJsonUtils {
             throw new JsonSyntaxException("Json file is empty");
         }
         return jsonMap;
-    }
-
-    /**
-     * Verify that mapped json file is valid.
-     *
-     * Each node in json file must be a map or a string.
-     *
-     * @param jsonMap mapped json file
-     * @return true if json file is valid, false otherwise
-     */
-    public static boolean isValidJson(Map<String, Object> jsonMap) {
-        for (Map.Entry<String, Object> entry : jsonMap.entrySet()) {
-            if (entry.getValue() instanceof Map) {
-                if (!isValidJson((Map<String, Object>) entry.getValue())) {
-                    return false;
-                }
-            } else if (!(entry.getValue() instanceof String)) {
-                return false;
-            }
-        }
-        return true;
     }
 }
