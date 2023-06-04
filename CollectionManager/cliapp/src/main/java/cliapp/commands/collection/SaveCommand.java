@@ -1,7 +1,5 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale.t;
-
 import java.io.FileNotFoundException;
 
 import commands.OutputChannel;
@@ -10,11 +8,14 @@ import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.CollectionSaveError;
 import humandeque.manager.exceptions.ManipulationError;
+import textlocale.TextLocale;
+import textlocale.TextSupplier;
 
 /**
  * A command that saves the collection to a file.
  */
 public class SaveCommand extends CollectionCommand {
+    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
 
     /**
      * Constructs a SaveCommand object with a collection manager.
@@ -22,8 +23,8 @@ public class SaveCommand extends CollectionCommand {
      * @param collectionManager the collection manager to be used by this command.
      */
     public SaveCommand(CollectionManager collectionManager) {
-        super(t("commands.collection.commands.SaveCommand.Name"),
-                t("commands.collection.commands.SaveCommand.Description"),
+        super(ts.t("SaveCommand.Name"),
+                ts.t("SaveCommand.Description"),
                 collectionManager);
     }
 
@@ -38,12 +39,12 @@ public class SaveCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {
             collectionManager.save();
-            output.putString(t("commands.collection.commands.SaveCommand.Success"));
+            output.putString(ts.t("SaveCommand.Success"));
         } catch (CollectionSaveError e) {
             if (e.getCause() instanceof FileNotFoundException) {
-                throw new ExecutionError(t("commands.collection.commands.SaveCommand.FileNotFound"));
+                throw new ExecutionError(ts.t("SaveCommand.FileNotFound"));
             } else {
-                throw new ExecutionError(t("commands.collection.commands.SaveCommand.SaveError"));
+                throw new ExecutionError(ts.t("SaveCommand.SaveError"));
             }
         } catch (ManipulationError e) {
             throw new ExecutionError(e.getMessage());

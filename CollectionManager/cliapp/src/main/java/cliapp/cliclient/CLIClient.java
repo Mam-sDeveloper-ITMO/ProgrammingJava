@@ -1,7 +1,5 @@
 package cliapp.cliclient;
 
-import static textlocale.TextLocale.t;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +18,8 @@ import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import lombok.Getter;
 import lombok.Setter;
+import textlocale.TextLocale;
+import textlocale.TextSupplier;
 
 /**
  *
@@ -229,7 +229,7 @@ public class CLIClient {
      * Waits for user input and tries to resolve and execute a command.
      */
     public void runClient() {
-        System.out.println(t("cats.Cat3"));
+        System.out.println(TextLocale.getPackage("cats").getText("Cat3"));
         System.out.println();
         while (true) {
             // ASAP IMMEDIATELY REFACTOR

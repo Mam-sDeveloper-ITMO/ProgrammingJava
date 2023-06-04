@@ -1,21 +1,23 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale.t;
-
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
 import humandeque.manager.exceptions.ManipulationError;
+import textlocale.TextLocale;
+import textlocale.TextSupplier;
 
 /**
  * This command removes the first element from the collection.
  */
 public class RemoveFirstCommand extends CollectionCommand {
+    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+
     public RemoveFirstCommand(CollectionManager collectionManager) {
-        super(t("commands.collection.commands.RemoveFirstCommand.Name"),
-                t("commands.collection.commands.RemoveFirstCommand.Description"),
+        super(ts.t("RemoveFirstCommand.Name"),
+                ts.t("RemoveFirstCommand.Description"),
                 collectionManager);
     }
 
@@ -30,7 +32,7 @@ public class RemoveFirstCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {
             collectionManager.removeFirst();
-            output.putString(t("commands.collection.commands.RemoveFirstCommand.Success"));
+            output.putString(ts.t("RemoveFirstCommand.Success"));
         } catch (EmptyCollectionError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }

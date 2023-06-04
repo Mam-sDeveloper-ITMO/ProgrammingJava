@@ -1,19 +1,20 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale.t;
-
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
+import textlocale.TextLocale;
+import textlocale.TextSupplier;
 
 /**
  * Command that calculates the average of impact speeds of all humans in the
  * collection.
  */
 public class AverageOfImpactSpeedCommand extends CollectionCommand {
+    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
 
     /**
      * Constructor for AverageOfImpactSpeedCommand.
@@ -21,8 +22,8 @@ public class AverageOfImpactSpeedCommand extends CollectionCommand {
      * @param collectionManager instance of CollectionManager class.
      */
     public AverageOfImpactSpeedCommand(CollectionManager collectionManager) {
-        super(t("commands.collection.commands.AverageOfImpactSpeedCommand.Name"),
-                t("commands.collection.commands.AverageOfImpactSpeedCommand.Description"),
+        super(ts.t("AverageOfImpactSpeedCommand.Name"),
+                ts.t("AverageOfImpactSpeedCommand.Description"),
                 collectionManager);
     }
 
@@ -43,6 +44,6 @@ public class AverageOfImpactSpeedCommand extends CollectionCommand {
         Double averageSpeed = humans.stream()
                 .map(human -> human.getImpactSpeed())
                 .reduce(0d, (a, b) -> a + b) / humans.size();
-        output.putString(t("commands.collection.commands.AverageOfImpactSpeedCommand.Title").formatted(averageSpeed));
+        output.putString(ts.t("AverageOfImpactSpeedCommand.Title", averageSpeed));
     }
 }

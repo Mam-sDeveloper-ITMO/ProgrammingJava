@@ -1,7 +1,5 @@
 package cliapp.cliclient;
 
-import static textlocale.TextLocale.t;
-
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -11,12 +9,16 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import lombok.RequiredArgsConstructor;
+import textlocale.TextLocale;
+import textlocale.TextSupplier;
 
 /**
  * This class provides requirements for commands by asking the user for input.
  */
 @RequiredArgsConstructor
 public class UserInputPipeline implements RequirementsPipeline {
+    static TextSupplier ts = TextLocale.getPackage("cliclient.user_input_pipeline")::getText;
+
     /**
      * Map with names of static requirements and inline params that user input.
      */
@@ -45,7 +47,7 @@ public class UserInputPipeline implements RequirementsPipeline {
         Exception exceptionWrapper = new RequirementAskError(requirement.getName(), error);
         System.out.println(TextColor.getColoredString(exceptionWrapper.getMessage(), TextColor.RED));
         // ask to new try with count of left attempts
-        String askText = t("cliclient.cliclient.AskRequirementWithAttempts").formatted(attempts);
+        String askText = ts.t("AskRequirementWithAttempts", attempts);
         System.out.println();
         System.out.println(TextColor.getColoredString(askText, TextColor.CYAN));
     }
@@ -67,10 +69,7 @@ public class UserInputPipeline implements RequirementsPipeline {
         int attempts = askRequirementAttempts;
         do {
             System.out.print(
-                    t("cliclient.cliclient.AskRequirement").formatted(
-                            requirement.getName(),
-                            requirement.getDescription()));
-
+                    ts.t("AskRequirement", requirement.getName(), requirement.getDescription()));
             try {
                 // try get value
                 return requirement.getValue((I) userInputSupplier.get());
@@ -83,7 +82,7 @@ public class UserInputPipeline implements RequirementsPipeline {
 
         // if attempt exceeded
         throw new RequirementAskError(requirement.getName(),
-                t("cliclient.cliclient.AskRequirementAttemptsError"));
+                ts.t("AskRequirementAttemptsError"));
     }
 
     /**

@@ -1,7 +1,5 @@
 package cliapp;
 
-import static textlocale.TextLocale.t;
-
 import java.io.IOException;
 
 import adapter.Adapter;
@@ -28,6 +26,7 @@ import cliapp.commands.collection.TailCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
 import textlocale.TextLocale;
+import textlocale.TextSupplier;
 
 /**
  * The main application class for running the space collection manager.
@@ -47,12 +46,13 @@ public class App {
             System.out.println("Failed to load locale");
             System.exit(1);
         }
+        TextSupplier ts = TextLocale.getRootPackage()::getText;
 
         Adapter serviceAdapter = null;
         try {
             serviceAdapter = new Adapter("127.0.0.1", 8000);
         } catch (Exception e) {
-            System.out.println(t("app.ConnectLater"));
+            System.out.println(ts.t("app.ConnectLater"));
             System.exit(1);
         }
         Integer userId = 0;
@@ -69,7 +69,7 @@ public class App {
         try {
             manager = new RemoteManager(serviceAdapter, userId);
         } catch (Exception e) {
-            System.out.println(t("app.ConnectLater"));
+            System.out.println(ts.t("app.ConnectLater"));
             System.exit(1);
         }
 

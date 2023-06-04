@@ -1,7 +1,5 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale.t;
-
 import java.util.Random;
 
 import commands.OutputChannel;
@@ -14,14 +12,18 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
+import textlocale.TextLocale;
+import textlocale.TextSupplier;
 
 /**
  * Adds a randomly generated human with various fields to the collection
  */
 public class RandomCommand extends CollectionCommand {
+    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+
     public RandomCommand(CollectionManager collectionManager) {
-        super(t("commands.collection.commands.RandomCommand.Name"),
-                t("commands.collection.commands.RandomCommand.Description"),
+        super(ts.t("RandomCommand.Name"),
+                ts.t("RandomCommand.Description"),
                 collectionManager);
     }
 
@@ -35,7 +37,7 @@ public class RandomCommand extends CollectionCommand {
 
         Human.HumanBuilder humanBuilder = Human.builder();
 
-        String[] names = t("commands.collection.commands.RandomCommand.RandomValues.NAMES").split(",");
+        String[] names = ts.t("RandomCommand.RandomValues.NAMES").split(",");
         int nameIndex = random.nextInt(names.length);
         humanBuilder.name(names[nameIndex]);
 
@@ -51,7 +53,8 @@ public class RandomCommand extends CollectionCommand {
 
         humanBuilder.impactSpeed(random.nextDouble());
 
-        String[] soundtrackNames = t("commands.collection.commands.RandomCommand.RandomValues.SOUNDTRACKS").split(",");
+        String[] soundtrackNames = ts.t("RandomCommand.RandomValues.SOUNDTRACKS")
+                .split(",");
         int soundtrackIndex = random.nextInt(soundtrackNames.length);
         humanBuilder.soundtrackName(soundtrackNames[soundtrackIndex]);
 
@@ -60,7 +63,7 @@ public class RandomCommand extends CollectionCommand {
         int moodIndex = random.nextInt(Mood.values().length);
         humanBuilder.mood(Mood.values()[moodIndex]);
 
-        String[] carNames = t("commands.collection.commands.RandomCommand.RandomValues.CARS").split(",");
+        String[] carNames = ts.t("RandomCommand.RandomValues.CARS").split(",");
         int carNameIndex = random.nextInt(carNames.length);
         Car car = new Car(carNames[carNameIndex]);
 
@@ -83,7 +86,7 @@ public class RandomCommand extends CollectionCommand {
         Human human = generateHuman();
         try {
             collectionManager.add(human);
-            output.putString(t("commands.collection.commands.RandomCommand.Title"));
+            output.putString(ts.t("RandomCommand.Title"));
             output.putString(human.toString());
         } catch (ElementAlreadyExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());

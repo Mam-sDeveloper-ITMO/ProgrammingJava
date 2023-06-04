@@ -1,11 +1,11 @@
 package cliapp.cliclient.exceptions;
 
-import static textlocale.TextLocale.t;
-
 import java.util.List;
 
 import commands.requirements.Requirement;
 import lombok.RequiredArgsConstructor;
+import textlocale.TextLocale;
+import textlocale.TextSupplier;
 
 /**
  * Exception thrown when the number of inline parameters is not equal to the
@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 public class InlineParamsError extends Exception {
+    static TextSupplier ts = TextLocale.getPackage("cliclient.exceptions")::getText;
+
     private final List<Requirement<?, ?>> requirements;
 
     /**
@@ -31,6 +33,6 @@ public class InlineParamsError extends Exception {
                 .reduce((name1, name2) -> name1 + " " + name2)
                 .orElse("");
 
-        return t("cliclient.cliclient.InlineParamsError").formatted(requirementsNames);
+        return ts.t("InlineParamsError", requirementsNames);
     }
 }
