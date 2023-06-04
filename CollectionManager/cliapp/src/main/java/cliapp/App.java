@@ -25,7 +25,6 @@ import cliapp.commands.collection.ShowCommand;
 import cliapp.commands.collection.TailCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
@@ -40,13 +39,12 @@ public class App {
      */
     public static void main(String[] args) {
         try {
-            TextLocale.loadPackage("cliapp");
-            TextLocale.setLocale("en");
-        } catch (IOException e) {
+            TextsManager.updateTexts();
+        } catch (Exception e) {
             System.out.println("Failed to load locale");
             System.exit(1);
         }
-        TextSupplier ts = TextLocale.getRootPackage()::getText;
+        TextSupplier ts = TextsManager.getTexts()::getText;
 
         Adapter serviceAdapter = null;
         try {

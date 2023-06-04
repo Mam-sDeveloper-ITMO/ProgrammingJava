@@ -1,18 +1,18 @@
 package cliapp.commands.collection;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * A command that displays information about the collection.
  */
 public class ShowCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructs a ShowCommand object with a collection manager.

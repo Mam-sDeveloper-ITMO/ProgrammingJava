@@ -3,18 +3,18 @@ package cliapp.commands.collection;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * This command shows information about the collection.
  */
 public class InfoCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructs a new InfoCommand with the given collection manager.

@@ -2,9 +2,9 @@ package cliapp.cliclient.exceptions;
 
 import java.util.List;
 
+import cliapp.TextsManager;
 import commands.requirements.Requirement;
 import lombok.RequiredArgsConstructor;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
@@ -13,7 +13,7 @@ import textlocale.TextSupplier;
  */
 @RequiredArgsConstructor
 public class InlineParamsError extends Exception {
-    static TextSupplier ts = TextLocale.getPackage("cliclient.exceptions")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("cliclient.exceptions")::getText;
 
     private final List<Requirement<?, ?>> requirements;
 

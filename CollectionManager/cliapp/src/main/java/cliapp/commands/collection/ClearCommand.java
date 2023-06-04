@@ -2,6 +2,7 @@ package cliapp.commands.collection;
 
 import static commands.requirements.validators.common.StringValidators.booleanValidator;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -9,14 +10,13 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ManipulationError;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * A command that removes all elements from the collection.
  */
 public class ClearCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * The requirement that asks the user to confirm that they want to clear the

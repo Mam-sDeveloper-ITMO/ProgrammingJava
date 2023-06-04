@@ -7,6 +7,7 @@ import static commands.requirements.validators.common.StringValidators.integerVa
 import static commands.requirements.validators.common.StringValidators.longValidator;
 import static commands.requirements.validators.common.StringValidators.notEmptyValidator;
 
+import cliapp.TextsManager;
 import commands.Command;
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;
@@ -15,7 +16,6 @@ import commands.requirements.validators.common.Misc.GreaterValidator;
 import commands.requirements.validators.common.Misc.OrNullValidator;
 import humandeque.manager.CollectionManager;
 import models.Mood;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
@@ -24,7 +24,7 @@ import textlocale.TextSupplier;
  * Contains basic requirements instances for collection elements
  */
 public abstract class CollectionCommand extends Command {
-    static TextSupplier ts = TextLocale.getPackage("commands.requirements")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.requirements")::getText;
 
     /**
      * The receiver of the command.

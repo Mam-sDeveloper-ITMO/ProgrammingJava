@@ -1,17 +1,17 @@
 package cliapp.commands.cli;
 
+import cliapp.TextsManager;
 import cliapp.cliclient.CLIClient;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * ExitCommand is a CLICommand that exits the program
  */
 public class ExitCommand extends CLICommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.cli")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.cli")::getText;
 
     /**
      * Constructor for ExitCommand class
@@ -32,7 +32,7 @@ public class ExitCommand extends CLICommand {
      */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
-        String cat = TextLocale.getPackage("cats").getText("Cat1");
+        String cat = TextsManager.getTexts().getPackage("cats").getText("Cat1");
         output.putString(ts.t("ExitCommand.Goodbye") + System.lineSeparator() + cat);
         System.exit(0);
     }

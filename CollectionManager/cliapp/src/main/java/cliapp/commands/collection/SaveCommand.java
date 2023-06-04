@@ -2,20 +2,20 @@ package cliapp.commands.collection;
 
 import java.io.FileNotFoundException;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.CollectionSaveError;
 import humandeque.manager.exceptions.ManipulationError;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * A command that saves the collection to a file.
  */
 public class SaveCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructs a SaveCommand object with a collection manager.

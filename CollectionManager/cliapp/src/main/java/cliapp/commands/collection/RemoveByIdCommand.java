@@ -10,14 +10,14 @@ import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementNotExistsError;
 import humandeque.manager.exceptions.ManipulationError;
-import textlocale.TextLocale;
+import cliapp.TextsManager;
 import textlocale.TextSupplier;
 
 /**
  * This command removes an element from the collection by ID.
  */
 public class RemoveByIdCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     public RemoveByIdCommand(CollectionManager collectionManager) {
         super(ts.t("RemoveByIdCommand.Name"),

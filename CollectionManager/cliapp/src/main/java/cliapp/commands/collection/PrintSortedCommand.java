@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -14,14 +15,13 @@ import commands.requirements.validators.Validator;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import models.Human;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * A command that prints humans from collection sorted by impact speed.
  */
 public class PrintSortedCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Create a new instance of PrintSortedCommand.

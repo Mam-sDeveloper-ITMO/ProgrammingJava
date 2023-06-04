@@ -1,12 +1,12 @@
 package cliapp.commands.collection;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
@@ -14,7 +14,7 @@ import textlocale.TextSupplier;
  * collection.
  */
 public class AverageOfImpactSpeedCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructor for AverageOfImpactSpeedCommand.

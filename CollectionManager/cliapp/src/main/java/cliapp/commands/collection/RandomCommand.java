@@ -2,6 +2,7 @@ package cliapp.commands.collection;
 
 import java.util.Random;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -12,14 +13,13 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * Adds a randomly generated human with various fields to the collection
  */
 public class RandomCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     public RandomCommand(CollectionManager collectionManager) {
         super(ts.t("RandomCommand.Name"),

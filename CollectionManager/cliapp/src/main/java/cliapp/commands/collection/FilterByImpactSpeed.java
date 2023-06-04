@@ -2,6 +2,7 @@ package cliapp.commands.collection;
 
 import java.util.List;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -9,7 +10,6 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
@@ -17,7 +17,7 @@ import textlocale.TextSupplier;
  * value.
  */
 public class FilterByImpactSpeed extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructs a new FilterByImpactSpeed command with the given collection

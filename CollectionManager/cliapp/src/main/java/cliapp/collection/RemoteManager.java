@@ -7,6 +7,7 @@ import adapter.Adapter;
 import adapter.exceptions.ReceiveResponseFailed;
 import adapter.exceptions.SendRequestFailed;
 import adapter.exceptions.SocketInitFailed;
+import cliapp.TextsManager;
 import collections.service.api.StatusCodes;
 import humandeque.HumanDeque;
 import humandeque.TextResources.Manager.ExceptionsResources;
@@ -21,7 +22,6 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import models.Human;
 import server.responses.Response;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
@@ -29,7 +29,7 @@ import textlocale.TextSupplier;
  * local csv file
  */
 public class RemoteManager extends CollectionManager {
-    static TextSupplier ts = TextLocale.getPackage("collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("collection")::getText;
 
     /**
      * user id

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cliapp.TextsManager;
 import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.UserInputPipeline;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
@@ -24,7 +25,6 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
@@ -44,7 +44,7 @@ import textlocale.TextSupplier;
  * show
  */
 public class ExecuteCommand extends CLICommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.cli")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.cli")::getText;
 
     /**
      * Maximum count of recursive call for one script file

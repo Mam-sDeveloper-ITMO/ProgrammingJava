@@ -1,13 +1,12 @@
 package cliapp.cliclient.exceptions;
 
-import textlocale.TextLocale;
+import cliapp.TextsManager;
 import textlocale.TextSupplier;
-
 /**
  * Exception thrown when the CLI client cannot find a command by its trigger.
  */
 public class CommandNotFoundError extends Exception {
-    static TextSupplier ts = TextLocale.getPackage("cliclient.exceptions")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("cliclient.exceptions")::getText;
 
     /**
      * Constructs a new CommandNotFoundError with the specified trigger.

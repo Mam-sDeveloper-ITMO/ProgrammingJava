@@ -2,6 +2,7 @@ package cliapp.commands.collection;
 
 import java.util.List;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -14,14 +15,13 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * Command for updating an element in the collection.
  */
 public class UpdateElementCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructs a new UpdateElementCommand with the specified collection manager.

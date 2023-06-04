@@ -3,6 +3,7 @@ package cliapp.commands.cli;
 import java.util.List;
 import java.util.Map;
 
+import cliapp.TextsManager;
 import cliapp.cliclient.CLIClient;
 import cliapp.utils.TextColor;
 import commands.Command;
@@ -10,7 +11,6 @@ import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
@@ -18,7 +18,7 @@ import textlocale.TextSupplier;
  * their descriptions and static requirements
  */
 public class HelpCommand extends CLICommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.cli")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.cli")::getText;
 
     /**
      * Constructor for HelpCommand class

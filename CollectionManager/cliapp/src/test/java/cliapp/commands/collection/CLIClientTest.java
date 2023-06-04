@@ -9,23 +9,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import cliapp.TextsManager;
 import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsError;
 import commands.Command;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.local.LocalManager;
-import textlocale.TextLocale;
 
 public class CLIClientTest {
-    private CLIClient client;
+    CLIClient client;
 
     @Before
     @Test
     public void testCommandsRegistration() throws Exception {
-        TextLocale.loadPackage("cliapp");
-        TextLocale.setLocale("en");
-
+        TextsManager.updateTexts();
         client = new CLIClient();
 
         CollectionManager manager = new LocalManager();
@@ -69,8 +67,7 @@ public class CLIClientTest {
         List<String> params = client.parseInlineParams("update 3");
         params.remove(0);
         try {
-            Map<String, String> requirements =
-                client.mapStaticRequirements(command.getStaticRequirements(), params);
+            Map<String, String> requirements = client.mapStaticRequirements(command.getStaticRequirements(), params);
             assertEquals(requirements.get("id"), "3");
         } catch (InlineParamsError e) {
             Assert.fail("Exception thrown");

@@ -2,12 +2,16 @@ package cliapp.commands.collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import cliapp.TextsManager;
 import commands.Command;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -23,13 +27,11 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import textlocale.TextLocale;
 
 public class CollectionCommandTest {
     @BeforeClass
     public static void setUp() throws Exception {
-        TextLocale.loadPackage("cliapp");
-        TextLocale.setLocale("en");
+        TextsManager.updateTexts();
     }
 
     private CollectionManager collectionManager;

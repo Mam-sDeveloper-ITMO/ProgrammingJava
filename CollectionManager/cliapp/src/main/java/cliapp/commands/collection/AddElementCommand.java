@@ -1,5 +1,6 @@
 package cliapp.commands.collection;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
@@ -11,14 +12,13 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * Command that adds a new human element to the collection.
  */
 public class AddElementCommand extends CollectionCommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.collection")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructor for AddElementCommand.
@@ -68,7 +68,7 @@ public class AddElementCommand extends CollectionCommand {
         }
         moods += (Mood.values().length - 1) + " - " + Mood.values()[Mood.values().length - 1];
 
-        String moodTitle = TextLocale.getPackage("commands.requirements").getText("MoodRequirement.Title");
+        String moodTitle = TextsManager.getTexts().getPackage("commands.requirements").getText("MoodRequirement.Title");
         output.putString(moodTitle + System.lineSeparator() + moods);
         humanBuilder.mood(pipeline.askRequirement(moodRequirement));
 

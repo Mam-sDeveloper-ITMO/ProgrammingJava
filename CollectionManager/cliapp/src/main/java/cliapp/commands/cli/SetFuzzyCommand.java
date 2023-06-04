@@ -4,20 +4,20 @@ import static commands.requirements.validators.common.StringValidators.booleanVa
 
 import java.util.List;
 
+import cliapp.TextsManager;
 import cliapp.cliclient.CLIClient;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * Change fuzzy search mode
  */
 public class SetFuzzyCommand extends CLICommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.cli")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.cli")::getText;
 
     private static final Requirement<String, Boolean> fuzzyModeRequirement = new Requirement<>(
             ts.t("SetFuzzyCommand.FuzzyModeRequirement.Name"),

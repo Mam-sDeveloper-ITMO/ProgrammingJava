@@ -2,18 +2,18 @@ package cliapp.commands.cli;
 
 import java.util.List;
 
+import cliapp.TextsManager;
 import cliapp.cliclient.CLIClient;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
  * Show list of all previously executed commands
  */
 public class HistoryCommand extends CLICommand {
-    static TextSupplier ts = TextLocale.getPackage("commands.cli")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.cli")::getText;
 
     /**
      * Constructor for HistoryCommand

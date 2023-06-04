@@ -3,13 +3,13 @@ package cliapp.cliclient;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import cliapp.TextsManager;
 import cliapp.utils.TextColor;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import lombok.RequiredArgsConstructor;
-import textlocale.TextLocale;
 import textlocale.TextSupplier;
 
 /**
@@ -17,7 +17,7 @@ import textlocale.TextSupplier;
  */
 @RequiredArgsConstructor
 public class UserInputPipeline implements RequirementsPipeline {
-    static TextSupplier ts = TextLocale.getPackage("cliclient.user_input_pipeline")::getText;
+    static TextSupplier ts = TextsManager.getTexts().getPackage("cliclient.user_input_pipeline")::getText;
 
     /**
      * Map with names of static requirements and inline params that user input.
