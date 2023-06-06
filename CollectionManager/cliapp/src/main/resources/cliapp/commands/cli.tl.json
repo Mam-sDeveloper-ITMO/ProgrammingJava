@@ -10,7 +10,7 @@
     "ExitCommand": {
         "Name": { "en": "Exit Command" },
         "Description": { "en": "Exit the CLI" },
-        "Goodbye": { "en": "Goodbye! \\n" }
+        "Goodbye": { "en": "Goodbye!" }
     },
     "HistoryCommand": {
         "Name": { "en": "History Command" },

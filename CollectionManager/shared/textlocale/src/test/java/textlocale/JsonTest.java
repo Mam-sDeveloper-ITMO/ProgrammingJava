@@ -11,6 +11,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import textlocale.utils.TLJsonUtils;
+import textlocale.utils.TextMapUtils;
 
 public class JsonTest {
     @Test
@@ -30,7 +31,7 @@ public class JsonTest {
 
         // Assert
         assertEquals(expected, actual);
-        assertTrue(TLJsonUtils.isValidJson(actual));
+        assertTrue(TextMapUtils.isValidTextMap(actual));
     }
 
     @Test
@@ -39,11 +40,11 @@ public class JsonTest {
         String filePath = "src/test/resources/invalid1.tl.json";
         File file = new File(filePath);
         Map<String, Object> actual = TLJsonUtils.jsonFileToMap(file);
-        assertFalse(TLJsonUtils.isValidJson(actual));
+        assertFalse(TextMapUtils.isValidTextMap(actual));
 
         filePath = "src/test/resources/invalid2.tl.json";
         file = new File(filePath);
         actual = TLJsonUtils.jsonFileToMap(file);
-        assertFalse(TLJsonUtils.isValidJson(actual));
+        assertFalse(TextMapUtils.isValidTextMap(actual));
     }
 }

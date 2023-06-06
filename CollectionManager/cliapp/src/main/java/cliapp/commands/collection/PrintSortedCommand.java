@@ -1,11 +1,10 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -16,11 +15,13 @@ import commands.requirements.validators.Validator;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import models.Human;
+import textlocale.TextSupplier;
 
 /**
  * A command that prints humans from collection sorted by impact speed.
  */
 public class PrintSortedCommand extends CollectionCommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Create a new instance of PrintSortedCommand.
@@ -29,8 +30,8 @@ public class PrintSortedCommand extends CollectionCommand {
      *                          collection to be sorted and printed
      */
     public PrintSortedCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.PrintSortedCommand.Name"),
-                _("commands.collection.commands.PrintSortedCommand.Description"),
+        super(ts.t("PrintSortedCommand.Name"),
+                ts.t("PrintSortedCommand.Description"),
                 collectionManager);
     }
 
@@ -39,8 +40,8 @@ public class PrintSortedCommand extends CollectionCommand {
      * or "des".
      */
     private static final Requirement<String, Boolean> sortOrderRequirement = new Requirement<>(
-            _("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.Name"),
-            _("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.Description"),
+            ts.t("PrintSortedCommand.SortOrderRequirement.Name"),
+            ts.t("PrintSortedCommand.SortOrderRequirement.Description"),
             new SortOrderValidator());
 
     /**
@@ -56,7 +57,7 @@ public class PrintSortedCommand extends CollectionCommand {
                 return false;
             } else {
                 throw new ValidationError(value,
-                        _("commands.collection.commands.PrintSortedCommand.SortOrderRequirement.IllegalOrder"));
+                        ts.t("PrintSortedCommand.SortOrderRequirement.IllegalOrder"));
             }
         }
     }
@@ -99,9 +100,9 @@ public class PrintSortedCommand extends CollectionCommand {
             Boolean descendingOrder = pipeline.askRequirement(sortOrderRequirement);
             HumanDeque humans = getSortedCollection(collectionManager.getCollection());
             if (humans.isEmpty()) {
-                throw new ExecutionError(_("commands.collection.commands.PrintSortedCommand.EmptyCollection"));
+                throw new ExecutionError(ts.t("PrintSortedCommand.EmptyCollection"));
             } else {
-                output.putString(_("commands.collection.commands.PrintSortedCommand.Title"));
+                output.putString(ts.t("PrintSortedCommand.Title"));
                 while (!humans.isEmpty()) {
                     if (descendingOrder) {
                         output.putString(humans.pollLast().toString());

@@ -1,17 +1,19 @@
 package cliapp.commands.collection;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
-import static textlocale.TextLocale._;
+import textlocale.TextSupplier;
 
 /**
  * A command that displays the last element of the collection.
  */
 public class TailCommand extends CollectionCommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructs a TailCommand object with a collection manager.
@@ -19,8 +21,8 @@ public class TailCommand extends CollectionCommand {
      * @param collectionManager the collection manager to be used by this command.
      */
     public TailCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.TailCommand.Name"),
-                _("commands.collection.commands.TailCommand.Description"),
+        super(ts.t("TailCommand.Name"),
+                ts.t("TailCommand.Description"),
                 collectionManager);
     }
 
@@ -38,7 +40,7 @@ public class TailCommand extends CollectionCommand {
             Exception cause = new EmptyCollectionError();
             throw new ExecutionError(cause.getMessage(), cause);
         } else {
-            output.putString(_("commands.collection.commands.TailCommand.Title"));
+            output.putString(ts.t("TailCommand.Title"));
             output.putString(humans.getLast().toString());
         }
     }

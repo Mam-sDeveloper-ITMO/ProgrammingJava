@@ -1,7 +1,5 @@
 package cliapp.cliclient;
 
-import static textlocale.TextLocale._;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +8,7 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cliapp.TextsManager;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsError;
 import cliapp.utils.TextColor;
@@ -229,7 +228,7 @@ public class CLIClient {
      * Waits for user input and tries to resolve and execute a command.
      */
     public void runClient() {
-        System.out.println(_("cats.Cat3"));
+        System.out.println(TextsManager.getTexts().getPackage("cats").getText("Cat3"));
         System.out.println();
         while (true) {
             // ASAP IMMEDIATELY REFACTOR

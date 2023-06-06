@@ -1,7 +1,5 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
-
 import java.util.List;
 
 import commands.OutputChannel;
@@ -12,14 +10,18 @@ import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementNotExistsError;
 import humandeque.manager.exceptions.ManipulationError;
+import cliapp.TextsManager;
+import textlocale.TextSupplier;
 
 /**
  * This command removes an element from the collection by ID.
  */
 public class RemoveByIdCommand extends CollectionCommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
+
     public RemoveByIdCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.RemoveByIdCommand.Name"),
-                _("commands.collection.commands.RemoveByIdCommand.Description"),
+        super(ts.t("RemoveByIdCommand.Name"),
+                ts.t("RemoveByIdCommand.Description"),
                 collectionManager);
     }
 
@@ -52,7 +54,7 @@ public class RemoveByIdCommand extends CollectionCommand {
 
         try {
             collectionManager.remove(id);
-            output.putString(_("commands.collection.commands.RemoveByIdCommand.Success"));
+            output.putString(ts.t("RemoveByIdCommand.Success"));
         } catch (ElementNotExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }

@@ -1,17 +1,18 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
-
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
+import textlocale.TextSupplier;
 
 /**
  * A command that displays information about the collection.
  */
 public class ShowCommand extends CollectionCommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructs a ShowCommand object with a collection manager.
@@ -19,8 +20,8 @@ public class ShowCommand extends CollectionCommand {
      * @param collectionManager the collection manager to be used by this command.
      */
     public ShowCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.ShowCommand.Name"),
-                _("commands.collection.commands.ShowCommand.Description"),
+        super(ts.t("ShowCommand.Name"),
+                ts.t("ShowCommand.Description"),
                 collectionManager);
     }
 
@@ -35,9 +36,9 @@ public class ShowCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         HumanDeque humans = collectionManager.getCollection();
         if (humans.isEmpty()) {
-            output.putString(_("commands.collection.commands.ShowCommand.Empty"));
+            output.putString(ts.t("ShowCommand.Empty"));
         } else {
-            output.putString(_("commands.collection.commands.ShowCommand.Title"));
+            output.putString(ts.t("ShowCommand.Title"));
             humans.forEach((human) -> output.putString(human.toString()));
         }
     }

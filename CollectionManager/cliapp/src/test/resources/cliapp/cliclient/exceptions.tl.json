@@ -1,0 +1,4 @@
+{
+  "CommandNotFoundError": { "en": "Command not found: %s" },
+  "InlineParamsError": { "en": "Incorrect inline params count. Command expected: %s" }
+}

@@ -1,21 +1,23 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
-
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
 import humandeque.manager.exceptions.ManipulationError;
+import textlocale.TextSupplier;
 
 /**
  * This command removes the last element from the collection.
  */
 public class RemoveLastCommand extends CollectionCommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
+
     public RemoveLastCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.RemoveLastCommand.Name"),
-                _("commands.collection.commands.RemoveLastCommand.Description"),
+        super(ts.t("RemoveLastCommand.Name"),
+                ts.t("RemoveLastCommand.Description"),
                 collectionManager);
     }
 
@@ -30,7 +32,7 @@ public class RemoveLastCommand extends CollectionCommand {
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
         try {
             collectionManager.removeLast();
-            output.putString(_("commands.collection.commands.RemoveLastCommand.Success"));
+            output.putString(ts.t("RemoveLastCommand.Success"));
         } catch (EmptyCollectionError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }

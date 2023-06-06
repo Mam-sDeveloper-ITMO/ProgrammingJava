@@ -6,8 +6,8 @@ import static commands.requirements.validators.common.StringValidators.floatVali
 import static commands.requirements.validators.common.StringValidators.integerValidator;
 import static commands.requirements.validators.common.StringValidators.longValidator;
 import static commands.requirements.validators.common.StringValidators.notEmptyValidator;
-import static textlocale.TextLocale._;
 
+import cliapp.TextsManager;
 import commands.Command;
 import commands.requirements.Requirement;
 import commands.requirements.exceptions.ValidationError;
@@ -16,6 +16,7 @@ import commands.requirements.validators.common.Misc.GreaterValidator;
 import commands.requirements.validators.common.Misc.OrNullValidator;
 import humandeque.manager.CollectionManager;
 import models.Mood;
+import textlocale.TextSupplier;
 
 /**
  * Basic class of all commands, that use CollectionManager as receiver.
@@ -23,6 +24,7 @@ import models.Mood;
  * Contains basic requirements instances for collection elements
  */
 public abstract class CollectionCommand extends Command {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.requirements")::getText;
 
     /**
      * The receiver of the command.
@@ -45,80 +47,80 @@ public abstract class CollectionCommand extends Command {
      * The requirement for the name of an element.
      */
     public static final Requirement<String, String> nameRequirement = new Requirement<>(
-            _("commands.collection.requirements.NameRequirement.Name"),
-            _("commands.collection.requirements.NameRequirement.Description"),
+            ts.t("NameRequirement.Name"),
+            ts.t("NameRequirement.Description"),
             notEmptyValidator);
 
     /**
      * The requirement for the x-coordinate of an element.
      */
     public static final Requirement<String, Float> coordinateXRequirement = new Requirement<>(
-            _("commands.collection.requirements.CoordinateXRequirement.Name"),
-            _("commands.collection.requirements.CoordinateXRequirement.Description"),
+            ts.t("CoordinateXRequirement.Name"),
+            ts.t("CoordinateXRequirement.Description"),
             floatValidator.and(new GreaterValidator<Float>(-566f)));
 
     /**
      * The requirement for the y-coordinate of an element.
      */
     public static final Requirement<String, Float> coordinateYRequirement = new Requirement<>(
-            _("commands.collection.requirements.CoordinateYRequirement.Name"),
-            _("commands.collection.requirements.CoordinateYRequirement.Description"),
+            ts.t("CoordinateYRequirement.Name"),
+            ts.t("CoordinateYRequirement.Description"),
             floatValidator.and(new GreaterValidator<Float>(-872f)));
 
     /**
      * The requirement for the "real hero" property of an element.
      */
     public static final Requirement<String, Boolean> realHeroRequirement = new Requirement<>(
-            _("commands.collection.requirements.RealHeroRequirement.Name"),
-            _("commands.collection.requirements.RealHeroRequirement.Description"),
+            ts.t("RealHeroRequirement.Name"),
+            ts.t("RealHeroRequirement.Description"),
             booleanValidator);
 
     /**
      * The requirement for the "has toothpick" property of an element.
      */
     public static final Requirement<String, Boolean> hasToothpickRequirement = new Requirement<>(
-            _("commands.collection.requirements.HasToothpickRequirement.Name"),
-            _("commands.collection.requirements.HasToothpickRequirement.Description"),
+            ts.t("HasToothpickRequirement.Name"),
+            ts.t("HasToothpickRequirement.Description"),
             booleanValidator);
 
     /**
      * The requirement for the impact speed of an element.
      */
     public static final Requirement<String, Double> impactSpeedRequirement = new Requirement<>(
-            _("commands.collection.requirements.ImpactSpeedRequirement.Name"),
-            _("commands.collection.requirements.ImpactSpeedRequirement.Description"),
+            ts.t("ImpactSpeedRequirement.Name"),
+            ts.t("ImpactSpeedRequirement.Description"),
             doubleValidator);
 
     /**
      * The requirement for the soundtrack of an element.
      */
     public static final Requirement<String, String> soundtrackRequirement = new Requirement<>(
-            _("commands.collection.requirements.SoundtrackRequirement.Name"),
-            _("commands.collection.requirements.SoundtrackRequirement.Description"),
+            ts.t("SoundtrackRequirement.Name"),
+            ts.t("SoundtrackRequirement.Description"),
             notEmptyValidator);
 
     /**
      * The requirement for the minutes of waiting of an element.
      */
     public static final Requirement<String, Float> minutesOfWaitingRequirement = new Requirement<>(
-            _("commands.collection.requirements.MinutesOfWaitingRequirement.Name"),
-            _("commands.collection.requirements.MinutesOfWaitingRequirement.Description"),
+            ts.t("MinutesOfWaitingRequirement.Name"),
+            ts.t("MinutesOfWaitingRequirement.Description"),
             new OrNullValidator<>(floatValidator));
 
     /**
      * The requirement for the name of a car of an element.
      */
     public static final Requirement<String, String> carNameRequirement = new Requirement<>(
-            _("commands.collection.requirements.CarRequirement.Name"),
-            _("commands.collection.requirements.CarRequirement.Description"),
+            ts.t("CarRequirement.Name"),
+            ts.t("CarRequirement.Description"),
             notEmptyValidator);
 
     /**
      * Validates a string input to ensure that it can be converted to a Mood object.
      */
     public static final Requirement<String, Mood> moodRequirement = new Requirement<>(
-            _("commands.collection.requirements.MoodRequirement.Name"),
-            _("commands.collection.requirements.MoodRequirement.Description"),
+            ts.t("MoodRequirement.Name"),
+            ts.t("MoodRequirement.Description"),
             new OrNullValidator<>(new MoodValidator()));
 
     /**
@@ -133,8 +135,7 @@ public abstract class CollectionCommand extends Command {
                 try {
                     return Mood.values()[number];
                 } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-                    throw new ValidationError(value,
-                            _("commands.collection.requirements.MoodRequirement.ByNumberNotExists"));
+                    throw new ValidationError(value, ts.t("MoodRequirement.ByNumberNotExists"));
                 }
             } catch (ValidationError e) {
                 // else, try to get mood by name
@@ -143,8 +144,7 @@ public abstract class CollectionCommand extends Command {
                     moodName = moodName.toUpperCase();
                     return Mood.valueOf(moodName);
                 } catch (IllegalArgumentException e1) {
-                    throw new ValidationError(value,
-                            _("commands.collection.requirements.MoodRequirement.ByNameNotExists"));
+                    throw new ValidationError(value, ts.t("MoodRequirement.ByNameNotExists"));
                 }
             }
         }
@@ -162,8 +162,8 @@ public abstract class CollectionCommand extends Command {
          *                           id exists in the collection.
          */
         public ExistingIdRequirement(CollectionManager aCollectionManager) {
-            super(_("commands.collection.requirements.IdRequirement.Name"),
-                    _("commands.collection.requirements.IdRequirement.Description"),
+            super(ts.t("IdRequirement.Name"),
+                    ts.t("IdRequirement.Description"),
                     longValidator.and(new GreaterValidator<Long>(0L)).and(new ExistingIdValidator()));
             collectionManager = aCollectionManager;
         }
@@ -177,7 +177,7 @@ public abstract class CollectionCommand extends Command {
         @Override
         public Long validate(Long value) throws ValidationError {
             if (!collectionManager.isElementExists(value)) {
-                throw new ValidationError(value, _("commands.collection.requirements.IdRequirement.NotExists"));
+                throw new ValidationError(value, ts.t("IdRequirement.NotExists"));
             }
             return value;
         }
@@ -195,8 +195,8 @@ public abstract class CollectionCommand extends Command {
          *                           id exists in the collection.
          */
         public NotExistingIdRequirement(CollectionManager aCollectionManager) {
-            super(_("commands.collection.requirements.IdRequirement.Name"),
-                    _("commands.collection.requirements.IdRequirement.Description"),
+            super(ts.t("IdRequirement.Name"),
+                    ts.t("IdRequirement.Description"),
                     longValidator.and(new GreaterValidator<Long>(0L)).and(new NotExistingIdValidator()));
 
             collectionManager = aCollectionManager;
@@ -211,7 +211,7 @@ public abstract class CollectionCommand extends Command {
         @Override
         public Long validate(Long value) throws ValidationError {
             if (collectionManager.isElementExists(value)) {
-                throw new ValidationError(value, _("commands.collection.requirements.IdRequirement.Exists"));
+                throw new ValidationError(value, ts.t("IdRequirement.Exists"));
             }
             return value;
         }

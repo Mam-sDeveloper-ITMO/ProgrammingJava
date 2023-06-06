@@ -1,7 +1,5 @@
 package cliapp.collection;
 
-import static textlocale.TextLocale._;
-
 import java.io.Serializable;
 import java.util.Map;
 
@@ -9,6 +7,7 @@ import adapter.Adapter;
 import adapter.exceptions.ReceiveResponseFailed;
 import adapter.exceptions.SendRequestFailed;
 import adapter.exceptions.SocketInitFailed;
+import cliapp.TextsManager;
 import collections.service.api.StatusCodes;
 import humandeque.HumanDeque;
 import humandeque.TextResources.Manager.ExceptionsResources;
@@ -23,12 +22,15 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import models.Human;
 import server.responses.Response;
+import textlocale.TextSupplier;
 
 /**
  * That manager execute all manipulations on client and store collection in
  * local csv file
  */
 public class RemoteManager extends CollectionManager {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("collection")::getText;
+
     /**
      * user id
      */
@@ -159,7 +161,7 @@ public class RemoteManager extends CollectionManager {
         try {
             return serviceAdapter.triggerServer(method, data);
         } catch (SocketInitFailed | SendRequestFailed | ReceiveResponseFailed e) {
-            throw new ManipulationError(_("collection.remotemanager.FailedRequest"));
+            throw new ManipulationError(ts.t("remotemanager.FailedRequest"));
         }
     }
 }

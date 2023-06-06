@@ -1,8 +1,8 @@
 package cliapp.commands.collection;
 
 import static commands.requirements.validators.common.StringValidators.booleanValidator;
-import static textlocale.TextLocale._;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -10,19 +10,21 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ManipulationError;
+import textlocale.TextSupplier;
 
 /**
  * A command that removes all elements from the collection.
  */
 public class ClearCommand extends CollectionCommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * The requirement that asks the user to confirm that they want to clear the
      * collection.
      */
     private static Requirement<String, Boolean> approveRequirement = new Requirement<>(
-            _("commands.collection.commands.ClearCommand.ApproveRequirement.Name"),
-            _("commands.collection.commands.ClearCommand.ApproveRequirement.Description"),
+            ts.t("ClearCommand.ApproveRequirement.Name"),
+            ts.t("ClearCommand.ApproveRequirement.Description"),
             booleanValidator);
 
     /**
@@ -31,8 +33,8 @@ public class ClearCommand extends CollectionCommand {
      * @param collectionManager the collection manager
      */
     public ClearCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.ClearCommand.Name"),
-                _("commands.collection.commands.ClearCommand.Description"),
+        super(ts.t("ClearCommand.Name"),
+                ts.t("ClearCommand.Description"),
                 collectionManager);
     }
 
@@ -62,7 +64,7 @@ public class ClearCommand extends CollectionCommand {
             } catch (ManipulationError e) {
                 throw new ExecutionError(e.getMessage());
             }
-            output.putString(_("commands.collection.commands.ClearCommand.Success"));
+            output.putString(ts.t("ClearCommand.Success"));
         }
     }
 }

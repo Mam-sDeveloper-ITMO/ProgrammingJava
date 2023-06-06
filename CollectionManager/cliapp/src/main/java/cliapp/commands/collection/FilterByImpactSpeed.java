@@ -1,9 +1,8 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
-
 import java.util.List;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -11,12 +10,15 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
+import textlocale.TextSupplier;
 
 /**
  * A command that shows humans whose impact speed is greater than the specified
  * value.
  */
 public class FilterByImpactSpeed extends CollectionCommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
+
     /**
      * Constructs a new FilterByImpactSpeed command with the given collection
      * manager.
@@ -24,8 +26,8 @@ public class FilterByImpactSpeed extends CollectionCommand {
      * @param collectionManager the collection manager
      */
     public FilterByImpactSpeed(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.FilterByImpactSpeedCommand.Name"),
-                _("commands.collection.commands.FilterByImpactSpeedCommand.Description"),
+        super(ts.t("FilterByImpactSpeedCommand.Name"),
+                ts.t("FilterByImpactSpeedCommand.Description"),
                 collectionManager);
     }
 
@@ -64,9 +66,9 @@ public class FilterByImpactSpeed extends CollectionCommand {
                 .collect(HumanDeque::new, HumanDeque::add, HumanDeque::addAll);
 
         if (humans.isEmpty()) {
-            output.putString(_("commands.collection.commands.FilterByImpactSpeedCommand.Empty"));
+            output.putString(ts.t("FilterByImpactSpeedCommand.Empty"));
         } else {
-            output.putString(_("commands.collection.commands.FilterByImpactSpeedCommand.Title"));
+            output.putString(ts.t("FilterByImpactSpeedCommand.Title"));
             humans.forEach((human) -> output.putString(human.toString()));
         }
     }

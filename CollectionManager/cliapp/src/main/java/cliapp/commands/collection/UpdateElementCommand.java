@@ -2,6 +2,7 @@ package cliapp.commands.collection;
 
 import java.util.List;
 
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
@@ -14,20 +15,22 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import static textlocale.TextLocale._;
+import textlocale.TextSupplier;
 
 /**
  * Command for updating an element in the collection.
  */
 public class UpdateElementCommand extends CollectionCommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
+
     /**
      * Constructs a new UpdateElementCommand with the specified collection manager.
      *
      * @param collectionManager the collection manager to use
      */
     public UpdateElementCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.UpdateElementCommand.Name"),
-                _("commands.collection.commands.UpdateElementCommand.Description"),
+        super(ts.t("UpdateElementCommand.Name"),
+                ts.t("UpdateElementCommand.Description"),
                 collectionManager);
     }
 
@@ -57,7 +60,7 @@ public class UpdateElementCommand extends CollectionCommand {
             O defaultValue) {
         // suggest to skip field
         output.putString(
-                _("cliclient.cliclient.AskDefaultRequirement").formatted(defaultValue));
+                ts.t("cliclient.cliclient.AskDefaultRequirement", defaultValue));
         try {
             O value = pipeline.askRequirement(requirement);
             return value;
@@ -113,7 +116,8 @@ public class UpdateElementCommand extends CollectionCommand {
         for (int i = 0; i < Mood.values().length; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
-        output.putString(_("commands.collection.requirements.MoodRequirement.Title") + System.lineSeparator() + moods);
+        output.putString(
+                ts.t("commands.collection.requirements.MoodRequirement.Title") + System.lineSeparator() + moods);
         humanBuilder.mood(askOrDefault(pipeline, output, moodRequirement, defaultHuman.getMood()));
 
         Car car = new Car(askOrDefault(pipeline, output, carNameRequirement, defaultHuman.getCar().getName()));
@@ -157,7 +161,7 @@ public class UpdateElementCommand extends CollectionCommand {
         // update human element in collection
         try {
             collectionManager.update(human);
-            output.putString(_("commands.collection.commands.UpdateElementCommand.Success"));
+            output.putString(ts.t("UpdateElementCommand.Success"));
         } catch (ElementNotExistsError | ManipulationError e) {
             throw new ExecutionError(e.getMessage());
         }

@@ -1,30 +1,52 @@
 package textlocale;
 
 import static org.junit.Assert.assertEquals;
-import static textlocale.TextLocale._;
 
 import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class TextLocaleTest {
+    static String locale = "en";
+
+    static TextPackage rootPackage;
+
     @Before
-    public void setUp() throws IOException {
-        TextLocale.loadPackage("textlocale");
+    public void setUp() throws Exception {
+        rootPackage = TextLocale.loadPackage("textlocale", () -> TextLocaleTest.locale);
     }
 
     @Test
     public void testLoadPackage() throws IOException {
-        TextLocale.setLocale("en");
-        String text = TextLocale.getText("subdir.subdir2.text4.greet");
+        locale = "en";
+        String text = rootPackage.getText("subdir.subdir2.text4.greet");
         assertEquals("Hello, world!", text);
-        TextLocale.setLocale("es");
-        text = TextLocale.getText("subdir.subdir2.text4.greet");
+        locale = "es";
+        text = rootPackage.getText("subdir.subdir2.text4.greet");
         assertEquals("?Hola, mundo!", text);
 
-        text = _("text1.Hi");
+        text = rootPackage.getText("text1.Hi");
+        assertEquals("?Hola, mundo!", text);
+    }
+
+    @Test
+    public void testSubPackaging() {
+        locale = "en";
+        TextPackage subPackage = rootPackage.getPackage("subdir.subdir2");
+
+        String text = subPackage.getText("text4.greet");
+        assertEquals("Hello, world!", text);
+
+        text = subPackage.getText("text4.greet");
+        assertEquals("Hello, world!", text);
+
+        text = subPackage.getText("text4.greet");
+        assertEquals("Hello, world!", text);
+
+        locale = "es";
+
+        text = subPackage.getText("text4.greet");
         assertEquals("?Hola, mundo!", text);
     }
 }

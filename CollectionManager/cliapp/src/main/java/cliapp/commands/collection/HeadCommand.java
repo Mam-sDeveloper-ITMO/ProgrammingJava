@@ -1,18 +1,19 @@
 package cliapp.commands.collection;
 
-import static textlocale.TextLocale._;
-
+import cliapp.TextsManager;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
+import textlocale.TextSupplier;
 
 /**
  * This command returns the first element of the collection.
  */
 public class HeadCommand extends CollectionCommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.collection")::getText;
 
     /**
      * Constructs a new HeadCommand with the given collection manager.
@@ -20,8 +21,8 @@ public class HeadCommand extends CollectionCommand {
      * @param collectionManager the collection manager to be used by this command
      */
     public HeadCommand(CollectionManager collectionManager) {
-        super(_("commands.collection.commands.HeadCommand.Name"),
-                _("commands.collection.commands.HeadCommand.Description"),
+        super(ts.t("HeadCommand.Name"),
+                ts.t("HeadCommand.Description"),
                 collectionManager);
     }
 
@@ -32,7 +33,7 @@ public class HeadCommand extends CollectionCommand {
             Exception cause = new EmptyCollectionError();
             throw new ExecutionError(cause.getMessage(), cause);
         } else {
-            output.putString(_("commands.collection.commands.HeadCommand.Title"));
+            output.putString(ts.t("HeadCommand.Title"));
             output.putString(humans.getFirst().toString());
         }
     }

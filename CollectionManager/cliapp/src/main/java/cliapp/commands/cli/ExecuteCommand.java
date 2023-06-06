@@ -1,7 +1,5 @@
 package cliapp.commands.cli;
 
-import static textlocale.TextLocale._;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -14,6 +12,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cliapp.TextsManager;
 import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.UserInputPipeline;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
@@ -26,6 +25,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
+import textlocale.TextSupplier;
 
 /**
  * A command that executes specified script with commands.
@@ -44,6 +44,8 @@ import commands.requirements.validators.Validator;
  * show
  */
 public class ExecuteCommand extends CLICommand {
+    static TextSupplier ts = TextsManager.getTexts().getPackage("commands.cli")::getText;
+
     /**
      * Maximum count of recursive call for one script file
      */
@@ -55,8 +57,8 @@ public class ExecuteCommand extends CLICommand {
     private Map<Path, Integer> callCounter = new HashMap<>();
 
     private static final Requirement<String, Path> scriptFileRequirement = new Requirement<>(
-            _("commands.cli.commands.ExecuteCommand.ScriptFileRequirement.Name"),
-            _("commands.cli.commands.ExecuteCommand.ScriptFileRequirement.Description"),
+            ts.t("ExecuteCommand.ScriptFileRequirement.Name"),
+            ts.t("ExecuteCommand.ScriptFileRequirement.Description"),
             new ScriptPathValidator());
 
     /**
@@ -77,7 +79,7 @@ public class ExecuteCommand extends CLICommand {
         public Path validate(String value) throws ValidationError {
             if (!value.endsWith(".neko")) {
                 throw new ValidationError(value,
-                        _("commands.cli.commands.ExecuteCommand.ScriptFileRequirement.IncorrectExtension"));
+                        ts.t("ExecuteCommand.ScriptFileRequirement.IncorrectExtension"));
             }
             try {
                 Path path = Paths.get(value);
@@ -94,7 +96,8 @@ public class ExecuteCommand extends CLICommand {
      * @param client a {@link cliapp.cliclient.CLIClient} instance.
      */
     public ExecuteCommand(CLIClient client) {
-        super(_("commands.cli.commands.ExecuteCommand.Name"), _("commands.cli.commands.ExecuteCommand.Description"),
+        super(ts.t("ExecuteCommand.Name"),
+                ts.t("ExecuteCommand.Description"),
                 client);
     }
 
@@ -147,7 +150,7 @@ public class ExecuteCommand extends CLICommand {
                     // dynamic requirements
                     if (dynamicRequirements.isEmpty()) {
                         throw new RequirementAskError(requirement.getName(),
-                                _("commands.cli.commands.ExecuteCommand.NotEnoughDynamicParams"));
+                                ts.t("ExecuteCommand.NotEnoughDynamicParams"));
                     }
                     return requirement.getValue((I) dynamicRequirements.poll());
                 }
@@ -272,7 +275,7 @@ public class ExecuteCommand extends CLICommand {
             executeWithUserParams(line);
         } else {
             // without dynamic params
-            throw new ExecutionError(_("commands.cli.commands.ExecuteCommand.IncorrectLineFormat").formatted(line));
+            throw new ExecutionError(ts.t("ExecuteCommand.IncorrectLineFormat", line));
         }
     }
 
@@ -294,7 +297,7 @@ public class ExecuteCommand extends CLICommand {
             // reset counter and throw error
             callCounter.remove(scriptPath);
             throw new ExecutionError(
-                    _("commands.cli.commands.ExecuteCommand.MaxCallCountExceed").formatted(maxRecursionDepth));
+                    ts.t("ExecuteCommand.MaxCallCountExceed", maxRecursionDepth));
         }
 
         // execute script
@@ -303,7 +306,7 @@ public class ExecuteCommand extends CLICommand {
                 executeScriptLine(line);
             } catch (Exception e) {
                 throw new ExecutionError(
-                        _("commands.cli.commands.ExecuteCommand.LineError").formatted(scriptPath, e.getMessage()));
+                        ts.t("ExecuteCommand.LineError", scriptPath, e.getMessage()));
             }
         }
 

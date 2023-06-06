@@ -11,6 +11,7 @@
     <artifactId>textlocale</artifactId>
     <name>Text Locale</name>
     <description>Text resources organizer</description>
+    <version>3.0.0</version>
 
     <dependencies>
         <dependency>
