@@ -1,7 +1,16 @@
 package collections.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+
 import collections.service.collections.storage.CollectionsStorage;
+import collections.service.models.HumanModel;
 import collections.service.routers.CollectionsRouter;
+import fqme.connection.ConnectionManager;
+import fqme.connection.DBConfig;
+import fqme.model.Model;
+import fqme.view.View;
 import io.github.cdimascio.dotenv.Dotenv;
 import pingback.Level;
 import pingback.LogMode;
@@ -14,8 +23,20 @@ import server.routing.Router;
  * The main application class for running the collection service.
  */
 public class App {
-    public static void main(String[] args) {
-        Dotenv dotenv = Dotenv.load();
+    private static Dotenv dotenv = Dotenv.load();
+
+    /**
+     * Create logger instance based on the environment variables.
+     *
+     * - PINGBACK_APP_URL: The URL of the Pingback application.
+     * - PINGBACK_API_KEY: The API key of the Pingback application.
+     * - PINGBACK_PROJECT: The project name of the Pingback application.
+     * - PINGBACK_LOG_MODE: The log mode of the Pingback application.
+     *
+     * @return Logger instance
+     * @see pingback.Logger
+     */
+    private static Logger setupLogger() {
         Logger logger = Logger.getLogger(
                 dotenv.get("PINGBACK_APP_URL"),
                 dotenv.get("PINGBACK_API_KEY"),
@@ -26,6 +47,37 @@ public class App {
             logger.setLogMode(LogMode.BOTH);
         } else if (dotenv.get("PINGBACK_LOG_MODE").equals("CONSOLE")) {
             logger.setLogMode(LogMode.CONSOLE);
+        }
+        return logger;
+    }
+
+    private static void setupDatabase() throws Exception {
+        // register models
+        Model.register(HumanModel.class);
+
+        // configure database config
+        DBConfig dbConfig = DBConfig.fromConfigFile(dotenv.get("COLLECTIONS_DB_CONFIG"));
+        ConnectionManager.bind(HumanModel.class, dbConfig);
+
+        // create tables
+        Connection connection = ConnectionManager.getConnection(HumanModel.class);
+        View.of(HumanModel.class, connection);
+    }
+
+    /**
+     * Application entry point.
+     *
+     * Configure logger, database and start the server.
+     *
+     */
+    public static void main(String[] args) {
+        Logger logger = setupLogger();
+
+        try {
+            setupDatabase();
+        } catch (Exception e) {
+            logger.log("Database error", e.getMessage(), Level.CRITICAL);
+            return;
         }
 
         CollectionsStorage collectionsDispatcher = new CollectionsStorage("./storage");

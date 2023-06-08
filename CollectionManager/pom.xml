@@ -20,6 +20,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
+    <repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -33,6 +40,11 @@
                 <artifactId>lombok</artifactId>
                 <version>1.18.26</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.Mam-sDeveloper-ITMO</groupId>
+                <artifactId>fqme</artifactId>
+                <version>v1.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

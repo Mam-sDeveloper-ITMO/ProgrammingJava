@@ -44,3 +44,4 @@ buildNumber.properties
 storage/
 site/
 .env
+db.cfg
