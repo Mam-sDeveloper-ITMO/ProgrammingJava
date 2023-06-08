@@ -1,7 +1,5 @@
 package cliapp;
 
-import java.io.IOException;
-
 import adapter.Adapter;
 import cliapp.cliclient.CLIClient;
 import cliapp.collection.RemoteManager;

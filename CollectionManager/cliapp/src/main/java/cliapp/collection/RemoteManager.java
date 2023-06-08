@@ -1,6 +1,8 @@
 package cliapp.collection;
 
 import java.io.Serializable;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 import adapter.Adapter;
@@ -112,7 +114,8 @@ public class RemoteManager extends CollectionManager {
         if (!response.getOk()) {
             throw new ManipulationError(response.getMessage());
         }
-        collection.removeFirst();
+        Human removedHuman = (Human) response.getData().get("human");
+        collection.remove(removedHuman);
     }
 
     @Override
@@ -122,7 +125,8 @@ public class RemoteManager extends CollectionManager {
         if (!response.getOk()) {
             throw new ManipulationError(response.getMessage());
         }
-        collection.removeLast();
+        Human removedHuman = (Human) response.getData().get("human");
+        collection.remove(removedHuman);
     }
 
     @Override
