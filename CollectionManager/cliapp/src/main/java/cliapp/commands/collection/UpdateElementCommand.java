@@ -59,8 +59,8 @@ public class UpdateElementCommand extends CollectionCommand {
             Requirement<I, O> requirement,
             O defaultValue) {
         // suggest to skip field
-        output.putString(
-                ts.t("cliclient.cliclient.AskDefaultRequirement", defaultValue));
+        TextSupplier pipelineTs = TextsManager.getTexts().getPackage("cliclient.user_input_pipeline")::getText;
+        output.putString(pipelineTs.t("AskDefaultRequirement", defaultValue));
         try {
             O value = pipeline.askRequirement(requirement);
             return value;
@@ -116,8 +116,8 @@ public class UpdateElementCommand extends CollectionCommand {
         for (int i = 0; i < Mood.values().length; i++) {
             moods += i + " - " + Mood.values()[i] + System.lineSeparator();
         }
-        output.putString(
-                ts.t("commands.collection.requirements.MoodRequirement.Title") + System.lineSeparator() + moods);
+        String moodTitle = TextsManager.getTexts().getPackage("commands.requirements").getText("MoodRequirement.Title");
+        output.putString(moodTitle + System.lineSeparator() + moods);
         humanBuilder.mood(askOrDefault(pipeline, output, moodRequirement, defaultHuman.getMood()));
 
         Car car = new Car(askOrDefault(pipeline, output, carNameRequirement, defaultHuman.getCar().getName()));

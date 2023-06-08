@@ -306,7 +306,7 @@ public class ExecuteCommand extends CLICommand {
                 executeScriptLine(line);
             } catch (Exception e) {
                 throw new ExecutionError(
-                        ts.t("ExecuteCommand.LineError", scriptPath, e.getMessage()));
+                        ts.t("ExecuteCommand.LineError", line, e.getMessage()));
             }
         }
 

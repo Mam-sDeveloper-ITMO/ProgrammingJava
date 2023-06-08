@@ -34,7 +34,7 @@
         "Name": { "en": "Execute Script Command" },
         "Description": { "en": "Execute commands from script file with .neko extension" },
         "Title": { "en": "Executing command: %s" },
-        "LineError": { "en": "Failed execute script at line: \"%s\"" },
+        "LineError": { "en": "Failed execute script at line: \"%s\"\n%s" },
         "NotEnoughDynamicParams": { "en": "Not enough dynamic params specified" },
         "IncorrectLineFormat": { "en": "Incorrect line format" },
         "MaxCallCountExceed": {
