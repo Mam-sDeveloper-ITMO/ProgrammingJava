@@ -1,11 +1,8 @@
 package collections.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Connection;
 
-import collections.service.collections.storage.CollectionsStorage;
-import collections.service.models.HumanModel;
+import collections.service.dbmodels.HumanModel;
 import collections.service.routers.CollectionsRouter;
 import fqme.connection.ConnectionManager;
 import fqme.connection.DBConfig;
@@ -28,6 +25,7 @@ public class App {
     /**
      * Create logger instance based on the environment variables.
      *
+     * Environment variables:
      * - PINGBACK_APP_URL: The URL of the Pingback application.
      * - PINGBACK_API_KEY: The API key of the Pingback application.
      * - PINGBACK_PROJECT: The project name of the Pingback application.
@@ -51,6 +49,16 @@ public class App {
         return logger;
     }
 
+    /**
+     * Setup database connection and create tables.
+     *
+     * Environment variables:
+     * - COLLECTIONS_DB_CONFIG: The path to the database configuration file.
+     *
+     * @throws Exception
+     *
+     * @see fqme.connection.ConnectionManager
+     */
     private static void setupDatabase() throws Exception {
         // register models
         Model.register(HumanModel.class);
@@ -69,6 +77,8 @@ public class App {
      *
      * Configure logger, database and start the server.
      *
+     * Environment variables:
+     * - PORT: The port number of the server.
      */
     public static void main(String[] args) {
         Logger logger = setupLogger();
@@ -80,9 +90,7 @@ public class App {
             return;
         }
 
-        CollectionsStorage collectionsDispatcher = new CollectionsStorage("./storage");
-
-        Router collectionsRouter = new CollectionsRouter(collectionsDispatcher);
+        Router collectionsRouter = new CollectionsRouter();
 
         Dispatcher dispatcher = new Dispatcher();
         dispatcher.includeRouter(collectionsRouter);

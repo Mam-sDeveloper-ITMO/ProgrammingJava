@@ -1,17 +1,19 @@
 package collections.service.routers;
 
-import java.io.Serializable;
-import java.util.HashMap;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.Set;
 
 import collections.service.api.StatusCodes;
-import collections.service.collections.storage.CollectionsStorage;
-import humandeque.manager.CollectionManager;
-import humandeque.manager.exceptions.CollectionSaveError;
-import humandeque.manager.exceptions.ElementAlreadyExistsError;
-import humandeque.manager.exceptions.ElementNotExistsError;
-import humandeque.manager.exceptions.EmptyCollectionError;
-import humandeque.manager.exceptions.ManipulationError;
+import collections.service.dbmodels.HumanModel;
+import collections.service.dbmodels.converters.HumanConverter;
+import fqme.column.exceptions.UnsupportedSqlType;
+import fqme.column.exceptions.UnsupportedValueType;
+import fqme.connection.ConnectionManager;
+import fqme.view.View;
+import humandeque.HumanDeque;
 import models.Human;
 import pingback.Level;
 import pingback.Logger;
@@ -26,193 +28,168 @@ import server.routing.middlewares.OuterMiddleware;
 import server.utils.DataConverter;
 
 public class CollectionsRouter extends Router {
-    /**
-     * Dispatch user id to collection manager.
-     */
-    private CollectionsStorage collectionsDispatcher;
-
     private static Logger logger = Logger.getLogger("mainLogger");
 
     /**
      * Create a new collections router.
-     *
-     * @param collectionsDispatcher Dispatch user id to collection manager.
      */
-    public CollectionsRouter(CollectionsStorage collectionsDispatcher) {
+    public CollectionsRouter() {
         super("collections");
-        this.collectionsDispatcher = collectionsDispatcher;
     }
 
     @InnerMiddleware("")
     public Response handleRequest(HandlerFunction handler, Request request) throws IncorrectRequestData {
         logger.log("Request", request.toString(), Level.DEBUG);
+        // prepare request data
         Map<String, Object> data = DataConverter.serializableToObjects(request.getData());
-        // get collection manager attached to user
-        Integer userId = getUserId(data);
-        CollectionManager collectionManager = collectionsDispatcher.getCollectionManager(userId);
-        // try update collection
-        try {
-            collectionManager.load();
-        } catch (Exception e) {
-            logger.log("Middleware", "Collection load error: %s".formatted(e.getMessage()), Level.ERROR);
-        }
-        // pass collection manager to handler
-        data.put("collectionManager", collectionManager);
+        getUserId(data);
         return handler.handle(data);
     }
 
     @OuterMiddleware("")
     public Response handleResponse(Request request, Response response) {
         logger.log("Response", response.toString(), Level.DEBUG);
-        Map<String, Object> data = DataConverter.serializableToObjects(request.getData());
-        // get collection manager attached to user
-        Integer userId;
-        try {
-            userId = getUserId(data);
-        } catch (IncorrectRequestData e) {
-            return response;
-        }
-        // try save collection
-        CollectionManager collectionManager = collectionsDispatcher.getCollectionManager(userId);
-        try {
-            collectionManager.save();
-        } catch (CollectionSaveError | ManipulationError e) {
-            logger.log("Middleware", "Collection save error: %s".formatted(e.getMessage()), Level.ERROR);
-        }
         return response;
     }
 
     @Handler("add")
     public Response add(Map<String, Object> data) throws IncorrectRequestData {
-        CollectionManager collectionManager = getCollectionManager(data);
+        Integer userId = (Integer) data.get("userId");
         Human human = getHuman(data);
         try {
-            collectionManager.add(human);
-            return Response.success(Map.of("human", human));
-        } catch (ElementAlreadyExistsError e) {
-            return Response.failure("Element already exists", StatusCodes.ELEMENT_ALREADY_EXISTS);
-        } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
-                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
+            Connection connection = ConnectionManager.getConnection(HumanModel.class);
+            View<HumanModel> humanView = View.of(HumanModel.class, connection);
+
+            HumanModel humanModel = HumanConverter.toHumanModel(human, userId);
+            humanModel = humanView.put(humanModel).iterator().next();
+
+            return Response.success(Map.of("human", HumanConverter.toHuman(humanModel)));
+        } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
+            return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
     }
 
     @Handler("update")
     public Response update(Map<String, Object> data) throws IncorrectRequestData {
-        CollectionManager collectionManager = getCollectionManager(data);
+        Integer userId = (Integer) data.get("userId");
         Human human = getHuman(data);
         try {
-            collectionManager.update(human);
+            Connection connection = ConnectionManager.getConnection(HumanModel.class);
+            View<HumanModel> humanView = View.of(HumanModel.class, connection);
+
+            HumanModel humanModel = HumanConverter.toHumanModel(human, userId);
+            Set<HumanModel> humanModels = humanView.get(
+                    HumanModel.ownerId_.eq(userId)
+                            .and(HumanModel.id_.eq(humanModel.getId())));
+
+            if (humanModels.isEmpty()) {
+                return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
+            }
+            humanView.put(humanModel);
+
             return Response.success(Map.of("human", human));
-        } catch (ElementNotExistsError e) {
-            return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
-        } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
-                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
+        } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
+            return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
     }
 
     @Handler("remove")
     public Response remove(Map<String, Object> data) throws IncorrectRequestData {
-        CollectionManager collectionManager = getCollectionManager(data);
-        Long id;
+        Integer userId = (Integer) data.get("userId");
+        Integer humanId;
         try {
-            id = (long) data.get("id");
-        } catch (ClassCastException e) {
+            humanId = ((Long) data.get("id")).intValue();
+        } catch (ClassCastException | NullPointerException e) {
             throw new IncorrectRequestData();
         }
         try {
-            collectionManager.remove(id);
-            return Response.success(Map.of("id", id));
-        } catch (ElementNotExistsError e) {
-            return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
-        } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
-                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
+            Connection connection = ConnectionManager.getConnection(HumanModel.class);
+            View<HumanModel> humanView = View.of(HumanModel.class, connection);
+
+            Set<HumanModel> humanModels = humanView.get(
+                    HumanModel.ownerId_.eq(userId)
+                            .and(HumanModel.id_.eq(humanId)));
+
+            if (humanModels.isEmpty()) {
+                return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
+            }
+            humanView.delete(HumanModel.id_.eq(humanId));
+
+            return Response.success(Map.of("humanId", humanId));
+        } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
+            return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
     }
 
     @Handler("removeFirst")
     public Response removeFirst(Map<String, Object> data) throws IncorrectRequestData {
-        CollectionManager collectionManager = getCollectionManager(data);
+        Integer userId = (Integer) data.get("userId");
         try {
-            collectionManager.removeFirst();
-            return Response.success();
-        } catch (EmptyCollectionError e) {
-            return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
-        } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
-                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
+            Connection connection = ConnectionManager.getConnection(HumanModel.class);
+            View<HumanModel> humanView = View.of(HumanModel.class, connection);
+
+            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
+            if (humanModels.isEmpty()) {
+                return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
+            }
+
+            HumanModel humanModel = humanModels.stream().min(Comparator.comparing(HumanModel::getImpactSpeed)).get();
+            humanView.delete(HumanModel.id_.eq(humanModel.getId()));
+
+            return Response.success(Map.of("human", HumanConverter.toHuman(humanModel)));
+        } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
+            return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
     }
 
     @Handler("removeLast")
     public Response removeLast(Map<String, Object> data) throws IncorrectRequestData {
-        CollectionManager collectionManager = getCollectionManager(data);
+        Integer userId = (Integer) data.get("userId");
         try {
-            collectionManager.removeLast();
-            return Response.success();
-        } catch (EmptyCollectionError e) {
-            return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
-        } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
-                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
+            Connection connection = ConnectionManager.getConnection(HumanModel.class);
+            View<HumanModel> humanView = View.of(HumanModel.class, connection);
+
+            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
+            if (humanModels.isEmpty()) {
+                return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
+            }
+
+            HumanModel humanModel = humanModels.stream().max(Comparator.comparing(HumanModel::getImpactSpeed)).get();
+            humanView.delete(HumanModel.id_.eq(humanModel.getId()));
+
+            return Response.success(Map.of("human", HumanConverter.toHuman(humanModel)));
+        } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
+            return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
     }
 
     @Handler("clear")
     public Response clear(Map<String, Object> data) throws IncorrectRequestData {
-        CollectionManager collectionManager = getCollectionManager(data);
+        Integer userId = (Integer) data.get("userId");
         try {
-            collectionManager.clear();
-        } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
-                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
+            Connection connection = ConnectionManager.getConnection(HumanModel.class);
+            View<HumanModel> humanView = View.of(HumanModel.class, connection);
+
+            humanView.delete(HumanModel.ownerId_.eq(userId));
+            
+            return Response.success();
+        } catch (Exception e) {
+            return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
-        return Response.success();
     }
 
     @Handler("get")
     public Response get(Map<String, Object> data) throws IncorrectRequestData {
-        CollectionManager collectionManager = getCollectionManager(data);
-        Map<String, Serializable> responseData = Map.of("collection", collectionManager.getCollection());
-        return Response.success(responseData);
-    }
-
-    /**
-     * Save user collection to file.
-     *
-     * @param data Request data.
-     * @return Response.
-     * @throws IncorrectRequestData
-     */
-    @Handler("save")
-    public Response save(Map<String, Object> data) throws IncorrectRequestData {
-        CollectionManager collectionManager = getCollectionManager(data);
+        Integer userId = (Integer) data.get("userId");
         try {
-            collectionManager.save();
-            return Response.success();
-        } catch (CollectionSaveError e) {
-            return Response.failure("Collection save error: %s".formatted(e.getMessage()),
-                    StatusCodes.CANNOT_SAVE_COLLECTION);
-        } catch (ManipulationError e) {
-            return Response.failure("Manipulation error: %s".formatted(e.getMessage()),
-                    StatusCodes.UNEXPECTED_MANIPULATION_ERROR);
-        }
-    }
+            Connection connection = ConnectionManager.getConnection(HumanModel.class);
+            View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-    /**
-     * Get collection manager for specific user from request data.
-     *
-     * @param data Request data.
-     * @return Collection manager.
-     * @throws IncorrectRequestData
-     */
-    private CollectionManager getCollectionManager(Map<String, Object> data) throws IncorrectRequestData {
-        try {
-            return (CollectionManager) data.get("collectionManager");
-        } catch (ClassCastException e) {
-            throw new IncorrectRequestData();
+            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
+            HumanDeque collection = HumanConverter.toHumanDeque(humanModels);
+            return Response.success(Map.of("collection", collection));
+        } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
+            return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
     }
 
