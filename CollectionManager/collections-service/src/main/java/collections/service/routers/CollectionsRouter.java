@@ -43,6 +43,14 @@ public class CollectionsRouter extends Router {
         // prepare request data
         Map<String, Object> data = DataConverter.serializableToObjects(request.getData());
         getUserId(data);
+
+        try {
+            Connection connection = ConnectionManager.getConnection(HumanModel.class);
+            data.put("connection", connection);
+        } catch (SQLException e) {
+            return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
+        }
+
         return handler.handle(data);
     }
 
@@ -56,8 +64,8 @@ public class CollectionsRouter extends Router {
     public Response add(Map<String, Object> data) throws IncorrectRequestData {
         Integer userId = (Integer) data.get("userId");
         Human human = getHuman(data);
+        Connection connection = (Connection) data.get("connection");
         try {
-            Connection connection = ConnectionManager.getConnection(HumanModel.class);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             HumanModel humanModel = HumanConverter.toHumanModel(human, userId);
@@ -73,8 +81,8 @@ public class CollectionsRouter extends Router {
     public Response update(Map<String, Object> data) throws IncorrectRequestData {
         Integer userId = (Integer) data.get("userId");
         Human human = getHuman(data);
+        Connection connection = (Connection) data.get("connection");
         try {
-            Connection connection = ConnectionManager.getConnection(HumanModel.class);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             HumanModel humanModel = HumanConverter.toHumanModel(human, userId);
@@ -102,8 +110,8 @@ public class CollectionsRouter extends Router {
         } catch (ClassCastException | NullPointerException e) {
             throw new IncorrectRequestData();
         }
+        Connection connection = (Connection) data.get("connection");
         try {
-            Connection connection = ConnectionManager.getConnection(HumanModel.class);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             Set<HumanModel> humanModels = humanView.get(
@@ -113,9 +121,11 @@ public class CollectionsRouter extends Router {
             if (humanModels.isEmpty()) {
                 return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
             }
+            HumanModel humanModel = humanModels.iterator().next();
             humanView.delete(HumanModel.id_.eq(humanId));
 
-            return Response.success(Map.of("humanId", humanId));
+            Human removedHuman = HumanConverter.toHuman(humanModel);
+            return Response.success(Map.of("human", removedHuman));
         } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
@@ -124,19 +134,20 @@ public class CollectionsRouter extends Router {
     @Handler("removeFirst")
     public Response removeFirst(Map<String, Object> data) throws IncorrectRequestData {
         Integer userId = (Integer) data.get("userId");
+        Connection connection = (Connection) data.get("connection");
         try {
-            Connection connection = ConnectionManager.getConnection(HumanModel.class);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
             if (humanModels.isEmpty()) {
                 return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
             }
-
-            HumanModel humanModel = humanModels.stream().min(Comparator.comparing(HumanModel::getImpactSpeed)).get();
+            HumanModel humanModel = humanModels.stream()
+                    .min(Comparator.comparing(HumanModel::getImpactSpeed)).get();
             humanView.delete(HumanModel.id_.eq(humanModel.getId()));
 
-            return Response.success(Map.of("human", HumanConverter.toHuman(humanModel)));
+            Human removedHuman = HumanConverter.toHuman(humanModel);
+            return Response.success(Map.of("human", removedHuman));
         } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
@@ -145,8 +156,8 @@ public class CollectionsRouter extends Router {
     @Handler("removeLast")
     public Response removeLast(Map<String, Object> data) throws IncorrectRequestData {
         Integer userId = (Integer) data.get("userId");
+        Connection connection = (Connection) data.get("connection");
         try {
-            Connection connection = ConnectionManager.getConnection(HumanModel.class);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
@@ -154,10 +165,12 @@ public class CollectionsRouter extends Router {
                 return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
             }
 
-            HumanModel humanModel = humanModels.stream().max(Comparator.comparing(HumanModel::getImpactSpeed)).get();
+            HumanModel humanModel = humanModels.stream()
+                    .max(Comparator.comparing(HumanModel::getImpactSpeed)).get();
             humanView.delete(HumanModel.id_.eq(humanModel.getId()));
 
-            return Response.success(Map.of("human", HumanConverter.toHuman(humanModel)));
+            Human removedHuman = HumanConverter.toHuman(humanModel);
+            return Response.success(Map.of("human", removedHuman));
         } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
@@ -166,12 +179,12 @@ public class CollectionsRouter extends Router {
     @Handler("clear")
     public Response clear(Map<String, Object> data) throws IncorrectRequestData {
         Integer userId = (Integer) data.get("userId");
+        Connection connection = (Connection) data.get("connection");
         try {
-            Connection connection = ConnectionManager.getConnection(HumanModel.class);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             humanView.delete(HumanModel.ownerId_.eq(userId));
-            
+
             return Response.success();
         } catch (Exception e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
@@ -181,12 +194,12 @@ public class CollectionsRouter extends Router {
     @Handler("get")
     public Response get(Map<String, Object> data) throws IncorrectRequestData {
         Integer userId = (Integer) data.get("userId");
+        Connection connection = (Connection) data.get("connection");
         try {
-            Connection connection = ConnectionManager.getConnection(HumanModel.class);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
-
             Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
             HumanDeque collection = HumanConverter.toHumanDeque(humanModels);
+
             return Response.success(Map.of("collection", collection));
         } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
