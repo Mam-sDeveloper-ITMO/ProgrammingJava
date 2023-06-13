@@ -19,6 +19,7 @@
         <module>commands</module>
         <module>server</module>
         <module>adapter</module>
+        <module>auth</module>
         <module>pingback</module>
         <module>textlocale</module>
     </modules>
