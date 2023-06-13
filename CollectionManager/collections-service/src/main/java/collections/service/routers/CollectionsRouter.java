@@ -14,6 +14,7 @@ import fqme.column.exceptions.UnsupportedValueType;
 import fqme.connection.ConnectionManager;
 import fqme.view.View;
 import humandeque.HumanDeque;
+import lombok.Cleanup;
 import models.Human;
 import pingback.Level;
 import pingback.Logger;
@@ -44,14 +45,12 @@ public class CollectionsRouter extends Router {
         Map<String, Object> data = DataConverter.serializableToObjects(request.getData());
         getUserId(data);
 
-        try {
-            Connection connection = ConnectionManager.getConnection(HumanModel.class);
+        try (Connection connection = ConnectionManager.getConnection(HumanModel.class)) {
             data.put("connection", connection);
+            return handler.handle(data);
         } catch (SQLException e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
         }
-
-        return handler.handle(data);
     }
 
     @OuterMiddleware("")
