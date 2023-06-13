@@ -6,10 +6,11 @@
     <parent>
         <groupId>mamsdeveloper.itmo</groupId>
         <artifactId>shared</artifactId>
-        <version>2.1</version>
+        <version>1.0</version>
     </parent>
     <artifactId>server</artifactId>
     <name>Server</name>
+    <version>2.1</version>
     <description>Basic UDP server and requests handling utils</description>
 
     <dependencies>
