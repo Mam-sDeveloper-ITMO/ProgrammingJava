@@ -65,10 +65,12 @@ public class CollectionsRouter extends Router {
         Human human = getHuman(data);
         Connection connection = (Connection) data.get("connection");
         try {
+            connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             HumanModel humanModel = HumanConverter.toHumanModel(human, userId);
             humanModel = humanView.put(humanModel).iterator().next();
+            connection.commit();
 
             return Response.success(Map.of("human", HumanConverter.toHuman(humanModel)));
         } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
@@ -82,6 +84,7 @@ public class CollectionsRouter extends Router {
         Human human = getHuman(data);
         Connection connection = (Connection) data.get("connection");
         try {
+            connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             HumanModel humanModel = HumanConverter.toHumanModel(human, userId);
@@ -93,6 +96,7 @@ public class CollectionsRouter extends Router {
                 return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
             }
             humanView.put(humanModel);
+            connection.commit();
 
             return Response.success(Map.of("human", human));
         } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
@@ -111,6 +115,7 @@ public class CollectionsRouter extends Router {
         }
         Connection connection = (Connection) data.get("connection");
         try {
+            connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             Set<HumanModel> humanModels = humanView.get(
@@ -124,6 +129,8 @@ public class CollectionsRouter extends Router {
             humanView.delete(HumanModel.id_.eq(humanId));
 
             Human removedHuman = HumanConverter.toHuman(humanModel);
+
+            connection.commit();
             return Response.success(Map.of("human", removedHuman));
         } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
@@ -135,6 +142,8 @@ public class CollectionsRouter extends Router {
         Integer userId = (Integer) data.get("userId");
         Connection connection = (Connection) data.get("connection");
         try {
+            connection.setAutoCommit(false);
+
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
@@ -146,6 +155,7 @@ public class CollectionsRouter extends Router {
             humanView.delete(HumanModel.id_.eq(humanModel.getId()));
 
             Human removedHuman = HumanConverter.toHuman(humanModel);
+            connection.commit();
             return Response.success(Map.of("human", removedHuman));
         } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
@@ -157,6 +167,7 @@ public class CollectionsRouter extends Router {
         Integer userId = (Integer) data.get("userId");
         Connection connection = (Connection) data.get("connection");
         try {
+            connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
@@ -169,6 +180,7 @@ public class CollectionsRouter extends Router {
             humanView.delete(HumanModel.id_.eq(humanModel.getId()));
 
             Human removedHuman = HumanConverter.toHuman(humanModel);
+            connection.commit();
             return Response.success(Map.of("human", removedHuman));
         } catch (SQLException | UnsupportedValueType | UnsupportedSqlType e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
@@ -180,10 +192,12 @@ public class CollectionsRouter extends Router {
         Integer userId = (Integer) data.get("userId");
         Connection connection = (Connection) data.get("connection");
         try {
+            connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             humanView.delete(HumanModel.ownerId_.eq(userId));
 
+            connection.commit();
             return Response.success();
         } catch (Exception e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
