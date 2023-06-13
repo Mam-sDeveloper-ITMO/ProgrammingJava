@@ -15,6 +15,11 @@ import lombok.Data;
 import server.dispatcher.Dispatcher;
 import server.exceptions.ChannelInitFailed;
 import server.exceptions.ServerRunningFailed;
+import server.requests.Request;
+import server.responses.Response;
+import server.utils.Serializer;
+import server.utils.StatusCodes;
+import server.utils.exceptions.BadRequestStream;
 
 /**
  * Non-blocking UDP server.
@@ -122,12 +127,33 @@ public class Server {
         buffer.flip();
 
         ByteArrayInputStream requestStream = new ByteArrayInputStream(buffer.array());
-        ByteArrayOutputStream responseStream = this.dispatcher.dispatchStreams(requestStream);
+        ByteArrayOutputStream responseStream = dispatchStreams(requestStream);
 
-        ResponseAttachment attachment = new ResponseAttachment(responseStream,
-                clientAddress);
+        ResponseAttachment attachment = new ResponseAttachment(responseStream, clientAddress);
         key.attach(attachment);
         key.interestOps(SelectionKey.OP_WRITE);
+    }
+
+    /**
+     * Proceed deserialized request too dispatcher and return serialized response.
+     *
+     * @param requestStream request stream
+     * @return response stream
+     * @throws IOException if reading or writing failed
+     */
+    private ByteArrayOutputStream dispatchStreams(ByteArrayInputStream requestStream) throws IOException {
+        Request request;
+        try {
+            request = Serializer.deserializeRequest(requestStream);
+            Response response = this.dispatcher.dispatch(request);
+            return Serializer.serializeResponse(response);
+        } catch (BadRequestStream e) {
+            Response response = Response.failure("Bad request stream", StatusCodes.BAD_REQUEST_STREAM);
+            return Serializer.serializeResponse(response);
+        } catch (Exception e) {
+            Response response = Response.failure("Internal server error", StatusCodes.INTERNAL_SERVER_ERROR);
+            return Serializer.serializeResponse(response);
+        }
     }
 
     /**

@@ -1,7 +1,5 @@
 package server.dispatcher;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -17,9 +15,7 @@ import server.routing.middlewares.InnerMiddlewareFunction;
 import server.routing.middlewares.OuterMiddlewareFunction;
 import server.routing.middlewares.basic.BasicInnerMiddleware;
 import server.routing.middlewares.basic.BasicOuterMiddleware;
-import server.utils.Serializer;
 import server.utils.StatusCodes;
-import server.utils.exceptions.BadRequestStream;
 
 /**
  * Dispatcher is a class that handles requests from clients
@@ -66,27 +62,6 @@ public class Dispatcher {
      */
     public void removeRouter(Router router) {
         this.routers.remove(router);
-    }
-
-    /**
-     * Dispatch request from given stream data and return response as stream.
-     * Used by {@code Server}
-     *
-     * @see Dispatcher.dispatch
-     *
-     * @param requestStream input stream with Request object
-     * @return output stream with Response object
-     */
-    public ByteArrayOutputStream dispatchStreams(ByteArrayInputStream requestStream) {
-        Request request;
-        try {
-            request = Serializer.deserializeRequest(requestStream);
-            Response response = dispatch(request);
-            return Serializer.serializeResponse(response);
-        } catch (BadRequestStream e) {
-            Response response = Response.failure("Bad request stream", StatusCodes.BAD_REQUEST_STREAM);
-            return Serializer.serializeResponse(response);
-        }
     }
 
     /**
