@@ -1,4 +1,4 @@
-package textlocale;
+package textlocale.text;
 
 /**
  * Interface for text suppliers.
