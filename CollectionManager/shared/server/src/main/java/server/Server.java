@@ -3,15 +3,19 @@ package server;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.DatagramChannel;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import server.dispatcher.Dispatcher;
 import server.exceptions.ChannelInitFailed;
 import server.exceptions.ServerRunningFailed;
@@ -26,6 +30,7 @@ import server.utils.exceptions.BadRequestStream;
  *
  * Use Dispatcher to process requests (@see Handler).
  */
+@RequiredArgsConstructor
 public class Server {
     /**
      * Dispatcher is used to process requests.
@@ -35,12 +40,30 @@ public class Server {
     /**
      * Channel on which server is running.
      */
-    private DatagramChannel channel;
+    private DatagramSocket socket;
 
     /**
      * Size of buffer for reading and writing.
      */
-    private final int BUFFER_SIZE = 1024 * 10;
+    private static final Integer BUFFER_SIZE = 1024 * 10;
+
+    /**
+     * Pool with suppressed exceptions.
+     */
+    @Getter
+    private final Queue<Exception> exceptionsPull = new LinkedList<>();
+
+    /**
+     * Size of thread pool.
+     */
+    @Getter
+    @Setter
+    private static Integer threadPoolSize = 10;
+
+    /**
+     * Executor service for running threads.
+     */
+    private final ExecutorService executorService;
 
     /**
      * Create server on specified port.
@@ -51,7 +74,8 @@ public class Server {
      */
     public Server(String ip, int port, Dispatcher dispatcher) throws ChannelInitFailed {
         this.dispatcher = dispatcher;
-        this.channel = initChannel(ip, port);
+        this.socket = initSocket(ip, port);
+        this.executorService = Executors.newFixedThreadPool(threadPoolSize);
     }
 
     /**
@@ -60,8 +84,8 @@ public class Server {
      * @throws ServerRunningFailed if server running failed
      */
     public void run() throws ServerRunningFailed {
-        try (Selector selector = initSelector()) {
-            runLoop(selector);
+        try {
+            runLoop();
         } catch (Exception e) {
             throw new ServerRunningFailed();
         }
@@ -73,32 +97,17 @@ public class Server {
      * Get requests from channel and dispatch them to dispatcher.
      * Then send response to client.
      *
-     * @param selector selector
      * @throws Exception if loop failed
      */
-    private void runLoop(Selector selector) throws Exception {
+    private void runLoop() throws Exception {
         while (true) {
-            if (selector.select() == 0) {
-                continue;
-            }
-            Set<SelectionKey> selectedKeys = selector.selectedKeys();
-            Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
-            while (keyIterator.hasNext()) {
-                SelectionKey key = keyIterator.next();
-                if (!key.isValid()) {
-                    continue;
-                }
-                try {
-                    if (key.isReadable()) {
-                        read(channel, key);
-                    } else if (key.isWritable()) {
-                        write(channel, key);
-                    }
-                } catch (IOException e) {
-                    // if UDP doesn't guarantee delivery
-                    // why should we care about exceptions?
-                }
-                keyIterator.remove();
+            try {
+                byte[] buffer = new byte[BUFFER_SIZE];
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                socket.receive(packet);
+                executorService.execute(new RequestHandler(socket, packet));
+            } catch (IOException e) {
+                exceptionsPull.add(e);
             }
         }
     }
@@ -115,97 +124,64 @@ public class Server {
     }
 
     /**
-     * Read request from channel and dispatch it to dispatcher.
-     *
-     * @param channel channel on which server is running
-     * @param key     selection key
-     * @throws IOException if reading failed
-     */
-    private void read(DatagramChannel channel, SelectionKey key) throws IOException {
-        ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
-        InetSocketAddress clientAddress = (InetSocketAddress) channel.receive(buffer);
-        buffer.flip();
-
-        ByteArrayInputStream requestStream = new ByteArrayInputStream(buffer.array());
-        ByteArrayOutputStream responseStream = dispatchStreams(requestStream);
-
-        ResponseAttachment attachment = new ResponseAttachment(responseStream, clientAddress);
-        key.attach(attachment);
-        key.interestOps(SelectionKey.OP_WRITE);
-    }
-
-    /**
-     * Proceed deserialized request too dispatcher and return serialized response.
-     *
-     * @param requestStream request stream
-     * @return response stream
-     * @throws IOException if reading or writing failed
-     */
-    private ByteArrayOutputStream dispatchStreams(ByteArrayInputStream requestStream) throws IOException {
-        Request request;
-        try {
-            request = Serializer.deserializeRequest(requestStream);
-            Response response = this.dispatcher.dispatch(request);
-            return Serializer.serializeResponse(response);
-        } catch (BadRequestStream e) {
-            Response response = Response.failure("Bad request stream", StatusCodes.BAD_REQUEST_STREAM);
-            return Serializer.serializeResponse(response);
-        } catch (Exception e) {
-            Response response = Response.failure("Internal server error", StatusCodes.INTERNAL_SERVER_ERROR);
-            return Serializer.serializeResponse(response);
-        }
-    }
-
-    /**
-     * Write response to channel.
-     *
-     * @param channel channel on which server is running
-     * @param key     selection key
-     * @throws IOException if writing failed
-     */
-    private void write(DatagramChannel channel, SelectionKey key) throws IOException {
-        ResponseAttachment attachment = (ResponseAttachment) key.attachment();
-        if (attachment == null) {
-            key.interestOps(SelectionKey.OP_READ);
-            return;
-        }
-        ByteBuffer buffer = ByteBuffer.wrap(attachment.getResponseStream().toByteArray());
-        channel.send(buffer, attachment.getClientAddress());
-        key.interestOps(SelectionKey.OP_READ);
-    }
-
-    /**
-     * Initialize channel on specified port.
-     * Channel is non-blocking.
+     * Initialize socket on specified port.
      *
      * @param port port on which server is running
-     * @return channel
+     * @return socket
      * @throws ChannelInitFailed if channel initialization failed
      */
-    private DatagramChannel initChannel(String ip, int port) throws ChannelInitFailed {
+    private DatagramSocket initSocket(String ip, int port) throws ChannelInitFailed {
         try {
-            DatagramChannel channel = DatagramChannel.open();
-            channel.bind(new InetSocketAddress(ip, port));
-            channel.configureBlocking(false);
-            return channel;
+            return new DatagramSocket(new InetSocketAddress(ip, port));
         } catch (IOException e) {
             throw new ChannelInitFailed();
         }
     }
 
-    /**
-     * Initialize selector and register channel on it.
-     *
-     * @return selector
-     * @throws ServerRunningFailed if selector initialization failed
-     */
-    private Selector initSelector() throws ServerRunningFailed {
-        try {
-            Selector selector = Selector.open();
-            channel.register(selector, SelectionKey.OP_READ);
-            return selector;
-        } catch (IOException e) {
-            throw new ServerRunningFailed();
+    @RequiredArgsConstructor
+    class RequestHandler implements Runnable {
+        private final DatagramSocket socket;
+
+        private final DatagramPacket packet;
+
+        @Override
+        public void run() {
+            try {
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(packet.getData());
+
+                ByteArrayOutputStream responseStream = dispatchStreams(inputStream);
+                ByteBuffer buffer = ByteBuffer.wrap(responseStream.toByteArray());
+
+                DatagramPacket responsePacket = new DatagramPacket(
+                        buffer.array(), buffer.array().length,
+                        packet.getAddress(), packet.getPort());
+
+                socket.send(responsePacket);
+            } catch (IOException e) {
+                exceptionsPull.add(e);
+            }
+        }
+
+        /**
+         * Proceed deserialized request too dispatcher and return serialized response.
+         *
+         * @param requestStream request stream
+         * @return response stream
+         * @throws IOException if reading or writing failed
+         */
+        private ByteArrayOutputStream dispatchStreams(ByteArrayInputStream requestStream) throws IOException {
+            Request request;
+            try {
+                request = Serializer.deserializeRequest(requestStream);
+                Response response = dispatcher.dispatch(request);
+                return Serializer.serializeResponse(response);
+            } catch (BadRequestStream e) {
+                Response response = Response.failure("Bad request stream", StatusCodes.BAD_REQUEST_STREAM);
+                return Serializer.serializeResponse(response);
+            } catch (Exception e) {
+                Response response = Response.failure("Internal server error", StatusCodes.INTERNAL_SERVER_ERROR);
+                return Serializer.serializeResponse(response);
+            }
         }
     }
 }
