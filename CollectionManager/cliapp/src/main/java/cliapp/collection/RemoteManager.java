@@ -1,8 +1,6 @@
 package cliapp.collection;
 
 import java.io.Serializable;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 
 import adapter.Adapter;
@@ -24,7 +22,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import models.Human;
 import server.responses.Response;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * That manager execute all manipulations on client and store collection in

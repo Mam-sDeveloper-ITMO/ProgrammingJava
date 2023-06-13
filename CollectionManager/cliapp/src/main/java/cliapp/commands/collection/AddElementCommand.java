@@ -12,7 +12,7 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * Command that adds a new human element to the collection.

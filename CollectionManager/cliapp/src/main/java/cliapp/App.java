@@ -23,7 +23,7 @@ import cliapp.commands.collection.ShowCommand;
 import cliapp.commands.collection.TailCommand;
 import cliapp.commands.collection.UpdateElementCommand;
 import humandeque.manager.CollectionManager;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * The main application class for running the space collection manager.
@@ -36,12 +36,6 @@ public class App {
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
-        try {
-            TextsManager.updateTexts();
-        } catch (Exception e) {
-            System.out.println("Failed to load locale");
-            System.exit(1);
-        }
         TextSupplier ts = TextsManager.getTexts()::getText;
 
         Adapter serviceAdapter = null;

@@ -5,7 +5,7 @@ import java.util.List;
 import cliapp.TextsManager;
 import commands.requirements.Requirement;
 import lombok.RequiredArgsConstructor;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * Exception thrown when the number of inline parameters is not equal to the

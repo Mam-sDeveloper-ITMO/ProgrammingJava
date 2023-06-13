@@ -15,7 +15,7 @@ import commands.requirements.validators.Validator;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import models.Human;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * A command that prints humans from collection sorted by impact speed.

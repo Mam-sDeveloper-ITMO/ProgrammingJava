@@ -15,7 +15,7 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * Command for updating an element in the collection.

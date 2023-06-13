@@ -10,7 +10,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ManipulationError;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * A command that removes all elements from the collection.

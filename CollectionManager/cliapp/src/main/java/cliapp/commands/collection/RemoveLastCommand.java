@@ -7,7 +7,7 @@ import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
 import humandeque.manager.exceptions.ManipulationError;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * This command removes the last element from the collection.

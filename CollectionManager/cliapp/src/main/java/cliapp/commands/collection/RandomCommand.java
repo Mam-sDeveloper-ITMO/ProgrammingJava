@@ -13,7 +13,7 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * Adds a randomly generated human with various fields to the collection

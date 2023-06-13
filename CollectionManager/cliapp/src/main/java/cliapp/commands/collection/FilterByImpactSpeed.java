@@ -10,7 +10,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * A command that shows humans whose impact speed is greater than the specified

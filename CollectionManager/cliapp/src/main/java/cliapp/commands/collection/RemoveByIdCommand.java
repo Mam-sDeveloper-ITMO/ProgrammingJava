@@ -11,7 +11,7 @@ import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.ElementNotExistsError;
 import humandeque.manager.exceptions.ManipulationError;
 import cliapp.TextsManager;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * This command removes an element from the collection by ID.

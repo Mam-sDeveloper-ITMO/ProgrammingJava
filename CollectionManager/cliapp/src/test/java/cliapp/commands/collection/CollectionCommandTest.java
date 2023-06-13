@@ -8,10 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import cliapp.TextsManager;
 import commands.Command;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
@@ -29,11 +27,6 @@ import models.Human;
 import models.Mood;
 
 public class CollectionCommandTest {
-    @BeforeClass
-    public static void setUp() throws Exception {
-        TextsManager.updateTexts();
-    }
-
     private CollectionManager collectionManager;
 
     private Human human = Human.builder()

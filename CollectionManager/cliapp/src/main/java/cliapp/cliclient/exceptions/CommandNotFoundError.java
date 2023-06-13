@@ -1,7 +1,7 @@
 package cliapp.cliclient.exceptions;
 
 import cliapp.TextsManager;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 /**
  * Exception thrown when the CLI client cannot find a command by its trigger.
  */

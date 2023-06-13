@@ -11,7 +11,7 @@ import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * Change fuzzy search mode

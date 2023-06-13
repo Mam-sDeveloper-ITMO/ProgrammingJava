@@ -10,7 +10,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import lombok.RequiredArgsConstructor;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * This class provides requirements for commands by asking the user for input.
