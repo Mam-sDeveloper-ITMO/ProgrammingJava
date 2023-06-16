@@ -1,6 +1,9 @@
 package auth;
 
-import lombok.RequiredArgsConstructor;
+import auth.exceptions.LoginFailed;
+import auth.exceptions.LogoutFailed;
+import auth.exceptions.RegisterFailed;
+import auth.exceptions.VerifyFailed;
 
 /**
  * Adapter provides communication with server
@@ -8,25 +11,50 @@ import lombok.RequiredArgsConstructor;
  *
  * Adapter use DatagramSocket for sending and receiving data.
  */
-@RequiredArgsConstructor
-public class AuthProvider {
+public interface AuthProvider {
     /**
-     * Socket for sending and receiving data.
+     * Check credentials and return token on success.
+     * Token is valid for 1 hour.
+     *
+     * @param login    user login
+     * @param password user password
+     * @return token for user
+     *
+     * @see AuthToken
      */
-    private final String ip;
+    AuthToken login(String login, String password) throws LoginFailed;
 
     /**
-     * Port on which server is running.
+     * Check that user with this login is not registered
+     * and register new user with this login and password.
+     * Return token on success.
+     * Token is valid for 1 hour.
+     *
+     *
+     * @param login    user login
+     * @param password user password
+     * @return token for user
+     *
+     * @see AuthToken
      */
-    private final int port;
+    AuthToken register(String login, String password) throws RegisterFailed;
 
     /**
-     * Timeout
+     * Revoke token and logout user.
+     *
+     * @param token user token
+     *
+     * @see AuthToken
      */
-    private Integer timeout = 4000;
+    void logout(AuthToken token) throws LogoutFailed;
 
     /**
-     * Buffer size
+     * Check that token is valid and not expired.
+     *
+     * @param token user token
+     * @return true if token is valid
+     *
+     * @see AuthToken
      */
-    private Integer bufferSize = 1024 * 10;
+    boolean verify(AuthToken token) throws VerifyFailed;
 }
