@@ -6,6 +6,9 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 
+import auth.AuthProvider;
+import auth.AuthToken;
+import auth.exceptions.VerifyFailed;
 import collections.service.api.StatusCodes;
 import collections.service.dbmodels.HumanModel;
 import collections.service.dbmodels.converters.HumanConverter;
@@ -14,7 +17,6 @@ import fqme.column.exceptions.UnsupportedValueType;
 import fqme.connection.ConnectionManager;
 import fqme.view.View;
 import humandeque.HumanDeque;
-import lombok.Cleanup;
 import models.Human;
 import pingback.Level;
 import pingback.Logger;
@@ -29,13 +31,16 @@ import server.routing.middlewares.OuterMiddleware;
 import server.utils.DataConverter;
 
 public class CollectionsRouter extends Router {
+    private final AuthProvider authProvider;
+
     private static Logger logger = Logger.getLogger("mainLogger");
 
     /**
      * Create a new collections router.
      */
-    public CollectionsRouter() {
+    public CollectionsRouter(AuthProvider authProvider) {
         super("collections");
+        this.authProvider = authProvider;
     }
 
     @InnerMiddleware("")
@@ -43,13 +48,28 @@ public class CollectionsRouter extends Router {
         logger.log("Request", request.toString(), Level.DEBUG);
         // prepare request data
         Map<String, Object> data = DataConverter.serializableToObjects(request.getData());
-        getUserId(data);
+
+        if (!checkLogin(data)) {
+            return Response.failure("Unauthorized", 401);
+        }
+        AuthToken token = getToken(data);
+        data.put("ownerId", token.getUserId());
 
         try (Connection connection = ConnectionManager.getConnection(HumanModel.class)) {
             data.put("connection", connection);
             return handler.handle(data);
         } catch (SQLException e) {
             return Response.failure("Database error: %s".formatted(e.getMessage()), 400);
+        }
+    }
+
+    private Boolean checkLogin(Map<String, Object> data) throws IncorrectRequestData {
+        AuthToken token = getToken(data);
+        try {
+            return this.authProvider.verify(token);
+        } catch (VerifyFailed e) {
+            logger.log("VerifyFailed", e.getMessage(), Level.ERROR);
+            return false;
         }
     }
 
@@ -61,14 +81,14 @@ public class CollectionsRouter extends Router {
 
     @Handler("add")
     public Response add(Map<String, Object> data) throws IncorrectRequestData {
-        Integer userId = (Integer) data.get("userId");
+        Integer ownerId = (Integer) data.get("ownerId");
         Human human = getHuman(data);
         Connection connection = (Connection) data.get("connection");
         try {
             connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-            HumanModel humanModel = HumanConverter.toHumanModel(human, userId);
+            HumanModel humanModel = HumanConverter.toHumanModel(human, ownerId);
             humanModel = humanView.put(humanModel).iterator().next();
             connection.commit();
 
@@ -80,16 +100,16 @@ public class CollectionsRouter extends Router {
 
     @Handler("update")
     public Response update(Map<String, Object> data) throws IncorrectRequestData {
-        Integer userId = (Integer) data.get("userId");
+        Integer ownerId = (Integer) data.get("ownerId");
         Human human = getHuman(data);
         Connection connection = (Connection) data.get("connection");
         try {
             connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-            HumanModel humanModel = HumanConverter.toHumanModel(human, userId);
+            HumanModel humanModel = HumanConverter.toHumanModel(human, ownerId);
             Set<HumanModel> humanModels = humanView.get(
-                    HumanModel.ownerId_.eq(userId)
+                    HumanModel.ownerId_.eq(ownerId)
                             .and(HumanModel.id_.eq(humanModel.getId())));
 
             if (humanModels.isEmpty()) {
@@ -106,7 +126,7 @@ public class CollectionsRouter extends Router {
 
     @Handler("remove")
     public Response remove(Map<String, Object> data) throws IncorrectRequestData {
-        Integer userId = (Integer) data.get("userId");
+        Integer ownerId = (Integer) data.get("ownerId");
         Integer humanId;
         try {
             humanId = ((Long) data.get("id")).intValue();
@@ -119,7 +139,7 @@ public class CollectionsRouter extends Router {
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             Set<HumanModel> humanModels = humanView.get(
-                    HumanModel.ownerId_.eq(userId)
+                    HumanModel.ownerId_.eq(ownerId)
                             .and(HumanModel.id_.eq(humanId)));
 
             if (humanModels.isEmpty()) {
@@ -139,14 +159,14 @@ public class CollectionsRouter extends Router {
 
     @Handler("removeFirst")
     public Response removeFirst(Map<String, Object> data) throws IncorrectRequestData {
-        Integer userId = (Integer) data.get("userId");
+        Integer ownerId = (Integer) data.get("ownerId");
         Connection connection = (Connection) data.get("connection");
         try {
             connection.setAutoCommit(false);
 
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
+            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(ownerId));
             if (humanModels.isEmpty()) {
                 return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
             }
@@ -164,13 +184,13 @@ public class CollectionsRouter extends Router {
 
     @Handler("removeLast")
     public Response removeLast(Map<String, Object> data) throws IncorrectRequestData {
-        Integer userId = (Integer) data.get("userId");
+        Integer ownerId = (Integer) data.get("ownerId");
         Connection connection = (Connection) data.get("connection");
         try {
             connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
+            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(ownerId));
             if (humanModels.isEmpty()) {
                 return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
             }
@@ -189,13 +209,13 @@ public class CollectionsRouter extends Router {
 
     @Handler("clear")
     public Response clear(Map<String, Object> data) throws IncorrectRequestData {
-        Integer userId = (Integer) data.get("userId");
+        Integer ownerId = (Integer) data.get("ownerId");
         Connection connection = (Connection) data.get("connection");
         try {
             connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-            humanView.delete(HumanModel.ownerId_.eq(userId));
+            humanView.delete(HumanModel.ownerId_.eq(ownerId));
 
             connection.commit();
             return Response.success();
@@ -206,11 +226,11 @@ public class CollectionsRouter extends Router {
 
     @Handler("get")
     public Response get(Map<String, Object> data) throws IncorrectRequestData {
-        Integer userId = (Integer) data.get("userId");
+        Integer ownerId = (Integer) data.get("ownerId");
         Connection connection = (Connection) data.get("connection");
         try {
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
-            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(userId));
+            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(ownerId));
             HumanDeque collection = HumanConverter.toHumanDeque(humanModels);
 
             return Response.success(Map.of("collection", collection));
@@ -241,9 +261,24 @@ public class CollectionsRouter extends Router {
      * @return User id.
      * @throws IncorrectRequestData
      */
-    private Integer getUserId(Map<String, Object> data) throws IncorrectRequestData {
+    private Integer getOwnerId(Map<String, Object> data) throws IncorrectRequestData {
         try {
-            return (Integer) data.get("userId");
+            return (Integer) data.get("ownerId");
+        } catch (ClassCastException e) {
+            throw new IncorrectRequestData();
+        }
+    }
+
+    /**
+     * Get auth token from request data.
+     *
+     * @param data Request data.
+     * @return Auth token.
+     * @throws IncorrectRequestData
+     */
+    private AuthToken getToken(Map<String, Object> data) throws IncorrectRequestData {
+        try {
+            return (AuthToken) data.get("token");
         } catch (ClassCastException e) {
             throw new IncorrectRequestData();
         }

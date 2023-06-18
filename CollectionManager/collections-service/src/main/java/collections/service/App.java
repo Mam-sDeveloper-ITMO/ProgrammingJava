@@ -2,6 +2,8 @@ package collections.service;
 
 import java.sql.Connection;
 
+import auth.AuthProvider;
+import authservice.api.MemCachedProvider;
 import collections.service.dbmodels.HumanModel;
 import collections.service.routers.CollectionsRouter;
 import fqme.connection.ConnectionManager;
@@ -90,7 +92,11 @@ public class App {
             return;
         }
 
-        Router collectionsRouter = new CollectionsRouter();
+        String authServiceHost = dotenv.get("AUTH_SERVICE_HOST");
+        Integer authServicePort = Integer.parseInt(dotenv.get("AUTH_SERVICE_PORT"));
+        AuthProvider authProvider = new MemCachedProvider(authServiceHost, authServicePort);
+
+        Router collectionsRouter = new CollectionsRouter(authProvider);
 
         Dispatcher dispatcher = new Dispatcher();
         dispatcher.includeRouter(collectionsRouter);
@@ -98,6 +104,7 @@ public class App {
         try {
             Integer port = Integer.parseInt(dotenv.get("PORT"));
             Server server = new Server("localhost", port, dispatcher);
+            server.setThreadPoolSize(1);
             logger.log("Server up", "Server is running on port " + port, Level.INFO);
             server.run();
         } catch (Exception e) {
