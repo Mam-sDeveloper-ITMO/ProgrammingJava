@@ -12,6 +12,7 @@
     <modules>
         <module>cliapp</module>
         <module>collections-service</module>
+        <module>auth-service</module>
         <module>shared</module>
     </modules>
 
@@ -44,7 +45,7 @@
             <dependency>
                 <groupId>com.github.Mam-sDeveloper-ITMO</groupId>
                 <artifactId>fqme</artifactId>
-                <version>1.2</version>
+                <version>1.2.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

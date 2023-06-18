@@ -39,6 +39,11 @@
         </dependency>
         <dependency>
             <groupId>mamsdeveloper.itmo</groupId>
+            <artifactId>auth</artifactId>
+            <version>0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>mamsdeveloper.itmo</groupId>
             <artifactId>collections-service</artifactId>
             <version>2.2</version>
         </dependency>
@@ -60,6 +65,11 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

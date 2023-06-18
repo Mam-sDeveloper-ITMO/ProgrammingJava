@@ -7,6 +7,7 @@ import adapter.Adapter;
 import adapter.exceptions.ReceiveResponseFailed;
 import adapter.exceptions.SendRequestFailed;
 import adapter.exceptions.SocketInitFailed;
+import auth.AuthToken;
 import cliapp.TextsManager;
 import collections.service.api.StatusCodes;
 import humandeque.HumanDeque;
@@ -32,12 +33,6 @@ public class RemoteManager extends CollectionManager {
     static TextSupplier ts = TextsManager.getTexts().getPackage("collection")::getText;
 
     /**
-     * user id
-     */
-    @Getter
-    private final int userId;
-
-    /**
      * Adapter for send requests to collections service
      */
     private Adapter serviceAdapter;
@@ -49,8 +44,7 @@ public class RemoteManager extends CollectionManager {
      * @param userId         user id
      * @throws CollectionLoadError if collection can't be loaded
      */
-    public RemoteManager(Adapter serviceAdapter, int userId) throws CollectionLoadError, ManipulationError {
-        this.userId = userId;
+    public RemoteManager(Adapter serviceAdapter) throws CollectionLoadError, ManipulationError {
         this.serviceAdapter = serviceAdapter;
         load();
     }
@@ -58,7 +52,7 @@ public class RemoteManager extends CollectionManager {
     @Override
     @SneakyThrows(ManipulationError.class)
     public void add(Human element) throws ElementAlreadyExistsError, ManipulationError {
-        Map<String, Serializable> data = Map.of("userId", userId, "human", element);
+        Map<String, Serializable> data = Map.of("human", element);
         Response response = sendRequestOrFail("collections.add", data);
         if (response.getCode() == StatusCodes.ELEMENT_ALREADY_EXISTS) {
             throw new ElementAlreadyExistsError(element.getId());
@@ -70,7 +64,7 @@ public class RemoteManager extends CollectionManager {
 
     @Override
     public void update(Human element) throws ElementNotExistsError, ManipulationError {
-        Map<String, Serializable> data = Map.of("userId", userId, "human", element);
+        Map<String, Serializable> data = Map.of("human", element);
         Response response = sendRequestOrFail("collections.update", data);
         if (response.getCode() == StatusCodes.ELEMENT_NOT_EXISTS) {
             throw new ElementNotExistsError(element.getId());
@@ -84,7 +78,7 @@ public class RemoteManager extends CollectionManager {
 
     @Override
     public void remove(long id) throws ElementNotExistsError, ManipulationError {
-        Map<String, Serializable> data = Map.of("userId", userId, "id", id);
+        Map<String, Serializable> data = Map.of("id", id);
         Response response = sendRequestOrFail("collections.remove", data);
         if (response.getCode() == StatusCodes.ELEMENT_NOT_EXISTS) {
             throw new ElementNotExistsError(id);
@@ -97,7 +91,7 @@ public class RemoteManager extends CollectionManager {
 
     @Override
     public void clear() throws ManipulationError {
-        Map<String, Serializable> data = Map.of("userId", userId);
+        Map<String, Serializable> data = Map.of();
         Response response = sendRequestOrFail("collections.clear", data);
         if (!response.getOk()) {
             throw new ManipulationError(response.getMessage());
@@ -107,7 +101,7 @@ public class RemoteManager extends CollectionManager {
 
     @Override
     public void removeFirst() throws EmptyCollectionError, ManipulationError {
-        Map<String, Serializable> data = Map.of("userId", userId);
+        Map<String, Serializable> data = Map.of();
         Response response = sendRequestOrFail("collections.removeFirst", data);
         if (!response.getOk()) {
             throw new ManipulationError(response.getMessage());
@@ -118,7 +112,7 @@ public class RemoteManager extends CollectionManager {
 
     @Override
     public void removeLast() throws EmptyCollectionError, ManipulationError {
-        Map<String, Serializable> data = Map.of("userId", userId);
+        Map<String, Serializable> data = Map.of();
         Response response = sendRequestOrFail("collections.removeLast", data);
         if (!response.getOk()) {
             throw new ManipulationError(response.getMessage());
@@ -129,7 +123,7 @@ public class RemoteManager extends CollectionManager {
 
     @Override
     public void load() throws CollectionLoadError, ManipulationError {
-        Map<String, Serializable> data = Map.of("userId", userId);
+        Map<String, Serializable> data = Map.of();
         Response response = sendRequestOrFail("collections.get", data);
         if (response.getOk()) {
             HumanDeque loadedCollection = (HumanDeque) response.getData().get("collection");
@@ -141,7 +135,7 @@ public class RemoteManager extends CollectionManager {
 
     @Override
     public void save() throws CollectionSaveError, ManipulationError {
-        Map<String, Serializable> data = Map.of("userId", userId, "collection", collection);
+        Map<String, Serializable> data = Map.of("collection", collection);
         Response response = sendRequestOrFail("collections.save", data);
         if (response.getCode() == StatusCodes.CANNOT_SAVE_COLLECTION) {
             throw new CollectionSaveError(ExceptionsResources.COLLECTION_SAVE_ERROR);
