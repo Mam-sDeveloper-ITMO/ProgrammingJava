@@ -43,11 +43,6 @@ public class Server {
     private DatagramSocket socket;
 
     /**
-     * Size of buffer for reading and writing.
-     */
-    private static final Integer BUFFER_SIZE = 1024 * 10;
-
-    /**
      * Pool with suppressed exceptions.
      */
     @Getter
@@ -58,12 +53,12 @@ public class Server {
      */
     @Getter
     @Setter
-    private static Integer threadPoolSize = 10;
+    private Integer threadPoolSize = 10;
 
     /**
-     * Executor service for running threads.
+     * Size of buffer for reading and writing.
      */
-    private final ExecutorService executorService;
+    private static final Integer BUFFER_SIZE = 1024 * 10;
 
     /**
      * Create server on specified port.
@@ -75,7 +70,6 @@ public class Server {
     public Server(String ip, int port, Dispatcher dispatcher) throws ChannelInitFailed {
         this.dispatcher = dispatcher;
         this.socket = initSocket(ip, port);
-        this.executorService = Executors.newFixedThreadPool(threadPoolSize);
     }
 
     /**
@@ -100,6 +94,7 @@ public class Server {
      * @throws Exception if loop failed
      */
     private void runLoop() throws Exception {
+        ExecutorService executorService = Executors.newFixedThreadPool(threadPoolSize);
         while (true) {
             try {
                 byte[] buffer = new byte[BUFFER_SIZE];
