@@ -10,14 +10,14 @@
     </parent>
     <artifactId>auth</artifactId>
     <name>Auth</name>
-    <version>0.1</version>
+    <version>0.2</version>
     <description>Utils for authenticating users</description>
 
     <dependencies>
         <dependency>
             <groupId>mamsdeveloper.itmo</groupId>
             <artifactId>server</artifactId>
-            <version>1.0</version>
+            <version>2.1</version>
         </dependency>
         <dependency>
             <groupId>mamsdeveloper.itmo</groupId>

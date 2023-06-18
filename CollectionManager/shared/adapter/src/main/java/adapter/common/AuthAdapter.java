@@ -1,6 +1,7 @@
-package auth.builtin;
+package adapter.common;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ import lombok.Setter;
 import server.responses.Response;
 
 /**
- * Adapter to service that support authorization.
+ * Adapter to service that requite authorization.
  */
 public class AuthAdapter extends Adapter {
     /**
@@ -42,7 +43,7 @@ public class AuthAdapter extends Adapter {
     @Override
     public Response triggerServer(String trigger, Map<String, Serializable> data, Integer attempts)
             throws SocketInitFailed, SendRequestFailed, ReceiveResponseFailed {
-        Map<String, Serializable> dataWithToken = data;
+        Map<String, Serializable> dataWithToken = new HashMap<>(data);
         dataWithToken.put("token", this.token.get());
         return super.triggerServer(trigger, dataWithToken, attempts);
     }

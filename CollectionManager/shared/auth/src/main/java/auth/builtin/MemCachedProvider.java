@@ -46,7 +46,7 @@ public class MemCachedProvider implements AuthProvider {
             Map<String, Serializable> data = new HashMap<>();
             data.put("login", login);
             data.put("password", password);
-            response = this.serviceAdapter.triggerServer("login", data);
+            response = this.serviceAdapter.triggerServer("auth.login", data);
         } catch (SocketInitFailed | SendRequestFailed | ReceiveResponseFailed e) {
             throw new LoginFailed("Cannot send request to auth service: %s".formatted(e.getMessage()));
         }
@@ -71,7 +71,7 @@ public class MemCachedProvider implements AuthProvider {
             Map<String, Serializable> data = new HashMap<>();
             data.put("login", login);
             data.put("password", password);
-            response = this.serviceAdapter.triggerServer("register", data);
+            response = this.serviceAdapter.triggerServer("auth.register", data);
         } catch (SocketInitFailed | SendRequestFailed | ReceiveResponseFailed e) {
             throw new RegisterFailed("Cannot send request to auth service: %s".formatted(e.getMessage()));
         }
@@ -107,8 +107,8 @@ public class MemCachedProvider implements AuthProvider {
         try {
             Map<String, Serializable> data = new HashMap<>();
             data.put("token", token);
-            response = this.serviceAdapter.triggerServer("verify", data);
-            return response.getCode() == StatusCodes.OK;
+            response = this.serviceAdapter.triggerServer("auth.verify", data);
+            return response.getOk();
         } catch (SocketInitFailed | SendRequestFailed | ReceiveResponseFailed e) {
             throw new VerifyFailed("Cannot send request to auth service: %s".formatted(e.getMessage()));
         }
