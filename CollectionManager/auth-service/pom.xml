@@ -10,7 +10,7 @@
     </parent>
     <artifactId>auth-service</artifactId>
     <name>Authentication backend</name>
-    <version>0.1</version>
+    <version>0.2</version>
 
     <dependencies>
         <dependency>

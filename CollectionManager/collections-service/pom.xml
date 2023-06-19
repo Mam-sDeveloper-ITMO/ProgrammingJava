@@ -45,7 +45,7 @@
         <dependency>
             <groupId>mamsdeveloper.itmo</groupId>
             <artifactId>auth-service</artifactId>
-            <version>0.1</version>
+            <version>0.2</version>
         </dependency>
         <dependency>
             <groupId>mamsdeveloper.itmo</groupId>

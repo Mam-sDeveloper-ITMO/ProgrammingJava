@@ -33,6 +33,11 @@ public class AccountModel extends Model<AccountModel> {
     public static final StringColumn password_ = StringColumn.of("password").nullable(false);
 
     @ColumnData
+    @NonNull
+    private String salt;
+    public static final StringColumn salt_ = StringColumn.of("salt").nullable(false);
+
+    @ColumnData
     @Getter
     @Setter
     private String token;

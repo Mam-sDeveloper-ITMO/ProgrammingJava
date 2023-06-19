@@ -11,6 +11,7 @@ import java.util.Set;
 import auth.AuthToken;
 import authservice.api.StatusCodes;
 import authservice.dbmodels.AccountModel;
+import authservice.utils.Encrypt;
 import fqme.column.exceptions.UnsupportedSqlType;
 import fqme.column.exceptions.UnsupportedValueType;
 import fqme.connection.ConnectionManager;
@@ -30,11 +31,18 @@ import server.utils.DataConverter;
 public class AuthRouter extends Router {
     private static Logger logger = Logger.getLogger("mainLogger");
 
+    private final Encrypt encrypt;
+
     /**
      * Create a new auth router.
      */
     public AuthRouter() {
         super("auth");
+        try {
+            encrypt = new Encrypt();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @InnerMiddleware("")
@@ -72,7 +80,10 @@ public class AuthRouter extends Router {
                 return Response.failure("Account with this login already exists", StatusCodes.LOGIN_ALREADY_EXISTS);
             }
 
-            AccountModel account = new AccountModel(null, login, password, null, null);
+            String salt = encrypt.generateSalt();
+            password = encrypt.hash(password, salt);
+
+            AccountModel account = new AccountModel(null, login, password, salt, null, null);
             account = view.put(account).iterator().next();
 
             String tokenString = generateToken();
@@ -101,12 +112,15 @@ public class AuthRouter extends Router {
 
             Set<AccountModel> accounts = view.get(AccountModel.login_.eq(login));
             if (accounts.size() == 0) {
-                return Response.failure("Account with this login does not exist", StatusCodes.INCORRECT_LOGIN_OR_PASSWORD);
+                return Response.failure("Account with this login does not exist",
+                        StatusCodes.INCORRECT_LOGIN_OR_PASSWORD);
             }
 
             AccountModel account = accounts.iterator().next();
+
+            password = encrypt.hash(password, account.getSalt());
             if (!account.getPassword().equals(password)) {
-                return Response.failure("Incorrect password", 400);
+                return Response.failure("Incorrect password", StatusCodes.INCORRECT_LOGIN_OR_PASSWORD);
             }
 
             String tokenString = generateToken();
