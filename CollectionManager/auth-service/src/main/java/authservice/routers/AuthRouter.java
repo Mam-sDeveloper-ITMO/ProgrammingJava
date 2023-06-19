@@ -75,7 +75,7 @@ public class AuthRouter extends Router {
             connection.setAutoCommit(false);
             View<AccountModel> view = View.of(AccountModel.class, connection);
 
-            Set<AccountModel> accounts = view.get(AccountModel.login_.eq(login));
+            Set<AccountModel> accounts = view.getMany(AccountModel.login_.eq(login));
             if (accounts.size() > 0) {
                 return Response.failure("Account with this login already exists", StatusCodes.LOGIN_ALREADY_EXISTS);
             }
@@ -84,7 +84,7 @@ public class AuthRouter extends Router {
             password = encrypt.hash(password, salt);
 
             AccountModel account = new AccountModel(null, login, password, salt, null, null);
-            account = view.put(account).iterator().next();
+            account = view.put(account).get();
 
             String tokenString = generateToken();
             AuthToken token = new AuthToken(account.getId(), tokenString, LocalDateTime.now().plusHours(3));
@@ -110,7 +110,7 @@ public class AuthRouter extends Router {
             connection.setAutoCommit(false);
             View<AccountModel> view = View.of(AccountModel.class, connection);
 
-            Set<AccountModel> accounts = view.get(AccountModel.login_.eq(login));
+            Set<AccountModel> accounts = view.getMany(AccountModel.login_.eq(login));
             if (accounts.size() == 0) {
                 return Response.failure("Account with this login does not exist",
                         StatusCodes.INCORRECT_LOGIN_OR_PASSWORD);
@@ -145,7 +145,7 @@ public class AuthRouter extends Router {
             connection.setAutoCommit(false);
             View<AccountModel> view = View.of(AccountModel.class, connection);
 
-            Set<AccountModel> accounts = view.get(AccountModel.id_.eq(token.getUserId()));
+            Set<AccountModel> accounts = view.getMany(AccountModel.id_.eq(token.getUserId()));
             if (accounts.size() == 0) {
                 return Response.failure("Account with this login does not exist", StatusCodes.INCORRECT_LOGIN_OR_PASSWORD);
             }
@@ -171,7 +171,7 @@ public class AuthRouter extends Router {
             connection.setAutoCommit(false);
             View<AccountModel> view = View.of(AccountModel.class, connection);
 
-            Set<AccountModel> accounts = view.get(AccountModel.id_.eq(token.getUserId()));
+            Set<AccountModel> accounts = view.getMany(AccountModel.id_.eq(token.getUserId()));
             if (accounts.size() == 0) {
                 return Response.failure("Account with this login does not exist", StatusCodes.INCORRECT_LOGIN_OR_PASSWORD);
             }

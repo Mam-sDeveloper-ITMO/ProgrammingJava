@@ -89,7 +89,7 @@ public class CollectionsRouter extends Router {
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             HumanModel humanModel = HumanConverter.toHumanModel(human, ownerId);
-            humanModel = humanView.put(humanModel).iterator().next();
+            humanModel = humanView.put(humanModel).get();
             connection.commit();
 
             return Response.success(Map.of("human", HumanConverter.toHuman(humanModel)));
@@ -108,9 +108,9 @@ public class CollectionsRouter extends Router {
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
             HumanModel humanModel = HumanConverter.toHumanModel(human, ownerId);
-            Set<HumanModel> humanModels = humanView.get(
+            Set<HumanModel> humanModels = humanView.getMany(
                     HumanModel.ownerId_.eq(ownerId)
-                            .and(HumanModel.id_.eq(humanModel.getId())));
+                    .and(HumanModel.id_.eq(humanModel.getId())));
 
             if (humanModels.isEmpty()) {
                 return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
@@ -138,15 +138,15 @@ public class CollectionsRouter extends Router {
             connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-            Set<HumanModel> humanModels = humanView.get(
+            Set<HumanModel> humanModels = humanView.getMany(
                     HumanModel.ownerId_.eq(ownerId)
-                            .and(HumanModel.id_.eq(humanId)));
+                    .and(HumanModel.id_.eq(humanId)));
 
             if (humanModels.isEmpty()) {
                 return Response.failure("Element not exists", StatusCodes.ELEMENT_NOT_EXISTS);
             }
             HumanModel humanModel = humanModels.iterator().next();
-            humanView.delete(HumanModel.id_.eq(humanId));
+            humanView.delete(humanModel);
 
             Human removedHuman = HumanConverter.toHuman(humanModel);
 
@@ -166,13 +166,13 @@ public class CollectionsRouter extends Router {
 
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(ownerId));
+            Set<HumanModel> humanModels = humanView.getMany(HumanModel.ownerId_.eq(ownerId));
             if (humanModels.isEmpty()) {
                 return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
             }
             HumanModel humanModel = humanModels.stream()
                     .min(Comparator.comparing(HumanModel::getImpactSpeed)).get();
-            humanView.delete(HumanModel.id_.eq(humanModel.getId()));
+            humanView.delete(humanModel);
 
             Human removedHuman = HumanConverter.toHuman(humanModel);
             connection.commit();
@@ -190,14 +190,14 @@ public class CollectionsRouter extends Router {
             connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(ownerId));
+            Set<HumanModel> humanModels = humanView.getMany(HumanModel.ownerId_.eq(ownerId));
             if (humanModels.isEmpty()) {
                 return Response.failure("Collection is empty", StatusCodes.COLLECTION_IS_EMPTY);
             }
 
             HumanModel humanModel = humanModels.stream()
                     .max(Comparator.comparing(HumanModel::getImpactSpeed)).get();
-            humanView.delete(HumanModel.id_.eq(humanModel.getId()));
+            humanView.delete(humanModel);
 
             Human removedHuman = HumanConverter.toHuman(humanModel);
             connection.commit();
@@ -215,7 +215,7 @@ public class CollectionsRouter extends Router {
             connection.setAutoCommit(false);
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
 
-            humanView.delete(HumanModel.ownerId_.eq(ownerId));
+            humanView.deleteMany(HumanModel.ownerId_.eq(ownerId));
 
             connection.commit();
             return Response.success();
@@ -230,7 +230,7 @@ public class CollectionsRouter extends Router {
         Connection connection = (Connection) data.get("connection");
         try {
             View<HumanModel> humanView = View.of(HumanModel.class, connection);
-            Set<HumanModel> humanModels = humanView.get(HumanModel.ownerId_.eq(ownerId));
+            Set<HumanModel> humanModels = humanView.getMany(HumanModel.ownerId_.eq(ownerId));
             HumanDeque collection = HumanConverter.toHumanDeque(humanModels);
 
             return Response.success(Map.of("collection", collection));
@@ -249,21 +249,6 @@ public class CollectionsRouter extends Router {
     private Human getHuman(Map<String, Object> data) throws IncorrectRequestData {
         try {
             return (Human) data.get("human");
-        } catch (ClassCastException e) {
-            throw new IncorrectRequestData();
-        }
-    }
-
-    /**
-     * Get user id from request data.
-     *
-     * @param data Request data.
-     * @return User id.
-     * @throws IncorrectRequestData
-     */
-    private Integer getOwnerId(Map<String, Object> data) throws IncorrectRequestData {
-        try {
-            return (Integer) data.get("ownerId");
         } catch (ClassCastException e) {
             throw new IncorrectRequestData();
         }
