@@ -13,7 +13,7 @@ import models.Car;
 import models.Coordinates;
 import models.Human;
 import models.Mood;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * Adds a randomly generated human with various fields to the collection
@@ -37,7 +37,7 @@ public class RandomCommand extends CollectionCommand {
 
         Human.HumanBuilder humanBuilder = Human.builder();
 
-        String[] names = ts.t("RandomCommand.RandomValues.NAMES").split(",");
+        String[] names = ts.t("RandomCommand.RandomValues.Names").split(",");
         int nameIndex = random.nextInt(names.length);
         humanBuilder.name(names[nameIndex]);
 
@@ -53,7 +53,7 @@ public class RandomCommand extends CollectionCommand {
 
         humanBuilder.impactSpeed(random.nextDouble());
 
-        String[] soundtrackNames = ts.t("RandomCommand.RandomValues.SOUNDTRACKS")
+        String[] soundtrackNames = ts.t("RandomCommand.RandomValues.Soundtracks")
                 .split(",");
         int soundtrackIndex = random.nextInt(soundtrackNames.length);
         humanBuilder.soundtrackName(soundtrackNames[soundtrackIndex]);
@@ -63,7 +63,7 @@ public class RandomCommand extends CollectionCommand {
         int moodIndex = random.nextInt(Mood.values().length);
         humanBuilder.mood(Mood.values()[moodIndex]);
 
-        String[] carNames = ts.t("RandomCommand.RandomValues.CARS").split(",");
+        String[] carNames = ts.t("RandomCommand.RandomValues.Cars").split(",");
         int carNameIndex = random.nextInt(carNames.length);
         Car car = new Car(carNames[carNameIndex]);
 

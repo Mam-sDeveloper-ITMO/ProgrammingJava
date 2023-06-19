@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import cliapp.TextsManager;
 import cliapp.cliclient.CLIClient;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsError;
@@ -23,7 +22,6 @@ public class CLIClientTest {
     @Before
     @Test
     public void testCommandsRegistration() throws Exception {
-        TextsManager.updateTexts();
         client = new CLIClient();
 
         CollectionManager manager = new LocalManager();

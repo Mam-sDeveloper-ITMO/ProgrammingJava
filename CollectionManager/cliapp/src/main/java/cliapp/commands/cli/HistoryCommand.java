@@ -7,7 +7,7 @@ import cliapp.cliclient.CLIClient;
 import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * Show list of all previously executed commands

@@ -12,6 +12,7 @@
     <modules>
         <module>cliapp</module>
         <module>collections-service</module>
+        <module>auth-service</module>
         <module>shared</module>
     </modules>
 
@@ -19,6 +20,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
     <dependencyManagement>
         <dependencies>
@@ -33,6 +41,11 @@
                 <artifactId>lombok</artifactId>
                 <version>1.18.26</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.Mam-sDeveloper-ITMO</groupId>
+                <artifactId>fqme</artifactId>
+                <version>2.0.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

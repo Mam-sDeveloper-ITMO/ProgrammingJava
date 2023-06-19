@@ -3,5 +3,7 @@
     "IncorrectArgs": {
         "en": "You must specify file path to collection storage in arguments, like: java -jar CollectionManager.jar file.csv"
     },
-    "ConnectLater": { "en": "Cannot connect to server. Will try to reconnect later." }
+    "ConnectLater": { "en": "Cannot connect to server. Will try to reconnect later." },
+    "LoginExists": { "en": "Login already exists" },
+    "LoginFailed": { "en": "Login failed" }
 }

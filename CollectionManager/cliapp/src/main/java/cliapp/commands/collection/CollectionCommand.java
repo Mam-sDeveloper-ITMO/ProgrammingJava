@@ -16,7 +16,7 @@ import commands.requirements.validators.common.Misc.GreaterValidator;
 import commands.requirements.validators.common.Misc.OrNullValidator;
 import humandeque.manager.CollectionManager;
 import models.Mood;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * Basic class of all commands, that use CollectionManager as receiver.

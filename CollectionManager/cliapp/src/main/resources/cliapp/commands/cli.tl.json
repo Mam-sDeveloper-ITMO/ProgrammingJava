@@ -34,7 +34,7 @@
         "Name": { "en": "Execute Script Command" },
         "Description": { "en": "Execute commands from script file with .neko extension" },
         "Title": { "en": "Executing command: %s" },
-        "LineError": { "en": "Failed execute script at line: \"%s\"" },
+        "LineError": { "en": "Failed execute script at line: \"%s\"\n%s" },
         "NotEnoughDynamicParams": { "en": "Not enough dynamic params specified" },
         "IncorrectLineFormat": { "en": "Incorrect line format" },
         "MaxCallCountExceed": {
@@ -47,6 +47,31 @@
             "IncorrectExtension": {
                 "en": "Incorrect file extension. File must have .neko extension"
             }
+        }
+    },
+    "LoginCommand": {
+        "Name": { "en": "Login Command" },
+        "Description": { "en": "Login to the system" },
+        "LoginRequirement": {
+            "Name": { "en": "Login" },
+            "Description": { "en": "login" }
+        },
+        "PasswordRequirement": {
+            "Name": { "en": "Password" },
+            "Description": { "en": "password" }
+        },
+        "ModeRequirement": {
+            "Name": { "en": "Mode" },
+            "Description": { "en": "sign in / sign up" },
+            "Error": {"en": "Incorrect mode. Use \"sign in\" or \"sign up\""}
+        },
+        "Messages": {
+            "TryAgain": { "en": "Try again" },
+            "LoginSuccess": { "en": "Login success" },
+            "LoginFailed": { "en": "Login failed" },
+            "RegisterSuccess": { "en": "Register success" },
+            "LoginExists": { "en": "Login already exists" },
+            "UnknownError": { "en": "Unknown error" }
         }
     }
 }

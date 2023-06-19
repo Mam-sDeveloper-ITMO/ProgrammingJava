@@ -11,7 +11,7 @@ import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.Requirement;
 import commands.requirements.RequirementsPipeline;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * HelpCommand is a CLICommand that shows a list of all registered commands with

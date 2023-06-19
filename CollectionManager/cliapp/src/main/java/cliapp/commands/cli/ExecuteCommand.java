@@ -25,7 +25,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * A command that executes specified script with commands.
@@ -306,7 +306,7 @@ public class ExecuteCommand extends CLICommand {
                 executeScriptLine(line);
             } catch (Exception e) {
                 throw new ExecutionError(
-                        ts.t("ExecuteCommand.LineError", scriptPath, e.getMessage()));
+                        ts.t("ExecuteCommand.LineError", line, e.getMessage()));
             }
         }
 

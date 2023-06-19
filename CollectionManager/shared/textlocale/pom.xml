@@ -11,7 +11,7 @@
     <artifactId>textlocale</artifactId>
     <name>Text Locale</name>
     <description>Text resources organizer</description>
-    <version>3.0.0</version>
+    <version>4.0.1</version>
 
     <dependencies>
         <dependency>
@@ -29,4 +29,12 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
 </project>

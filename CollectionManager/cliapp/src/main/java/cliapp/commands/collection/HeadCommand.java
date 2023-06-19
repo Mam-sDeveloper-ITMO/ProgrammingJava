@@ -7,7 +7,7 @@ import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.EmptyCollectionError;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * This command returns the first element of the collection.

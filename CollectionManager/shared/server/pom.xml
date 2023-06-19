@@ -10,6 +10,7 @@
     </parent>
     <artifactId>server</artifactId>
     <name>Server</name>
+    <version>2.1</version>
     <description>Basic UDP server and requests handling utils</description>
 
     <dependencies>

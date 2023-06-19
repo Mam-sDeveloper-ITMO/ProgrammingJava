@@ -6,7 +6,7 @@ import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.HumanDeque;
 import humandeque.manager.CollectionManager;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * A command that displays information about the collection.

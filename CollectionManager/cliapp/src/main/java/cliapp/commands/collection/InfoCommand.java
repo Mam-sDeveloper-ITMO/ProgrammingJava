@@ -8,7 +8,7 @@ import commands.OutputChannel;
 import commands.exceptions.ExecutionError;
 import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * This command shows information about the collection.

@@ -9,7 +9,7 @@ import commands.requirements.RequirementsPipeline;
 import humandeque.manager.CollectionManager;
 import humandeque.manager.exceptions.CollectionSaveError;
 import humandeque.manager.exceptions.ManipulationError;
-import textlocale.TextSupplier;
+import textlocale.text.TextSupplier;
 
 /**
  * A command that saves the collection to a file.
