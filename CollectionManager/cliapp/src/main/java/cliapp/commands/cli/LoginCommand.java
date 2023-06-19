@@ -2,8 +2,15 @@ package cliapp.commands.cli;
 
 import static commands.requirements.validators.common.StringValidators.notEmptyValidator;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Optional;
 
 import adapter.Adapter;
 import adapter.exceptions.ReceiveResponseFailed;
@@ -19,6 +26,7 @@ import commands.requirements.RequirementsPipeline;
 import commands.requirements.exceptions.RequirementAskError;
 import commands.requirements.exceptions.ValidationError;
 import commands.requirements.validators.Validator;
+import lombok.Cleanup;
 import server.responses.Response;
 import textlocale.text.TextSupplier;
 
@@ -93,6 +101,12 @@ public class LoginCommand extends CLICommand {
      */
     @Override
     public void execute(RequirementsPipeline pipeline, OutputChannel output) throws ExecutionError {
+        Optional<AuthToken> loadedToken = tryLoadToken();
+        if (loadedToken.isPresent() && verifyToken(loadedToken.get())) {
+            tokenContainer[0] = loadedToken.get();
+            return;
+        }
+
         String mode;
         try {
             mode = pipeline.askRequirement(modeRequirement);
@@ -101,11 +115,13 @@ public class LoginCommand extends CLICommand {
         }
         for (int i = 0; i < 3; i++) {
             try {
+                AuthToken token;
                 if (mode.equals("sign in")) {
-                    tokenContainer[0] = signIn(pipeline, output);
+                    token = tokenContainer[0] = signIn(pipeline, output);
                 } else {
-                    tokenContainer[0] = signUp(pipeline, output);
+                    token = tokenContainer[0] = signUp(pipeline, output);
                 }
+                trySaveToken(token);
                 return;
             } catch (ExecutionError e) {
                 output.putString(e.getMessage());
@@ -182,4 +198,60 @@ public class LoginCommand extends CLICommand {
         }
     }
 
+    /**
+     * Get saved auth token from file if exists.
+     *
+     * @return auth token
+     */
+    public Optional<AuthToken> tryLoadToken() {
+        File file = new File(".auth");
+        if (!file.exists()) {
+            return Optional.empty();
+        }
+        try {
+            @Cleanup
+            FileInputStream fileInputStream = new FileInputStream(file);
+            @Cleanup
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            AuthToken token = (AuthToken) objectInputStream.readObject();
+            return Optional.of(token);
+        } catch (IOException | ClassNotFoundException e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Verify auth token.
+     *
+     * @param token auth token
+     * @return true if token is valid
+     */
+    public boolean verifyToken(AuthToken token) {
+        Map<String, Serializable> data = Map.of("token", token);
+        Response response;
+        try {
+            response = authAdapter.triggerServer("auth.verify", data);
+        } catch (SocketInitFailed | SendRequestFailed | ReceiveResponseFailed e) {
+            return false;
+        }
+        return response.getOk();
+    }
+
+    /**
+     * Save auth token to file.
+     *
+     * @param token auth token
+     */
+    public void trySaveToken(AuthToken token) {
+        File file = new File(".auth");
+        try {
+            @Cleanup
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            @Cleanup
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(token);
+        } catch (IOException e) {
+            // it is not critical
+        }
+    }
 }
