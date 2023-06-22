@@ -49,3 +49,4 @@ dist/
 **/.env
 **/storage/
 db.cfg
+.auth
