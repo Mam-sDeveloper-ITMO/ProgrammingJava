@@ -3,5 +3,18 @@
         "title": {
             "en": "Collections Manager"
         }
+    },
+    "auth": {
+        "title": {
+            "en": "Authorization"
+        },
+        "login": {
+            "title": { "en": "Login:" }
+        },
+        "password": {
+            "title": { "en": "Password:" }
+        },
+        "loginButton": { "en": "Login" },
+        "signUpButton": { "en": "Sign Up" }
     }
 }

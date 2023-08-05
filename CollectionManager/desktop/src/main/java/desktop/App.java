@@ -5,6 +5,7 @@ import javax.swing.SwingUtilities;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
+import desktop.pages.AuthPage;
 import lombok.Getter;
 import lombok.Setter;
 import textlocale.TextLocale;
@@ -29,7 +30,6 @@ public class App {
             var codeSourceUrl = App.class.getProtectionDomain().getCodeSource().getLocation();
             var loader = new ResourcesLoader(codeSourceUrl, ".tl.json");
             texts = TextLocale.loadPackage("desktop", App::getLocale, loader);
-            System.out.println(texts);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,7 +39,7 @@ public class App {
         var frame = new JFrame(texts.getText("texts.main.title"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        var authPanel = new AuthPanel();
+        var authPanel = new AuthPage();
         frame.add(authPanel);
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
