@@ -8,13 +8,27 @@
         "title": {
             "en": "Authorization"
         },
-        "login": {
-            "title": { "en": "Login:" }
+        "username": {
+            "title": { "en": "Username:" }
         },
         "password": {
             "title": { "en": "Password:" }
         },
-        "loginButton": { "en": "Login" },
-        "signUpButton": { "en": "Sign Up" }
+        "signInButton": { "en": "Sign In" },
+        "signUpButton": { "en": "Sign Up" },
+        "messages": {
+            "loginSuccess": {
+                "en": "You have successfully logged in."
+            },
+            "connectionError": {
+                "en": "Cannot connect to server. Please try again later."
+            },
+            "invalidCredentials": {
+                "en": "Invalid username or password."
+            },
+            "tokenSaveError": {
+                "en": "Cannot save token. Please try again later."
+            }
+        }
     }
 }
