@@ -24,6 +24,7 @@ import adapter.exceptions.SocketInitFailed;
 import auth.AuthToken;
 import desktop.App;
 import desktop.lib.BasePage;
+import desktop.lib.Config;
 import desktop.lib.TokenStore;
 import server.responses.Response;
 import textlocale.text.TextSupplier;
@@ -95,7 +96,7 @@ public class AuthPage extends BasePage {
 
     private void initAuthAdapter() {
         try {
-            authAdapter = new Adapter("127.0.0.1", 8003);
+            authAdapter = new Adapter(Config.authServiceHost, Config.authServicePort);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, ts.t("messages.connectionError"));
         }
