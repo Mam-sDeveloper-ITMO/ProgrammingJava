@@ -1,4 +1,4 @@
-package desktop.pages;
+package desktop.pages.auth;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,29 +23,26 @@ import adapter.exceptions.SendRequestFailed;
 import adapter.exceptions.SocketInitFailed;
 import auth.AuthToken;
 import desktop.App;
-import desktop.lib.BasePage;
-import desktop.lib.Config;
 import desktop.lib.TokenStore;
 import server.responses.Response;
 import textlocale.text.TextSupplier;
 
-public class AuthPage extends BasePage {
-    private Adapter authAdapter;
+public class SignInCard extends JPanel {
+    private TextSupplier ts = App.texts.getPackage("texts.auth")::getText;
 
     private JTextField usernameField;
     private JPasswordField passwordField;
 
-    private TextSupplier ts = App.texts.getPackage("texts.auth")::getText;
+    private Adapter authAdapter;
 
-    public AuthPage() {
-        super("auth");
-        initAuthAdapter();
+    public SignInCard(Adapter authAdapter) {
+        super(new GridBagLayout());
+        this.authAdapter = authAdapter;
+        init();
     }
 
-    @Override
-    public void beforeShow() {
-        var authBox = new JPanel(new GridBagLayout());
-        authBox.setBorder(
+    private void init() {
+        this.setBorder(
                 BorderFactory.createCompoundBorder(new FlatBorder(), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
         var gbc = new GridBagConstraints();
@@ -60,25 +57,25 @@ public class AuthPage extends BasePage {
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        authBox.add(authTitle, gbc);
+        this.add(authTitle, gbc);
 
         var usernameLabel = new JLabel(ts.t("username.title"));
         gbc.gridwidth = 1;
         gbc.gridy++;
-        authBox.add(usernameLabel, gbc);
+        this.add(usernameLabel, gbc);
 
         var passwordLabel = new JLabel(ts.t("password.title"));
         gbc.gridy++;
-        authBox.add(passwordLabel, gbc);
+        this.add(passwordLabel, gbc);
 
         usernameField = new JTextField(20);
         gbc.gridx++;
         gbc.gridy = 1;
-        authBox.add(usernameField, gbc);
+        this.add(usernameField, gbc);
 
         passwordField = new JPasswordField(20);
         gbc.gridy++;
-        authBox.add(passwordField, gbc);
+        this.add(passwordField, gbc);
 
         var loginButton = new JButton(ts.t("signInButton"));
         loginButton.addActionListener(this::login);
@@ -87,22 +84,7 @@ public class AuthPage extends BasePage {
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.CENTER;
-        authBox.add(loginButton, gbc);
-
-        setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
-        this.add(authBox);
-    }
-
-    private void initAuthAdapter() {
-        try {
-            authAdapter = new Adapter(Config.authServiceHost, Config.authServicePort);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, ts.t("messages.connectionError"));
-        }
+        this.add(loginButton, gbc);
     }
 
     private void login(ActionEvent event) {

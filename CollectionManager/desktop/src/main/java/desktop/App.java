@@ -11,8 +11,8 @@ import javax.swing.SwingUtilities;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import desktop.lib.BasePage;
-import desktop.pages.AuthPage;
 import desktop.pages.TablePage;
+import desktop.pages.auth.AuthPage;
 import lombok.Getter;
 import lombok.Setter;
 import textlocale.TextLocale;
