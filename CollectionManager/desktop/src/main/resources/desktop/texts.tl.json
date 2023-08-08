@@ -30,5 +30,10 @@
                 "en": "Cannot save token. Please try again later."
             }
         }
+    },
+    "table": {
+        "test": {
+            "en": "Test"
+        }
     }
 }

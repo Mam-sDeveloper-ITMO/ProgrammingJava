@@ -38,12 +38,15 @@ public class AuthPage extends BasePage {
     private TextSupplier ts = App.texts.getPackage("texts.auth")::getText;
 
     public AuthPage() {
+        super("auth");
         initAuthAdapter();
+    }
 
+    @Override
+    public void beforeShow() {
         var authBox = new JPanel(new GridBagLayout());
-        authBox.setBorder(BorderFactory.createCompoundBorder(
-                new FlatBorder(),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        authBox.setBorder(
+                BorderFactory.createCompoundBorder(new FlatBorder(), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
         var gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -130,5 +133,6 @@ public class AuthPage extends BasePage {
 
         usernameField.setText("");
         passwordField.setText("");
+        App.showPage("table");
     }
 }
