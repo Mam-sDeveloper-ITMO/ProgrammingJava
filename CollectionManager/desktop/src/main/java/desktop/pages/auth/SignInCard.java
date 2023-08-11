@@ -12,8 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import adapter.Adapter;
 import adapter.exceptions.ReceiveResponseFailed;
@@ -23,14 +21,16 @@ import auth.AuthToken;
 import authservice.api.StatusCodes;
 import desktop.App;
 import desktop.lib.TokenStore;
+import desktop.lib.components.PasswordField;
+import desktop.lib.components.TextField;
 import server.responses.Response;
 import textlocale.text.TextSupplier;
 
 public class SignInCard extends JPanel {
     private TextSupplier ts = App.texts.getPackage("texts.auth")::getText;
 
-    private JTextField usernameField;
-    private JPasswordField passwordField;
+    private TextField usernameField;
+    private PasswordField passwordField;
 
     private Adapter authAdapter;
     private Runnable openSignUpCard;
@@ -47,6 +47,7 @@ public class SignInCard extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.LINE_START;
 
+        // Title
         var authTitle = new JLabel(ts.t("signInCard.title"));
         authTitle.putClientProperty("FlatLaf.styleClass", "h2");
         authTitle.setHorizontalAlignment(JLabel.CENTER);
@@ -57,24 +58,17 @@ public class SignInCard extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add(authTitle, gbc);
 
-        var usernameLabel = new JLabel(ts.t("signInCard.username.title"));
-        gbc.gridwidth = 1;
+        // Username
+        usernameField = new TextField(ts.t("signInCard.username.title"), 25);
         gbc.gridy++;
-        this.add(usernameLabel, gbc);
-
-        var passwordLabel = new JLabel(ts.t("signInCard.password.title"));
-        gbc.gridy++;
-        this.add(passwordLabel, gbc);
-
-        usernameField = new JTextField(20);
-        gbc.gridx++;
-        gbc.gridy = 1;
         this.add(usernameField, gbc);
 
-        passwordField = new JPasswordField(20);
+        // Password
+        passwordField = new PasswordField(ts.t("signInCard.password.title"), 25);
         gbc.gridy++;
         this.add(passwordField, gbc);
 
+        // Sign in button
         var loginButton = new JButton(ts.t("signInCard.signInButton"));
         loginButton.addActionListener(this::signIn);
         gbc.gridx = 0;
@@ -84,6 +78,7 @@ public class SignInCard extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         this.add(loginButton, gbc);
 
+        // Sign up button
         var signUpButton = new JButton(ts.t("signInCard.openSignUpButton"));
         signUpButton.setBackground(null);
         signUpButton.setHorizontalAlignment(JLabel.RIGHT);
@@ -94,8 +89,8 @@ public class SignInCard extends JPanel {
     }
 
     private void signIn(ActionEvent event) {
-        var username = usernameField.getText();
-        char[] passwordChars = passwordField.getPassword();
+        var username = usernameField.getTextField().getText();
+        char[] passwordChars = passwordField.getPasswordField().getPassword();
         var password = new String(passwordChars);
 
         Map<String, Serializable> data = Map.of("login", username, "password", password);
@@ -120,7 +115,7 @@ public class SignInCard extends JPanel {
             JOptionPane.showMessageDialog(this, ts.t("messages.connectionError"));
         }
 
-        usernameField.setText("");
-        passwordField.setText("");
+        usernameField.getTextField().setText("");
+        passwordField.getPasswordField().setText("");
     }
 }
