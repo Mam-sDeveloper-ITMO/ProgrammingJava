@@ -26,19 +26,19 @@ import desktop.lib.TokenStore;
 import server.responses.Response;
 import textlocale.text.TextSupplier;
 
-public class SignInCard extends JPanel {
+public class SignUpCard extends JPanel {
     private TextSupplier ts = App.texts.getPackage("texts.auth")::getText;
 
     private JTextField usernameField;
     private JPasswordField passwordField;
 
     private Adapter authAdapter;
-    private Runnable openSignUpCard;
+    private Runnable openSignInCard;
 
-    public SignInCard(Adapter authAdapter, Runnable openSignUp) {
+    public SignUpCard(Adapter authAdapter, Runnable openSignInCard) {
         super(new GridBagLayout());
         this.authAdapter = authAdapter;
-        this.openSignUpCard = openSignUp;
+        this.openSignInCard = openSignInCard;
         init();
     }
 
@@ -47,7 +47,7 @@ public class SignInCard extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.LINE_START;
 
-        var authTitle = new JLabel(ts.t("signInCard.title"));
+        var authTitle = new JLabel(ts.t("signUpCard.title"));
         authTitle.putClientProperty("FlatLaf.styleClass", "h2");
         authTitle.setHorizontalAlignment(JLabel.CENTER);
         authTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
@@ -57,12 +57,12 @@ public class SignInCard extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add(authTitle, gbc);
 
-        var usernameLabel = new JLabel(ts.t("signInCard.username.title"));
+        var usernameLabel = new JLabel(ts.t("signUpCard.username.title"));
         gbc.gridwidth = 1;
         gbc.gridy++;
         this.add(usernameLabel, gbc);
 
-        var passwordLabel = new JLabel(ts.t("signInCard.password.title"));
+        var passwordLabel = new JLabel(ts.t("signUpCard.password.title"));
         gbc.gridy++;
         this.add(passwordLabel, gbc);
 
@@ -75,8 +75,8 @@ public class SignInCard extends JPanel {
         gbc.gridy++;
         this.add(passwordField, gbc);
 
-        var loginButton = new JButton(ts.t("signInCard.signInButton"));
-        loginButton.addActionListener(this::signIn);
+        var loginButton = new JButton(ts.t("signUpCard.signUpButton"));
+        loginButton.addActionListener(this::signUp);
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
@@ -84,16 +84,16 @@ public class SignInCard extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         this.add(loginButton, gbc);
 
-        var signUpButton = new JButton(ts.t("signInCard.openSignUpButton"));
-        signUpButton.setBackground(null);
-        signUpButton.setHorizontalAlignment(JLabel.RIGHT);
-        signUpButton.addActionListener(e -> openSignUpCard.run());
+        var signInButton = new JButton(ts.t("signUpCard.openSignInButton"));
+        signInButton.setBackground(null);
+        signInButton.setHorizontalAlignment(JLabel.RIGHT);
+        signInButton.addActionListener(e -> openSignInCard.run());
         gbc.gridy++;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        this.add(signUpButton, gbc);
+        this.add(signInButton, gbc);
     }
 
-    private void signIn(ActionEvent event) {
+    private void signUp(ActionEvent event) {
         var username = usernameField.getText();
         char[] passwordChars = passwordField.getPassword();
         var password = new String(passwordChars);
@@ -101,9 +101,9 @@ public class SignInCard extends JPanel {
         Map<String, Serializable> data = Map.of("login", username, "password", password);
         Response response;
         try {
-            response = authAdapter.triggerServer("auth.login", data);
+            response = authAdapter.triggerServer("auth.register", data);
             if (response.getCode() == 200) {
-                JOptionPane.showMessageDialog(this, ts.t("messages.signInSuccess"));
+                JOptionPane.showMessageDialog(this, ts.t("messages.signUpSuccess"));
                 try {
                     var token = (AuthToken) response.getData().get("token");
                     TokenStore.saveToken(token.getToken());
@@ -111,8 +111,8 @@ public class SignInCard extends JPanel {
                     JOptionPane.showMessageDialog(this, ts.t("messages.tokenSaveError") + e.getMessage());
                 }
                 App.showPage("table");
-            } else if (response.getCode() == StatusCodes.INCORRECT_LOGIN_OR_PASSWORD) {
-                JOptionPane.showMessageDialog(this, ts.t("messages.invalidCredentials"));
+            } else if (response.getCode() == StatusCodes.LOGIN_ALREADY_EXISTS) {
+                JOptionPane.showMessageDialog(this, ts.t("messages.usernameTaken"));
             } else {
                 JOptionPane.showMessageDialog(this, ts.t("messages.connectionError"));
             }

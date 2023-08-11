@@ -2,31 +2,15 @@ package desktop.pages.auth;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.io.Serializable;
-import java.util.Map;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import com.formdev.flatlaf.ui.FlatBorder;
 
 import adapter.Adapter;
-import adapter.exceptions.ReceiveResponseFailed;
-import adapter.exceptions.SendRequestFailed;
-import adapter.exceptions.SocketInitFailed;
-import auth.AuthToken;
 import desktop.App;
 import desktop.lib.BasePage;
 import desktop.lib.Config;
-import desktop.lib.TokenStore;
-import server.responses.Response;
 import textlocale.text.TextSupplier;
 
 public class AuthPage extends BasePage {
@@ -41,14 +25,15 @@ public class AuthPage extends BasePage {
 
     @Override
     public void beforeShow() {
-        var signInCard = new SignInCard(authAdapter);
+        var cardsPanel = new CardsPanel(authAdapter);
+        cardsPanel.showSignInCard();
 
-        setLayout(new GridBagLayout());
+        this.setLayout(new GridBagLayout());
         var gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
-        this.add(signInCard);
+        this.add(cardsPanel, gbc);
     }
 
     private void initAuthAdapter() {

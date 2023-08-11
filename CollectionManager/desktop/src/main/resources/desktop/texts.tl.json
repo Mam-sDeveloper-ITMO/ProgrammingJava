@@ -5,20 +5,38 @@
         }
     },
     "auth": {
-        "title": {
-            "en": "Authorization"
+        "signInCard": {
+            "title": {
+                "en": "Sign In"
+            },
+            "username": {
+                "title": { "en": "Username:" }
+            },
+            "password": {
+                "title": { "en": "Password:" }
+            },
+            "signInButton": { "en": "Sign In" },
+            "openSignUpButton": { "en": "Do not have an account? Sign Up!" }
         },
-        "username": {
-            "title": { "en": "Username:" }
+        "signUpCard": {
+            "title": {
+                "en": "Sign Up"
+            },
+            "username": {
+                "title": { "en": "Username:" }
+            },
+            "password": {
+                "title": { "en": "Password:" }
+            },
+            "signUpButton": { "en": "Sign Up" },
+            "openSignInButton": { "en": "Already have an account? Sign In!" }
         },
-        "password": {
-            "title": { "en": "Password:" }
-        },
-        "signInButton": { "en": "Sign In" },
-        "signUpButton": { "en": "Sign Up" },
         "messages": {
-            "loginSuccess": {
-                "en": "You have successfully logged in."
+            "signInSuccess": {
+                "en": "You have successfully signed in."
+            },
+            "signUpSuccess": {
+                "en": "You have successfully signed up."
             },
             "connectionError": {
                 "en": "Cannot connect to server. Please try again later."
@@ -28,6 +46,9 @@
             },
             "tokenSaveError": {
                 "en": "Cannot save token. Please try again later."
+            },
+            "usernameTaken": {
+                "en": "Username is already taken."
             }
         }
     },
