@@ -38,4 +38,10 @@ public class TokenStore {
         }
         return Optional.of(token.toString());
     }
+
+    public static void deleteToken() throws IOException {
+        var tokenPath = getTokenPath();
+        var tokenFile = tokenPath.toFile();
+        tokenFile.delete();
+    }
 }
