@@ -103,7 +103,8 @@ public class SignUpCard extends JPanel {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, ts.t("messages.tokenSaveError") + e.getMessage());
                 }
-                App.showPage("table");
+                App.context.setUsername(username);
+                App.showPage("main");
             } else if (response.getCode() == StatusCodes.LOGIN_ALREADY_EXISTS) {
                 JOptionPane.showMessageDialog(this, ts.t("messages.usernameTaken"));
             } else {

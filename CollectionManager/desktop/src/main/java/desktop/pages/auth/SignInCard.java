@@ -105,7 +105,8 @@ public class SignInCard extends JPanel {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, ts.t("messages.tokenSaveError") + e.getMessage());
                 }
-                App.showPage("table");
+                App.context.setUsername(username);
+                App.showPage("main");
             } else if (response.getCode() == StatusCodes.INCORRECT_LOGIN_OR_PASSWORD) {
                 JOptionPane.showMessageDialog(this, ts.t("messages.invalidCredentials"));
             } else {

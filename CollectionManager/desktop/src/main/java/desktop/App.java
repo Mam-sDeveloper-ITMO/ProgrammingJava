@@ -11,8 +11,10 @@ import javax.swing.SwingUtilities;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import desktop.lib.BasePage;
-import desktop.pages.TablePage;
 import desktop.pages.auth.AuthPage;
+import desktop.pages.main.MainPage;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 import lombok.Getter;
 import lombok.Setter;
 import textlocale.TextLocale;
@@ -26,6 +28,8 @@ public class App {
 
     public static TextPackage texts;
 
+    public static Context context = new Context();
+
     private static JPanel pagesPanel;
 
     private static CardLayout pagesLayout;
@@ -35,6 +39,7 @@ public class App {
     public static void main(String[] args) {
         initTexts();
         FlatMacDarkLaf.setup();
+        IconFontSwing.register(FontAwesome.getIconFont());
         SwingUtilities.invokeLater(App::createAndShowGUI);
     }
 
@@ -81,6 +86,6 @@ public class App {
 
     private static void initPages() {
         includePage(new AuthPage());
-        includePage(new TablePage());
+        includePage(new MainPage());
     }
 }
