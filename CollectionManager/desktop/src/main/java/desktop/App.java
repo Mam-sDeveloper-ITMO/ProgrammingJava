@@ -70,7 +70,7 @@ public class App {
     }
 
     private static void createAndShowGUI() {
-        var frame = new JFrame(texts.getText("texts.main.title"));
+        var frame = new JFrame(texts.getText("texts.app.title"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
