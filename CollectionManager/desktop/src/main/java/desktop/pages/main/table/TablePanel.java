@@ -15,8 +15,8 @@ public class TablePanel extends JPanel {
 
     private List<Human> data;
 
-    private final String[] columnNames = { "ID", "Name", "Coordinates", "Creation Date", "Real Hero", "Has Toothpick",
-            "Impact Speed", "Soundtrack Name", "Minutes of Waiting", "Mood", "Car" };
+    private final String[] columnNames = { "ID", "Name", "X", "Y", "Create Time", "Real Hero", "Toothpick",
+            "Impact Speed", "Soundtrack", "Waiting", "Mood", "Car" };
 
     public TablePanel(List<Human> initialData) {
         this.data = initialData;
@@ -34,7 +34,6 @@ public class TablePanel extends JPanel {
         // Filter field
         var filterInput = new FilterInput(columnNames, table::filter);
         add(filterInput, BorderLayout.NORTH);
-
 
         updateTableData(data);
     }

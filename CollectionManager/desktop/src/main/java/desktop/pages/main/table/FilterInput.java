@@ -45,7 +45,7 @@ public class FilterInput extends JPanel {
         add(selectPanel);
 
         // Filter field
-        filterField = new TextField("Search regex", 25);
+        filterField = new TextField(ts.t("table.filter"), 25);
         add(filterField);
 
         // Filter button
