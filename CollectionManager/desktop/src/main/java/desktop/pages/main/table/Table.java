@@ -18,12 +18,12 @@ import javax.swing.table.TableRowSorter;
 import models.Human;
 import models.Mood;
 
-public class CollectionTable extends JTable {
+public class Table extends JTable {
     private DefaultTableModel model;
 
     private TableRowSorter<DefaultTableModel> sorter;
 
-    public CollectionTable(String[] columnNames, List<Human> initialData) {
+    public Table(String[] columnNames, List<Human> initialData) {
         super();
         init(columnNames, initialData);
     }

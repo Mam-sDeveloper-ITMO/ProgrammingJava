@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.util.function.BiConsumer;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -16,7 +18,7 @@ import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 import textlocale.text.TextSupplier;
 
-public class FilterInput extends JPanel {
+public class Filter extends JPanel {
     private TextSupplier ts = App.texts.getPackage("texts.main")::getText;
 
     private JComboBox<String> selectComboBox;
@@ -27,14 +29,14 @@ public class FilterInput extends JPanel {
 
     private BiConsumer<String, String> filterCallback;
 
-    public FilterInput(String[] columnNames, BiConsumer<String, String> filterCallback) {
+    public Filter(String[] columnNames, BiConsumer<String, String> filterCallback) {
         this.columnNames = columnNames;
         this.filterCallback = filterCallback;
         init();
     }
 
     private void init() {
-        setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
         // Column select
         var selectPanel = new JPanel(new BorderLayout(0, 5));
@@ -43,10 +45,12 @@ public class FilterInput extends JPanel {
         selectComboBox = new JComboBox<>(this.columnNames);
         selectPanel.add(selectComboBox, BorderLayout.CENTER);
         add(selectPanel);
+        add(Box.createHorizontalStrut(10));
 
         // Filter field
         filterField = new TextField(ts.t("table.filter"), 25);
         add(filterField);
+        add(Box.createHorizontalStrut(10));
 
         // Filter button
         var searchBtnPanel = new JPanel(new BorderLayout(0, 5));
@@ -58,6 +62,7 @@ public class FilterInput extends JPanel {
         });
         searchBtnPanel.add(searchButton, BorderLayout.CENTER);
         add(searchBtnPanel);
+        add(Box.createHorizontalStrut(10));
 
         // Reset button
         var resetBtnPanel = new JPanel(new BorderLayout(0, 5));

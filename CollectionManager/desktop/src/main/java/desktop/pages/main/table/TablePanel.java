@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import models.Human;
 
 public class TablePanel extends JPanel {
-    private CollectionTable table;
+    private Table table;
 
     private List<Human> data;
 
@@ -27,13 +27,13 @@ public class TablePanel extends JPanel {
         setLayout(new BorderLayout());
 
         // Table
-        table = new CollectionTable(columnNames, data);
+        table = new Table(columnNames, data);
         var scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
         // Filter field
-        var filterInput = new FilterInput(columnNames, table::filter);
-        add(filterInput, BorderLayout.NORTH);
+        var toolBar = new ToolBar(columnNames, table::filter);
+        add(toolBar, BorderLayout.NORTH);
 
         updateTableData(data);
     }
