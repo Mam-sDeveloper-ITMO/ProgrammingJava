@@ -16,7 +16,7 @@ import lombok.NonNull;
  *      website</a>
  */
 @Builder(toBuilder = true)
-@EqualsAndHashCode(of = { "id" })
+@EqualsAndHashCode
 public class Human implements Comparable<Human>, Serializable {
 
     /**
