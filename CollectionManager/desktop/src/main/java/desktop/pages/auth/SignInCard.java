@@ -107,8 +107,11 @@ public class SignInCard extends JPanel {
                     App.context.initCollectionManager(token);
                     App.showPage("main");
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, ts.t("messages.tokenSaveError") + e.getMessage());
+                    JOptionPane.showMessageDialog(this,
+                        ts.t("messages.tokenSaveError") + e.getMessage());
                 }
+                usernameField.getTextField().setText("");
+                passwordField.getPasswordField().setText("");
             } else if (response.getCode() == StatusCodes.INCORRECT_LOGIN_OR_PASSWORD) {
                 JOptionPane.showMessageDialog(this, ts.t("messages.invalidCredentials"));
             } else {
@@ -117,8 +120,5 @@ public class SignInCard extends JPanel {
         } catch (SocketInitFailed | SendRequestFailed | ReceiveResponseFailed e) {
             JOptionPane.showMessageDialog(this, ts.t("messages.connectionError"));
         }
-
-        usernameField.getTextField().setText("");
-        passwordField.getPasswordField().setText("");
     }
 }

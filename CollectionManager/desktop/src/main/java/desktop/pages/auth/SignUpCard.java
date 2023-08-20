@@ -107,6 +107,8 @@ public class SignUpCard extends JPanel {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, ts.t("messages.tokenSaveError") + e.getMessage());
                 }
+                usernameField.getTextField().setText("");
+                passwordField.getPasswordField().setText("");
             } else if (response.getCode() == StatusCodes.LOGIN_ALREADY_EXISTS) {
                 JOptionPane.showMessageDialog(this, ts.t("messages.usernameTaken"));
             } else {
@@ -115,8 +117,5 @@ public class SignUpCard extends JPanel {
         } catch (SocketInitFailed | SendRequestFailed | ReceiveResponseFailed e) {
             JOptionPane.showMessageDialog(this, ts.t("messages.connectionError"));
         }
-
-        usernameField.getTextField().setText("");
-        passwordField.getPasswordField().setText("");
     }
 }
