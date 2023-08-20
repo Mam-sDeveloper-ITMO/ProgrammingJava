@@ -42,7 +42,7 @@ public class Delete extends JPanel {
 
         // Button
         deleteButton = new JButton(ts.t("deleteButton"));
-        deleteButton.addActionListener(e -> delete());
+        deleteButton.addActionListener(e -> new Thread(this::delete).start());
         deleteButton.setEnabled(false);
         add(deleteButton, BorderLayout.CENTER);
     }

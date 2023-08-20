@@ -76,6 +76,20 @@
                     "saveButton": {
                         "en": "Save"
                     }
+                },
+                "delete": {
+                    "noItemsSelected": {
+                        "en": "No items selected to delete."
+                    },
+                    "itemsSelected": {
+                        "en": "Press delete to remove %d items."
+                    },
+                    "deletingItems": {
+                        "en": "Deleted %d of %d items."
+                    },
+                    "deleteButton": {
+                        "en": "Delete"
+                    }
                 }
             }
         }
