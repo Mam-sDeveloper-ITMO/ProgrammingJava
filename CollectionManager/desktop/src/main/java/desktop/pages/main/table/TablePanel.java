@@ -33,9 +33,11 @@ public class TablePanel extends JPanel {
         var toolBar = new ToolBar(columnNames, table::filter);
         table.setUpdateCallback(toolBar::notifyUpdate);
         toolBar.setSaveCallback(table::saveUpdatedHumans);
+        table.setSelectCallback(toolBar::notifySelection);
+        toolBar.setDeleteCallback(table::deleteSelectedHumans);
         add(toolBar, BorderLayout.NORTH);
 
-        updateTableData(data);
+        // updateTableData(data);
     }
 
     public void updateTableData(List<Human> newData) {

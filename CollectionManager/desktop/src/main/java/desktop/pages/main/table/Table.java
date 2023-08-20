@@ -13,6 +13,8 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -36,6 +38,9 @@ public class Table extends JTable {
     private List<Human> data;
 
     private Set<Human> updatedData = new HashSet<>();
+
+    @Setter
+    private Consumer<Set<Human>> selectCallback;
 
     @Setter
     private Consumer<Set<Human>> updateCallback;
@@ -79,6 +84,13 @@ public class Table extends JTable {
         updateData(data);
     }
 
+    public void deleteSelectedHumans(List<Human> humans) {
+        humans.forEach(human -> {
+            data.removeIf(h -> h.getId() == human.getId());
+        });
+        updateData(data);
+    }
+
     public void filter(String column, String regex) {
         RowFilter<DefaultTableModel, Object> rf = null;
         try {
@@ -118,6 +130,19 @@ public class Table extends JTable {
                 } else {
                     setText("");
                 }
+            }
+        });
+
+        // Set up selection handler
+        getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                int[] selectedRows = getSelectedRows();
+                Set<Human> selectedHumans = new HashSet<>();
+                for (int selectedRow : selectedRows) {
+                    int modelRow = convertRowIndexToModel(selectedRow);
+                    selectedHumans.add(data.get(modelRow));
+                }
+                selectCallback.accept(selectedHumans);
             }
         });
 
@@ -211,7 +236,13 @@ public class Table extends JTable {
                     if (column < 0) {
                         return;
                     }
-                    var value = model.getValueAt(row, column);
+
+                    Object value = null;
+                    try {
+                        value = model.getValueAt(row, column);
+                    } catch (Exception ex) {
+                        return;
+                    }
 
                     // Check if human in row was modified earlier
                     // and use modified version as original

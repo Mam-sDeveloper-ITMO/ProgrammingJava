@@ -15,6 +15,8 @@ import models.Human;
 public class ToolBar extends JPanel {
     private Save save;
 
+    private Delete delete;
+
     public ToolBar(String[] columnNames, BiConsumer<String, String> filterCallback) {
         init(columnNames, filterCallback);
     }
@@ -25,6 +27,12 @@ public class ToolBar extends JPanel {
         // Filter
         var filter = new Filter(columnNames, filterCallback);
         add(filter);
+
+        addSeparator();
+
+        // Delete button
+        delete = new Delete();
+        add(delete);
 
         addSeparator();
 
@@ -43,7 +51,15 @@ public class ToolBar extends JPanel {
         save.notifyUpdate(updatedHumans);
     }
 
+    public void notifySelection(Set<Human> selected) {
+        delete.notifySelection(selected);
+    }
+
     public void setSaveCallback(Consumer<List<Human>> saveCallback) {
         save.setSaveCallback(saveCallback);
+    }
+
+    public void setDeleteCallback(Consumer<List<Human>> deleteCallback) {
+        delete.setDeleteCallback(deleteCallback);
     }
 }
