@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import models.Human;
 
@@ -33,6 +31,8 @@ public class TablePanel extends JPanel {
 
         // Filter field
         var toolBar = new ToolBar(columnNames, table::filter);
+        table.setUpdateCallback(toolBar::notifyUpdate);
+        toolBar.setSaveCallback(table::saveUpdatedHumans);
         add(toolBar, BorderLayout.NORTH);
 
         updateTableData(data);

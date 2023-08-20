@@ -19,7 +19,7 @@ import jiconfont.swing.IconFontSwing;
 import textlocale.text.TextSupplier;
 
 public class Filter extends JPanel {
-    private TextSupplier ts = App.texts.getPackage("texts.main")::getText;
+    private TextSupplier ts = App.texts.getPackage("texts.main.table.toolbar.filter")::getText;
 
     private JComboBox<String> selectComboBox;
 
@@ -40,7 +40,7 @@ public class Filter extends JPanel {
 
         // Column select
         var selectPanel = new JPanel(new BorderLayout(0, 5));
-        var selectLabel = new JLabel(ts.t("table.select"));
+        var selectLabel = new JLabel(ts.t("columnSelect"));
         selectPanel.add(selectLabel, BorderLayout.NORTH);
         selectComboBox = new JComboBox<>(this.columnNames);
         selectPanel.add(selectComboBox, BorderLayout.CENTER);
@@ -48,7 +48,7 @@ public class Filter extends JPanel {
         add(Box.createHorizontalStrut(10));
 
         // Filter field
-        filterField = new TextField(ts.t("table.filter"), 25);
+        filterField = new TextField(ts.t("searchRegex"), 25);
         add(filterField);
         add(Box.createHorizontalStrut(10));
 

@@ -54,11 +54,29 @@
     },
     "main": {
         "table": {
-            "filter": {
-                "en": "Filter regex"
-            },
-            "select": {
-                "en": "Select column"
+            "toolbar": {
+                "filter": {
+                    "columnSelect": {
+                        "en": "Select column"
+                    },
+                    "searchRegex": {
+                        "en": "Search regex"
+                    }
+                },
+                "save": {
+                    "updatedMessage": {
+                        "en": "Data was changed. Press save to update."
+                    },
+                    "savedMessage": {
+                        "en": "Data is actual."
+                    },
+                    "savingMessage": {
+                        "en": "Updated %d of %d items."
+                    },
+                    "saveButton": {
+                        "en": "Save"
+                    }
+                }
             }
         }
     }
