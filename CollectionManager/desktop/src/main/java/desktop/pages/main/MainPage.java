@@ -1,6 +1,7 @@
 package desktop.pages.main;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import desktop.App;
@@ -9,7 +10,7 @@ import desktop.pages.main.table.TablePanel;
 import humandeque.HumanDeque;
 
 public class MainPage extends BasePage {
-    private TablePanel collectionTable;
+    private TablePanel table;
 
     private HumanDeque collection;
 
@@ -18,8 +19,6 @@ public class MainPage extends BasePage {
     }
 
     public void beforeShow() {
-        updateCollection();
-
         setLayout(new BorderLayout());
 
         // Top bar
@@ -27,14 +26,18 @@ public class MainPage extends BasePage {
         add(topBar, BorderLayout.NORTH);
 
         // Collection table
-        collectionTable = new TablePanel(List.copyOf(collection));
-        add(collectionTable, BorderLayout.CENTER);
+        table = new TablePanel(List.copyOf(App.context.getHumans()),
+            this::updateCollection);
+        add(table, BorderLayout.CENTER);
+
+        updateCollection();
     }
 
     private void updateCollection() {
         try {
             App.context.getManager().load();
             collection = App.context.getManager().getCollection();
+            table.updateTableData(new ArrayList<>(collection));
         } catch (Exception e) {
 
         }

@@ -11,6 +11,7 @@ public abstract class BasePage extends JPanel {
     private final String name;
 
     public void beforeShow() {
+        this.removeAll();
     };
 
     public void afterShow() {
