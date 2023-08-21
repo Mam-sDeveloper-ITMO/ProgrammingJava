@@ -26,4 +26,8 @@ public class PasswordField extends JPanel {
     public void setLabel(String text) {
         label.setText(text);
     }
+
+    public String getText() {
+        return passwordField.getText();
+    }
 }
