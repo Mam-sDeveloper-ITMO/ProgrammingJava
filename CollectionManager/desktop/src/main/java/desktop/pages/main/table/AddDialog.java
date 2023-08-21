@@ -216,7 +216,7 @@ public class AddDialog extends JDialog {
         } catch (ManipulationError | ElementAlreadyExistsError e) {
             JOptionPane.showConfirmDialog(
                 null,
-                ts.t("errors.add"),
+                ts.t("errors.add", e.getMessage()),
                 ts.t("errors.addTitle"),
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.ERROR_MESSAGE);
