@@ -79,7 +79,7 @@ public class App {
         frame.getContentPane().add(pagesPanel);
 
         initPages();
-        showPage("auth");
+        showPage(context.getRootPage());
 
         frame.setVisible(true);
     }

@@ -20,6 +20,10 @@ import models.Mood;
 public class Context {
     @Getter
     @Setter
+    private String rootPage = "main";
+    
+    @Getter
+    @Setter
     private String username = "username";
 
     @Getter
