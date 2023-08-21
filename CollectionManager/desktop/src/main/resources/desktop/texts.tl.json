@@ -53,6 +53,16 @@
         }
     },
     "main": {
+        "topbar": {
+            "contentSwitch": {
+                "openTable": {
+                    "en": "Data management"
+                },
+                "openGame": {
+                    "en": "Game"
+                }
+            }
+        },
         "table": {
             "toolbar": {
                 "refresh": {
