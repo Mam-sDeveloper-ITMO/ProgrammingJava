@@ -65,7 +65,7 @@
                 },
                 "save": {
                     "updatedMessage": {
-                        "en": "Data was changed. Press save to update."
+                        "en": "Data was changed."
                     },
                     "savedMessage": {
                         "en": "Data is actual."
@@ -79,16 +79,88 @@
                 },
                 "delete": {
                     "noItemsSelected": {
-                        "en": "No items selected to delete."
+                        "en": "No items selected."
                     },
                     "itemsSelected": {
-                        "en": "Press delete to remove %d items."
+                        "en": "Press to remove %d items."
                     },
                     "deletingItems": {
                         "en": "Deleted %d of %d items."
                     },
                     "deleteButton": {
                         "en": "Delete"
+                    }
+                },
+                "add": {
+                    "addButton": {
+                        "en": "Add"
+                    },
+                    "title": {
+                        "en": "Click to add new item."
+                    },
+                    "dialog": {
+                        "success": {
+                            "en": "Item was added."
+                        },
+                        "successTitle": {
+                            "en": "Success"
+                        },
+                        "error": {
+                            "en": "Cannot add item."
+                        },
+                        "title": {
+                            "en": "Add new human"
+                        },
+                        "errors": {
+                            "name": {
+                                "en": "Name is required."
+                            },
+                            "soundtrack": {
+                                "en": "Soundtrack is required."
+                            },
+                            "car": {
+                                "en": "Car is required."
+                            }
+                        },
+                        "name": {
+                            "en": "Name:"
+                        },
+                        "coordinates": {
+                            "en": "Coordinates:"
+                        },
+                        "x": {
+                            "en": "X"
+                        },
+                        "y": {
+                            "en": "Y"
+                        },
+                        "realHero": {
+                            "en": "Real Hero"
+                        },
+                        "toothpick": {
+                            "en": "Toothpick"
+                        },
+                        "impactSpeed": {
+                            "en": "Impact Speed:"
+                        },
+                        "soundtrack": {
+                            "en": "Soundtrack:"
+                        },
+                        "waiting": {
+                            "en": "Minutes of waiting:"
+                        },
+                        "mood": {
+                            "en": "Mood:"
+                        },
+                        "car": {
+                            "en": "Car:"
+                        },
+                        "addButton": {
+                            "en": "Add"
+                        },
+                        "cancelButton": {
+                            "en": "Cancel"
+                        }
                     }
                 }
             }

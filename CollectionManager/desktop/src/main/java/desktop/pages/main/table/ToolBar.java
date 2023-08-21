@@ -17,6 +17,8 @@ public class ToolBar extends JPanel {
 
     private Delete delete;
 
+    private Add add;
+
     public ToolBar(String[] columnNames, BiConsumer<String, String> filterCallback) {
         init(columnNames, filterCallback);
     }
@@ -27,6 +29,12 @@ public class ToolBar extends JPanel {
         // Filter
         var filter = new Filter(columnNames, filterCallback);
         add(filter);
+
+        addSeparator();
+
+        // Add button
+        add = new Add();
+        add(add);
 
         addSeparator();
 
@@ -61,5 +69,9 @@ public class ToolBar extends JPanel {
 
     public void setDeleteCallback(Consumer<List<Human>> deleteCallback) {
         delete.setDeleteCallback(deleteCallback);
+    }
+
+    public void setAddCallback(Consumer<Human> addCallback) {
+        add.setAddCallback(addCallback);
     }
 }

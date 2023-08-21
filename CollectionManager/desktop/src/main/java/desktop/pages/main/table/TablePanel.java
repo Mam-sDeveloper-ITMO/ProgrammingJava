@@ -11,17 +11,15 @@ import models.Human;
 public class TablePanel extends JPanel {
     private Table table;
 
-    private List<Human> data;
-
-    private final String[] columnNames = { "ID", "Name", "X", "Y", "Create Time", "Real Hero", "Toothpick",
-            "Impact Speed", "Soundtrack", "Waiting", "Mood", "Car" };
+    private final String[] columnNames = { "ID", "Name", "X", "Y", "Create Time",
+        "Real Hero", "Toothpick",
+        "Impact Speed", "Soundtrack", "Waiting", "Mood", "Car" };
 
     public TablePanel(List<Human> initialData) {
-        this.data = initialData;
-        init();
+        init(initialData);
     }
 
-    private void init() {
+    private void init(List<Human> data) {
         setLayout(new BorderLayout());
 
         // Table
@@ -35,13 +33,13 @@ public class TablePanel extends JPanel {
         toolBar.setSaveCallback(table::saveUpdatedHumans);
         table.setSelectCallback(toolBar::notifySelection);
         toolBar.setDeleteCallback(table::deleteSelectedHumans);
+        toolBar.setAddCallback(table::addHuman);
         add(toolBar, BorderLayout.NORTH);
 
         // updateTableData(data);
     }
 
     public void updateTableData(List<Human> newData) {
-        data = newData;
-        table.updateData(data);
+        table.updateData(newData);
     }
 }

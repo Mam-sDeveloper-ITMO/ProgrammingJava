@@ -91,6 +91,11 @@ public class Table extends JTable {
         updateData(data);
     }
 
+    public void addHuman(Human human) {
+        data.add(human);
+        updateData(data);
+    }
+
     public void filter(String column, String regex) {
         RowFilter<DefaultTableModel, Object> rf = null;
         try {
