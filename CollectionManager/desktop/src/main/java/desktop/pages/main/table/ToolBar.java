@@ -13,11 +13,15 @@ import javax.swing.JSeparator;
 import models.Human;
 
 public class ToolBar extends JPanel {
-    private Save save;
+    private Filter filter;
+
+    private Add add;
 
     private Delete delete;
 
-    private Add add;
+    private Save save;
+
+    private Refresh refresh;
 
     public ToolBar(String[] columnNames, BiConsumer<String, String> filterCallback) {
         init(columnNames, filterCallback);
@@ -26,8 +30,10 @@ public class ToolBar extends JPanel {
     private void init(String[] columnNames, BiConsumer<String, String> filterCallback) {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
+        addSeparator();
+
         // Filter
-        var filter = new Filter(columnNames, filterCallback);
+        filter = new Filter(columnNames, filterCallback);
         add(filter);
 
         addSeparator();
@@ -47,6 +53,14 @@ public class ToolBar extends JPanel {
         // Save button
         save = new Save();
         add(save);
+
+        addSeparator();
+
+        // Refresh button
+        refresh = new Refresh();
+        add(refresh);
+
+        addSeparator();
     }
 
     private void addSeparator() {
@@ -73,5 +87,9 @@ public class ToolBar extends JPanel {
 
     public void setAddCallback(Consumer<Human> addCallback) {
         add.setAddCallback(addCallback);
+    }
+
+    public void setRefreshCallback(Runnable refreshCallback) {
+        refresh.setRefreshCallback(refreshCallback);
     }
 }

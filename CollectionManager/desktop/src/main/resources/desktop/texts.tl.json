@@ -55,6 +55,11 @@
     "main": {
         "table": {
             "toolbar": {
+                "refresh": {
+                    "title": {
+                        "en": "Refresh"
+                    }
+                },
                 "filter": {
                     "columnSelect": {
                         "en": "Select column"
@@ -120,6 +125,12 @@
                             },
                             "car": {
                                 "en": "Car is required."
+                            },
+                            "add": {
+                                "en": "Cannot add item: %s."
+                            },
+                            "addTitle": {
+                                "en": "Error"
                             }
                         },
                         "name": {

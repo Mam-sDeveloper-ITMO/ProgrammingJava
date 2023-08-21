@@ -15,12 +15,15 @@ public class TablePanel extends JPanel {
         "Real Hero", "Toothpick",
         "Impact Speed", "Soundtrack", "Waiting", "Mood", "Car" };
 
-    public TablePanel(List<Human> initialData) {
+    private Runnable updateCallback;
+
+    public TablePanel(List<Human> initialData, Runnable updateCallback) {
+        this.updateCallback = updateCallback;
         init(initialData);
     }
 
     private void init(List<Human> data) {
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(0, 10));
 
         // Table
         table = new Table(columnNames, data);
@@ -34,9 +37,10 @@ public class TablePanel extends JPanel {
         table.setSelectCallback(toolBar::notifySelection);
         toolBar.setDeleteCallback(table::deleteSelectedHumans);
         toolBar.setAddCallback(table::addHuman);
+        toolBar.setRefreshCallback(updateCallback);
         add(toolBar, BorderLayout.NORTH);
 
-        // updateTableData(data);
+        updateTableData(data);
     }
 
     public void updateTableData(List<Human> newData) {
