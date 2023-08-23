@@ -17,9 +17,9 @@ public class ContentSwitch extends JPanel {
     private Runnable showTable;
 
     @Setter
-    private Runnable showGame;
+    private Runnable showViz;
 
-    private JButton gameButton;
+    private JButton vizButton;
 
     private JButton tableButton;
 
@@ -35,18 +35,18 @@ public class ContentSwitch extends JPanel {
         tableButton.addActionListener(e -> {
             showTable.run();
             tableButton.setEnabled(false);
-            gameButton.setEnabled(true);
+            vizButton.setEnabled(true);
         });
         tableButton.setEnabled(false);
         add(tableButton);
 
-        // Game button
-        gameButton = new JButton(ts.t("openGame"));
-        gameButton.addActionListener(e -> {
-            showGame.run();
-            gameButton.setEnabled(false);
+        // Viz button
+        vizButton = new JButton(ts.t("openViz"));
+        vizButton.addActionListener(e -> {
+            showViz.run();
+            vizButton.setEnabled(false);
             tableButton.setEnabled(true);
         });
-        add(gameButton);
+        add(vizButton);
     }
 }

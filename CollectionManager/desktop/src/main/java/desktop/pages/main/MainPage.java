@@ -4,12 +4,10 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JSeparator;
-
 import desktop.App;
 import desktop.lib.BasePage;
-import desktop.pages.main.game.GamePanel;
 import desktop.pages.main.table.TablePanel;
+import desktop.pages.main.viz.VizPanel;
 import humandeque.HumanDeque;
 
 public class MainPage extends BasePage {
@@ -17,7 +15,7 @@ public class MainPage extends BasePage {
 
     private TablePanel table;
 
-    private GamePanel game;
+    private VizPanel viz;
 
     private ContentPanel content;
 
@@ -36,14 +34,14 @@ public class MainPage extends BasePage {
         table = new TablePanel(List.copyOf(App.context.getHumans()),
             this::updateCollection);
 
-        // Waiters game
-        game = new GamePanel();
+        // Humans vizualization
+        viz = new VizPanel();
 
         // Content
-        content = new ContentPanel(table, game);
+        content = new ContentPanel(table, viz);
         content.showTable();
         topBar.setOpenTable(content::showTable);
-        topBar.setOpenGame(content::showGame);
+        topBar.setOpenViz(content::showViz);
         add(content);
 
         updateCollection();

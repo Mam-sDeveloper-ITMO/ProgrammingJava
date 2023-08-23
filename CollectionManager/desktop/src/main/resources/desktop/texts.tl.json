@@ -58,8 +58,8 @@
                 "openTable": {
                     "en": "Data management"
                 },
-                "openGame": {
-                    "en": "Game"
+                "openViz": {
+                    "en": "Visualization"
                 }
             }
         },

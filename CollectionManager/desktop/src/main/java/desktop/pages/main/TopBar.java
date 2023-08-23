@@ -67,7 +67,7 @@ public class TopBar extends JPanel {
         contentSwitch.setShowTable(r);
     }
 
-    public void setOpenGame(Runnable r) {
-        contentSwitch.setShowGame(r);
+    public void setOpenViz(Runnable r) {
+        contentSwitch.setShowViz(r);
     }
 }
