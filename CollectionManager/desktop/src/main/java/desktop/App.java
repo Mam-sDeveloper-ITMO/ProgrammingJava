@@ -22,10 +22,6 @@ import textlocale.loader.common.ResourcesLoader;
 import textlocale.text.TextPackage;
 
 public class App {
-    @Getter
-    @Setter
-    private static String locale = "en";
-
     public static TextPackage texts;
 
     public static Context context = new Context();
@@ -63,7 +59,7 @@ public class App {
         try {
             var codeSourceUrl = App.class.getProtectionDomain().getCodeSource().getLocation();
             var loader = new ResourcesLoader(codeSourceUrl, ".tl.json");
-            texts = TextLocale.loadPackage("desktop", App::getLocale, loader);
+            texts = TextLocale.loadPackage("desktop", App.context::getLang, loader);
         } catch (Exception e) {
             e.printStackTrace();
         }

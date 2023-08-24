@@ -42,7 +42,7 @@ public class TopBar extends JPanel {
             new LangItem("Русский", "ru"),
             new LangItem("日本語", "ja")
         );
-        var langSelect = new LangSelect(langsItems);
+        var langSelect = new LangSelect(langsItems, App.context.getLang());
         langSelect.setLangSelectHandler(lang -> {
             System.out.println(lang);
         });

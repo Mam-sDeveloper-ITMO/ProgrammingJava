@@ -19,11 +19,15 @@ import models.Mood;
 public class Context {
     @Getter
     @Setter
-    private String rootPage = "auth";
+    private String rootPage = "main";
 
     @Getter
     @Setter
     private String username = "username";
+
+    @Getter
+    @Setter
+    private String lang = "ru";
 
     @Getter
     @Setter
