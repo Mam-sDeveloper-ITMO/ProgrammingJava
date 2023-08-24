@@ -3,6 +3,7 @@ package desktop.pages.main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,6 +13,8 @@ import javax.swing.JSeparator;
 
 import desktop.App;
 import desktop.lib.TokenStore;
+import desktop.pages.main.lang.LangItem;
+import desktop.pages.main.lang.LangSelect;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -29,9 +32,21 @@ public class TopBar extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // // Content switcher
+        // Content switcher
         contentSwitch = new ContentSwitch();
         add(contentSwitch, BorderLayout.WEST);
+
+        // Language select
+        var langsItems = List.of(
+            new LangItem("English", "en"),
+            new LangItem("Русский", "ru"),
+            new LangItem("日本語", "ja")
+        );
+        var langSelect = new LangSelect(langsItems);
+        langSelect.setLangSelectHandler(lang -> {
+            System.out.println(lang);
+        });
+        add(langSelect, BorderLayout.CENTER);
 
         // User container
         var userContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
