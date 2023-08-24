@@ -32,10 +32,6 @@ public class TopBar extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Content switcher
-        contentSwitch = new ContentSwitch();
-        add(contentSwitch, BorderLayout.WEST);
-
         // Language select
         var langsItems = List.of(
             new LangItem("English", "en"),
@@ -46,7 +42,11 @@ public class TopBar extends JPanel {
         langSelect.setLangSelectHandler(lang -> {
             System.out.println(lang);
         });
-        add(langSelect, BorderLayout.CENTER);
+        add(langSelect, BorderLayout.WEST);
+
+        // Content switcher
+        contentSwitch = new ContentSwitch();
+        add(contentSwitch, BorderLayout.CENTER);
 
         // User container
         var userContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));

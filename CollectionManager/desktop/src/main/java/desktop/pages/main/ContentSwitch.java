@@ -28,7 +28,7 @@ public class ContentSwitch extends JPanel {
     }
 
     private void init() {
-        setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
         // Table button
         tableButton = new JButton(ts.t("openTable"));
