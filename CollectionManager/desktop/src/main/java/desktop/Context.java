@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import adapter.Adapter;
 import adapter.common.AuthAdapter;
 import auth.AuthToken;
 import desktop.lib.RemoteManager;
@@ -20,15 +19,15 @@ import models.Mood;
 public class Context {
     @Getter
     @Setter
-    private String rootPage = "main";
-    
+    private String rootPage = "auth";
+
     @Getter
     @Setter
     private String username = "username";
 
     @Getter
     @Setter
-    private List<Human> humans = generateRandomHumans(200);
+    private List<Human> humans = generateRandomHumans(50);
 
     @Getter
     private CollectionManager manager = null;

@@ -17,8 +17,11 @@ public class TablePanel extends JPanel {
 
     private Runnable updateCallback;
 
-    public TablePanel(List<Human> initialData, Runnable updateCallback) {
+    private Runnable refreshCallback;
+
+    public TablePanel(List<Human> initialData, Runnable updateCallback, Runnable refreshCallback) {
         this.updateCallback = updateCallback;
+        this.refreshCallback = refreshCallback;
         init(initialData);
     }
 
@@ -33,10 +36,19 @@ public class TablePanel extends JPanel {
         // Filter field
         var toolBar = new ToolBar(columnNames, table::filter);
         table.setUpdateCallback(toolBar::notifyUpdate);
-        toolBar.setSaveCallback(table::saveUpdatedHumans);
+        toolBar.setSaveCallback(humans -> {
+            table.saveUpdatedHumans(humans);
+            updateCallback.run();
+        });
         table.setSelectCallback(toolBar::notifySelection);
-        toolBar.setDeleteCallback(table::deleteSelectedHumans);
-        toolBar.setAddCallback(table::addHuman);
+        toolBar.setDeleteCallback(humans -> {
+            table.deleteSelectedHumans(humans);
+            updateCallback.run();
+        });
+        toolBar.setAddCallback(human -> {
+            table.addHuman(human);
+            updateCallback.run();
+        });
         toolBar.setRefreshCallback(updateCallback);
         add(toolBar, BorderLayout.NORTH);
 

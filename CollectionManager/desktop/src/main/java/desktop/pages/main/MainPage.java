@@ -32,10 +32,10 @@ public class MainPage extends BasePage {
 
         // Collection table
         table = new TablePanel(List.copyOf(App.context.getHumans()),
-            this::updateCollection);
+            this::updateCollection, this::refreshCollection);
 
-        // Humans vizualization
-        viz = new VizPanel();
+        // Humans visualization
+        viz = new VizPanel(List.copyOf(App.context.getHumans()));
 
         // Content
         content = new ContentPanel(table, viz);
@@ -52,8 +52,15 @@ public class MainPage extends BasePage {
             App.context.getManager().load();
             collection = App.context.getManager().getCollection();
             table.updateTableData(new ArrayList<>(collection));
+            viz.setHumans(new ArrayList<>(collection));
         } catch (Exception e) {
 
         }
+    }
+
+    private void refreshCollection() {
+        collection = App.context.getManager().getCollection();
+        table.updateTableData(new ArrayList<>(collection));
+        viz.setHumans(new ArrayList<>(collection));
     }
 }
