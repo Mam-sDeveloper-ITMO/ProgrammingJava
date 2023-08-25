@@ -24,6 +24,8 @@ public class MainPage extends BasePage {
     }
 
     public void beforeShow() {
+        super.beforeShow();
+
         setLayout(new BorderLayout(0, 10));
 
         // Top bar

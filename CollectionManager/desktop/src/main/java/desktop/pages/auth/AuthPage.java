@@ -3,9 +3,7 @@ package desktop.pages.auth;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import adapter.Adapter;
 import desktop.App;
@@ -25,6 +23,8 @@ public class AuthPage extends BasePage {
 
     @Override
     public void beforeShow() {
+        super.beforeShow();
+
         var cardsPanel = new CardsPanel(authAdapter);
         cardsPanel.showSignInCard();
 
