@@ -26,12 +26,10 @@ public class LangSelect extends JPanel {
         var langsComboBox = new JComboBox<>(items.toArray(new LangItem[0]));
         langsComboBox.setRenderer(new LangItemRenderer());
         langsComboBox.addActionListener(e -> {
-            new Thread(() -> {
-                var item = (LangItem) langsComboBox.getSelectedItem();
-                if (langSelectHandler != null) {
-                    langSelectHandler.accept(item.getLangCode());
-                }
-            }).start();
+            var item = (LangItem) langsComboBox.getSelectedItem();
+            if (langSelectHandler != null) {
+                langSelectHandler.accept(item.getLangCode());
+            }
         });
 
         var selectedItem = items.stream().filter(item -> item.getLangCode().equals(selected)).findFirst();

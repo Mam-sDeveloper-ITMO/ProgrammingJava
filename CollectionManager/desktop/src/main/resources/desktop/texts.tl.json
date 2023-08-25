@@ -128,6 +128,68 @@
             }
         },
         "table": {
+            "columns": {
+                "id": {
+                    "en": "ID",
+                    "ru": "ID",
+                    "ja": "ID"
+                },
+                "name": {
+                    "en": "Name",
+                    "ru": "Имя",
+                    "ja": "名前"
+                },
+                "x": {
+                    "en": "X",
+                    "ru": "X",
+                    "ja": "X"
+                },
+                "y": {
+                    "en": "Y",
+                    "ru": "Y",
+                    "ja": "Y"
+                },
+                "creationDate": {
+                    "en": "Create Time",
+                    "ru": "Время создания",
+                    "ja": "作成時間"
+                },
+                "realHero": {
+                    "en": "Real Hero",
+                    "ru": "Настоящий герой",
+                    "ja": "リアルヒーロー"
+                },
+                "toothpick": {
+                    "en": "Toothpick",
+                    "ru": "Зубочистка",
+                    "ja": "つまようじ"
+                },
+                "impactSpeed": {
+                    "en": "Impact Speed",
+                    "ru": "Скорость удара",
+                    "ja": "衝撃速度"
+                },
+                "soundtrack": {
+                    "en": "Soundtrack",
+                    "ru": "Звуковая дорожка",
+                    "ja": "サウンドトラック"
+                },
+                "waiting": {
+                    "en": "Minutes of waiting",
+                    "ru": "Минуты ожидания",
+                    "ja": "待機時間（分）"
+                },
+                "mood": {
+                    "en": "Mood",
+                    "ru": "Настроение",
+                    "ja": "気分"
+                },
+                "car": {
+                    "en": "Car",
+                    "ru": "Автомобиль",
+                    "ja": "車"
+                }
+            },
             "toolbar": {
                 "refresh": {
                     "title": {

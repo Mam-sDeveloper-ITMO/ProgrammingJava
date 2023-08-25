@@ -24,6 +24,8 @@ public class App {
 
     public static Context context = new Context();
 
+    private static JFrame frame;
+
     private static JPanel pagesPanel;
 
     private static CardLayout pagesLayout;
@@ -64,7 +66,7 @@ public class App {
     }
 
     private static void createAndShowGUI() {
-        var frame = new JFrame(texts.getText("texts.app.title"));
+        frame = new JFrame(texts.getText("texts.app.title"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -81,5 +83,10 @@ public class App {
     private static void initPages() {
         includePage(new AuthPage());
         includePage(new MainPage());
+    }
+
+    public static void setLang(String lang) {
+        context.setLang(lang);
+        frame.setTitle(texts.getText("texts.app.title"));
     }
 }

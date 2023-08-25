@@ -6,14 +6,16 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import desktop.App;
 import models.Human;
+import textlocale.text.TextSupplier;
 
 public class TablePanel extends JPanel {
+    private TextSupplier ts = App.texts.getPackage("texts.main.table")::getText;
+
     private Table table;
 
-    private final String[] columnNames = { "ID", "Name", "X", "Y", "Create Time",
-        "Real Hero", "Toothpick",
-        "Impact Speed", "Soundtrack", "Waiting", "Mood", "Car" };
+    private final String[] columnNames = initColumns();
 
     private Runnable updateCallback;
 
@@ -55,5 +57,23 @@ public class TablePanel extends JPanel {
 
     public void setHumans(List<Human> humans) {
         table.updateData(humans);
+    }
+
+    private String[] initColumns() {
+        return new String[] {
+            ts.t("columns.id"),
+            ts.t("columns.name"),
+            ts.t("columns.x"),
+            ts.t("columns.y"),
+            ts.t("columns.name"),
+            ts.t("columns.creationDate"),
+            ts.t("columns.realHero"),
+            ts.t("columns.toothpick"),
+            ts.t("columns.impactSpeed"),
+            ts.t("columns.soundtrack"),
+            ts.t("columns.waiting"),
+            ts.t("columns.mood"),
+            ts.t("columns.car")
+        };
     }
 }

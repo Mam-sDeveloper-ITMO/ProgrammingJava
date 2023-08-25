@@ -46,6 +46,12 @@ public class MainPage extends BasePage {
         content.showTable();
         topBar.setOpenTable(content::showTable);
         topBar.setOpenViz(content::showViz);
+        topBar.setLangSelectHandler((lang) -> {
+            App.setLang(lang);
+            this.setVisible(false);
+            this.beforeShow();
+            this.setVisible(true);
+        });
         add(content);
 
         // Update collection data
