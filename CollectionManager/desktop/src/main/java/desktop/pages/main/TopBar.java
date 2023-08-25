@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -23,6 +24,8 @@ public class TopBar extends JPanel {
 
     private ContentSwitch contentSwitch;
 
+    private LangSelect langSelect;
+
     public TopBar(String username) {
         this.username = username;
         init();
@@ -38,10 +41,7 @@ public class TopBar extends JPanel {
             new LangItem("Русский", "ru"),
             new LangItem("日本語", "ja")
         );
-        var langSelect = new LangSelect(langsItems, App.context.getLang());
-        langSelect.setLangSelectHandler(lang -> {
-            System.out.println(lang);
-        });
+        langSelect = new LangSelect(langsItems, App.context.getLang());
         add(langSelect, BorderLayout.WEST);
 
         // Content switcher
@@ -84,5 +84,9 @@ public class TopBar extends JPanel {
 
     public void setOpenViz(Runnable r) {
         contentSwitch.setShowViz(r);
+    }
+
+    public void setLangSelectHandler(Consumer<String> handler) {
+        langSelect.setLangSelectHandler(handler);
     }
 }
