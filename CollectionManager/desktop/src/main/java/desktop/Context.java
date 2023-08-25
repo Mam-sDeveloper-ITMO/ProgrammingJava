@@ -8,6 +8,7 @@ import java.util.Random;
 import adapter.common.AuthAdapter;
 import auth.AuthToken;
 import desktop.lib.RemoteManager;
+import desktop.pages.main.lang.LangItem;
 import humandeque.manager.CollectionManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,7 @@ import models.Mood;
 public class Context {
     @Getter
     @Setter
-    private String rootPage = "main";
+    private String rootPage = "auth";
 
     @Getter
     @Setter
@@ -28,6 +29,14 @@ public class Context {
     @Getter
     @Setter
     private String lang = "ru";
+
+    @Getter
+    @Setter
+    private List<LangItem> langs = List.of(
+        new LangItem("English", "en"),
+        new LangItem("Русский", "ru"),
+        new LangItem("日本語", "ja")
+    );
 
     @Getter
     @Setter

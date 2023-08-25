@@ -33,8 +33,10 @@ public class MainPage extends BasePage {
         add(topBar, BorderLayout.NORTH);
 
         // Collection table
-        table = new TablePanel(List.copyOf(App.context.getHumans()),
-            this::updateCollection, this::refreshCollection);
+        table = new TablePanel(
+            List.copyOf(App.context.getHumans()),
+            this::updateCollection,
+            this::refreshCollection);
 
         // Humans visualization
         viz = new VizPanel(List.copyOf(App.context.getHumans()));
@@ -46,23 +48,22 @@ public class MainPage extends BasePage {
         topBar.setOpenViz(content::showViz);
         add(content);
 
-        updateCollection();
+        // Update collection data
+        refreshCollection();
     }
 
     private void updateCollection() {
         try {
             App.context.getManager().load();
-            collection = App.context.getManager().getCollection();
-            table.updateTableData(new ArrayList<>(collection));
-            viz.setHumans(new ArrayList<>(collection));
         } catch (Exception e) {
 
         }
+        refreshCollection();
     }
 
     private void refreshCollection() {
         collection = App.context.getManager().getCollection();
-        table.updateTableData(new ArrayList<>(collection));
+        table.setHumans(new ArrayList<>(collection));
         viz.setHumans(new ArrayList<>(collection));
     }
 }

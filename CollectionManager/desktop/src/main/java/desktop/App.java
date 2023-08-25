@@ -15,8 +15,6 @@ import desktop.pages.auth.AuthPage;
 import desktop.pages.main.MainPage;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
-import lombok.Getter;
-import lombok.Setter;
 import textlocale.TextLocale;
 import textlocale.loader.common.ResourcesLoader;
 import textlocale.text.TextPackage;
