@@ -19,17 +19,19 @@ public class AuthPage extends BasePage {
     public AuthPage() {
         super("auth");
         initAuthAdapter();
+
     }
 
     @Override
     public void beforeShow() {
         super.beforeShow();
 
-        var cardsPanel = new CardsPanel(authAdapter);
-        cardsPanel.showSignInCard();
-
         this.setLayout(new GridBagLayout());
         var gbc = new GridBagConstraints();
+
+        // Panel with login/register cards
+        var cardsPanel = new CardsPanel(authAdapter);
+        cardsPanel.showSignInCard();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;

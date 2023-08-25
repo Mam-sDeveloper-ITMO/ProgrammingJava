@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -104,11 +103,11 @@ public class SignUpCard extends JPanel {
                     App.context.setUsername(username);
                     App.context.initCollectionManager(token);
                     App.showPage("main");
+                    usernameField.getTextField().setText("");
+                    passwordField.getPasswordField().setText("");
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, ts.t("messages.tokenSaveError") + e.getMessage());
+                    JOptionPane.showMessageDialog(this, ts.t("messages.signUpError") + e.getMessage());
                 }
-                usernameField.getTextField().setText("");
-                passwordField.getPasswordField().setText("");
             } else if (response.getCode() == StatusCodes.LOGIN_ALREADY_EXISTS) {
                 JOptionPane.showMessageDialog(this, ts.t("messages.usernameTaken"));
             } else {

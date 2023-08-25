@@ -75,10 +75,20 @@
                 "ru": "Вы успешно вошли.",
                 "ja": "サインインに成功しました。"
             },
+            "signInError": {
+                "en": "Cannot sign in. Please try again later.",
+                "ru": "Невозможно войти. Пожалуйста, попробуйте позже.",
+                "ja": "サインインできません。後でもう一度試してください。"
+            },
             "signUpSuccess": {
                 "en": "You have successfully signed up.",
                 "ru": "Вы успешно зарегистрировались.",
                 "ja": "サインアップに成功しました。"
+            },
+            "signUpError": {
+                "en": "Cannot sign up. Please try again later.",
+                "ru": "Невозможно зарегистрироваться. Пожалуйста, попробуйте позже.",
+                "ja": "サインアップできません。後でもう一度試してください。"
             },
             "connectionError": {
                 "en": "Cannot connect to the server. Please try again later.",

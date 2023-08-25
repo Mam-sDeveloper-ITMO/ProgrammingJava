@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -106,12 +105,12 @@ public class SignInCard extends JPanel {
                     App.context.setUsername(username);
                     App.context.initCollectionManager(token);
                     App.showPage("main");
+                    usernameField.getTextField().setText("");
+                    passwordField.getPasswordField().setText("");
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this,
-                        ts.t("messages.tokenSaveError") + e.getMessage());
+                    ts.t("messages.signInError") + e.getMessage());
                 }
-                usernameField.getTextField().setText("");
-                passwordField.getPasswordField().setText("");
             } else if (response.getCode() == StatusCodes.INCORRECT_LOGIN_OR_PASSWORD) {
                 JOptionPane.showMessageDialog(this, ts.t("messages.invalidCredentials"));
             } else {
