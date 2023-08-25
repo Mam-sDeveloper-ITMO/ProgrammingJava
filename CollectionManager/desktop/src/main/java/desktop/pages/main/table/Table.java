@@ -55,7 +55,14 @@ public class Table extends JTable {
         this.data = data;
         this.updatedData = new HashSet<>();
 
-        model.setRowCount(0);
+        while (model.getRowCount() > 0) {
+            try {
+                model.removeRow(0);
+            } catch (Exception e) {
+
+            }
+        }
+
         for (Human human : data) {
             Object[] rowData = {
                 human.getId(),
