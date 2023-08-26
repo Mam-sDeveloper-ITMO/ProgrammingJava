@@ -1,6 +1,7 @@
 package desktop;
 
 import java.awt.CardLayout;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,6 +68,8 @@ public class App {
 
     private static void createAndShowGUI() {
         frame = new JFrame(texts.getText("texts.app.title"));
+        URL imgURL = App.class.getResource("/desktop/icon.png");
+        frame.setIconImage(frame.getToolkit().getImage(imgURL));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
