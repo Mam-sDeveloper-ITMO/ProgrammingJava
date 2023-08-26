@@ -65,7 +65,6 @@ public class TablePanel extends JPanel {
             ts.t("columns.name"),
             ts.t("columns.x"),
             ts.t("columns.y"),
-            ts.t("columns.name"),
             ts.t("columns.creationDate"),
             ts.t("columns.realHero"),
             ts.t("columns.toothpick"),
