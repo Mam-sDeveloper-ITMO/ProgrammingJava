@@ -68,8 +68,11 @@ public class App {
 
     private static void createAndShowGUI() {
         frame = new JFrame(texts.getText("texts.app.title"));
+
         URL imgURL = App.class.getResource("/desktop/icon.png");
         frame.setIconImage(frame.getToolkit().getImage(imgURL));
+
+        frame.setMinimumSize(context.getWindowSize());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -78,9 +81,10 @@ public class App {
         frame.getContentPane().add(pagesPanel);
 
         initPages();
-        showPage(context.getRootPage());
 
         frame.setVisible(true);
+
+        showPage(context.getRootPage());
     }
 
     private static void initPages() {

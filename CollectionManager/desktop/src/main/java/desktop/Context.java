@@ -1,5 +1,6 @@
 package desktop;
 
+import java.awt.Dimension;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,11 @@ public class Context {
 
     @Getter
     @Setter
-    private String lang = "ru";
+    private String lang = "en";
+
+    @Getter
+    @Setter
+    private Dimension windowSize = new Dimension(1600, 800);
 
     @Getter
     @Setter
