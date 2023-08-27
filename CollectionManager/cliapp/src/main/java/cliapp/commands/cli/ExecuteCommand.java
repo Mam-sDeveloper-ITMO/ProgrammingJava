@@ -192,7 +192,7 @@ public class ExecuteCommand extends CLICommand {
      * @param line the script line to execute with dynamic arguments
      * @throws ExecutionError if an error occurs while executing the command
      */
-    private void executeWithDynamicParams(String line) throws ExecutionError {
+    private void executeWithDynamicParams(String line, OutputChannel output) throws ExecutionError {
         // parse line for static params
         List<String> params = extractStaticParams(line);
         String trigger = params.get(0);
@@ -214,7 +214,6 @@ public class ExecuteCommand extends CLICommand {
         // extract dynamic params
         List<String> dynamicParams = extractDynamicParams(line);
         // init output channel and pipeline
-        OutputChannel output = System.out::println;
         RequirementsPipeline pipeline = new DirectLoadPipeline(staticRequirementsMap, dynamicParams);
         // execute command
         output.putString("Execute: " + command.getName() + " ...");
@@ -227,7 +226,7 @@ public class ExecuteCommand extends CLICommand {
      * @param line the script line to execute with user input
      * @throws ExecutionError if an error occurs while executing the command
      */
-    private void executeWithUserParams(String line) throws ExecutionError {
+    private void executeWithUserParams(String line, OutputChannel output) throws ExecutionError {
         // parse line for static params
         List<String> params = extractStaticParams(line);
         String trigger = params.get(0);
@@ -247,7 +246,6 @@ public class ExecuteCommand extends CLICommand {
             throw new ExecutionError(e.getMessage());
         }
         // init output channel and pipeline
-        OutputChannel output = System.out::println;
         RequirementsPipeline pipeline = new UserInputPipeline(
                 staticRequirementsMap,
                 client.getAskRequirementAttempts(),
@@ -260,7 +258,7 @@ public class ExecuteCommand extends CLICommand {
     /**
      * Parse one script line, resolve params type and execute command
      */
-    private void executeScriptLine(String line) throws ExecutionError {
+    private void executeScriptLine(String line, OutputChannel output) throws ExecutionError {
         if (line.startsWith("#")) {
             // comment
             return;
@@ -269,10 +267,10 @@ public class ExecuteCommand extends CLICommand {
             return;
         } else if (line.matches("^.+\\{.+\\}$")) {
             // with direct loaded params
-            executeWithDynamicParams(line);
+            executeWithDynamicParams(line, output);
         } else if (line.matches("^.+(\\{\\})?$")) {
             // with params from user
-            executeWithUserParams(line);
+            executeWithUserParams(line, output);
         } else {
             // without dynamic params
             throw new ExecutionError(ts.t("ExecuteCommand.IncorrectLineFormat", line));
@@ -288,7 +286,7 @@ public class ExecuteCommand extends CLICommand {
      * @throws ExecutionError If an error occurs while executing any of the script
      *                        lines.
      */
-    private void executeScript(Path scriptPath, String script) throws ExecutionError {
+    private void executeScript(Path scriptPath, String script, OutputChannel output) throws ExecutionError {
         // update call counter
         Integer callCount = callCounter.getOrDefault(scriptPath, 0);
         callCounter.put(scriptPath, callCount + 1);
@@ -303,7 +301,7 @@ public class ExecuteCommand extends CLICommand {
         // execute script
         for (String line : script.split(System.lineSeparator())) {
             try {
-                executeScriptLine(line);
+                executeScriptLine(line, output);
             } catch (Exception e) {
                 throw new ExecutionError(
                         ts.t("ExecuteCommand.LineError", line, e.getMessage()));
@@ -344,6 +342,6 @@ public class ExecuteCommand extends CLICommand {
         } catch (IOException e) {
             throw new ExecutionError(e.getMessage(), e);
         }
-        executeScript(scriptPath, scriptContent);
+        executeScript(scriptPath, scriptContent, output);
     }
 }
