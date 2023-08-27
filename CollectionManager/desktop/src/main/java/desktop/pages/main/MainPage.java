@@ -4,9 +4,12 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import desktop.App;
 import desktop.lib.BasePage;
 import desktop.pages.main.table.TablePanel;
+import desktop.pages.main.viz.HumanSprite;
 import desktop.pages.main.viz.VizPanel;
 import humandeque.HumanDeque;
 
@@ -40,6 +43,7 @@ public class MainPage extends BasePage {
 
         // Humans visualization
         viz = new VizPanel(List.copyOf(App.context.getHumans()));
+        viz.setOnSpriteClicked(this::onSpriteClicked);
 
         // Content
         content = new ContentPanel(table, viz);
@@ -71,5 +75,17 @@ public class MainPage extends BasePage {
         collection = App.context.getManager().getCollection();
         table.setHumans(new ArrayList<>(collection));
         viz.setHumans(new ArrayList<>(collection));
+    }
+
+    private void onSpriteClicked(HumanSprite sprite) {
+        for (var human : collection) {
+            if (human.getId() == sprite.getId()) {
+                JOptionPane.showMessageDialog(
+                    this,
+                    human.toString(),
+                    human.getName(),
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }
 }

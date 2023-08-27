@@ -7,6 +7,9 @@ import lombok.Setter;
 
 public class HumanSprite {
     @Getter
+    private long id;
+
+    @Getter
     private float x;
 
     @Getter
@@ -22,7 +25,8 @@ public class HumanSprite {
     private double angle;
 
 
-    public HumanSprite(float x, float y, float radius, double speed) {
+    public HumanSprite(long id, float x, float y, float radius, double speed) {
+        this.id = id;
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -53,12 +57,16 @@ public class HumanSprite {
     }
 
     public void bounceSprite(HumanSprite other) {
-        float dx = x - other.x;
-        float dy = y - other.y;
-        float distance = (float) Math.sqrt(dx * dx + dy * dy);
-        if (distance <= radius + other.radius) {
+        if (checkCollision(other)) {
             angle = new Random().nextDouble() * 2 * Math.PI;
             other.angle = new Random().nextDouble() * 2 * Math.PI;
         }
+    }
+
+    public boolean checkCollision(HumanSprite other) {
+        float dx = x - other.x;
+        float dy = y - other.y;
+        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+        return distance <= radius + other.radius;
     }
 }

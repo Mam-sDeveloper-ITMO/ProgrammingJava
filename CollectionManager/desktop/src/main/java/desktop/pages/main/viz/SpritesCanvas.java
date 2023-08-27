@@ -2,8 +2,11 @@ package desktop.pages.main.viz;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -12,14 +15,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class SpritesCanvas extends JPanel implements ActionListener {
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<HumanSprite> sprites = new ArrayList<>();
 
     private Timer timer;
 
+    @Setter
+    private Consumer<HumanSprite> onSpriteClicked;
+
     public SpritesCanvas() {
         timer = new Timer(10, this);
         timer.start();
+        this.addMouseListener(new SpritesSelector());
     }
 
     @Override
@@ -46,5 +54,36 @@ public class SpritesCanvas extends JPanel implements ActionListener {
             }
         }
         repaint();
+    }
+
+    private class SpritesSelector implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            System.out.println("Clicked at " + e.getX() + ", " + e.getY());
+            var dummy = new HumanSprite(0, e.getX(), e.getY(), 10, 0);
+            for (HumanSprite sprite : sprites) {
+                if (sprite.checkCollision(dummy)) {
+                    if (onSpriteClicked != null) {
+                        onSpriteClicked.accept(sprite);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
     }
 }

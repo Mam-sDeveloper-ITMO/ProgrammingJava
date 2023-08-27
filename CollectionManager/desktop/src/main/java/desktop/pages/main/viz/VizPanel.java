@@ -1,6 +1,7 @@
 package desktop.pages.main.viz;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -27,6 +28,7 @@ public class VizPanel extends JPanel {
     public void setHumans(List<Human> humans) {
         List<HumanSprite> sprites = humans.stream()
             .map(h -> new HumanSprite(
+                h.getId(),
                 h.getCoordinates().getX(),
                 h.getCoordinates().getY(),
                 h.getMinutesOfWaiting() == null ? SPRITE_SIZE : h.getMinutesOfWaiting(),
@@ -34,6 +36,10 @@ public class VizPanel extends JPanel {
             .toList();
 
         spritesCanvas.setSprites(sprites);
+    }
+
+    public void setOnSpriteClicked(Consumer<HumanSprite> sprite) {
+        spritesCanvas.setOnSpriteClicked(sprite);
     }
 }
 
