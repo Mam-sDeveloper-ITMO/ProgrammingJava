@@ -50,6 +50,7 @@ public class TablePanel extends JPanel {
             refreshCallback.run();
         });
         toolBar.setRefreshCallback(updateCallback);
+        toolBar.setScriptFinishHandler(refreshCallback);
         add(toolBar, BorderLayout.NORTH);
 
         table.updateData(data);

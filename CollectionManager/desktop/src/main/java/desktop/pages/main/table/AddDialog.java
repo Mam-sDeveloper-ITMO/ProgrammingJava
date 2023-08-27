@@ -28,8 +28,6 @@ import models.Human;
 import models.Mood;
 import textlocale.text.TextSupplier;
 
-// private final String[] columnNames = { "ID", "Name", "X", "Y", "Create Time", "Real Hero", "Toothpick",
-//         "Impact Speed", "Soundtrack", "Waiting", "Mood", "Car" };
 
 public class AddDialog extends JDialog {
     private TextSupplier ts = App.texts

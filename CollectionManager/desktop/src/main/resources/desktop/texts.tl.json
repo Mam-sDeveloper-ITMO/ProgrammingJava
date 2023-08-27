@@ -191,6 +191,35 @@
                 }
             },
             "toolbar": {
+                "script": {
+                    "title": {
+                        "en": "Run script",
+                        "ru": "Запустить скрипт",
+                        "ja": "スクリプトを実行する"
+                    },
+                    "dialog": {
+                        "runButton": {
+                            "en": "Run",
+                            "ru": "Запустить",
+                            "ja": "実行する"
+                        },
+                        "closeButton": {
+                            "en": "Close",
+                            "ru": "Закрыть",
+                            "ja": "閉じる"
+                        },
+                        "running": {
+                            "en": "Running...",
+                            "ru": "Скрипт исполняется...",
+                            "ja": "実行中..."
+                        },
+                        "done": {
+                            "en": "Script was executed.",
+                            "ru": "Скрипт завершен.",
+                            "ja": "スクリプトが実行されました。"
+                        }
+                    }
+                },
                 "refresh": {
                     "title": {
                         "en": "Refresh",

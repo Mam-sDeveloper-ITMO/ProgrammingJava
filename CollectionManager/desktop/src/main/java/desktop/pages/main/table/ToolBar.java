@@ -23,6 +23,8 @@ public class ToolBar extends JPanel {
 
     private Refresh refresh;
 
+    private Script script;
+
     public ToolBar(String[] columnNames, BiConsumer<String, String> filterCallback) {
         init(columnNames, filterCallback);
     }
@@ -53,6 +55,12 @@ public class ToolBar extends JPanel {
         // Save button
         save = new Save();
         add(save);
+
+        addSeparator();
+
+        // Script button
+        script = new Script();
+        add(script);
 
         addSeparator();
 
@@ -91,5 +99,9 @@ public class ToolBar extends JPanel {
 
     public void setRefreshCallback(Runnable refreshCallback) {
         refresh.setRefreshCallback(refreshCallback);
+    }
+
+    public void setScriptFinishHandler(Runnable handler) {
+        script.setFinishHandler(handler);
     }
 }
