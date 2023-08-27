@@ -29,7 +29,7 @@ public class VizPanel extends JPanel {
             .map(h -> new HumanSprite(
                 h.getCoordinates().getX(),
                 h.getCoordinates().getY(),
-                SPRITE_SIZE,
+                h.getMinutesOfWaiting() == null ? SPRITE_SIZE : h.getMinutesOfWaiting(),
                 h.getImpactSpeed()))
             .toList();
 
