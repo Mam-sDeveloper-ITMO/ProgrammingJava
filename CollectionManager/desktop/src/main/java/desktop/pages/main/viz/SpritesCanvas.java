@@ -63,10 +63,9 @@ public class SpritesCanvas extends JPanel implements ActionListener {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            System.out.println("Clicked at " + e.getX() + ", " + e.getY());
             var dummy = new HumanSprite(0, e.getX(), e.getY(), 10, 0);
             for (HumanSprite sprite : sprites) {
-                if (sprite.checkCollision(dummy)) {
+                if (sprite.getCollisionAngel(sprite).isPresent()) {
                     if (onSpriteClicked != null) {
                         onSpriteClicked.accept(sprite);
                     }

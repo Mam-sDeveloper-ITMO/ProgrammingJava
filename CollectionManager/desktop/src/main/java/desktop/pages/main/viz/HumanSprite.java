@@ -1,5 +1,6 @@
 package desktop.pages.main.viz;
 
+import java.util.Optional;
 import java.util.Random;
 
 import lombok.Getter;
@@ -57,16 +58,19 @@ public class HumanSprite {
     }
 
     public void bounceSprite(HumanSprite other) {
-        if (checkCollision(other)) {
-            angle = new Random().nextDouble() * 2 * Math.PI;
-            other.angle = new Random().nextDouble() * 2 * Math.PI;
+        var collisionAngle = getCollisionAngel(other);
+        if (collisionAngle.isPresent()) {
+            angle = collisionAngle.get();
         }
     }
 
-    public boolean checkCollision(HumanSprite other) {
+    public Optional<Double> getCollisionAngel(HumanSprite other) {
         float dx = x - other.x;
         float dy = y - other.y;
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
-        return distance <= radius + other.radius;
+        if (distance < radius + other.radius) {
+            return Optional.of(Math.atan2(dy, dx));
+        }
+        return Optional.empty();
     }
 }
