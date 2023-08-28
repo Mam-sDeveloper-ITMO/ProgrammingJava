@@ -55,6 +55,7 @@ public class MainPage extends BasePage {
             this.setVisible(false);
             this.beforeShow();
             this.setVisible(true);
+            this.requestFocus();
         });
         add(content);
 
