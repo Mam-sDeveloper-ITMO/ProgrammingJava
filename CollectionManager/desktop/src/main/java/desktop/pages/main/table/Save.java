@@ -1,6 +1,7 @@
 package desktop.pages.main.table;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -69,7 +70,7 @@ public class Save extends JPanel {
             counter++;
             label.setText(ts.t("savingMessage", counter, updatedHumans.size()));
         }
-        saveCallback.accept(List.copyOf(updatedHumans));
+        saveCallback.accept(new ArrayList<>(updatedHumans));
         label.setText(ts.t("savedMessage"));
         saveButton.setEnabled(false);
     }
