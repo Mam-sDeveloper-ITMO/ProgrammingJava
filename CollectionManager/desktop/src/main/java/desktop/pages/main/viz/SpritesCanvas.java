@@ -1,7 +1,6 @@
 package desktop.pages.main.viz;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import javax.swing.Timer;
 import lombok.Getter;
 import lombok.Setter;
 
-public class SpritesCanvas extends JPanel implements ActionListener {
+public class SpritesCanvas extends JPanel {
     @Getter
     @Setter
     private List<HumanSprite> sprites = new ArrayList<>();
@@ -25,7 +24,7 @@ public class SpritesCanvas extends JPanel implements ActionListener {
     private Consumer<HumanSprite> onSpriteClicked;
 
     public SpritesCanvas() {
-        timer = new Timer(10, this);
+        timer = new Timer(10, this::moveSprites);
         timer.start();
         this.addMouseListener(new SpritesSelector());
     }
@@ -42,8 +41,7 @@ public class SpritesCanvas extends JPanel implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    private void moveSprites(ActionEvent e) {
         for (HumanSprite sprite : sprites) {
             sprite.move();
             sprite.bounceWalls(getWidth(), getHeight());
