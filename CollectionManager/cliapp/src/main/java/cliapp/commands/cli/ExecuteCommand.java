@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 import cliapp.TextsManager;
 import cliapp.cliclient.CLIClient;
-import cliapp.cliclient.UserInputPipeline;
 import cliapp.cliclient.exceptions.CommandNotFoundError;
 import cliapp.cliclient.exceptions.InlineParamsError;
 import commands.Command;
@@ -161,6 +160,61 @@ public class ExecuteCommand extends CLICommand {
     }
 
     /**
+     * Prepared pipeline.
+     *
+     * Contains static requirements and dynamic requirements,
+     * but if dynamic requirements are not enough, it asks them from source
+     * pipeline.
+     */
+    private static class PreparedPipeline implements RequirementsPipeline {
+        private final RequirementsPipeline sourcePipeline;
+
+        private final Map<String, String> staticRequirementsMap;
+
+        private final List<String> dynamicRequirements;
+
+        private int askRequirementAttempts;
+
+        public PreparedPipeline(RequirementsPipeline sourcePipeline,
+                Map<String, String> staticRequirementsMap,
+                List<String> dynamicRequirements,
+                int askRequirementAttempts) {
+            this.sourcePipeline = sourcePipeline;
+            this.staticRequirementsMap = staticRequirementsMap;
+            this.dynamicRequirements = dynamicRequirements;
+            this.askRequirementAttempts = askRequirementAttempts;
+        }
+
+        /**
+         * Asks for the requirement and returns the value of it.
+         *
+         * @param requirement a {@link commands.requirements.Requirement} instance.
+         *
+         * @throws RequirementAskError if there's an error while asking the requirement.
+         *
+         * @return the value of the requirement.
+         */
+        @Override
+        public <I, O> O askRequirement(Requirement<I, O> requirement) throws RequirementAskError {
+            try {
+                if (staticRequirementsMap.containsKey(requirement.getName())) {
+                    // static requirements
+                    return requirement.getValue((I) staticRequirementsMap.get(requirement.getName()));
+                } else {
+                    // dynamic requirements
+                    if (dynamicRequirements.isEmpty()) {
+                        // if not enough dynamic requirements, ask them from source pipeline
+                        return sourcePipeline.askRequirement(requirement);
+                    }
+                    return requirement.getValue((I) dynamicRequirements.remove(0));
+                }
+            } catch (ValidationError e) {
+                throw new RequirementAskError(requirement.getName(), e);
+            }
+        }
+    }
+
+    /**
      * Extracts the list of static parameters from a given script line.
      *
      * @param line the script line to extract static parameters from
@@ -192,7 +246,8 @@ public class ExecuteCommand extends CLICommand {
      * @param line the script line to execute with dynamic arguments
      * @throws ExecutionError if an error occurs while executing the command
      */
-    private void executeWithDynamicParams(String line) throws ExecutionError {
+    private void executeWithDynamicParams(String line, RequirementsPipeline pipeline, OutputChannel output)
+            throws ExecutionError {
         // parse line for static params
         List<String> params = extractStaticParams(line);
         String trigger = params.get(0);
@@ -214,11 +269,10 @@ public class ExecuteCommand extends CLICommand {
         // extract dynamic params
         List<String> dynamicParams = extractDynamicParams(line);
         // init output channel and pipeline
-        OutputChannel output = System.out::println;
-        RequirementsPipeline pipeline = new DirectLoadPipeline(staticRequirementsMap, dynamicParams);
+        RequirementsPipeline dlPipeline = new DirectLoadPipeline(staticRequirementsMap, dynamicParams);
         // execute command
         output.putString("Execute: " + command.getName() + " ...");
-        command.execute(pipeline, output);
+        command.execute(dlPipeline, output);
     }
 
     /**
@@ -227,7 +281,8 @@ public class ExecuteCommand extends CLICommand {
      * @param line the script line to execute with user input
      * @throws ExecutionError if an error occurs while executing the command
      */
-    private void executeWithUserParams(String line) throws ExecutionError {
+    private void executeWithUserParams(String line, RequirementsPipeline pipeline, OutputChannel output)
+            throws ExecutionError {
         // parse line for static params
         List<String> params = extractStaticParams(line);
         String trigger = params.get(0);
@@ -246,21 +301,18 @@ public class ExecuteCommand extends CLICommand {
         } catch (InlineParamsError e) {
             throw new ExecutionError(e.getMessage());
         }
-        // init output channel and pipeline
-        OutputChannel output = System.out::println;
-        RequirementsPipeline pipeline = new UserInputPipeline(
-                staticRequirementsMap,
-                client.getAskRequirementAttempts(),
-                client.getUserInputSupplier());
+
         // execute command
+        RequirementsPipeline preparedPipeline = new PreparedPipeline(pipeline, staticRequirementsMap, List.of(), 3);
         output.putString("Execute: " + command.getName() + " ...");
-        command.execute(pipeline, output);
+        command.execute(preparedPipeline, output);
     }
 
     /**
      * Parse one script line, resolve params type and execute command
      */
-    private void executeScriptLine(String line) throws ExecutionError {
+    private void executeScriptLine(String line, RequirementsPipeline pipeline, OutputChannel output)
+            throws ExecutionError {
         if (line.startsWith("#")) {
             // comment
             return;
@@ -269,10 +321,10 @@ public class ExecuteCommand extends CLICommand {
             return;
         } else if (line.matches("^.+\\{.+\\}$")) {
             // with direct loaded params
-            executeWithDynamicParams(line);
+            executeWithDynamicParams(line, pipeline, output);
         } else if (line.matches("^.+(\\{\\})?$")) {
             // with params from user
-            executeWithUserParams(line);
+            executeWithUserParams(line, pipeline, output);
         } else {
             // without dynamic params
             throw new ExecutionError(ts.t("ExecuteCommand.IncorrectLineFormat", line));
@@ -288,7 +340,8 @@ public class ExecuteCommand extends CLICommand {
      * @throws ExecutionError If an error occurs while executing any of the script
      *                        lines.
      */
-    private void executeScript(Path scriptPath, String script) throws ExecutionError {
+    private void executeScript(Path scriptPath, String script, RequirementsPipeline pipeline, OutputChannel output)
+            throws ExecutionError {
         // update call counter
         Integer callCount = callCounter.getOrDefault(scriptPath, 0);
         callCounter.put(scriptPath, callCount + 1);
@@ -303,7 +356,7 @@ public class ExecuteCommand extends CLICommand {
         // execute script
         for (String line : script.split(System.lineSeparator())) {
             try {
-                executeScriptLine(line);
+                executeScriptLine(line, pipeline, output);
             } catch (Exception e) {
                 throw new ExecutionError(
                         ts.t("ExecuteCommand.LineError", line, e.getMessage()));
@@ -344,6 +397,6 @@ public class ExecuteCommand extends CLICommand {
         } catch (IOException e) {
             throw new ExecutionError(e.getMessage(), e);
         }
-        executeScript(scriptPath, scriptContent);
+        executeScript(scriptPath, scriptContent, pipeline, output);
     }
 }

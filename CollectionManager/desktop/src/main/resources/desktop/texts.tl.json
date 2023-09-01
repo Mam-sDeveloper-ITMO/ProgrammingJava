@@ -1,0 +1,415 @@
+{
+    "app": {
+        "title": {
+            "en": "Collections Manager",
+            "ru": "Менеджер Коллекций",
+            "ja": "コレクションマネージャー"
+        }
+    },
+    "auth": {
+        "signInCard": {
+            "title": {
+                "en": "Sign In",
+                "ru": "Войти",
+                "ja": "サインイン"
+            },
+            "username": {
+                "title": {
+                    "en": "Username:",
+                    "ru": "Имя пользователя:",
+                    "ja": "ユーザー名："
+                }
+            },
+            "password": {
+                "title": {
+                    "en": "Password:",
+                    "ru": "Пароль:",
+                    "ja": "パスワード："
+                }
+            },
+            "signInButton": {
+                "en": "Sign In",
+                "ru": "Войти",
+                "ja": "サインイン"
+            },
+            "openSignUpButton": {
+                "en": "Do not have an account? Sign Up!",
+                "ru": "Нет аккаунта? Зарегистрироваться!",
+                "ja": "アカウントがありませんか？ サインアップ！"
+            }
+        },
+        "signUpCard": {
+            "title": {
+                "en": "Sign Up",
+                "ru": "Зарегистрироваться",
+                "ja": "サインアップ"
+            },
+            "username": {
+                "title": {
+                    "en": "Username:",
+                    "ru": "Имя пользователя:",
+                    "ja": "ユーザー名："
+                }
+            },
+            "password": {
+                "title": {
+                    "en": "Password:",
+                    "ru": "Пароль:",
+                    "ja": "パスワード："
+                }
+            },
+            "signUpButton": {
+                "en": "Sign Up",
+                "ru": "Зарегистрироваться",
+                "ja": "サインアップ"
+            },
+            "openSignInButton": {
+                "en": "Already have an account? Sign In!",
+                "ru": "Уже есть аккаунт? Войти!",
+                "ja": "すでにアカウントをお持ちですか？ サインイン！"
+            }
+        },
+        "messages": {
+            "signInSuccess": {
+                "en": "You have successfully signed in.",
+                "ru": "Вы успешно вошли.",
+                "ja": "サインインに成功しました。"
+            },
+            "signInError": {
+                "en": "Cannot sign in. Please try again later.",
+                "ru": "Невозможно войти. Пожалуйста, попробуйте позже.",
+                "ja": "サインインできません。後でもう一度試してください。"
+            },
+            "signUpSuccess": {
+                "en": "You have successfully signed up.",
+                "ru": "Вы успешно зарегистрировались.",
+                "ja": "サインアップに成功しました。"
+            },
+            "signUpError": {
+                "en": "Cannot sign up. Please try again later.",
+                "ru": "Невозможно зарегистрироваться. Пожалуйста, попробуйте позже.",
+                "ja": "サインアップできません。後でもう一度試してください。"
+            },
+            "connectionError": {
+                "en": "Cannot connect to the server. Please try again later.",
+                "ru": "Невозможно подключиться к серверу. Пожалуйста, попробуйте позже.",
+                "ja": "サーバーに接続できません。後でもう一度試してください。"
+            },
+            "invalidCredentials": {
+                "en": "Invalid username or password.",
+                "ru": "Неверное имя пользователя или пароль.",
+                "ja": "無効なユーザー名またはパスワード。"
+            },
+            "tokenSaveError": {
+                "en": "Cannot save token. Please try again later.",
+                "ru": "Не удается сохранить токен. Пожалуйста, попробуйте позже.",
+                "ja": "トークンを保存できません。後でもう一度試してください。"
+            },
+            "usernameTaken": {
+                "en": "Username is already taken.",
+                "ru": "Имя пользователя уже занято.",
+                "ja": "ユーザー名はすでに使用されています。"
+            }
+        }
+    },
+    "main": {
+        "topbar": {
+            "contentSwitch": {
+                "openTable": {
+                    "en": "Data management",
+                    "ru": "Управление данными",
+                    "ja": "データ管理"
+                },
+                "openViz": {
+                    "en": "Visualization",
+                    "ru": "Визуализация",
+                    "ja": "可視化"
+                }
+            }
+        },
+        "table": {
+            "columns": {
+                "id": {
+                    "en": "ID",
+                    "ru": "ID",
+                    "ja": "ID"
+                },
+                "name": {
+                    "en": "Name",
+                    "ru": "Имя",
+                    "ja": "名前"
+                },
+                "x": {
+                    "en": "X",
+                    "ru": "X",
+                    "ja": "X"
+                },
+                "y": {
+                    "en": "Y",
+                    "ru": "Y",
+                    "ja": "Y"
+                },
+                "creationDate": {
+                    "en": "Create Time",
+                    "ru": "Время создания",
+                    "ja": "作成時間"
+                },
+                "realHero": {
+                    "en": "Real Hero",
+                    "ru": "Настоящий герой",
+                    "ja": "リアルヒーロー"
+                },
+                "toothpick": {
+                    "en": "Toothpick",
+                    "ru": "Зубочистка",
+                    "ja": "つまようじ"
+                },
+                "impactSpeed": {
+                    "en": "Impact Speed",
+                    "ru": "Скорость удара",
+                    "ja": "衝撃速度"
+                },
+                "soundtrack": {
+                    "en": "Soundtrack",
+                    "ru": "Звуковая дорожка",
+                    "ja": "サウンドトラック"
+                },
+                "waiting": {
+                    "en": "Minutes of waiting",
+                    "ru": "Минуты ожидания",
+                    "ja": "待機時間（分）"
+                },
+                "mood": {
+                    "en": "Mood",
+                    "ru": "Настроение",
+                    "ja": "気分"
+                },
+                "car": {
+                    "en": "Car",
+                    "ru": "Автомобиль",
+                    "ja": "車"
+                }
+            },
+            "toolbar": {
+                "script": {
+                    "title": {
+                        "en": "Run script",
+                        "ru": "Запустить скрипт",
+                        "ja": "スクリプトを実行する"
+                    },
+                    "dialog": {
+                        "runButton": {
+                            "en": "Run",
+                            "ru": "Запустить",
+                            "ja": "実行する"
+                        },
+                        "closeButton": {
+                            "en": "Close",
+                            "ru": "Закрыть",
+                            "ja": "閉じる"
+                        },
+                        "running": {
+                            "en": "Running...",
+                            "ru": "Скрипт исполняется...",
+                            "ja": "実行中..."
+                        },
+                        "done": {
+                            "en": "Script was executed.",
+                            "ru": "Скрипт завершен.",
+                            "ja": "スクリプトが実行されました。"
+                        }
+                    }
+                },
+                "refresh": {
+                    "title": {
+                        "en": "Refresh",
+                        "ru": "Обновить",
+                        "ja": "リフレッシュ"
+                    }
+                },
+                "filter": {
+                    "columnSelect": {
+                        "en": "Select column",
+                        "ru": "Выберите столбец",
+                        "ja": "列を選択"
+                    },
+                    "searchRegex": {
+                        "en": "Search regex",
+                        "ru": "Поиск по регулярному выражению",
+                        "ja": "正規表現で検索"
+                    }
+                },
+                "save": {
+                    "updatedMessage": {
+                        "en": "Data was changed.",
+                        "ru": "Данные были изменены.",
+                        "ja": "データが変更されました。"
+                    },
+                    "savedMessage": {
+                        "en": "Data is actual.",
+                        "ru": "Данные актуальны.",
+                        "ja": "データは現在のものです。"
+                    },
+                    "savingMessage": {
+                        "en": "Updated %d of %d items.",
+                        "ru": "Обновлено %d из %d элементов.",
+                        "ja": "%d個のアイテムの更新"
+                    },
+                    "saveButton": {
+                        "en": "Save",
+                        "ru": "Сохранить",
+                        "ja": "保存"
+                    }
+                },
+                "delete": {
+                    "noItemsSelected": {
+                        "en": "No items selected.",
+                        "ru": "Нет выбранных элементов.",
+                        "ja": "アイテムが選択されていません。"
+                    },
+                    "itemsSelected": {
+                        "en": "Press to remove %d items.",
+                        "ru": "Нажмите, чтобы удалить %d элементов.",
+                        "ja": "%d個のアイテムを削除するには押してください。"
+                    },
+                    "deletingItems": {
+                        "en": "Deleted %d of %d items.",
+                        "ru": "Удалено %d из %d элементов.",
+                        "ja": "%d個のアイテムを削除しました。"
+                    },
+                    "deleteButton": {
+                        "en": "Delete",
+                        "ru": "Удалить",
+                        "ja": "削除"
+                    }
+                },
+                "add": {
+                    "addButton": {
+                        "en": "Add",
+                        "ru": "Добавить",
+                        "ja": "追加"
+                    },
+                    "title": {
+                        "en": "Click to add a new item.",
+                        "ru": "Щелкните, чтобы добавить новый элемент.",
+                        "ja": "新しいアイテムを追加するにはクリックしてください。"
+                    },
+                    "dialog": {
+                        "success": {
+                            "en": "Item was added.",
+                            "ru": "Элемент был добавлен.",
+                            "ja": "アイテムが追加されました。"
+                        },
+                        "successTitle": {
+                            "en": "Success",
+                            "ru": "Успех",
+                            "ja": "成功"
+                        },
+                        "error": {
+                            "en": "Cannot add the item.",
+                            "ru": "Не удается добавить элемент.",
+                            "ja": "アイテムを追加できません。"
+                        },
+                        "title": {
+                            "en": "Add a new human",
+                            "ru": "Добавить нового человека",
+                            "ja": "新しい人物を追加"
+                        },
+                        "errors": {
+                            "name": {
+                                "en": "Name is required.",
+                                "ru": "Имя обязательно.",
+                                "ja": "名前は必須です。"
+                            },
+                            "soundtrack": {
+                                "en": "Soundtrack is required.",
+                                "ru": "Звуковая дорожка обязательна.",
+                                "ja": "サウンドトラックは必須です。"
+                            },
+                            "car": {
+                                "en": "Car is required.",
+                                "ru": "Автомобиль обязателен.",
+                                "ja": "車は必須です。"
+                            },
+                            "add": {
+                                "en": "Cannot add the item: %s.",
+                                "ru": "Невозможно добавить элемент: %s.",
+                                "ja": "アイテムを追加できません：%s。"
+                            },
+                            "addTitle": {
+                                "en": "Error",
+                                "ru": "Ошибка",
+                                "ja": "エラー"
+                            }
+                        },
+                        "name": {
+                            "en": "Name:",
+                            "ru": "Имя:",
+                            "ja": "名前："
+                        },
+                        "coordinates": {
+                            "en": "Coordinates:",
+                            "ru": "Координаты:",
+                            "ja": "座標："
+                        },
+                        "x": {
+                            "en": "X",
+                            "ru": "X",
+                            "ja": "X"
+                        },
+                        "y": {
+                            "en": "Y",
+                            "ru": "Y",
+                            "ja": "Y"
+                        },
+                        "realHero": {
+                            "en": "Real Hero",
+                            "ru": "Настоящий герой",
+                            "ja": "リアルヒーロー"
+                        },
+                        "toothpick": {
+                            "en": "Toothpick",
+                            "ru": "Зубочистка",
+                            "ja": "つまようじ"
+                        },
+                        "impactSpeed": {
+                            "en": "Impact Speed:",
+                            "ru": "Скорость удара:",
+                            "ja": "衝撃速度："
+                        },
+                        "soundtrack": {
+                            "en": "Soundtrack:",
+                            "ru": "Звуковая дорожка:",
+                            "ja": "サウンドトラック："
+                        },
+                        "waiting": {
+                            "en": "Minutes of waiting:",
+                            "ru": "Минуты ожидания:",
+                            "ja": "待機時間（分）："
+                        },
+                        "mood": {
+                            "en": "Mood:",
+                            "ru": "Настроение:",
+                            "ja": "気分："
+                        },
+                        "car": {
+                            "en": "Car:",
+                            "ru": "Автомобиль:",
+                            "ja": "車："
+                        },
+                        "addButton": {
+                            "en": "Add",
+                            "ru": "Добавить",
+                            "ja": "追加"
+                        },
+                        "cancelButton": {
+                            "en": "Cancel",
+                            "ru": "Отмена",
+                            "ja": "キャンセル"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

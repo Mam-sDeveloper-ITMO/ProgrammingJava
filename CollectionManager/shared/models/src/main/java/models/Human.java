@@ -15,8 +15,8 @@ import lombok.NonNull;
  * @see <a href="https://se.ifmo.ru/courses/programming">Programming course
  *      website</a>
  */
-@Builder
-@EqualsAndHashCode(of = { "id" })
+@Builder(toBuilder = true)
+@EqualsAndHashCode
 public class Human implements Comparable<Human>, Serializable {
 
     /**
