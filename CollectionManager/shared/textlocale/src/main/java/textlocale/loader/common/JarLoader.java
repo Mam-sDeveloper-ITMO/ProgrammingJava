@@ -81,6 +81,6 @@ public class JarLoader extends FilesLoader {
     private String readFileContent(JarFile jarFile, JarEntry entry) throws IOException {
         byte[] contentBytes = new byte[(int) entry.getSize()];
         jarFile.getInputStream(entry).read(contentBytes);
-        return new String(contentBytes);
+        return new String(contentBytes, "UTF-8");
     }
 }
